@@ -1,0 +1,2166 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SABER PRO | Simulador ICFES Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- JSZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- MathJax for rendering LaTeX math formulas -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- TOP NAVIGATION BAR -->
+    <header class="top-nav-bar">
+        <!-- 🟢 STATUS BADGE - Punto de estado discreto -->
+        <div id="floating-status-badge"
+            style="width: 14px; height: 14px; border-radius: 50%; cursor: pointer; background: #f59e0b; border: 2px solid rgba(0,0,0,0.2); box-shadow: 0 0 8px rgba(245,158,11,0.5); transition: all 0.3s; flex-shrink: 0;"
+            title="Verificando conexión...">
+        </div>
+
+        <div id="user-auth-indicator" style="display: flex; align-items: center; gap: 16px;">
+            <!-- Container for dynamically injected auth UI (Login button OR Profile Header) -->
+            <div id="user-auth-container"></div>
+        </div>
+
+        <!-- Theme Toggle Button (Moved inside navbar) -->
+        <button id="theme-toggle-btn" class="btn" onclick="ThemeModule.toggle()"
+            style="padding: 10px; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid var(--color-border); background: var(--color-surface); cursor: pointer;">
+            ☀️
+        </button>
+    </header>
+
+    <div id="view-home" class="view-section relative"
+        style="overflow-x: hidden; background-color: var(--color-surface);">
+
+        <!-- Premium Ambient Background -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <!-- Deep space starry effect (subtle) -->
+            <div class="absolute inset-0"
+                style="background-image: radial-gradient(circle at center, var(--color-text-muted) 1px, transparent 1px); background-size: 32px 32px; opacity: 0.1;">
+            </div>
+
+            <!-- Vibrant Glowing Orbs -->
+            <div class="absolute -top-[10%] -left-[10%] w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[100px] opacity-40 animate-pulse"
+                style="background: radial-gradient(circle, var(--color-primary-light), transparent 70%); animation-duration: 8s;">
+            </div>
+            <div class="absolute top-[20%] -right-[15%] w-[600px] h-[600px] rounded-full mix-blend-screen filter blur-[120px] opacity-30"
+                style="background: radial-gradient(circle, var(--color-info), transparent 70%); animation: float-slow 10s infinite alternate;">
+            </div>
+            <div class="absolute -bottom-[20%] left-[20%] w-[700px] h-[700px] rounded-full mix-blend-screen filter blur-[130px] opacity-20"
+                style="background: radial-gradient(circle, var(--color-accent), transparent 70%); animation: float 12s infinite alternate-reverse;">
+            </div>
+        </div>
+
+        <div
+            class="home-container relative z-10 min-h-screen flex flex-col items-center pt-16 md:pt-24 pb-32 lg:pb-40 px-4 md:px-8">
+
+            <!-- ====== HERO SECTION ====== -->
+            <div
+                class="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20 animate-fade-in">
+
+                <!-- Left Text Content -->
+                <div class="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start z-20">
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 shadow-sm glass border-[var(--color-border)]">
+                        <span class="animate-pulse">✨</span>
+                        <span class="text-sm font-medium tracking-wide uppercase"
+                            style="color: var(--color-primary-light);">Plataforma ICFES Next-Gen</span>
+                    </div>
+
+                    <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-6"
+                        style="font-family: 'Outfit', sans-serif;">
+                        <span class="page-title leading-tight"
+                            style="background: linear-gradient(135deg, var(--color-text) 30%, var(--color-primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SABER</span><br />
+                        <span class="page-title leading-tight"
+                            style="background: linear-gradient(135deg, var(--color-primary) 30%, var(--color-accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PRO</span>
+                    </h1>
+
+                    <p class="text-lg md:text-xl mb-10 max-w-2xl leading-relaxed font-light"
+                        style="color: var(--color-text-muted);">
+                        Eleva tu puntaje con el simulador más <strong
+                            style="color: var(--color-text); font-weight: 600;">revolucionario</strong> y <strong
+                            style="color: var(--color-text); font-weight: 600;">preciso</strong>. Diagnóstico por IA,
+                        cronómetro oficial y reportes avanzados en tiempo real.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+                        <button onclick="Router.go('config')"
+                            class="btn btn-primary btn-lg shadow-lg group relative overflow-hidden group-hover:-translate-y-1 transition-all">
+                            <div
+                                class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                            </div>
+                            <span class="relative flex items-center gap-3">
+                                <span class="material-icons-round">play_arrow</span> Iniciar Simulacro
+                            </span>
+                        </button>
+
+                        <button onclick="ExamEngine.startFastTrack()"
+                            class="btn btn-secondary btn-lg glass group flex items-center gap-3">
+                            <span style="color: var(--color-accent);">⚡</span> Reto Rápido
+                        </button>
+                    </div>
+
+                    <div class="mt-12 flex items-center gap-6 text-sm" style="color: var(--color-text-muted);">
+                        <div class="flex -space-x-3">
+                            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-white font-bold text-xs shadow-md"
+                                style="background: var(--color-info); border-color: var(--color-surface); z-index: 3;">
+                                95%</div>
+                            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-white font-bold text-xs shadow-md"
+                                style="background: var(--color-success); border-color: var(--color-surface); z-index: 2;">
+                                Top</div>
+                            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-white font-bold text-xs shadow-md"
+                                style="background: var(--color-accent); border-color: var(--color-surface); z-index: 1;">
+                                4.9⭐</div>
+                        </div>
+                        <div>
+                            <p class="font-medium" style="color: var(--color-text);">Docente Edgar Acevedo</p>
+                            <p>IE Matecandela • Colombia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right 3D/Visual Content (Student Image with Badges) -->
+                <div
+                    class="flex-1 w-full max-w-lg lg:max-w-xl relative mt-16 md:mt-24 lg:mt-0 perspective-1000 mx-auto">
+                    <!-- Glowing background behind image -->
+                    <div class="absolute inset-0 rounded-full filter blur-3xl animate-pulse"
+                        style="background: var(--color-primary); opacity: 0.15;"></div>
+
+                    <div class="relative z-10 w-full animate-float">
+                        <img src="img/student_hero.png" alt="Estudiante preparándose para Saber Pro"
+                            class="w-full h-auto object-contain max-h-[500px] lg:max-h-[600px]"
+                            style="filter: drop-shadow(0 20px 50px rgba(99,102,241,0.25));">
+
+                        <!-- Floating Badges over image -->
+                        <div
+                            class="absolute top-[10%] -left-6 md:-left-12 glass p-3 md:p-4 rounded-2xl shadow-lg flex items-center gap-3 animate-float-slow">
+                            <div class="p-2 rounded-xl"
+                                style="background: rgba(16,185,129,0.15); color: var(--color-success);"><span
+                                    class="material-icons-round">trending_up</span></div>
+                            <div>
+                                <p class="font-bold text-sm md:text-base leading-none"
+                                    style="color: var(--color-text);">95%</p>
+                                <p class="text-[10px] md:text-sm mt-1 mb-0" style="color: var(--color-text-muted);">
+                                    Precisión</p>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-[20%] -right-6 md:-right-12 glass p-3 md:p-4 rounded-2xl shadow-lg flex items-center gap-3 animate-float"
+                            style="animation-delay: 1s;">
+                            <div class="p-2 rounded-xl"
+                                style="background: rgba(245,158,11,0.15); color: var(--color-accent);"><span
+                                    class="material-icons-round">star</span></div>
+                            <div>
+                                <p class="font-bold text-sm md:text-base leading-none"
+                                    style="color: var(--color-text);">Top 1</p>
+                                <p class="text-[10px] md:text-sm mt-1 mb-0" style="color: var(--color-text-muted);">
+                                    Mejor ICFES</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Grid Section (Moved below Hero) -->
+            <div class="w-full max-w-7xl mx-auto mt-24 mb-6 z-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-2">
+
+                    <!-- Card 1: Dashboard -->
+                    <div onclick="Router.go('dashboard')" class="glass bento-card p-8 group">
+                        <div class="flex justify-between items-start mb-6 w-full">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
+                                style="background: rgba(59,130,246,0.1); color: var(--color-info); border: 1px solid rgba(59,130,246,0.2);">
+                                <span class="material-icons-round">analytics</span>
+                            </div>
+                            <span class="material-icons-round transition-all"
+                                style="color: var(--color-text-muted);">arrow_outward</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Mi Progreso</h3>
+                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Analítica avanzada,
+                            evolución de puntajes y radar de competencias por área.</p>
+                    </div>
+
+                    <!-- Card 2: Ranking -->
+                    <div onclick="Router.go('global-results')" class="glass bento-card p-8 group">
+                        <div class="flex justify-between items-start mb-6 w-full">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
+                                style="background: rgba(245,158,11,0.1); color: var(--color-accent); border: 1px solid rgba(245,158,11,0.2);">
+                                <span class="material-icons-round">emoji_events</span>
+                            </div>
+                            <span class="material-icons-round transition-all"
+                                style="color: var(--color-text-muted);">arrow_outward</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Ranking Global</h3>
+                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Compite, destaca y revisa
+                            la tabla de posiciones general.</p>
+                    </div>
+
+                    <!-- Card 3: Tips -->
+                    <div onclick="Router.go('tips')" class="glass bento-card p-8 group">
+                        <div class="flex justify-between items-start mb-6 w-full">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
+                                style="background: rgba(16,185,129,0.1); color: var(--color-success); border: 1px solid rgba(16,185,129,0.2);">
+                                <span class="material-icons-round">lightbulb</span>
+                            </div>
+                            <span class="material-icons-round transition-all"
+                                style="color: var(--color-text-muted);">arrow_outward</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Tips Mentales</h3>
+                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Estrategias ICFES, control
+                            de ansiedad y tips para subir puntajes.</p>
+                    </div>
+
+                    <!-- Card 4: Flashcards -->
+                    <div onclick="Router.go('flashcards')" class="glass bento-card p-8 group">
+                        <div class="flex justify-between items-start mb-6 w-full">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
+                                style="background: rgba(168,85,247,0.1); color: #a855f7; border: 1px solid rgba(168,85,247,0.2);">
+                                <span class="material-icons-round">style</span>
+                            </div>
+                            <span class="material-icons-round transition-all"
+                                style="color: var(--color-text-muted);">arrow_outward</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Modo Flashcard</h3>
+                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Flashcards inteligentes
+                            para memorizar y reforzar conceptos clave.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Features Strip Modernized -->
+            <div class="w-full max-w-5xl mx-auto mt-24 mb-10 z-20">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="flex items-center gap-4 p-4 rounded-2xl glass border-[var(--color-border)]">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center"
+                            style="background: rgba(99,102,241,0.15); color: var(--color-primary);">
+                            <span class="material-icons-round text-sm">psychology</span>
+                        </div>
+                        <span class="font-medium" style="color: var(--color-text);">Motor de IA Adaptativo</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl glass border-[var(--color-border)]">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center"
+                            style="background: rgba(236,72,153,0.15); color: #ec4899;">
+                            <span class="material-icons-round text-sm">timer</span>
+                        </div>
+                        <span class="font-medium" style="color: var(--color-text);">Cronómetro Oficial</span>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 rounded-2xl glass border-[var(--color-border)]">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center"
+                            style="background: rgba(16,185,129,0.15); color: var(--color-success);">
+                            <span class="material-icons-round text-sm">auto_graph</span>
+                        </div>
+                        <span class="font-medium" style="color: var(--color-text);">Analítica Detallada</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stealth Footer -->
+            <div class="mt-auto w-full max-w-3xl flex flex-col items-center gap-6 z-20">
+                <div class="w-full h-[1px]"
+                    style="background: linear-gradient(90deg, transparent, var(--color-border), transparent);"></div>
+                <div class="flex gap-4">
+                    <button onclick="Router.go('teacher')" class="btn btn-ghost btn-sm group flex items-center gap-2">
+                        <span class="material-icons-round text-[16px]">menu_book</span> Banco de Preguntas
+                    </button>
+                    <button onclick="Router.go('admin')" class="btn btn-ghost btn-sm group flex items-center gap-2">
+                        <span class="material-icons-round text-[16px]">admin_panel_settings</span> Control Docente
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- ============ TIPS VIEW ============ -->
+    <div id="view-tips" class="view-section hidden">
+        <header class="config-header" style="z-index: 100; position: relative;">
+            <button class="config-back-btn" onclick="Router.go('home')">
+                <span class="material-icons-round">arrow_back</span>
+                <span>Volver al Inicio</span>
+            </button>
+            <div style="font-weight: bold; color: var(--color-text); opacity: 0.8;">💡 Estrategias ICFES</div>
+        </header>
+
+        <!-- Dynamic Ambient Background for Tips -->
+        <div
+            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; pointer-events: none; overflow: hidden;">
+            <div
+                style="position: absolute; top: 10%; left: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 60%); filter: blur(60px); border-radius: 50%;">
+            </div>
+            <div
+                style="position: absolute; bottom: 10%; right: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 60%); filter: blur(60px); border-radius: 50%;">
+            </div>
+        </div>
+
+        <main class="config-main-content"
+            style="max-width: 1400px; margin: 0 auto; padding: 40px 24px; position: relative; z-index: 5;">
+
+            <style>
+                #view-tips {
+                    background-color: #050505;
+                }
+
+                .tips-hero h1 {
+                    font-size: clamp(2.5rem, 5vw, 4rem);
+                    font-weight: 800;
+                    letter-spacing: -1px;
+                    background: linear-gradient(135deg, #ffffff, #a78bfa, #60a5fa);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    margin-bottom: 16px;
+                }
+
+                .category-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    margin: 60px 0 24px;
+                    padding-bottom: 16px;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                }
+
+                .category-icon {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 14px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1.5rem;
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+                }
+
+                .ic-time {
+                    background: linear-gradient(135deg, #f59e0b, #d97706);
+                }
+
+                .ic-read {
+                    background: linear-gradient(135deg, #ef4444, #b91c1c);
+                }
+
+                .ic-math {
+                    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                }
+
+                .ic-science {
+                    background: linear-gradient(135deg, #10b981, #047857);
+                }
+
+                .ic-social {
+                    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+                }
+
+                .ic-english {
+                    background: linear-gradient(135deg, #ec4899, #be185d);
+                }
+
+                .bento-grid-tips {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 24px;
+                    width: 100%;
+                }
+
+                .video-card-premium {
+                    background: rgba(30, 30, 40, 0.4);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    border-radius: 20px;
+                    padding: 8px;
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    display: flex;
+                    flex-direction: column;
+                    text-decoration: none;
+                    color: white;
+                    position: relative;
+                }
+
+                .video-card-premium::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 1px;
+                    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                    z-index: 2;
+                }
+
+                .video-card-premium:hover {
+                    transform: translateY(-8px);
+                    border-color: rgba(124, 58, 237, 0.4);
+                    background: rgba(40, 40, 50, 0.6);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px inset rgba(255, 255, 255, 0.05);
+                }
+
+                .thumbnail-premium {
+                    position: relative;
+                    width: 100%;
+                    aspect-ratio: 16 / 9;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    background: #111;
+                }
+
+                .thumbnail-premium img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .video-card-premium:hover .thumbnail-premium img {
+                    transform: scale(1.05);
+                }
+
+                .thumbnail-overlay-premium {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+                }
+
+                .play-btn-premium {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background: rgba(0, 0, 0, 0.6);
+                    backdrop-filter: blur(4px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 1.2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;
+                    z-index: 2;
+                }
+
+                .video-card-premium:hover .play-btn-premium {
+                    background: #ef4444;
+                    /* Danger color */
+                    border-color: #ef4444;
+                    transform: translate(-50%, -50%) scale(1.1);
+                    box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+                }
+
+                .card-content-premium {
+                    padding: 20px 12px 12px;
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+                }
+
+                .card-title-premium {
+                    font-size: 1.05rem;
+                    font-weight: 600;
+                    line-height: 1.4;
+                    margin-bottom: 8px;
+                    color: #fff;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .card-desc-premium {
+                    font-size: 0.85rem;
+                    color: #9ca3af;
+                    margin-bottom: 20px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    flex: 1;
+                }
+
+                .watch-label-premium {
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: #ef4444;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+            </style>
+
+            <header class="tips-hero animate-fade-in" style="text-align: center; margin-bottom: 40px;">
+                <div
+                    style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 100px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); color: #a78bfa; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;">
+                    <span class="material-icons-round" style="font-size:16px;">bolt</span> Contenido Premium
+                </div>
+                <h1>Masterclass y Estrategias</h1>
+                <p style="color: #9ca3af; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    Curaduría exclusiva de los mejores recursos audiovisuales. Domina las técnicas y conceptos clave
+                    para asegurar un puntaje sobresaliente en la prueba Saber 11°.
+                </p>
+            </header>
+
+            <!-- ESTRATEGIAS Y GESTIÓN DEL TIEMPO -->
+            <section class="animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="category-header">
+                    <div class="category-icon ic-time"><span class="material-icons-round">hourglass_bottom</span></div>
+                    <h2 style="font-size: 1.8rem; font-weight: 700; color: white;">Estrategias y Gestión del Tiempo</h2>
+                </div>
+                <div class="bento-grid-tips">
+                    <a href="https://www.youtube.com/watch?v=gyORvifTK7E" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/gyORvifTK7E/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Tips gestión del tiempo ICFES (Método de las 3P)</h3>
+                            <p class="card-desc-premium">Planificación macroscópica del estudio y el control fisiológico
+                                y psicológico.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=uy8nHMx_YXI" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/uy8nHMx_YXI/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Tips y estrategias pruebas ICFES saber 11 - Auxi Mate</h3>
+                            <p class="card-desc-premium">Mecánicas de respuesta estandarizada y prevención de anulación.
+                            </p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=zRkDuFCP2o0" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/zRkDuFCP2o0/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Tips y estrategias ICFES saber 11 - Filadd</h3>
+                            <p class="card-desc-premium">Metodologías de gestión asimétrica del tiempo para optimizar
+                                rendimiento.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=8bxvg_QL1f0" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/8bxvg_QL1f0/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Tips simulacro ICFES 2025 - Orientación Vocacional</h3>
+                            <p class="card-desc-premium">Estructurar un plan de estudio enfocado con precisión
+                                quirúrgica.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- LECTURA CRÍTICA -->
+            <section class="animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="category-header">
+                    <div class="category-icon ic-read"><span class="material-icons-round">menu_book</span></div>
+                    <h2 style="font-size: 1.8rem; font-weight: 700; color: white;">Lectura Crítica</h2>
+                </div>
+                <div class="bento-grid-tips">
+                    <a href="https://www.youtube.com/watch?v=9YhRq2yKqLQ" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/9YhRq2yKqLQ/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Estrategias (Skimming y Scanning)</h3>
+                            <p class="card-desc-premium">Estrategias de lectura rápida (skimming) y búsqueda quirúrgica
+                                (scanning).</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=AOyksAoSQr4" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/AOyksAoSQr4/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Tips Lectura Crítica Filadd Colombia</h3>
+                            <p class="card-desc-premium">Entrenar percepción analítica para evaluar consistencia lógica
+                                en textos complejos.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=m9IrxfLslcY" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/m9IrxfLslcY/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Resolución Práctica de Textos</h3>
+                            <p class="card-desc-premium">Identificar recursos retóricos y figuras literarias en
+                                preguntas tipo ICFES.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- MATEMÁTICAS -->
+            <section class="animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="category-header">
+                    <div class="category-icon ic-math"><span class="material-icons-round">calculate</span></div>
+                    <h2 style="font-size: 1.8rem; font-weight: 700; color: white;">Matemáticas</h2>
+                </div>
+                <div class="bento-grid-tips">
+                    <a href="https://www.youtube.com/watch?v=cIGlsmt-Xiw" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/cIGlsmt-Xiw/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Simulacro ICFES 2025 resuelto - Auxi Mate</h3>
+                            <p class="card-desc-premium">Resolución guiada de Álgebra, Estadística descriptiva y
+                                Geometría espacial.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=qZqeY4wlOgE" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/qZqeY4wlOgE/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Análisis de Funciones y Probabilidad</h3>
+                            <p class="card-desc-premium">Cálculo inferencial de probabilidad y modelos predictivos
+                                básicos.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=9X6S1jrml_o" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/9X6S1jrml_o/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Preicfes 2025 (Permutaciones y Combinaciones)</h3>
+                            <p class="card-desc-premium">Diferencias exactas entre permutaciones y combinaciones.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- CIENCIAS NATURALES -->
+            <section class="animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="category-header">
+                    <div class="category-icon ic-science"><span class="material-icons-round">science</span></div>
+                    <h2 style="font-size: 1.8rem; font-weight: 700; color: white;">Ciencias Naturales</h2>
+                </div>
+                <div class="bento-grid-tips">
+                    <a href="https://www.youtube.com/watch?v=E0mgOSSuHpo" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/E0mgOSSuHpo/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Química - Estequiometría</h3>
+                            <p class="card-desc-premium">Cálculo para reactivo límite y proporciones estequiométricas
+                                directas.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=xk681fjQV5k" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/xk681fjQV5k/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Física - Leyes de los Gases Ideales</h3>
+                            <p class="card-desc-premium">Las implicaciones de la ley de Charles, Boyle y Gay-Lussac
+                                explicadas paso a paso.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=2U0axBnyIK0" target="_blank" class="video-card-premium">
+                        <div class="thumbnail-premium">
+                            <img src="https://img.youtube.com/vi/2U0axBnyIK0/hqdefault.jpg" alt="Miniatura">
+                            <div class="thumbnail-overlay-premium"></div>
+                            <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span></div>
+                        </div>
+                        <div class="card-content-premium">
+                            <h3 class="card-title-premium">Física - Conservación de la Energía</h3>
+                            <p class="card-desc-premium">Mecánica clásica y transiciones energéticas evaluables.</p>
+                            <div style="display: flex; margin-top: auto;">
+                                <span class="watch-label-premium"><span class="material-icons-round"
+                                        style="font-size:16px;">smart_display</span> Ver Clase</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- SOCIALES E INGLÉS -->
+            <section class="animate-fade-in" style="animation-delay: 0.5s; padding-bottom: 80px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px;">
+                    <div>
+                        <div class="category-header">
+                            <div class="category-icon ic-social"><span class="material-icons-round">public</span></div>
+                            <h2 style="font-size: 1.8rem; font-weight: 700; color: white;">Ciencias Sociales</h2>
+                        </div>
+                        <div class="bento-grid-tips" style="grid-template-columns: 1fr;">
+                            <a href="https://www.youtube.com/watch?v=fSVb-Xtg208" target="_blank"
+                                class="video-card-premium">
+                                <div class="thumbnail-premium">
+                                    <img src="https://img.youtube.com/vi/fSVb-Xtg208/hqdefault.jpg" alt="Miniatura">
+                                    <div class="thumbnail-overlay-premium"></div>
+                                    <div class="play-btn-premium"><span class="material-icons-round">play_arrow</span>
+                                    </div>
+                                </div>
+                                <div class="card-content-premium">
+                                    <h3 class="card-title-premium">Análisis Constitucional</h3>
+                                    <p class="card-desc-premium">Impacto pragmático del pluralismo ideológico para
+                                        Colombia.</p>
+                                    <div style="display: flex; margin-top: auto;">
+                                        <span class="watch-label-premium"><span class="material-icons-round"
+                                                style="font-size:16px;">smart_display</span> Ver Clase</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="category-header">
+                            <div class="category-icon ic-english"><span class="material-icons-round">translate</span>
+                            </div>
+                            <h2 style="font-size: 1.8rem; font-weight: 700; color: white;">Inglés</h2>
+                        </div>
+                        <div class="bento-grid-tips" style="grid-template-columns: 1fr;">
+                            <a href="https://www.youtube.com/watch?v=Joau4okL9_E" target="_blank"
+                                class="video-card-premium">
+                                <div class="thumbnail-premium" style="display: none;"></div>
+                                <div class="card-content-premium">
+                                    <h3 class="card-title-premium">Deducción de Vocabulario y Contexto</h3>
+                                    <p class="card-desc-premium">Deducción certera del significado de palabras opacas en
+                                        partes avanzadas de la prueba.</p>
+                                    <div style="display: flex; margin-top: 12px;">
+                                        <span class="watch-label-premium"><span class="material-icons-round"
+                                                style="font-size:16px;">smart_display</span> Ver Clase</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=4f3x9_WwfHc" target="_blank"
+                                class="video-card-premium">
+                                <div class="thumbnail-premium" style="display: none;"></div>
+                                <div class="card-content-premium">
+                                    <h3 class="card-title-premium">Completar Espacios y Phrasal Verbs</h3>
+                                    <p class="card-desc-premium">Estrategias y elección adecuada de Phrasal verbs
+                                        aplicados a contextos temporales.</p>
+                                    <div style="display: flex; margin-top: 12px;">
+                                        <span class="watch-label-premium"><span class="material-icons-round"
+                                                style="font-size:16px;">smart_display</span> Ver Clase</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ============ CONFIG VIEW ============ -->
+
+    <div id="view-config" class="view-section hidden">
+        <header class="config-header">
+            <button class="config-back-btn" onclick="Router.go('home')">
+                <span class="material-icons-round">arrow_back</span>
+                <span>Volver</span>
+            </button>
+            <div></div>
+        </header>
+
+        <main class="config-main-content">
+            <!-- Encabezado -->
+            <div class="config-hero-header">
+                <div class="config-hero-icon">
+                    <span class="material-icons-round">psychology</span>
+                </div>
+                <h1 class="config-title">Configurar Simulacro</h1>
+                <p class="config-subtitle">Personaliza tu experiencia de preparación Saber Pro y mide tus conocimientos.
+                </p>
+                <div id="student-global-average-container" class="config-score-badge hidden">
+                    <span class="config-score-label">PROMEDIO ICFES PROYECTADO</span>
+                    <div class="config-score-value">
+                        <span id="student-global-icfes-score">--</span>
+                        <span class="config-score-max">/ 500</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-layout">
+                <!-- Columna Izquierda -->
+                <div class="config-left-col">
+                    <!-- Áreas del Conocimiento -->
+                    <section class="config-card">
+                        <div class="config-card-header">
+                            <h2 class="config-card-title">
+                                <span class="material-icons-round config-icon-primary">category</span>
+                                Áreas del Conocimiento
+                            </h2>
+                            <span id="areas-count" class="config-areas-badge">5 DE 5 SELECCIONADAS</span>
+                        </div>
+                        <div class="config-area-grid" id="area-grid"></div>
+                        <div id="warning-areas" class="config-warning hidden">
+                            ⚠ Selecciona al menos un área para continuar
+                        </div>
+                    </section>
+
+                    <!-- Modo de Estudio -->
+                    <section class="config-card">
+                        <h2 class="config-card-title">
+                            <span class="material-icons-round config-icon-primary">tune</span>
+                            Modo de Estudio
+                        </h2>
+                        <div class="config-mode-grid">
+                            <label class="config-mode-option">
+                                <input type="radio" name="study_mode" value="exam" checked class="sr-only"
+                                    onchange="ConfigModule.selectMode('exam')">
+                                <div class="config-mode-card" id="mode-exam">
+                                    <div class="config-mode-icon config-mode-icon-purple">
+                                        <span class="material-icons-round">timer</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="config-mode-name">Examen</h3>
+                                        <p class="config-mode-desc">Con cronómetro, resultados al final.</p>
+                                    </div>
+                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                </div>
+                            </label>
+                            <label class="config-mode-option">
+                                <input type="radio" name="study_mode" value="practice" class="sr-only"
+                                    onchange="ConfigModule.selectMode('practice')">
+                                <div class="config-mode-card" id="mode-practice">
+                                    <div class="config-mode-icon config-mode-icon-blue">
+                                        <span class="material-icons-round">school</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="config-mode-name">Práctica</h3>
+                                        <p class="config-mode-desc">Sin límite de tiempo, retroalimentación inmediata.
+                                        </p>
+                                    </div>
+                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                </div>
+                            </label>
+                            <label class="config-mode-option">
+                                <input type="radio" name="study_mode" value="challenge" class="sr-only"
+                                    onchange="ConfigModule.selectMode('challenge')">
+                                <div class="config-mode-card" id="mode-challenge">
+                                    <div class="config-mode-icon"
+                                        style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                                        <span class="material-icons-round">local_fire_department</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="config-mode-name">Challenge</h3>
+                                        <p class="config-mode-desc">Alta presión: ¡90 segundos por pregunta!</p>
+                                    </div>
+                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                </div>
+                            </label>
+                            <label class="config-mode-option">
+                                <input type="radio" name="study_mode" value="study" class="sr-only"
+                                    onchange="ConfigModule.selectMode('study')">
+                                <div class="config-mode-card" id="mode-study">
+                                    <div class="config-mode-icon"
+                                        style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                        <span class="material-icons-round">menu_book</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="config-mode-name">En Clase</h3>
+                                        <p class="config-mode-desc">Estudio guiado por rangos.</p>
+                                    </div>
+                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="mode-description" class="config-mode-description">Con cronómetro, resultados al final
+                        </div>
+                    </section>
+
+                    <!-- Parámetros -->
+                    <section class="config-card">
+                        <h2 class="config-card-title">
+                            <span class="material-icons-round config-icon-primary">settings_suggest</span>
+                            Parámetros
+                        </h2>
+                        <div class="config-params">
+                            <div>
+                                <label class="config-label">
+                                    <span class="material-icons-round config-label-icon">badge</span>
+                                    Nombre del Estudiante
+                                </label>
+                                <input type="text" id="student-name" class="config-input"
+                                    placeholder="Tu nombre completo"
+                                    onchange="localStorage.setItem('saber11_student_name', this.value)">
+                            </div>
+                            <div class="config-params-row">
+                                <div id="num-questions-selector">
+                                    <label class="config-label">
+                                        <span class="material-icons-round config-label-icon">format_list_numbered</span>
+                                        Número de Preguntas
+                                    </label>
+                                    <div class="config-select-wrapper">
+                                        <select class="config-select" id="num-questions">
+                                            <option value="5">5 preguntas</option>
+                                            <option value="10" selected>10 preguntas</option>
+                                            <option value="15">15 preguntas</option>
+                                            <option value="20">20 preguntas</option>
+                                            <option value="30">30 preguntas</option>
+                                            <option value="50">50 preguntas</option>
+                                        </select>
+                                        <span class="material-icons-round config-select-arrow">expand_more</span>
+                                    </div>
+                                </div>
+                                <div id="study-range-selector" class="hidden" style="display: none;">
+                                    <label class="config-label">
+                                        <span class="material-icons-round config-label-icon">linear_scale</span>
+                                        Rango de Preguntas (Ej. 1 al 10)
+                                    </label>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="number" id="study-start" class="config-input"
+                                            placeholder="Desde: 1" value="1" min="1" style="width: 50%;"
+                                            oninput="ConfigModule.updateSummary()">
+                                        <span style="font-weight: bold; color: var(--color-text-muted);">a</span>
+                                        <input type="number" id="study-end" class="config-input" placeholder="Hasta: 10"
+                                            value="10" min="1" style="width: 50%;"
+                                            oninput="ConfigModule.updateSummary()">
+                                    </div>
+                                    <div id="study-count-info"
+                                        style="margin-top: 8px; font-size: 0.82rem; padding: 6px 10px; border-radius: 8px; background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15);">
+                                        Selecciona un área para ver el total disponible
+                                    </div>
+                                </div>
+                                <div id="time-selector">
+                                    <label class="config-label">
+                                        <span class="material-icons-round config-label-icon">hourglass_empty</span>
+                                        Tiempo Límite
+                                    </label>
+                                    <div class="config-select-wrapper">
+                                        <select class="config-select" id="time-minutes">
+                                            <option value="10">10 minutos</option>
+                                            <option value="15">15 minutos</option>
+                                            <option value="20">20 minutos</option>
+                                            <option value="30" selected>30 minutos</option>
+                                            <option value="45">45 minutos</option>
+                                            <option value="60">60 minutos</option>
+                                            <option value="90">90 minutos</option>
+                                            <option value="120">120 minutos</option>
+                                        </select>
+                                        <span class="material-icons-round config-select-arrow">expand_more</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Botón Iniciar -->
+                    <div class="config-start-wrapper">
+                        <button id="start-btn" class="config-start-btn" onclick="ConfigModule.startExam()">
+                            <span class="material-icons-round config-start-icon">play_arrow</span>
+                            Iniciar Simulacro
+                        </button>
+                        <p class="config-start-note">Al iniciar, aceptas los términos de la evaluación académica.</p>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha (Sidebar) -->
+                <div class="config-right-col">
+                    <div class="config-sidebar-sticky">
+                        <!-- Simulacros PDF -->
+                        <div class="config-card">
+                            <div class="config-card-header">
+                                <h3 class="config-card-title" style="font-size: 1rem;">Simulacros PDF</h3>
+                                <span class="config-new-badge">NUEVO</span>
+                            </div>
+                            <div id="pdf-exam-list" class="config-pdf-list">
+                                <div class="config-pdf-empty">
+                                    <div class="config-pdf-empty-icon">
+                                        <span class="material-icons-round">sentiment_dissatisfied</span>
+                                    </div>
+                                    <p class="config-pdf-empty-text">No hay simulacros PDF disponibles.</p>
+                                    <p class="config-pdf-empty-hint">(El profesor debe subirlos al servidor)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estadísticas Rápidas -->
+                        <div class="config-card">
+                            <h3 class="config-card-title" style="font-size: 1rem;">
+                                <span class="material-icons-round" style="color: #10B981;">insights</span>
+                                Estadísticas Rápidas
+                            </h3>
+                            <div class="config-stats">
+                                <div class="config-stat-progress">
+                                    <div class="config-stat-progress-header">
+                                        <span class="config-stat-label">Progreso Semanal</span>
+                                        <span class="config-stat-value-accent">75%</span>
+                                    </div>
+                                    <div class="config-progress-bar">
+                                        <div class="config-progress-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="config-stat-card">
+                                    <span class="material-icons-round"
+                                        style="color: #F59E0B; font-size: 24px;">emoji_events</span>
+                                    <div>
+                                        <span class="config-stat-label">Mejor Puntaje</span>
+                                        <span class="config-stat-score">340/500</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="view-exam" class="view-section hidden">
+        <div class="exam-layout">
+            <!-- Main exam area -->
+            <div class="exam-main">
+                <!-- Top bar -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <span id="practice-badge" class="badge badge-success" style="display: none;">
+                            📖 Práctica
+                        </span>
+                        <div style="display: flex; flex-direction: column;">
+                            <span
+                                style="color: var(--color-text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;">Progreso</span>
+                            <div style="display: flex; align-items: baseline; gap: 8px;">
+                                <span style="font-size: 1.1rem; font-weight: 700; color: var(--color-text);">
+                                    <span id="current-q-num">1</span>
+                                    <span style="color: var(--color-text-muted); font-size: 0.9rem;">/ <span
+                                            id="total-q-num">10</span></span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div
+                            style="width: 120px; height: 6px; border-radius: 3px; background: var(--color-surface-3); align-self: center;">
+                            <div id="progress-bar"
+                                style="height: 100%; border-radius: 3px; background: var(--color-primary); width: 10%; transition: width 0.3s ease;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="timer-display" class="glass"
+                        style="display: flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 12px; border-color: rgba(245,158,11,0.2); background: rgba(245,158,11,0.05);">
+                        <span style="font-size: 18px;">⏱️</span>
+                        <span id="timer-text"
+                            style="font-family: 'Outfit', monospace; font-weight: 700; color: var(--color-accent); font-size: 1.1rem; letter-spacing: 1px;">00:00:00</span>
+                    </div>
+                </div>
+
+                <!-- Question Card -->
+                <div id="question-card" class="question-card">
+                    <!-- Badges -->
+                    <div style="display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;" id="question-badges">
+                        <span class="badge badge-primary">Área</span>
+                        <span class="badge badge-primary">Competencia</span>
+                    </div>
+
+                    <!-- Question text -->
+                    <div id="question-text">
+                        Cargando pregunta...
+                    </div>
+
+                    <!-- Image container -->
+                    <div id="question-image-container" class="hidden" style="margin-bottom: 24px;"></div>
+
+                    <!-- Chart container -->
+                    <div id="chart-container"></div>
+
+                    <!-- Options -->
+                    <div id="options-container" class="options-grid"></div>
+                </div>
+
+                <!-- Practice feedback -->
+                <div id="practice-feedback" class="hidden"
+                    style="padding: 20px; border-radius: 16px; font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; border: 1px solid transparent;">
+                </div>
+
+                <!-- Navigation -->
+                <div class="exam-nav-bar"
+                    style="display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: auto;">
+                    <button id="btn-prev" class="btn btn-secondary" onclick="ExamEngine.prev()">
+                        ← Anterior
+                    </button>
+
+                    <div class="keyboard-hint"
+                        style="font-size: 0.75rem; color: var(--color-text-muted); opacity: 0.7;">
+                        Teclado: ← → Navegar &nbsp;&middot;&nbsp; A-D Seleccionar
+                    </div>
+
+                    <div class="exam-nav-actions">
+                        <button id="btn-next" class="btn btn-primary" onclick="ExamEngine.next()">
+                            Siguiente →
+                        </button>
+                        <button id="btn-finish" class="btn btn-accent hidden" onclick="ExamEngine.showConfirmModal()">
+                            ✉️ Finalizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="exam-sidebar">
+                <div style="flex-shrink: 0;">
+                    <h3
+                        style="font-size: 0.8rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+                        Navegación
+                    </h3>
+                    <div id="nav-grid" class="nav-grid"></div>
+                </div>
+
+                <div
+                    style="padding: 16px; border-radius: 14px; background: var(--color-surface); font-size: 0.85rem; border: 1px solid var(--color-border); margin-top: auto;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: var(--color-text-muted);">Respondidas</span>
+                        <span id="answered-count" style="color: var(--color-success); font-weight: 700;">0/10</span>
+                    </div>
+                    <div style="width: 100%; height: 6px; border-radius: 3px; background: var(--color-surface-3);">
+                        <div id="answered-bar"
+                            style="height: 100%; border-radius: 3px; background: var(--color-success); width: 0%; transition: width 0.3s ease;">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-accent"
+                    style="width: 100%; justify-content: center; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);"
+                    onclick="ExamEngine.showConfirmModal()">
+                    Terminar Prueba
+                </button>
+            </div>
+        </div>
+
+        <!-- Confirm Modal -->
+        <div id="confirm-modal" class="hidden"
+            style="position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+            <div class="glass"
+                style="padding: 40px; border-radius: 24px; max-width: 440px; text-align: center; border: 1px solid var(--color-border); background: var(--color-surface);">
+                <div style="font-size: 48px; margin-bottom: 20px;">⚠️</div>
+                <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 12px;">¿Finalizar simulacro?</h3>
+                <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5;">
+                    Has respondido <strong id="modal-answered" style="color: var(--color-text);">0</strong> de <strong
+                        id="modal-total" style="color: var(--color-text);">10</strong>
+                    preguntas.
+                </p>
+                <p id="modal-warning" class="hidden"
+                    style="color: var(--color-danger); background: rgba(239, 68, 68, 0.1); padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 24px; font-weight: 600;">
+                    ⚠ Tienes <span id="modal-unanswered">0</span> preguntas sin responder
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center;">
+                    <button class="btn btn-secondary" onclick="ExamEngine.hideConfirmModal()">Continuar</button>
+                    <button class="btn btn-primary" onclick="ExamEngine.finishExam()">Finalizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="view-results" class="view-section hidden">
+        <div class="page-container" style="max-width: 1000px;">
+            <!-- Confetti container -->
+            <div id="confetti-container"></div>
+
+            <!-- Header -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div id="results-icon"
+                        style="width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: var(--color-surface-2); box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        📊
+                    </div>
+                    <div>
+                        <h1 class="page-title" style="font-size: 2rem; margin-bottom: 4px;">Diagnóstico de Resultados
+                        </h1>
+                        <p id="results-date" class="page-subtitle" style="margin: 0; font-size: 0.9rem;">Fecha</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary btn-sm" onclick="ResultsEngine.newExam()">
+                        🔄 Nuevo simulacro
+                    </button>
+                    <button class="btn btn-ghost btn-sm" onclick="Router.go('home')">
+                        🏠 Inicio
+                    </button>
+                </div>
+            </div>
+
+            <!-- Security Report Card (Kiosk Mode) -->
+            <div id="security-report" class="glass hidden"
+                style="margin-bottom: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-left: 4px solid var(--color-danger); background: rgba(239, 68, 68, 0.05);">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="font-size: 2.5rem;">🛡️</div>
+                    <div>
+                        <div style="font-size: 0.9rem; color: var(--color-text-muted); font-weight: 500;">Integridad del
+                            Examen</div>
+                        <div id="result-status-text"
+                            style="font-size: 1.2rem; font-weight: 700; color: var(--color-success);">Evaluación Válida
+                        </div>
+                        <div id="result-annulment" class="hidden"
+                            style="font-size: 0.8rem; color: var(--color-danger); font-weight: 700; margin-top: 4px;">
+                            ⚠️ EVALUACIÓN ANULADA POR INFRACCIONES
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.8rem; color: var(--color-text-muted);">Salidas de pantalla</div>
+                    <div id="result-infractions"
+                        style="font-size: 1.5rem; font-weight: 700; color: var(--color-danger);">0</div>
+                </div>
+            </div>
+
+            <!-- Score overview -->
+            <div class="result-grid">
+                <div class="result-card" style="text-align: center;">
+                    <div id="final-percentage"
+                        style="font-size: 3rem; font-weight: 800; line-height: 1; color: var(--color-primary);">85%
+                    </div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px; font-weight: 600;">
+                        Puntaje General
+                    </div>
+                    <div id="excellence-badge" class="hidden"
+                        style="font-size: 0.75rem; color: var(--color-success); margin-top: 6px; font-weight: 600; background: rgba(16, 185, 129, 0.1); padding: 4px 8px; border-radius: 12px; display: inline-block;">
+                        🎉 ¡Excelente!
+                    </div>
+                </div>
+                <div class="result-card" style="text-align: center;">
+                    <div id="correct-count"
+                        style="font-size: 2rem; font-weight: 800; color: var(--color-success); line-height: 1;">0</div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px;">
+                        Correctas
+                    </div>
+                </div>
+                <div class="result-card" style="text-align: center;">
+                    <div id="incorrect-count"
+                        style="font-size: 2rem; font-weight: 800; color: var(--color-danger); line-height: 1;">0</div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px;">
+                        Incorrectas
+                    </div>
+                </div>
+                <div class="result-card" style="text-align: center;">
+                    <div id="total-questions-result"
+                        style="font-size: 2rem; font-weight: 800; color: var(--color-text); line-height: 1;">0</div>
+                    <div
+                        style="font-size: 0.75rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 8px;">
+                        Total
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts row -->
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 28px;">
+                <div class="glass" style="padding: 24px;">
+                    <h3
+                        style="font-size: 0.95rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                        <span>📡</span> Desempeño por Área
+                    </h3>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="radar-chart"></canvas>
+                    </div>
+                </div>
+                <div class="glass" style="padding: 24px;">
+                    <h3
+                        style="font-size: 0.95rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                        <span>📊</span> Por Competencia
+                    </h3>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="bar-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area breakdown -->
+            <div class="glass" style="padding: 24px; margin-bottom: 28px;">
+                <h3
+                    style="font-size: 0.95rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                    <span>📋</span> Detalle por Área
+                </h3>
+                <div id="area-breakdown" style="display: flex; flex-direction: column; gap: 12px;"></div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="glass" style="padding: 24px; margin-bottom: 28px;">
+                <h3
+                    style="font-size: 0.95rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                    <span>🎯</span> Recomendaciones Personalizadas
+                </h3>
+                <div id="recommendations" style="display: flex; flex-direction: column; gap: 14px;"></div>
+            </div>
+
+            <!-- Question review -->
+            <div class="glass" style="padding: 24px;">
+                <button class="btn btn-ghost" style="width: 100%; justify-content: center;"
+                    onclick="ResultsEngine.toggleReview()">
+                    <span id="review-toggle-icon">▼</span>
+                    <span id="review-toggle-text">Ver revisión detallada</span>
+                </button>
+                <div id="question-review" class="hidden"
+                    style="margin-top: 24px; display: flex; flex-direction: column; gap: 16px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-teacher" class="view-section hidden">
+        <div class="page-container">
+            <!-- Header -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h1 class="page-title" style="font-size: 2.2rem; margin-bottom: 8px; text-align: left;">👩‍🏫 Panel
+                        del Profesor</h1>
+                    <p class="page-subtitle" style="text-align: left; margin: 0; max-width: none;">Gestión integral del
+                        banco de preguntas</p>
+                </div>
+                <!-- Action Buttons Grouped -->
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="Router.go('home')">🏠 Volver al Inicio</button>
+                    <button class="btn btn-primary" onclick="TeacherModule.importJSON()">
+                        <span>📤</span> Importar
+                    </button>
+                    <button class="btn btn-primary" onclick="PDFExamModule.openSetupModal()"
+                        style="background: var(--color-accent); color:#0f172a;">
+                        <span>📄</span> Nuevo PDF
+                    </button>
+                    <button class="btn btn-secondary" onclick="TeacherModule.loadOfficialICFES()">
+                        <span>📋</span> Cargar Oficiales
+                    </button>
+                    <button class="btn btn-secondary" onclick="TeacherModule.exportJSON()">
+                        <span>📥</span> Exportar
+                    </button>
+                    <button class="btn btn-secondary" onclick="TeacherModule.clearData()"
+                        style="color: var(--color-danger); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);">
+                        <span>🗑️</span> Borrar Todo
+                    </button>
+                    <input type="file" id="import-file" accept=".json,.zip"
+                        onchange="TeacherModule.handleFileImport(event)" style="display: none;">
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div id="teacher-stats"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
+                <!-- Filled dynamically -->
+            </div>
+
+            <!-- Filters, Search & Table are now rendered dynamically based on tabs -->
+            <div id="teacher-content-area" class="glass" style="min-height: 400px; padding: 24px;">
+                <!-- Content will be injected by TeacherModule.renderTabs() -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+
+    <div id="preview-modal" class="hidden"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;">
+        <div class="glass"
+            style="max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; position: relative;">
+            <button onclick="TeacherModule.closePreview()"
+                style="position: absolute; top: 16px; right: 16px; background: var(--color-surface-3); border: none; color: var(--color-text); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">×</button>
+            <div id="preview-content"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div id="notification-container"
+        style="position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px;">
+    </div>
+
+
+
+    <!-- Firebase config modal removed: URLs are hardcoded in app.js -->
+
+    <!-- Security Alert Modal -->
+    <div id="security-alert-modal" class="modal hidden" style="z-index: 2000;">
+        <div class="glass"
+            style="max-width: 450px; width: 90%; padding: 0; overflow: hidden; border: 1px solid var(--color-danger); box-shadow: 0 0 50px rgba(239, 68, 68, 0.2);">
+            <div
+                style="background: rgba(239, 68, 68, 0.1); padding: 20px; text-align: center; border-bottom: 1px solid rgba(239, 68, 68, 0.2);">
+                <div style="font-size: 3rem; margin-bottom: 10px;">⚠️</div>
+                <h3 style="color: var(--color-danger); font-size: 1.25rem;">¡Alerta de Seguridad!</h3>
+            </div>
+            <div style="padding: 24px; text-align: center;">
+                <p style="margin-bottom: 16px; font-size: 1rem;">Se ha detectado que has salido de la pantalla del
+                    examen.</p>
+                <div
+                    style="background: var(--color-surface-2); padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+                    <span
+                        style="display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 4px;">Infracciones
+                        detectadas:</span>
+                    <span id="infraction-count"
+                        style="font-size: 1.5rem; font-weight: 800; color: var(--color-danger);">0</span>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 24px;">
+                    ¡ADVERTENCIA! Si sales de la pestaña <strong>una vez más</strong>, <strong
+                        style="color: var(--color-danger);">tu examen será ANULADO automáticamente</strong>
+                    y no contará para tu puntaje, XP ni ranking.
+                </p>
+                <button class="btn btn-secondary" onclick="ExamEngine.closeSecurityAlert()"
+                    style="width: 100%; justify-content: center; background: rgba(239, 68, 68, 0.1); color: var(--color-danger); border: 1px solid rgba(239, 68, 68, 0.3);">
+                    Entendido, volver al examen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-dashboard" class="view-section hidden">
+        <header class="config-header">
+            <button class="config-back-btn" onclick="Router.go('home')">
+                <span class="material-icons-round">arrow_back</span>
+                <span>Inicio</span>
+            </button>
+            <div style="font-weight: 600; color: var(--color-primary-light);">Mi Progreso Histórico</div>
+            <div></div>
+        </header>
+
+        <main class="config-main-content">
+            <div class="config-hero-header">
+                <div class="config-hero-icon">
+                    <span class="material-icons-round">trending_up</span>
+                </div>
+                <h1 class="config-title">Tu Evolución</h1>
+                <p class="config-subtitle">Revisa tu historial de simulacros y cómo has mejorado con el tiempo.</p>
+            </div>
+
+            <div class="config-layout" style="display: block;">
+                <!-- Chart Section -->
+                <div class="config-card" style="margin-bottom: 24px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 class="config-card-title" style="margin: 0;">
+                            <span class="material-icons-round config-icon-primary">insights</span>
+                            Historial de Puntajes (ICFES)
+                        </h2>
+                        <button class="btn"
+                            onclick="if(confirm('¿Seguro quieres borrar tu progreso histórico?')) DashboardModule.clearHistory()"
+                            style="background: var(--color-danger); border: none; padding: 6px 12px; font-size: 0.8rem;">
+                            Borrar Historial
+                        </button>
+                    </div>
+                    <div style="position: relative; height: 350px; width: 100%;" id="chart-container">
+                        <canvas id="progress-chart"></canvas>
+                        <div id="no-history-msg" class="hidden"
+                            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface); z-index: 10; font-weight: 600; color: var(--color-text-muted); border-radius: 12px;">
+                            Aún no has completado ningún simulacro.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weak Areas Widget -->
+                <div class="config-card">
+                    <h2 class="config-card-title">
+                        <span class="material-icons-round config-icon-primary">emoji_objects</span>
+                        Mis Áreas Débiles
+                    </h2>
+                    <div id="dashboard-weak-areas" style="display:flex; flex-direction:column; gap:10px;">
+                        <p style="color:var(--color-text-muted); font-size:0.9rem;">Completa simulacros para ver tu
+                            análisis por área.</p>
+                    </div>
+                </div>
+
+                <!-- History Table -->
+                <div class="config-card">
+                    <h2 class="config-card-title">
+                        <span class="material-icons-round config-icon-primary">history</span>
+                        Últimos Simulacros
+                    </h2>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr
+                                    style="border-bottom: 2px solid var(--color-border); color: var(--color-text-muted);">
+                                    <th style="padding: 12px 8px;">Fecha</th>
+                                    <th style="padding: 12px 8px;">Simulacro</th>
+                                    <th style="padding: 12px 8px;">Aciertos</th>
+                                    <th style="padding: 12px 8px;">Puntaje ICFES</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============ FLASHCARDS VIEW ============ -->
+    <div id="view-flashcards" class="view-section hidden">
+        <header class="config-header">
+            <button class="config-back-btn" onclick="Router.go('home')">
+                <span class="material-icons-round">arrow_back</span>
+                <span>Inicio</span>
+            </button>
+            <div style="font-weight: 600; color: var(--color-primary-light);">🃏 Modo Flashcard</div>
+            <div></div>
+        </header>
+
+        <main class="config-main-content">
+            <div class="config-hero-header">
+                <div class="config-hero-icon">
+                    <span class="material-icons-round">style</span>
+                </div>
+                <h1 class="config-title">Flashcards de Repaso</h1>
+                <p class="config-subtitle">Voltea tarjetas, recuerda la respuesta y califica tu nivel. Las preguntas
+                    dif&#237;ciles aparecer&#225;n m&#225;s seguido.</p>
+            </div>
+
+            <!-- Area Selector -->
+            <div id="fc-area-selector" class="config-layout" style="display:block; max-width:700px; margin:0 auto;">
+                <div class="config-card" style="margin-bottom: 24px;">
+                    <h2 class="config-card-title">
+                        <span class="material-icons-round config-icon-primary">category</span>
+                        Selecciona un &#225;rea
+                    </h2>
+                    <div id="fc-areas-grid"
+                        style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px;"></div>
+                    <div style="margin-top:16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                        <label style="font-size:0.85rem; font-weight:600; color:var(--color-text);">Tarjetas:</label>
+                        <select id="fc-count"
+                            style="background:var(--color-surface-2); border:1px solid var(--color-border); border-radius:8px; padding:6px 12px; color:var(--color-text); font-size:0.9rem;">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                        <button onclick="FlashcardModule.startSession()" class="btn btn-primary"
+                            style="margin-left:auto; padding:10px 24px;">
+                            <span class="material-icons-round"
+                                style="font-size:18px; margin-right:4px;">play_arrow</span> Comenzar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reyes del Flashcard Ranking -->
+                <div class="config-card" id="fc-ranking-container">
+                    <h2 class="config-card-title" style="color: #f59e0b;">
+                        <span class="material-icons-round" style="color: #f59e0b;">emoji_events</span>
+                        Reyes del Flashcard
+                    </h2>
+                    <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 16px;">
+                        Repasa tarjetas por más de 3 segundos para ganar puntos y subir en este ranking exclusivo.
+                    </p>
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
+                            <thead>
+                                <tr style="border-bottom:1px solid var(--color-border); color:var(--color-text-muted);">
+                                    <th style="padding:12px 8px;">Puesto</th>
+                                    <th style="padding:12px 8px;">Estudiante</th>
+                                    <th style="padding:12px 8px;">Puntos 🃏</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fc-ranking-body">
+                                <tr>
+                                    <td colspan="3"
+                                        style="padding:24px; text-align:center; color:var(--color-text-muted);">
+                                        <div class="loading-spinner" style="margin: 0 auto 12px auto;"></div>
+                                        Cargando ranking...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Flashcard Session -->
+            <div id="fc-session" class="hidden" style="max-width:680px; margin:0 auto;">
+                <!-- Progress -->
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                    <span id="fc-progress-text"
+                        style="font-size:0.85rem; font-weight:700; color:var(--color-text-muted);">1 / 10</span>
+                    <div style="flex:1; height:6px; background:rgba(0,0,0,0.08); border-radius:4px; overflow:hidden;">
+                        <div id="fc-progress-bar"
+                            style="width:10%; height:100%; background:linear-gradient(90deg,#a855f7,#6366f1); border-radius:4px; transition:width 0.4s ease;">
+                        </div>
+                    </div>
+                    <button onclick="FlashcardModule.endSession()" class="btn"
+                        style="padding:6px 12px; font-size:0.75rem; background:var(--color-danger); border:none; color:white;">Terminar</button>
+                </div>
+
+                <!-- Flash Card -->
+                <div id="fc-card" onclick="FlashcardModule.flipCard()"
+                    style="cursor:pointer; height:60vh; min-height:400px; perspective:1000px; margin-bottom:16px;">
+                    <div id="fc-card-inner"
+                        style="position:relative; width:100%; height:100%; transition:transform 0.6s cubic-bezier(.4,0,.2,1); transform-style:preserve-3d; display: grid;">
+                        <!-- Front -->
+                        <div id="fc-front" class="config-card"
+                            style="grid-area: 1 / 1; backface-visibility:hidden; display:flex; flex-direction:column; justify-content:flex-start; align-items:center; padding:24px; text-align:center; overflow-y:auto;">
+                            <div id="fc-area-badge"
+                                style="font-size:0.7rem; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:16px; background:rgba(168,85,247,0.1); color:#a855f7;">
+                            </div>
+                            <div id="fc-question" style="font-size:1.05rem; line-height:1.7; color:var(--color-text);">
+                            </div>
+
+                            <!-- Image container -->
+                            <div id="fc-image-container" class="hidden" style="margin-top: 16px; width: 100%;"></div>
+
+                            <!-- Chart container -->
+                            <div id="fc-chart-container" style="width: 100%;"></div>
+
+                            <div
+                                style="margin-top:24px; font-size:0.8rem; color:var(--color-text-muted); display:flex; align-items:center; gap:4px;">
+                                <span class="material-icons-round" style="font-size:16px;">touch_app</span>
+                                Toca para ver la respuesta
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div id="fc-back" class="config-card"
+                            style="grid-area: 1 / 1; backface-visibility:hidden; transform:rotateY(180deg); display:flex; flex-direction:column; justify-content:flex-start; padding:24px; overflow-y:auto;">
+                            <div
+                                style="font-size:0.75rem; font-weight:700; color:#10b981; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px;">
+                                &#10004;&#65039; Respuesta Correcta</div>
+                            <div id="fc-answer"
+                                style="font-size:1.1rem; font-weight:700; color:var(--color-text); margin-bottom:16px;">
+                            </div>
+                            <div
+                                style="font-size:0.75rem; font-weight:700; color:var(--color-primary); margin-bottom:8px;">
+                                &#128161; Explicaci&#243;n</div>
+                            <div id="fc-justification"
+                                style="font-size:0.88rem; line-height:1.65; color:var(--color-text-muted);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rating Buttons -->
+                <div id="fc-rating" class="hidden" style="display:none; gap:10px; justify-content:center;">
+                    <button onclick="FlashcardModule.rate('hard')" class="btn"
+                        style="flex:1; padding:12px; border-radius:12px; background:rgba(239,68,68,0.1); color:#ef4444; border:1px solid rgba(239,68,68,0.2); font-weight:700; font-size:0.9rem;">
+                        &#128547; Dif&#237;cil
+                    </button>
+                    <button onclick="FlashcardModule.rate('medium')" class="btn"
+                        style="flex:1; padding:12px; border-radius:12px; background:rgba(245,158,11,0.1); color:#f59e0b; border:1px solid rgba(245,158,11,0.2); font-weight:700; font-size:0.9rem;">
+                        &#128528; Regular
+                    </button>
+                    <button onclick="FlashcardModule.rate('easy')" class="btn"
+                        style="flex:1; padding:12px; border-radius:12px; background:rgba(16,185,129,0.1); color:#10b981; border:1px solid rgba(16,185,129,0.2); font-weight:700; font-size:0.9rem;">
+                        &#128522; F&#225;cil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Session Summary -->
+            <div id="fc-summary" class="hidden" style="max-width:600px; margin:0 auto;">
+                <div class="config-card" style="text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:8px;">🎉</div>
+                    <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:4px; color:var(--color-text);">
+                        &#161;Sesi&#243;n Completada!</h2>
+                    <p id="fc-summary-text"
+                        style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:20px;"></p>
+                    <div id="fc-summary-stats"
+                        style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;"></div>
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <button onclick="FlashcardModule.resetToSelector()" class="btn btn-secondary"
+                            style="padding:10px 20px;">&#128260; Otra Sesi&#243;n</button>
+                        <button onclick="Router.go('home')" class="btn btn-primary" style="padding:10px 20px;">&#127968;
+                            Inicio</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============ GLOBAL RESULTS VIEW ============ -->
+
+    <div id="view-global-results" class="view-section hidden">
+        <header class="config-header">
+            <button class="config-back-btn" onclick="Router.go('home')">
+                <span class="material-icons-round">arrow_back</span>
+                <span>Inicio</span>
+            </button>
+            <div style="font-weight: 600; color: var(--color-primary-light);">Ranking de Estudiantes</div>
+            <div></div>
+        </header>
+
+        <main class="config-main-content">
+            <div class="config-hero-header">
+                <div class="config-hero-icon">
+                    <span class="material-icons-round">emoji_events</span>
+                </div>
+                <h1 class="config-title">Resultados Globales</h1>
+                <p class="config-subtitle">Ranking general de los estudiantes basado en sus simulacros finalizados.</p>
+            </div>
+
+            <div id="global-results-content" style="max-width: 1000px; margin: 0 auto; padding-top: 24px;">
+                <!-- Content injected by GlobalResultsModule -->
+            </div>
+        </main>
+    </div>
+
+    <!-- ============ TEACHER DASHBOARD VIEW ============ -->
+    <div id="view-admin" class="view-section hidden">
+        <header class="config-header">
+            <button class="config-back-btn" onclick="Router.go('home')">
+                <span class="material-icons-round">arrow_back</span>
+                <span>Volver al Inicio</span>
+            </button>
+            <div style="font-weight: 600; color: var(--color-text);">Panel de Administración Docente</div>
+            <div></div> <!-- Spacer -->
+        </header>
+
+        <main class="config-main-content">
+            <div class="config-hero-header"
+                style="background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(52,211,153,0.05)); border: 1px solid rgba(16,185,129,0.2);">
+                <div class="config-hero-icon" style="color: #10b981; background: rgba(16,185,129,0.15);">
+                    <span class="material-icons-round">admin_panel_settings</span>
+                </div>
+                <h1 class="config-title" style="color: #10b981;">Seguimiento de Estudiantes</h1>
+                <p class="config-subtitle">Visualiza el progreso de todos los estudiantes registrados, ordenados
+                    alfabéticamente y clasificados por su grado de escolaridad.</p>
+            </div>
+
+            <!-- Dashboard Controls -->
+            <div
+                style="max-width: 1000px; margin: 24px auto 0; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+
+                <!-- Grade Filter Tabs -->
+                <div
+                    style="display: flex; gap: 8px; background: rgba(255,255,255,0.05); padding: 6px; border-radius: 16px; border: 1px solid var(--color-border);">
+                    <button class="teacher-tab-btn active" onclick="AdminPanelModule.filterByGrade('all')"
+                        id="teacher-tab-all"
+                        style="padding: 8px 16px; border-radius: 12px; border: none; background: var(--color-primary); color: white; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                        Todos los Grados
+                    </button>
+                    <button class="teacher-tab-btn" onclick="AdminPanelModule.filterByGrade('10')" id="teacher-tab-10"
+                        style="padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                        Décimo (10°)
+                    </button>
+                    <button class="teacher-tab-btn" onclick="AdminPanelModule.filterByGrade('11')" id="teacher-tab-11"
+                        style="padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                        Once (11°)
+                    </button>
+                    <button class="teacher-tab-btn" onclick="AdminPanelModule.filterByGrade('Egresado')"
+                        id="teacher-tab-egresado"
+                        style="padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                        Egresados
+                    </button>
+                </div>
+
+                <!-- Sync Button -->
+                <button onclick="AdminPanelModule.fetchAllStudents()"
+                    style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.1); color: #10b981; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    <span class="material-icons-round" style="font-size: 1.1rem;">sync</span> Fetch Data
+                </button>
+            </div>
+
+            <div id="teacher-loading-spinner" style="display: none; text-align: center; margin: 40px 0;">
+                <div
+                    style="width: 40px; height: 40px; border: 4px solid rgba(16,185,129,0.1); border-top-color: #10b981; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;">
+                </div>
+                <p style="color: var(--color-text-muted); margin-top: 16px; font-weight: 500;">Descargando datos desde
+                    la nube...</p>
+            </div>
+
+            <!-- Student List Container -->
+            <div id="teacher-students-container"
+                style="max-width: 1000px; margin: 24px auto; display: flex; flex-direction: column; gap: 16px;">
+                <!-- Injected via JS -->
+                <div
+                    style="text-align: center; padding: 60px 20px; background: var(--color-surface); border-radius: 24px; border: 1px dashed var(--color-border); color: var(--color-text-muted);">
+                    <span class="material-icons-round"
+                        style="font-size: 3rem; opacity: 0.5; margin-bottom: 16px; display: block;">group</span>
+                    Haz clic en "Fetch Data" para cargar los estudiantes.
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ============ LOGIN MODAL ============ -->
+    <div id="login-modal" class="modal hidden"
+        style="z-index: 100000; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); position: fixed; inset: 0;">
+        <div class="modal-content"
+            style="background: var(--color-surface); width: 100%; max-width: 420px; border-radius: 24px; padding: 40px 30px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); position: relative; max-height: 90vh; overflow-y: auto; color: var(--color-text); border: 1px solid var(--color-border); margin: 20px;">
+
+            <button onclick="AuthUI.toggleModal()"
+                style="position: sticky; top: 10px; float: right; background: var(--color-surface); border-radius: 50%; width: 36px; height: 36px; border: 1px solid var(--color-border); font-size: 1.5rem; cursor: pointer; color: var(--color-text-muted); display: flex; align-items: center; justify-content: center; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: -25px; margin-right: -15px; transition: transform 0.2s;"
+                onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"
+                title="Cerrar">&times;</button>
+
+            <div style="text-align: center; margin-bottom: 24px;">
+                <div
+                    style="width: 60px; height: 60px; background: rgba(99, 102, 241, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                    <span class="material-icons-round"
+                        style="color: var(--color-primary); font-size: 2rem;">school</span>
+                </div>
+                <h2
+                    style="font-size: 1.8rem; font-weight: 800; color: var(--color-text); margin-bottom: 6px; letter-spacing: -0.02em;">
+                    SABER PRO</h2>
+                <p style="color: var(--color-text-muted); font-size: 0.95rem;">Plataforma Educativa de Alto Rendimiento
+                </p>
+            </div>
+
+            <div
+                style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 30px; height: 120px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(49, 46, 129, 0.7), rgba(30, 58, 138, 0.7)), url('img/student_hero.png') center/cover;">
+                <h3 style="color: white; font-weight: 600; font-size: 1.1rem; z-index: 1;">Impulsa tu futuro hoy</h3>
+            </div>
+
+            <!-- Tabs -->
+            <div
+                style="display: flex; margin-bottom: 24px; border-bottom: 2px solid var(--color-border); position: relative;">
+                <button id="tab-btn-login" onclick="AuthUI.switchTab('login')"
+                    style="flex: 1; padding: 12px; border: none; background: transparent; font-weight: 700; color: var(--color-primary); cursor: pointer; transition: color 0.3s; position: relative;">
+                    Ingresar
+                    <div id="tab-indicator-login"
+                        style="position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: var(--color-primary); border-radius: 3px 3px 0 0; transition: opacity 0.3s;">
+                    </div>
+                </button>
+                <button id="tab-btn-register" onclick="AuthUI.switchTab('register')"
+                    style="flex: 1; padding: 12px; border: none; background: transparent; font-weight: 600; color: var(--color-text-muted); cursor: pointer; transition: color 0.3s; position: relative;">
+                    Registrarse
+                    <div id="tab-indicator-register"
+                        style="position: absolute; bottom: -2px; left: 0; right: 0; height: 3px; background: var(--color-primary); border-radius: 3px 3px 0 0; opacity: 0; transition: opacity 0.3s;">
+                    </div>
+                </button>
+            </div>
+
+            <!-- LOGIN VIEW -->
+            <div id="auth-view-login">
+                <div style="margin-bottom: 16px;">
+                    <label
+                        style="display: block; font-size: 0.85rem; font-weight: 500; color: var(--color-text); margin-bottom: 8px;">Correo
+                        electrónico</label>
+                    <div style="position: relative;">
+                        <span class="material-icons-round"
+                            style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); font-size: 1.2rem;">mail</span>
+                        <input type="email" id="login-email" placeholder="ejemplo@correo.com"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 12px 12px 42px; font-size: 0.95rem; background: transparent; color: var(--color-text); transition: border-color 0.2s;"
+                            required onkeypress="if(event.key === 'Enter') AuthUI.handleLogin()">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label
+                            style="font-size: 0.85rem; font-weight: 500; color: var(--color-text);">Contraseña</label>
+                        <a href="#"
+                            style="font-size: 0.8rem; color: var(--color-primary); text-decoration: none; font-weight: 500;"
+                            tabindex="-1">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div style="position: relative;">
+                        <span class="material-icons-round"
+                            style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); font-size: 1.2rem;">lock</span>
+                        <input type="password" id="login-password" placeholder="••••••••"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 12px 12px 42px; font-size: 0.95rem; background: transparent; color: var(--color-text); transition: border-color 0.2s;"
+                            onkeypress="if(event.key === 'Enter') AuthUI.handleLogin()">
+                    </div>
+                </div>
+
+                <button onclick="AuthUI.handleLogin()"
+                    style="width: 100%; background: var(--color-primary); color: white; border: none; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s, background 0.2s; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);"
+                    onmouseover="this.style.background='var(--color-primary-hover)'"
+                    onmouseout="this.style.background='var(--color-primary)'"
+                    onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'">
+                    Ingresar <span class="material-icons-round" style="font-size: 1.1rem;">arrow_forward</span>
+                </button>
+            </div>
+
+            <!-- REGISTER VIEW -->
+            <div id="auth-view-register" class="hidden">
+                <div
+                    style="display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 24px; padding-right: 4px;">
+
+                    <!-- Nombre y Apellidos -->
+                    <div>
+                        <label
+                            style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Nombre
+                            y Apellidos</label>
+                        <input type="text" id="reg-name" placeholder="Ej: Camilo Torres"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: transparent; color: var(--color-text);">
+                    </div>
+
+                    <!-- Correo -->
+                    <div>
+                        <label
+                            style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Correo
+                            Electrónico</label>
+                        <input type="email" id="reg-email" placeholder="correo@ejemplo.com"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: transparent; color: var(--color-text);">
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div>
+                        <label
+                            style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Contraseña</label>
+                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: transparent; color: var(--color-text);">
+                    </div>
+
+                    <!-- Colegio -->
+                    <div>
+                        <label
+                            style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Colegio
+                            o Institución</label>
+                        <input type="text" id="reg-school" placeholder="Ej: IE Matecandela"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: transparent; color: var(--color-text);">
+                    </div>
+
+                    <!-- Rol de Usuario -->
+                    <div style="margin-top: 4px;">
+                        <label
+                            style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Rol
+                            / Tipo de Cuenta</label>
+                        <select id="reg-role"
+                            onchange="const isDocente = this.value === 'docente'; document.getElementById('teacher-code-container').style.display = isDocente ? 'block' : 'none'; document.getElementById('grade-container').style.display = isDocente ? 'none' : 'block'; document.getElementById('area-container').style.display = isDocente ? 'block' : 'none';"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text);">
+                            <option value="estudiante" selected>Estudiante</option>
+                            <option value="docente">Docente / Profesor</option>
+                        </select>
+                    </div>
+
+                    <!-- Código Docente (Oculto por defecto) -->
+                    <div id="teacher-code-container" style="display: none; margin-top: 4px;">
+                        <label
+                            style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-primary); margin-bottom: 6px;">Código
+                            de Acceso Docente <span
+                                style="font-size: 0.7rem; color: var(--color-text-muted);">(Requerido)</span></label>
+                        <input type="password" id="reg-teacher-code" placeholder="Ej: 0000"
+                            style="width: 100%; border: 1px solid var(--color-primary); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: rgba(99, 102, 241, 0.05); color: var(--color-text);">
+                    </div>
+
+                    <!-- Grado & Sexo -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div id="grade-container">
+                            <label
+                                style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Grado</label>
+                            <select id="reg-grade"
+                                style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text);">
+                                <option value="" disabled selected>Selecciona</option>
+                                <option value="6">Sexto (6°)</option>
+                                <option value="7">Séptimo (7°)</option>
+                                <option value="8">Octavo (8°)</option>
+                                <option value="9">Noveno (9°)</option>
+                                <option value="10">Décimo (10°)</option>
+                                <option value="11">Once (11°)</option>
+                                <option value="Egresado">Egresado</option>
+                            </select>
+                        </div>
+                        <div id="area-container" style="display: none;">
+                            <label
+                                style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-primary); margin-bottom: 6px;">Área
+                                a Cargo</label>
+                            <select id="reg-area"
+                                style="width: 100%; border: 1px solid var(--color-primary); border-radius: 10px; padding: 10px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text);">
+                                <option value="" disabled selected>Selecciona</option>
+                                <option value="Matemáticas">Matemáticas</option>
+                                <option value="Ética">Ética</option>
+                                <option value="Religión">Religión</option>
+                                <option value="Sociales">Sociales</option>
+                                <option value="Filosofía">Filosofía</option>
+                                <option value="Educación Física">Educación Física</option>
+                                <option value="Química">Química</option>
+                                <option value="Biología">Biología</option>
+                                <option value="Emprendimiento STEM">Emprendimiento STEM</option>
+                                <option value="Informática">Informática</option>
+                                <option value="Agropecuaria">Agropecuaria</option>
+                                <option value="Cátedra de Paz">Cátedra de Paz</option>
+                                <option value="Castellano">Castellano</option>
+                                <option value="Artística">Artística</option>
+                                <option value="Ciencias Políticas y Económicas">Ciencias Políticas y Económicas</option>
+                                <option value="Física">Física</option>
+                                <option value="Ciencias Naturales">Ciencias Naturales</option>
+                                <option value="Lectura Crítica">Lectura Crítica</option>
+                                <option value="Inglés">Inglés</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Sexo</label>
+                            <select id="reg-sex"
+                                style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text);">
+                                <option value="" disabled selected>Selecciona</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="O">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="AuthUI.handleRegister()"
+                    style="width: 100%; background: var(--color-success); color: white; border: none; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s, background 0.2s; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);"
+                    onmouseover="this.style.background='#059669'"
+                    onmouseout="this.style.background='var(--color-success)'"
+                    onmousedown="this.style.transform='scale(0.98)'" onmouseup="this.style.transform='scale(1)'">
+                    Completar Registro <span class="material-icons-round" style="font-size: 1.1rem;">check_circle</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ZOOM CONTROLS -->
+    <div id="zoom-controls" class="zoom-controls"
+        style="display: none !important; opacity: 0; pointer-events: none; transition: opacity 0.5s;">
+        <button class="zoom-btn" onclick="ZoomModule.zoomIn()" title="Aumentar">
+            <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+        <div id="zoom-level-display"
+            style="font-size: 0.75rem; color: var(--color-text-muted); text-align: center; padding: 4px 0; font-weight: 600;">
+            100%</div>
+        <button class="zoom-btn" onclick="ZoomModule.zoomOut()" title="Disminuir">
+            <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+        <button class="zoom-btn" onclick="ZoomModule.reset()" title="Restablecer" style="margin-top: 4px;">
+            <svg width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+            </svg>
+        </button>
+    </div>
+
+
+
+    <!-- SVG    <!-- Profe Chiguiro Restoration -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true" focusable="false">
+        <filter id="remove-black" color-interpolation-filters="sRGB">
+            <feColorMatrix type="matrix" values="1 0 0 0 -0.9
+                                                 0 1 0 0 -0.9
+                                                 0 0 1 0 -0.9
+                                                 0 0 0 1 0" />
+            <feComposite in="SourceGraphic" operator="in" />
+        </filter>
+    </svg>
+
+    <div id="tour-overlay"></div>
+
+    <div id="chiguiro-container" class="hidden" style="position: fixed; bottom: 20px; left: 20px; width: auto;">
+        <div id="chiguiro-bubble" class="hidden"
+            style="background: white; border-radius: 18px; padding: 15px 20px; border: 2px solid var(--color-primary); position: relative; max-width: 250px; font-weight: 500; color: #1e293b; line-height: 1.5; font-size: 0.9rem;">
+            <div id="chiguiro-text"></div>
+            <div id="chiguiro-actions" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;"></div>
+            <!-- Triangle indicator for bubble -->
+            <div
+                style="position: absolute; bottom: -12px; left: 25px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 12px solid var(--color-primary);">
+            </div>
+            <div
+                style="position: absolute; bottom: -9px; left: 25px; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 12px solid white;">
+            </div>
+        </div>
+        <div id="chiguiro-avatar-wrapper" class="chiguiro-float-anim" style="width: 120px; height: 120px;">
+            <img id="chiguiro-img" src="img/chiguiro/neutral.png" alt="Chiguiro Mentor"
+                style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+    </div>
+
+    <script src="db_simulacros/index_simulacros.js"></script>
+    <!-- Simulacros Nativos Pre-cargados -->
+    <script src="db_simulacros/matematicas/mat_2024_oficial.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_01.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_02.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_03.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_04.js"></script>
+    <script src="db_simulacros/naturales/nat_simulacro_01.js"></script>
+    <script src="db_simulacros/naturales/nat_simulacro_02.js"></script>
+    <script src="db_simulacros/lectura/lec_simulacro_01.js"></script>
+    <script src="db_simulacros/sociales/soc_simulacro_01.js"></script>
+    <script src="db_simulacros/sociales/soc_simulacro_02.js"></script>
+    <script src="db_simulacros/ingles/ing_simulacro_01.js"></script>
+    <script src="db_simulacros/ingles/ing_simulacro_02.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
