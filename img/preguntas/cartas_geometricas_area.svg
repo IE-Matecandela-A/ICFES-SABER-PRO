@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 250">
+  <rect width="450" height="250" fill="#f8fafc"/>
+  
+  <!-- Carta 1: Rectangulo -->
+  <rect x="30" y="40" width="160" height="180" rx="10" ry="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <rect x="50" y="70" width="120" height="60" fill="rgba(59, 130, 246, 0.3)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="110" y="65" font-family="Arial" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">8 cm</text>
+  <text x="35" y="105" font-family="Arial" font-size="14" font-weight="bold" fill="#1e293b">3 cm</text>
+  <text x="110" y="180" font-family="Arial" font-size="14" fill="#64748b" text-anchor="middle">Carta 1</text>
+  
+  <text x="225" y="130" font-family="Arial" font-size="24" font-weight="bold" fill="#1e293b" text-anchor="middle">=</text>
+  
+  <!-- Carta 2: Triangulo -->
+  <rect x="260" y="40" width="160" height="180" rx="10" ry="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <polygon points="340,60 280,140 400,140" fill="rgba(239, 68, 68, 0.3)" stroke="#ef4444" stroke-width="2"/>
+  <line x1="340" y1="60" x2="340" y2="140" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="345" y="110" font-family="Arial" font-size="14" font-weight="bold" fill="#ef4444">h</text>
+  <text x="340" y="160" font-family="Arial" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">6 cm</text>
+  <text x="340" y="180" font-family="Arial" font-size="14" fill="#64748b" text-anchor="middle">Carta 2</text>
+  
+  <text x="225" y="220" font-family="Arial" font-size="14" font-weight="bold" fill="#0f172a" text-anchor="middle">Áreas Iguales</text>
+</svg>

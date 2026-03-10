@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" width="100%" height="100%">
+  <!-- Lienzo -->
+  <rect x="50" y="50" width="400" height="250" fill="#f0f0f0" stroke="black" stroke-width="2"/>
+  <text x="170" y="260" font-family="sans-serif" font-size="14" font-weight="bold">Región 3</text>
+  
+  <!-- Región 1: Triángulo -->
+  <polygon points="50,50 250,50 50,200" fill="white" stroke="black" stroke-width="2"/>
+  <text x="100" y="90" font-family="sans-serif" font-size="14" font-weight="bold">Región 1</text>
+  
+  <!-- Región 2: Cuarto de Círculo -->
+  <path d="M 450,50 A 200,200 0 0,0 250,250 L 450,250 Z" fill="white" stroke="black" stroke-width="2"/>
+  <text x="350" y="100" font-family="sans-serif" font-size="14" font-weight="bold">Región 2</text>
+  
+  <!-- Dimensiones superiores -->
+  <line x1="50" y1="30" x2="250" y2="30" stroke="black" stroke-width="1"/>
+  <polygon points="50,30 55,27 55,33" fill="black"/>
+  <polygon points="250,30 245,27 245,33" fill="black"/>
+  <text x="150" y="22" font-family="sans-serif" font-size="12" text-anchor="middle">4 m</text>
+  
+  <!-- ticks -->
+  <line x1="50" y1="20" x2="50" y2="40" stroke="black" stroke-width="1"/>
+  <line x1="250" y1="20" x2="250" y2="40" stroke="black" stroke-width="1"/>
+  
+  <line x1="250" y1="30" x2="450" y2="30" stroke="black" stroke-width="1"/>
+  <polygon points="250,30 255,27 255,33" fill="black"/>
+  <polygon points="450,30 445,27 445,33" fill="black"/>
+  <text x="350" y="22" font-family="sans-serif" font-size="12" text-anchor="middle">4 m</text>
+  <line x1="450" y1="20" x2="450" y2="40" stroke="black" stroke-width="1"/>
+  
+  <!-- Dimensiones inferiores -->
+  <line x1="50" y1="320" x2="450" y2="320" stroke="black" stroke-width="1"/>
+  <polygon points="50,320 55,317 55,323" fill="black"/>
+  <polygon points="450,320 445,317 445,323" fill="black"/>
+  <text x="250" y="340" font-family="sans-serif" font-size="12" text-anchor="middle">8 m</text>
+  <line x1="50" y1="310" x2="50" y2="330" stroke="black" stroke-width="1"/>
+  <line x1="450" y1="310" x2="450" y2="330" stroke="black" stroke-width="1"/>
+
+  <!-- Dimensiones izquierda -->
+  <line x1="30" y1="50" x2="30" y2="200" stroke="black" stroke-width="1"/>
+  <polygon points="30,50 27,55 33,55" fill="black"/>
+  <polygon points="30,200 27,195 33,195" fill="black"/>
+  <text x="20" y="130" font-family="sans-serif" font-size="12" text-anchor="end">3 m</text>
+  <line x1="20" y1="50" x2="40" y2="50" stroke="black" stroke-width="1"/>
+  <line x1="20" y1="200" x2="40" y2="200" stroke="black" stroke-width="1"/>
+  
+  <line x1="10" y1="50" x2="10" y2="300" stroke="black" stroke-width="1"/>
+  <polygon points="10,50 7,55 13,55" fill="black"/>
+  <polygon points="10,300 7,295 13,295" fill="black"/>
+  <text x="25" y="175" font-family="sans-serif" font-size="12" text-anchor="middle" transform="rotate(-90 25 175) translate(0, -15)">5 m</text>
+
+  <!-- Dimensiones derecha -->
+  <line x1="470" y1="50" x2="470" y2="300" stroke="black" stroke-width="1"/>
+  <polygon points="470,50 467,55 473,55" fill="black"/>
+  <polygon points="470,300 467,295 473,295" fill="black"/>
+  <text x="485" y="180" font-family="sans-serif" font-size="12">5 m</text>
+  <line x1="460" y1="50" x2="480" y2="50" stroke="black" stroke-width="1"/>
+  <line x1="460" y1="300" x2="480" y2="300" stroke="black" stroke-width="1"/>
+
+  <!-- Hipotenusa region 1 -->
+  <text x="145" y="115" font-family="sans-serif" font-size="12" transform="rotate(37 145 115)">5 m</text>
+</svg>
