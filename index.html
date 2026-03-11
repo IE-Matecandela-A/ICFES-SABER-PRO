@@ -271,7 +271,7 @@
 
             <!-- Bento Grid Section -->
             <div class="w-full max-w-7xl mx-auto mt-24 mb-6 z-20 px-2 lg:px-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 w-full">
 
                     <!-- Card 1: Dashboard -->
                     <div onclick="Router.go('dashboard')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
@@ -341,6 +341,23 @@
                         </div>
                     </div>
 
+                    <!-- Card 5: Zona de Juegos -->
+                    <div onclick="Router.go('games')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
+                        style="background: var(--color-surface-2); border: 2px solid rgba(236, 72, 153, 0.4); box-shadow: 0 0 30px rgba(236, 72, 153, 0.15); overflow: hidden;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent pointer-events-none"></div>
+                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
+                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(236,72,153,0.5));">🎮</span>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-pink-500/20"
+                                style="background: var(--glass-bg); border-color: var(--glass-border);">
+                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
+                            </div>
+                        </div>
+                        <div class="relative z-10 mt-auto">
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Zona de Juegos</h3>
+                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">6 juegos educativos para entrenar habilidades ICFES de forma divertida.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -390,6 +407,79 @@
 
         </div>
     </div>
+
+    <!-- ============ GAMES VIEW (Arcade ICFES) ============ -->
+    <div id="view-games" class="view-section hidden" style="background-color: #060c1a;">
+        <style>
+            @keyframes shake-custom {
+                0%, 100% { transform: translateX(0); }
+                20% { transform: translateX(-8px); }
+                40% { transform: translateX(8px); }
+                60% { transform: translateX(-8px); }
+                80% { transform: translateX(8px); }
+            }
+            .animate-shake-custom {
+                animation: shake-custom 0.4s ease-in-out;
+            }
+            @keyframes pulse-green {
+                0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+                70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+            }
+            .correct-flash {
+                animation: pulse-green 1s infinite;
+            }
+        </style>
+
+        <div class="flex h-screen w-full overflow-hidden font-sans relative selection:bg-blue-500/30">
+            <!-- Luces de fondo (Glows Atmosféricos) -->
+            <div class="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+            <div class="absolute bottom-[-15%] right-[-5%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+            <div class="absolute top-[40%] left-[40%] w-[30%] h-[30%] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <!-- Contenido Principal -->
+            <main class="flex-1 overflow-y-auto relative z-10 scrollbar-hide">
+                <div class="max-w-6xl mx-auto p-6 md:p-8">
+                    
+                    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 pt-4">
+                        <div class="flex items-center gap-4">
+                            <button onclick="Router.go('home')" class="bg-slate-800/80 hover:bg-slate-700 border border-slate-700/50 p-3 rounded-2xl transition-all shadow-lg text-white">
+                                <span class="material-icons-round font-bold">arrow_back</span>
+                            </button>
+                            <div>
+                                <h2 class="text-4xl font-black text-white drop-shadow-md">Misiones Activas</h2>
+                                <p class="text-blue-200/70 font-medium mt-2 text-lg">Hackea el examen automatizando atajos.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <div class="bg-slate-900/50 backdrop-blur-md px-5 py-3 rounded-2xl flex items-center space-x-3 shadow-lg border border-slate-700/50">
+                                <span class="material-icons-round text-yellow-400" style="text-shadow: 0 0 8px rgba(250,204,21,0.8);">star</span>
+                                <span class="font-bold text-white text-lg"><span id="arcade-xp-display">0</span> <span class="text-slate-400 text-sm">XP</span></span>
+                            </div>
+                            <div class="bg-slate-900/50 backdrop-blur-md px-5 py-3 rounded-2xl flex items-center space-x-3 shadow-lg border border-slate-700/50">
+                                <span class="material-icons-round text-orange-500" style="text-shadow: 0 0 8px rgba(249,115,22,0.8);">local_fire_department</span>
+                                <span class="font-bold text-white text-lg">Racha: <span id="arcade-streak-display">0</span></span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Games Selection Grid -->
+                    <div id="games-selection">
+                        <div id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Inyectado por GamesModule.init() -->
+                        </div>
+                    </div>
+
+                    <!-- Game Arena (donde se renderiza el juego activo) -->
+                    <div id="game-arena" class="hidden h-full flex flex-col justify-center items-center w-full">
+                        <!-- Inyectado por engine -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
     <!-- ============ TIPS VIEW ============ -->
     <div id="view-tips" class="view-section hidden">
         <header class="config-header" style="z-index: 100; position: relative;">
@@ -1787,8 +1877,8 @@
                 </div>
 
                 <!-- Flash Card -->
-                <div id="fc-card" onclick="FlashcardModule.flipCard()"
-                    style="cursor:pointer; height:60vh; min-height:400px; perspective:1000px; margin-bottom:16px;">
+                <div id="fc-card"
+                    style="height:60vh; min-height:400px; perspective:1000px; margin-bottom:16px;">
                     <div id="fc-card-inner"
                         style="position:relative; width:100%; height:100%; transition:transform 0.6s cubic-bezier(.4,0,.2,1); transform-style:preserve-3d; display: grid;">
                         <!-- Front -->
@@ -1806,10 +1896,15 @@
                             <!-- Chart container -->
                             <div id="fc-chart-container" style="width: 100%;"></div>
 
+                            <!-- Options container -->
+                            <div id="fc-options-container" class="grid grid-cols-1 gap-3 w-full mt-6" style="text-align: left;">
+                                <!-- Buttons injected here -->
+                            </div>
+
                             <div
                                 style="margin-top:24px; font-size:0.8rem; color:var(--color-text-muted); display:flex; align-items:center; gap:4px;">
                                 <span class="material-icons-round" style="font-size:16px;">touch_app</span>
-                                Toca para ver la respuesta
+                                Selecciona la respuesta correcta para continuar
                             </div>
                         </div>
                         <!-- Back -->
@@ -1921,33 +2016,33 @@
             <div
                 style="max-width: 1000px; margin: 24px auto 0; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
 
-                <!-- Grade Filter Tabs -->
-                <div
-                    style="display: flex; gap: 8px; background: rgba(255,255,255,0.05); padding: 6px; border-radius: 16px; border: 1px solid var(--color-border);">
-                    <button class="teacher-tab-btn active" onclick="AdminPanelModule.filterByGrade('all')"
-                        id="teacher-tab-all"
-                        style="padding: 8px 16px; border-radius: 12px; border: none; background: var(--color-primary); color: white; font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                        Todos los Grados
-                    </button>
-                    <button class="teacher-tab-btn" onclick="AdminPanelModule.filterByGrade('10')" id="teacher-tab-10"
-                        style="padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                        Décimo (10°)
-                    </button>
-                    <button class="teacher-tab-btn" onclick="AdminPanelModule.filterByGrade('11')" id="teacher-tab-11"
-                        style="padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                        Once (11°)
-                    </button>
-                    <button class="teacher-tab-btn" onclick="AdminPanelModule.filterByGrade('Egresado')"
-                        id="teacher-tab-egresado"
-                        style="padding: 8px 16px; border-radius: 12px; border: none; background: transparent; color: var(--color-text-muted); font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                        Egresados
-                    </button>
+                <!-- Dynamic Filters Container -->
+                <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                    <!-- Grade Filter Tabs (Now dynamic) -->
+                    <div id="teacher-grade-tabs"
+                        style="display: flex; gap: 8px; background: rgba(255,255,255,0.05); padding: 6px; border-radius: 16px; border: 1px solid var(--color-border);">
+                        <!-- Injected via JS -->
+                        <button class="teacher-tab-btn active" onclick="AdminPanelModule.filterByGrade('all')"
+                            id="teacher-tab-all"
+                            style="padding: 8px 16px; border-radius: 12px; border: none; background: var(--color-primary); color: white; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                            Todos los Grados
+                        </button>
+                    </div>
+
+                    <!-- School Filter Dropdown -->
+                    <div style="position: relative; display: flex; align-items: center; gap: 8px;">
+                        <span class="material-icons-round" style="color: var(--color-text-muted); font-size: 1.2rem;">school</span>
+                        <select id="teacher-school-filter" onchange="AdminPanelModule.filterBySchool(this.value)"
+                            style="padding: 10px 16px; border-radius: 12px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); font-weight: 600; cursor: pointer; min-width: 200px; outline: none; transition: border-color 0.2s;">
+                            <option value="all">Todas las Instituciones</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Sync Button -->
                 <button onclick="AdminPanelModule.fetchAllStudents()"
                     style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.1); color: #10b981; font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                    <span class="material-icons-round" style="font-size: 1.1rem;">sync</span> Fetch Data
+                    <span class="material-icons-round" style="font-size: 1.1rem;">sync</span> Actualizar Datos
                 </button>
             </div>
 

@@ -189,6 +189,7 @@ var Router = {
             if (view === 'teacher' && typeof TeacherModule !== 'undefined') TeacherModule.init();
             if (view === 'admin' && typeof AdminPanelModule !== 'undefined') AdminPanelModule.init();
             if (view === 'global-results' && typeof GlobalResultsModule !== 'undefined') GlobalResultsModule.init();
+            if (view === 'games' && typeof GamesModule !== 'undefined') GamesModule.init();
 
             // Safe check for VirtualTeacherModule since it's defined with `const` later in the file
             if (window.VirtualTeacherModule) {
@@ -5349,6 +5350,7 @@ if (typeof Router !== 'undefined') {
 const AdminPanelModule = {
     allStudents: [],
     currentGradeFilter: 'all',
+    currentSchoolFilter: 'all',
     currentAreaFilter: 'all',
 
     init() {
@@ -5652,6 +5654,7 @@ const AdminPanelModule = {
                 });
 
             spinner.style.display = 'none';
+            this.renderFilters(); // Dynamic population of grades/schools
             this.renderStudents();
 
         } catch (error) {
@@ -5661,23 +5664,62 @@ const AdminPanelModule = {
         }
     },
 
-    filterByGrade(grade) {
-        this.currentGradeFilter = grade;
-
-        // Update tabs styling
-        document.querySelectorAll('.teacher-tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-            btn.style.background = 'transparent';
-            btn.style.color = 'var(--color-text-muted)';
+    renderFilters() {
+        // Collect unique grades and schools
+        const grades = new Set();
+        const schools = new Set();
+        this.allStudents.forEach(s => {
+            if (s.grade && s.grade !== 'N/A') grades.add(s.grade);
+            if (s.school && s.school !== 'Sin colegio') schools.add(s.school);
         });
 
-        const activeBtn = document.getElementById(`teacher-tab-${grade.toLowerCase()}`);
-        if (activeBtn) {
-            activeBtn.classList.add('active');
-            activeBtn.style.background = 'var(--color-primary)';
-            activeBtn.style.color = 'white';
+        // Populate Grade Tabs
+        const gradeTabsContainer = document.getElementById('teacher-grade-tabs');
+        if (gradeTabsContainer) {
+            const sortedGrades = Array.from(grades).sort((a, b) => {
+                const na = parseInt(a), nb = parseInt(b);
+                if (!isNaN(na) && !isNaN(nb)) return na - nb;
+                return a.localeCompare(b);
+            });
+
+            let tabsHtml = `<button class="teacher-tab-btn ${this.currentGradeFilter === 'all' ? 'active' : ''}" 
+                                onclick="AdminPanelModule.filterByGrade('all')" id="teacher-tab-all"
+                                style="padding: 8px 16px; border-radius: 12px; border: none; background: ${this.currentGradeFilter === 'all' ? 'var(--color-primary)' : 'transparent'}; color: ${this.currentGradeFilter === 'all' ? 'white' : 'var(--color-text-muted)'}; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                Todos los Grados
+                            </button>`;
+
+            sortedGrades.forEach(g => {
+                const isActive = this.currentGradeFilter === g;
+                const safeId = g.toLowerCase().replace(/\s+/g, '_');
+                tabsHtml += `<button class="teacher-tab-btn ${isActive ? 'active' : ''}" 
+                                onclick="AdminPanelModule.filterByGrade('${g}')" id="teacher-tab-${safeId}"
+                                style="padding: 8px 16px; border-radius: 12px; border: none; background: ${isActive ? 'var(--color-primary)' : 'transparent'}; color: ${isActive ? 'white' : 'var(--color-text-muted)'}; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                ${g}
+                            </button>`;
+            });
+            gradeTabsContainer.innerHTML = tabsHtml;
         }
 
+        // Populate School Filter
+        const schoolFilter = document.getElementById('teacher-school-filter');
+        if (schoolFilter) {
+            const sortedSchools = Array.from(schools).sort();
+            let optionsHtml = '<option value="all">Todas las Instituciones</option>';
+            sortedSchools.forEach(s => {
+                optionsHtml += `<option value="${s}" ${this.currentSchoolFilter === s ? 'selected' : ''}>${s}</option>`;
+            });
+            schoolFilter.innerHTML = optionsHtml;
+        }
+    },
+
+    filterBySchool(school) {
+        this.currentSchoolFilter = school;
+        this.renderStudents();
+    },
+
+    filterByGrade(grade) {
+        this.currentGradeFilter = grade;
+        this.renderFilters(); // To update active tab styles dynamically
         this.renderStudents();
     },
 
@@ -5688,7 +5730,10 @@ const AdminPanelModule = {
         // Filter and Sort
         let filtered = this.allStudents;
         if (this.currentGradeFilter !== 'all') {
-            filtered = this.allStudents.filter(s => s.grade === this.currentGradeFilter);
+            filtered = filtered.filter(s => s.grade === this.currentGradeFilter);
+        }
+        if (this.currentSchoolFilter !== 'all') {
+            filtered = filtered.filter(s => s.school === this.currentSchoolFilter);
         }
 
         filtered.sort((a, b) => a.surnameForSort.localeCompare(b.surnameForSort));
@@ -7864,11 +7909,11 @@ const FlashcardModule = {
             let rankingList = [];
             if (users) {
                 Object.values(users).forEach(u => {
-                    if (u.flashcardRanking && u.flashcardRanking.points > 0) {
+                    if (u.flashcardRanking_v2 && u.flashcardRanking_v2.points > 0) {
                         rankingList.push({
-                            name: u.flashcardRanking.name || u.info?.name || 'Estudiante',
-                            school: u.flashcardRanking.school || u.info?.school || 'Sin Colegio',
-                            points: u.flashcardRanking.points
+                            name: u.flashcardRanking_v2.name || u.info?.name || 'Estudiante',
+                            school: u.flashcardRanking_v2.school || u.info?.school || 'Sin Colegio',
+                            points: u.flashcardRanking_v2.points
                         });
                     }
                 });
@@ -8138,9 +8183,83 @@ const FlashcardModule = {
         if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
             setTimeout(() => MathJax.typesetPromise(), 100);
         }
+
+        // Render Options (Quiz Mechanic)
+        const optionsContainer = document.getElementById('fc-options-container');
+        if (optionsContainer && q.opciones) {
+            optionsContainer.innerHTML = '';
+            // Shuffle options visually
+            const shuffledOpts = [...q.opciones].sort(() => 0.5 - Math.random());
+            shuffledOpts.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-secondary justify-start text-left px-6 py-4 transition-all group';
+                btn.style.width = '100%';
+                btn.style.borderColor = 'var(--color-border)';
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors" style="flex-shrink:0;">${opt.id}</span>
+                    <span style="flex:1;">${opt.texto}</span>
+                `;
+                btn.onclick = (e) => {
+                    e.stopPropagation(); // Prevent anything else from catching the click
+                    this.submitAnswer(opt.id, btn);
+                };
+                optionsContainer.appendChild(btn);
+            });
+            optionsContainer.classList.remove('hidden');
+        } else if (optionsContainer) {
+            optionsContainer.innerHTML = '<p class="text-center text-muted">Error cargando opciones.</p>';
+        }
     },
 
-    flipCard() {
+    submitAnswer(selectedId, selectedBtn) {
+        if (this.isFlipped) return; // Prevent multiple submissions
+        
+        const q = this.questions[this.currentIndex];
+        const isCorrect = selectedId === q.respuestaCorrecta;
+        this.currentAnswerIsCorrect = isCorrect; // Save for the rating phase
+
+        // Visual feedback on buttons
+        const optionsContainer = document.getElementById('fc-options-container');
+        const buttons = optionsContainer.querySelectorAll('button');
+        
+        buttons.forEach(btn => {
+            btn.onclick = null; // Disable further clicks
+            const optId = btn.querySelector('span').innerText;
+            if (optId === q.respuestaCorrecta) {
+                btn.style.borderColor = 'var(--color-success)';
+                btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else if (optId === selectedId && !isCorrect) {
+                btn.style.borderColor = 'var(--color-danger)';
+                btn.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+        });
+
+        // Animations a la "Zona de Juegos"
+        if (isCorrect) {
+            if (typeof GamesModule !== 'undefined' && GamesModule.triggerVFX) {
+                GamesModule.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            }
+        } else {
+            const front = document.getElementById('fc-front');
+            front.classList.add('shake-anim');
+            setTimeout(() => front.classList.remove('shake-anim'), 400);
+            if (typeof GamesModule !== 'undefined' && GamesModule.triggerVFX) {
+                GamesModule.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+            }
+        }
+
+        // Wait a bit, then flip the card automatically
+        setTimeout(() => {
+            this.flipCard(true); // Always flip on answer
+        }, 1200);
+    },
+
+    flipCard(force = false) {
+        if (!force && !this.isFlipped) {
+            // If they try to manual flip the card before answering, show a warning
+            NotificationModule.show('Debes seleccionar una respuesta primero.', 'warning', 2000);
+            return;
+        }
         const inner = document.getElementById('fc-card-inner');
         const ratingEl = document.getElementById('fc-rating');
 
@@ -8171,9 +8290,8 @@ const FlashcardModule = {
         const q = this.questions[this.currentIndex];
         if (!q) return;
 
-        // Validating minimum 3 seconds reading time
-        const timeSpent = Date.now() - (this.cardStartTime || Date.now());
-        const isValid = timeSpent >= 3000;
+        // The user only gets "valid" credit for points if they answered correctly
+        const isValid = this.currentAnswerIsCorrect === true;
 
         // Save rating
         this.sessionRatings.push({ id: q.id, rating, valid: isValid });
@@ -8201,11 +8319,11 @@ const FlashcardModule = {
         const easy = this.sessionRatings.filter(r => r.rating === 'easy').length;
         const total = this.sessionRatings.length;
 
-        // Count valid cards (viewed >= 3 seconds)
+        // Count valid cards (Correctly answered)
         const validCards = this.sessionRatings.filter(r => r.valid).length;
 
         document.getElementById('fc-summary-text').textContent =
-            `Repasaste ${total} tarjetas de ${this.selectedArea} (Válidas para ranking: ${validCards})`;
+            `Repasaste ${total} tarjetas de ${this.selectedArea} (${validCards} aciertos)`;
 
         document.getElementById('fc-summary-stats').innerHTML = `
             <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.15); border-radius:12px; padding:16px;">
@@ -8222,11 +8340,11 @@ const FlashcardModule = {
             </div>
         `;
 
-        // Award default global XP (keep global gamification working)
-        if (typeof GamificationModule !== 'undefined' && total > 0) {
-            const xp = total * 3;
+        // Award global XP proportionally ONLY to correctly answered cards
+        if (typeof GamificationModule !== 'undefined' && validCards > 0) {
+            const xp = validCards * 5; // 5 XP per Correct answer
             GamificationModule.addXP(xp);
-            NotificationModule.show(`+${xp} XP Global de Repaso 🃏`, 'success', 3000);
+            NotificationModule.show(`+${xp} XP Ganados por Repaso 🃏`, 'success', 3000);
         }
 
         // Upload to Flashcard Ranking Leaderboard
@@ -8235,7 +8353,7 @@ const FlashcardModule = {
             try {
                 // Get current user flashcard ranking points
                 const uId = AuthModule.currentUser.id;
-                const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${uId}/flashcardRanking.json`;
+                const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${uId}/flashcardRanking_v2.json`;
                 const userRes = await fetch(dbUrl);
                 const currentData = await userRes.json() || { points: 0 };
 
@@ -8655,6 +8773,1440 @@ const VirtualTeacherModule = {
         ]);
     }
 };
+
+const GamesModule = {
+    games: [
+        // 12 NUEVOS JUEGOS DE ATAJOS/HEURÍSTICAS
+        { id: 'ninja', name: 'Ninja de Ceros', desc: 'Elimina ceros innecesarios en fracciones y ecuaciones en un tiempo límite.', badge: 'MATEMÁTICAS', icon: 'content_cut', color: '#60a5fa' },
+        { id: 'cazador', name: 'Cazador Impostor', desc: 'Identifica la palabra que cambia totalmente el sentido de un párrafo ICFES.', badge: 'LECTURA CRÍTICA', icon: 'policy', color: '#f43f5e' },
+        { id: 'cadenero', name: 'El Cadenero', desc: 'Cálculo mental rápido de áreas y perímetros básicos que siempre salen.', badge: 'GEOMETRÍA', icon: 'architecture', color: '#a855f7' },
+        { id: 'detector', name: 'Detector Visual', desc: 'Interpreta gráficas de barras y tortas en 10 segundos.', badge: 'ESTADÍSTICA', icon: 'donut_large', color: '#eab308' },
+        { id: 'backsolve', name: 'Hacker Backsolve', desc: 'Atajo ICFES: Usa las opciones de respuesta para resolver ecuaciones sin despejar.', badge: 'ÁLGEBRA', icon: 'terminal', color: '#10b981' },
+        { id: 'casillas', name: 'Mente Casillas', desc: 'Probabilidad visual: cuenta rápido las opciones favorables vs totales.', badge: 'PROBABILIDAD', icon: 'grid_on', color: '#3b82f6' },
+        { id: 'lectordual', name: 'El Lector Dual', desc: 'Contrasta Textos 1 y 2 rápidamente para hallar la diferencia principal.', badge: 'LECTURA', icon: 'chrome_reader_mode', color: '#f97316' },
+        { id: 'dispersion', name: 'Domador Curvas', desc: 'Encuentra la tendencia en diagramas de dispersión sin leer todo.', badge: 'ESTADÍSTICA', icon: 'scatter_plot', color: '#14b8a6' },
+        { id: 'tanque', name: 'El Fontanero', desc: 'Llena tanques lógicos: problemas clásicos de caudales y volúmenes.', badge: 'RAZONAMIENTO', icon: 'water_drop', color: '#06b6d4' },
+        { id: 'francotirador', name: 'Francotirador', desc: 'Redondea números complejos antes de operar para hallar la respuesta aproximada. Atajo vital.', badge: 'MATEMÁTICAS', icon: 'track_changes', color: '#ef4444' },
+        { id: 'balanza', name: 'Balanza Lógica', desc: 'Reconoce variables dependientes e independientes en tablas científicas.', badge: 'CIENCIAS', icon: 'scale', color: '#8b5cf6' },
+        { id: 'pinochazo', name: 'Pinochazo Educado', desc: 'Descarta opciones extremas o absolutas (siempre/nunca). Atajo estratégico.', badge: 'ESTRATEGIA', icon: 'psychology', color: '#f59e0b' },
+        // 6 JUEGOS CLÁSICOS
+        { id: 'contrarreloj', name: 'Contrarreloj ICFES', desc: 'Responde 10 preguntas contra el reloj. Entrena tu velocidad y gestión del tiempo.', badge: 'SIMULACRO', icon: 'timer', color: '#ef4444' },
+        { id: 'descifra', name: 'Descifra la Tesis', desc: 'Lee párrafos rápido e identifica la idea central antes de que el tiempo se agote.', badge: 'LECTURA', icon: 'find_in_page', color: '#3b82f6' },
+        { id: 'conexiones', name: 'Conexiones', desc: 'Agrupa conceptos del ICFES en categorías lógicas. Estilo NYT Connections.', badge: 'SISTÉMICO', icon: 'extension', color: '#10b981' },
+        { id: 'laboratorio', name: 'Lab de Errores', desc: 'Encuentra el error sutil en justificaciones falsas. Entrena tu razonamiento.', badge: 'CRÍTICO', icon: 'science', color: '#f59e0b' },
+        { id: 'english', name: 'English Challenge', desc: 'Rondas rápidas de gramática, vocabulario y avisos. ¡Domina el inglés!', badge: 'INGLÉS', icon: 'translate', color: '#ec4899' },
+        { id: 'survival', name: 'Survival ICFES', desc: 'Muerte súbita. Responde preguntas aleatorias. ¿Cuánto tiempo aguantarás?', badge: 'RETO GLOBAL', icon: 'security', color: '#8b5cf6' }
+    ],
+
+    state: {
+        activeGame: null,
+        score: 0,
+        xpEarned: 0,
+        timer: null,
+        questions: [],
+        currentIdx: 0,
+        lives: 3,
+        combo: 0,
+        streak: 0
+    },
+
+    init() {
+        console.log('Iniciando GamesModule...');
+        this.injectStyles();
+        this.renderSelection();
+    },
+
+    injectStyles() {
+        if (document.getElementById('games-vfx-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'games-vfx-styles';
+        style.innerHTML = `
+            .game-particle {
+                position: absolute;
+                pointer-events: none;
+                animation: particle-fly 0.8s ease-out forwards;
+                z-index: 1000;
+            }
+            @keyframes particle-fly {
+                0% { transform: scale(1) rotate(0deg); opacity: 1; }
+                100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(360deg); opacity: 0; }
+            }
+            .shake-anim { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+            @keyframes shake {
+                10%, 90% { transform: translate3d(-1px, 0, 0); }
+                20%, 80% { transform: translate3d(2px, 0, 0); }
+                30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+                40%, 60% { transform: translate3d(4px, 0, 0); }
+            }
+            .correct-flash { animation: correct-flash 0.5s ease; }
+            @keyframes correct-flash {
+                0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+                70% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            }
+            .xp-float {
+                position: absolute;
+                color: var(--color-success);
+                font-weight: 900;
+                pointer-events: none;
+                animation: xp-float 1s ease-out forwards;
+                z-index: 1001;
+                font-size: 1.2rem;
+            }
+            @keyframes xp-float {
+                0% { transform: translateY(0); opacity: 1; }
+                100% { transform: translateY(-50px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    },
+
+    triggerVFX(x, y, type = 'correct') {
+        const count = type === 'correct' ? 12 : 5;
+        const color = type === 'correct' ? '#10b981' : '#ef4444';
+        
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.className = 'game-particle';
+            const size = Math.random() * 8 + 4;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.background = color;
+            p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            p.style.left = `${x}px`;
+            p.style.top = `${y}px`;
+            
+            const tx = (Math.random() - 0.5) * 150;
+            const ty = (Math.random() - 0.5) * 150;
+            p.style.setProperty('--tx', `${tx}px`);
+            p.style.setProperty('--ty', `${ty}px`);
+            
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 800);
+        }
+
+        if (type === 'correct') {
+            const float = document.createElement('div');
+            float.className = 'xp-float';
+            float.innerText = '+2 XP';
+            float.style.left = `${x}px`;
+            float.style.top = `${y - 20}px`;
+            document.body.appendChild(float);
+            setTimeout(() => float.remove(), 1000);
+        }
+    },
+
+    renderSelection() {
+        const selectionEl = document.getElementById('games-selection');
+        const arenaEl = document.getElementById('game-arena');
+        const gridEl = document.getElementById('games-grid');
+
+        if (!selectionEl || !gridEl) return;
+
+        selectionEl.classList.remove('hidden');
+        arenaEl.classList.add('hidden');
+        gridEl.innerHTML = '';
+
+        // Extraer progreso de Flashcard/Games y actualizar cabecera UI si se necesita
+        const xpDisp = document.getElementById('arcade-xp-display');
+        const streakDisp = document.getElementById('arcade-streak-display');
+        if (xpDisp && AuthModule.currentUser) {
+            xpDisp.innerText = AuthModule.currentUser.xp || 0;
+        }
+
+        this.games.forEach(game => {
+            const card = document.createElement('div');
+            // Estilos del Dark Neon UI importados de React
+            card.className = "group relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-6 hover:bg-slate-800/80 transition-all duration-300 cursor-pointer overflow-hidden transform hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]";
+            card.onclick = () => this.startGame(game.id);
+
+            const record = localStorage.getItem(`record_game_${game.id}`) || 0;
+
+            card.innerHTML = `
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500" style="background: ${game.color};"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 rounded-2xl bg-slate-900/50 border border-slate-700/50 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-icons-round text-3xl" style="color: ${game.color}; filter: drop-shadow(0 0 8px ${game.color});">${game.icon}</span>
+                        </div>
+                        <span class="text-xs font-bold px-3 py-1 rounded-full border tracking-wider" style="background: ${game.color}20; color: ${game.color}; border-color: ${game.color}40;">
+                            ${game.badge}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text" style="background-image: linear-gradient(to right, #ffffff, ${game.color});">
+                        ${game.name}
+                    </h3>
+                    <p class="text-slate-400 text-sm mb-6 line-clamp-2">${game.desc}</p>
+                    
+                    <div class="flex items-center justify-between mt-auto pt-2 border-t border-slate-700/30">
+                        <span class="text-xs font-medium text-slate-500 bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-800">
+                            Récord: ${record}
+                        </span>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0" style="background: ${game.color}; shadow-[0_0_10px_${game.color}]">
+                            <span class="material-icons-round text-white text-sm relative left-px">play_arrow</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            gridEl.appendChild(card);
+        });
+    },
+
+    startGame(gameId) {
+        console.log(`Iniciando juego: ${gameId}`);
+        const selectionEl = document.getElementById('games-selection');
+        const arenaEl = document.getElementById('game-arena');
+
+        selectionEl.classList.add('hidden');
+        arenaEl.classList.remove('hidden');
+        arenaEl.innerHTML = '<div class="loading-spinner">Cargando juego...</div>';
+
+        this.state.activeGame = gameId;
+        this.state.score = 0;
+        this.state.xpEarned = 0;
+        this.state.currentIdx = 0;
+        this.state.lives = 3;
+        this.state.combo = 0;
+        this.state.streak = 0;
+        switch(gameId) {
+            // CLÁSICOS
+            case 'contrarreloj': this.initContrarreloj(); break;
+            case 'descifra': this.initDescifra(); break;
+            case 'english': this.initEnglish(); break;
+            case 'conexiones': this.initConexiones(); break;
+            case 'laboratorio': this.initLaboratorio(); break;
+            case 'survival': this.initSurvival(); break;
+            // NUEVOS (ARCADE)
+            case 'ninja': this.initNinja(); break;
+            case 'cazador': this.initCazador(); break;
+            case 'cadenero': this.initCadenero(); break;
+            case 'detector': this.initDetector(); break;
+            case 'backsolve': 
+            case 'casillas': 
+            case 'lectordual': 
+            case 'dispersion': 
+            case 'tanque': 
+            case 'francotirador': 
+            case 'balanza': 
+            case 'pinochazo': 
+                this.initArcadeMultipleChoice(gameId); 
+                break;
+            default: arenaEl.innerHTML = '<div class="p-8 text-center text-white">Próximamente... <br><br> <button class="btn btn-primary" onclick="GamesModule.renderSelection()">Volver</button></div>';
+        }
+    },
+
+    // --- LABORATORIO DE ERRORES ENGINE ---
+    initLaboratorio() {
+        const pool = (window.NATIVE_EXAM_DATA || []).map(q => this.normalizeQuestion(q)).filter(q => q.justificacion);
+        if (pool.length < 5) return;
+        this.state.questions = pool.sort(() => 0.5 - Math.random()).slice(0, 5);
+        this.renderLaboratorioFrame();
+        this.startLaboratorioRound();
+    },
+
+    renderLaboratorioFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-8 border-l-4 border-warning">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-icons-round text-warning">biotech</span>
+                    <h3 class="text-xl font-bold">Laboratorio de Errores</h3>
+                </div>
+                <div id="lab-content" class="space-y-6"></div>
+            </div>
+        `;
+    },
+
+    startLaboratorioRound() {
+        const question = this.state.questions[this.state.currentIdx];
+        const content = document.getElementById('lab-content');
+        
+        // We present the question and the "Justificación con error"
+        // For this demo, we use the real justification and just tell the user to find why it's "partially" wrong (logic training)
+        content.innerHTML = `
+            <div class="animate-fade-in">
+                <div class="p-4 bg-surface-3 rounded-lg text-sm mb-4 border border-white/5">
+                    <span class="font-bold text-warning">CASO:</span> ${question.enunciado}
+                </div>
+                <h4 class="font-bold mb-2">Justificación Analizada:</h4>
+                <div class="p-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-lg italic mb-6">
+                    "${question.justificacion || 'La respuesta es correcta porque el componente analizado cumple los criterios.'}"
+                </div>
+                <p class="font-bold text-sm mb-4 uppercase text-muted">¿Qué parte de este razonamiento es FALSA o INCOMPLETA?</p>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="GamesModule.submitLabAnswer(true, this)" class="btn btn-secondary py-4 hover:border-warning">El nexo causal es inválido</button>
+                    <button onclick="GamesModule.submitLabAnswer(false, this)" class="btn btn-secondary py-4 hover:border-warning">La premisa inicial es errónea</button>
+                    <button onclick="GamesModule.submitLabAnswer(true, this)" class="btn btn-secondary py-4 hover:border-warning">Ignora variables externas</button>
+                </div>
+            </div>
+        `;
+    },
+
+    submitLabAnswer(isCorrect, btn) {
+        if (isCorrect) {
+            this.state.score += 25;
+            this.state.xpEarned += 2;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            btn.classList.add('correct-flash');
+        } else {
+            const grid = document.getElementById('lab-content');
+            grid.classList.add('shake-anim');
+            setTimeout(() => grid.classList.remove('shake-anim'), 400);
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+        }
+        
+        this.state.currentIdx++;
+        setTimeout(() => {
+            if (this.state.currentIdx < this.state.questions.length) {
+                this.startLaboratorioRound();
+            } else {
+                this.endGame('Laboratorio Completado');
+            }
+        }, 600);
+    },
+
+
+    // --- CONEXIONES GAME ENGINE ---
+    initConexiones() {
+        // Hardcoded puzzles for quality control (ICFES Topics)
+        const puzzles = [
+            {
+                groups: [
+                    { category: 'Célula Animal', items: ['Mitocondria', 'Núcleo', 'Ribosoma', 'Lisosoma'], color: '#fbbf24' },
+                    { category: 'Operaciones Matemáticas', items: ['Suma', 'Resta', 'Multiplicación', 'División'], color: '#60a5fa' },
+                    { category: 'Partes de la Oración', items: ['Sustantivo', 'Verbo', 'Adjetivo', 'Adverbio'], color: '#34d399' },
+                    { category: 'Ramas del Poder', items: ['Ejecutiva', 'Legislativa', 'Judicial', 'Constitución'], color: '#f87171' }
+                ]
+            },
+            {
+                groups: [
+                    { category: 'Fenómenos Físicos', items: ['Reflexión', 'Refracción', 'Difracción', 'Interferencia'], color: '#818cf8' },
+                    { category: 'Ecosistemas Colombianas', items: ['Páramo', 'Manglar', 'Selva', 'Desierto'], color: '#34d399' },
+                    { category: 'Hitos Históricos', items: ['Independencia', 'Revolución', 'Conquista', 'República'], color: '#fb923c' },
+                    { category: 'Figuras Literarias', items: ['Metáfora', 'Símil', 'Hipérbole', 'Personificación'], color: '#f472b6' }
+                ]
+            },
+            {
+                groups: [
+                    { category: 'Conceptos Químicos', items: ['Átomo', 'Molécula', 'Enlace', 'Isótopo'], color: '#2dd4bf' },
+                    { category: 'Propiedades de la Materia', items: ['Masa', 'Volumen', 'Densidad', 'Punto de Fusión'], color: '#fbbf24' },
+                    { category: 'Geometría Plana', items: ['Triángulo', 'Círculo', 'Cuadrado', 'Pentágono'], color: '#60a5fa' },
+                    { category: 'Mecanismos de Participación', items: ['Voto', 'Referendo', 'Veeduría', 'Cabildo'], color: '#ef4444' }
+                ]
+            }
+        ];
+        
+        const puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+        this.state.puzzle = puzzle;
+        this.state.selectedItems = [];
+        this.state.solvedGroups = [];
+        this.state.lives = 4;
+        
+        this.renderConexionesFrame();
+    },
+
+    renderConexionesFrame() {
+        const arena = document.getElementById('game-arena');
+        const allItems = this.state.puzzle.groups.flatMap(g => g.items).sort(() => 0.5 - Math.random());
+        
+        arena.innerHTML = `
+            <div class="glass p-6 text-center">
+                <h3 class="text-xl font-bold mb-2">Crea grupos de 4</h3>
+                <p class="text-xs text-muted mb-6">Busca 4 elementos que compartan una categoría común.</p>
+                
+                <div id="conexiones-solved" class="grid grid-cols-1 gap-2 mb-2 w-full"></div>
+                
+                <div id="conexiones-grid" class="grid grid-cols-4 gap-2 mb-6">
+                    ${allItems.map(item => `
+                        <button onclick="GamesModule.toggleConexionesItem(this, '${item}')" 
+                                class="h-20 flex items-center justify-center p-2 rounded-xl bg-surface-2 border-2 border-transparent text-[10px] sm:text-xs font-bold uppercase transition-all hover:bg-surface-3">
+                            ${item}
+                        </button>
+                    `).join('')}
+                </div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-sm font-bold">Errores restantes: <span id="conexiones-lives" class="text-primary">${'●'.repeat(this.state.lives)}</span></div>
+                    <div class="flex gap-2">
+                        <button class="btn btn-ghost btn-sm" onclick="GamesModule.deselectAll()">Deseleccionar</button>
+                        <button id="conexiones-submit" class="btn btn-primary btn-sm" onclick="GamesModule.submitConexionesGroup()" disabled>Enviar Grupo</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    toggleConexionesItem(btn, item) {
+        if (this.state.selectedItems.includes(item)) {
+            this.state.selectedItems = this.state.selectedItems.filter(i => i !== item);
+            btn.classList.remove('bg-primary-light', 'text-white', 'border-primary');
+            btn.classList.add('bg-surface-2');
+        } else {
+            if (this.state.selectedItems.length >= 4) return;
+            this.state.selectedItems.push(item);
+            btn.classList.add('bg-primary-light', 'text-white', 'border-primary');
+            btn.classList.remove('bg-surface-2');
+        }
+        
+        document.getElementById('conexiones-submit').disabled = this.state.selectedItems.length !== 4;
+    },
+
+    deselectAll() {
+        this.state.selectedItems = [];
+        const btns = document.querySelectorAll('#conexiones-grid button');
+        btns.forEach(btn => {
+            btn.classList.remove('bg-primary-light', 'text-white', 'border-primary');
+            btn.classList.add('bg-surface-2');
+        });
+        document.getElementById('conexiones-submit').disabled = true;
+    },
+
+    submitConexionesGroup() {
+        const selected = this.state.selectedItems;
+        const matchingGroup = this.state.puzzle.groups.find(g => 
+            selected.every(item => g.items.includes(item))
+        );
+        
+        if (matchingGroup) {
+            this.state.solvedGroups.push(matchingGroup);
+            this.state.xpEarned += 4; // 4 XP per full group (16 items total, 4 groups = 16 XP)
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            this.revealSolvedGroup(matchingGroup);
+            this.state.selectedItems = [];
+            
+            if (this.state.solvedGroups.length === 4) {
+                setTimeout(() => this.endGame('¡Tablero Resuelto!'), 1000);
+            }
+        } else {
+            this.state.lives--;
+            document.getElementById('conexiones-lives').innerText = '●'.repeat(this.state.lives);
+            const grid = document.getElementById('conexiones-grid');
+            grid.classList.add('shake-anim');
+            setTimeout(() => grid.classList.remove('shake-anim'), 400);
+            this.triggerVFX(window.innerWidth/2, window.innerHeight/2, 'error');
+            
+            if (this.state.lives <= 0) {
+                setTimeout(() => this.endGame('Game Over'), 1000);
+            }
+        }
+    },
+
+    revealSolvedGroup(group) {
+        const solvedContainer = document.getElementById('conexiones-solved');
+        const grid = document.getElementById('conexiones-grid');
+        
+        // Add to solved area
+        const div = document.createElement('div');
+        div.className = 'w-full p-4 rounded-xl flex flex-col items-center justify-center animate-fade-in mb-2';
+        div.style.background = group.color;
+        div.style.color = 'white';
+        div.innerHTML = `
+            <h4 class="font-black text-sm uppercase mb-1">${group.category}</h4>
+            <div class="text-[10px] font-bold opacity-90 tracking-wider">${group.items.join(', ')}</div>
+        `;
+        solvedContainer.appendChild(div);
+        
+        // Remove from grid
+        const btns = grid.querySelectorAll('button');
+        btns.forEach(btn => {
+            if (group.items.includes(btn.innerText.trim())) {
+                btn.remove();
+            }
+        });
+        
+        document.getElementById('conexiones-submit').disabled = true;
+    },
+
+    // --- ENGLISH CHALLENGE GAME ENGINE ---
+    initEnglish() {
+        const pool = (window.NATIVE_EXAM_DATA || []).map(q => this.normalizeQuestion(q)).filter(q => q.area === 'Inglés' || q.area === 'ingles');
+        if (pool.length < 5) {
+            document.getElementById('game-arena').innerHTML = '<div class="p-8 text-center">No hay suficientes preguntas de Inglés cargadas.</div>';
+            return;
+        }
+        this.state.questions = pool.sort(() => 0.5 - Math.random()).slice(0, 12);
+        this.renderEnglishFrame();
+        this.startEnglishRound();
+    },
+
+    renderEnglishFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-6 border-b-4 border-pink-500">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="badge" style="background: #ec489920; color: #ec4899; border: 1px solid #ec489940;">ENGLISH CHALLENGE</span>
+                        <span class="text-xs font-bold text-muted">${this.state.currentIdx + 1}/12</span>
+                    </div>
+                    <div id="english-timer" class="w-10 h-10 rounded-full border-2 border-pink-500 flex items-center justify-center font-bold text-pink-500">15</div>
+                </div>
+                <div id="english-content" class="min-h-[300px]"></div>
+            </div>
+        `;
+    },
+
+    startEnglishRound() {
+        const question = this.state.questions[this.state.currentIdx];
+        const content = document.getElementById('english-content');
+        
+        content.innerHTML = `
+            <div class="animate-fade-in">
+                <p class="text-sm text-muted mb-2 uppercase tracking-tight">${question.competencia || 'General English'}</p>
+                <div class="text-xl font-bold mb-6 leading-relaxed bg-surface-2 p-6 rounded-2xl border border-white/5">
+                    ${question.enunciado.replace(/\n/g, '<br>')}
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="options-grid">
+                    ${question.opciones.map(opt => `
+                        <button onclick="GamesModule.submitEnglishAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-4 py-3 hover:border-pink-500/50 transition-all group">
+                            <span class="w-8 h-8 rounded-full border border-pink-500/30 flex items-center justify-center mr-3 group-hover:bg-pink-500 group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="flex-1 text-sm font-medium">${opt.texto}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        this.startTimer(15, () => this.handleEnglishTimeout());
+    },
+
+    handleEnglishTimeout() {
+        const question = this.state.questions[this.state.currentIdx];
+        // Show correct answer briefly
+        const grid = document.getElementById('options-grid');
+        const buttons = grid.querySelectorAll('button');
+        buttons.forEach(btn => {
+            if (btn.querySelector('span').innerText === question.respuestaCorrecta) {
+                btn.style.borderColor = 'var(--color-success)';
+                btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+            btn.onclick = null;
+        });
+
+        setTimeout(() => {
+            this.state.currentIdx++;
+            if (this.state.currentIdx < this.state.questions.length) {
+                this.startEnglishRound();
+            } else {
+                this.endGame('¡Excellent! (English Done)');
+            }
+        }, 1000);
+    },
+
+    submitEnglishAnswer(selectedId) {
+        clearInterval(this.state.timer);
+        const question = this.state.questions[this.state.currentIdx];
+        const isCorrect = selectedId === question.respuestaCorrecta;
+        
+        const grid = document.getElementById('options-grid');
+        const buttons = grid.querySelectorAll('button');
+        
+        buttons.forEach(btn => {
+            const optId = btn.querySelector('span').innerText;
+            btn.onclick = null;
+            if (optId === question.respuestaCorrecta) {
+                btn.style.borderColor = 'var(--color-success)';
+                btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else if (optId === selectedId && !isCorrect) {
+                btn.style.borderColor = 'var(--color-danger)';
+                btn.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+        });
+
+        if (isCorrect) {
+            this.state.score += 10;
+            this.state.xpEarned += 2;
+            this.state.streak++;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+        } else {
+            this.state.streak = 0;
+            const content = document.getElementById('english-content');
+            content.classList.add('shake-anim');
+            setTimeout(() => content.classList.remove('shake-anim'), 400);
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+        }
+
+        setTimeout(() => {
+            this.state.currentIdx++;
+            if (this.state.currentIdx < this.state.questions.length) {
+                this.startEnglishRound();
+            } else {
+                this.endGame('¡Excellent! (English Done)');
+            }
+        }, 800);
+    },
+
+    // --- DESCIFRA LA TESIS GAME ENGINE ---
+    initDescifra() {
+        const pool = (window.NATIVE_EXAM_DATA || []).map(q => this.normalizeQuestion(q)).filter(q => 
+            q.area === 'Lectura Crítica' || q.area === 'Sociales y Ciudadanas'
+        );
+        if (pool.length < 5) {
+            document.getElementById('game-arena').innerHTML = '<div class="p-8 text-center">No hay suficientes textos cargados para este juego.</div>';
+            return;
+        }
+        this.state.questions = pool.sort(() => 0.5 - Math.random()).slice(0, 8);
+        this.renderDescifraFrame();
+        this.startDescifraRound();
+    },
+
+    renderDescifraFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-6 min-h-[400px] flex flex-col items-center justify-center text-center">
+                <div id="descifra-header" class="mb-4 text-xs font-bold text-muted uppercase tracking-widest">Ronda ${this.state.currentIdx + 1} de 8</div>
+                <div id="descifra-timer" class="text-3xl font-black text-primary mb-6">20s</div>
+                <div id="descifra-content" class="w-full"></div>
+            </div>
+        `;
+    },
+
+    startDescifraRound() {
+        const question = this.state.questions[this.state.currentIdx];
+        const content = document.getElementById('descifra-content');
+        const timerEl = document.getElementById('descifra-timer');
+        
+        document.getElementById('descifra-header').innerText = `Ronda ${this.state.currentIdx + 1} de 8`;
+        
+        // Phase 1: Reading
+        content.innerHTML = `
+            <div class="animate-fade-in">
+                <h3 class="text-xl mb-4 italic" style="color: var(--color-primary-light)">Lee con atención:</h3>
+                <div class="p-6 bg-surface-2 rounded-xl text-left text-lg leading-relaxed shadow-inner border border-white/5" id="descifra-text">
+                    ${question.enunciado}
+                </div>
+                <p class="mt-4 text-xs text-muted">El texto desaparecerá en unos segundos...</p>
+            </div>
+        `;
+
+        let readTime = 20;
+        timerEl.innerText = `${readTime}s`;
+        timerEl.style.color = 'var(--color-primary)';
+        
+        this.state.timer = setInterval(() => {
+            readTime--;
+            timerEl.innerText = `${readTime}s`;
+            if (readTime <= 5) timerEl.style.color = 'var(--color-danger)';
+            
+            if (readTime <= 0) {
+                clearInterval(this.state.timer);
+                this.showDescifraOptions();
+            }
+        }, 1000);
+    },
+
+    showDescifraOptions() {
+        const question = this.state.questions[this.state.currentIdx];
+        const content = document.getElementById('descifra-content');
+        const timerEl = document.getElementById('descifra-timer');
+
+        content.innerHTML = `
+            <div class="animate-fade-in">
+                <h3 class="text-xl font-bold mb-6">¿Cuál es la idea principal o tesis del texto?</h3>
+                <div class="grid grid-cols-1 gap-3" id="options-grid">
+                    ${question.opciones.map(opt => `
+                        <button onclick="GamesModule.submitDescifraAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-6 py-4 hover:border-primary-light transition-all group">
+                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="flex-1">${opt.texto}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        timerEl.innerText = '¿?';
+        timerEl.style.color = 'var(--color-primary-light)';
+    },
+
+    submitDescifraAnswer(selectedId) {
+        const question = this.state.questions[this.state.currentIdx];
+        const isCorrect = selectedId === question.respuestaCorrecta;
+        
+        const grid = document.getElementById('options-grid');
+        const buttons = grid.querySelectorAll('button');
+        
+        buttons.forEach(btn => {
+            const optId = btn.querySelector('span').innerText;
+            btn.onclick = null;
+            if (optId === question.respuestaCorrecta) {
+                btn.style.borderColor = 'var(--color-success)';
+                btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else if (optId === selectedId && !isCorrect) {
+                btn.style.borderColor = 'var(--color-danger)';
+                btn.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+        });
+
+        if (isCorrect) {
+            this.state.score += 15;
+            this.state.xpEarned += 3;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            // Visual feedback
+            const header = document.getElementById('descifra-header');
+            header.innerHTML = '<span class="text-success">¡CORRECTO! +3 XP</span>';
+        } else {
+            const grid = document.getElementById('descifra-content');
+            grid.classList.add('shake-anim');
+            setTimeout(() => grid.classList.remove('shake-anim'), 400);
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+        }
+
+        setTimeout(() => {
+            this.state.currentIdx++;
+            if (this.state.currentIdx < this.state.questions.length) {
+                this.startDescifraRound();
+            } else {
+                this.endGame('¡Lectura Dominada!');
+            }
+        }, 2000);
+    },
+
+    // --- CONTRARRELOJ GAME ENGINE ---
+    initContrarreloj() {
+        const questions = this.getRandomQuestions(10).map(q => this.normalizeQuestion(q));
+        if (!questions.length) {
+            document.getElementById('game-arena').innerHTML = '<div class="p-8 text-center">No hay preguntas disponibles para este modo.</div>';
+            return;
+        }
+        this.state.questions = questions;
+        this.renderContrarrelojFrame();
+        this.startContrarrelojQuestion();
+    },
+
+    renderContrarrelojFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-6 relative overflow-hidden">
+                <div id="game-progress" class="absolute top-0 left-0 h-1 bg-primary-light transition-all w-0"></div>
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-bold" id="game-score">0</span>
+                        <span class="text-xs uppercase text-muted">Puntos</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div id="game-timer-container" class="relative w-32 h-2 bg-surface-2 rounded-full overflow-hidden">
+                            <div id="game-timer-bar" class="absolute top-0 left-0 h-full bg-danger w-full transition-all"></div>
+                        </div>
+                        <div id="game-lives" class="flex gap-1 text-danger">
+                            <span class="material-icons-round">favorite</span>
+                            <span class="material-icons-round">favorite</span>
+                            <span class="material-icons-round">favorite</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="question-container" class="mt-4"></div>
+            </div>
+        `;
+    },
+
+    startContrarrelojQuestion() {
+        const question = this.state.questions[this.state.currentIdx];
+        const container = document.getElementById('question-container');
+        const progress = (this.state.currentIdx / this.state.questions.length) * 100;
+        document.getElementById('game-progress').style.width = `${progress}%`;
+
+        container.innerHTML = `
+            <div class="animate-fade-in">
+                <div class="flex gap-2 mb-4">
+                    <span class="badge badge-primary">${question.area}</span>
+                </div>
+                <p class="text-lg font-medium mb-6" style="line-height: 1.6;">${question.enunciado}</p>
+                ${question.imagen ? `<img src="${question.imagen}" class="max-h-48 mx-auto mb-6 rounded-lg shadow-md">` : ''}
+                <div class="grid grid-cols-1 gap-3" id="options-grid">
+                    ${question.opciones.map(opt => `
+                        <button onclick="GamesModule.submitAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-6 py-4 hover:border-primary-light transition-all group">
+                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="flex-1">${opt.texto}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        this.startTimer(60, () => this.handleTimeout());
+    },
+
+    startTimer(seconds, onTimeout) {
+        clearInterval(this.state.timer);
+        let timeLeft = seconds;
+        const bar = document.getElementById('game-timer-bar');
+        
+        this.state.timer = setInterval(() => {
+            timeLeft -= 0.1;
+            const percent = (timeLeft / seconds) * 100;
+            if (bar) bar.style.width = `${percent}%`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(this.state.timer);
+                onTimeout();
+            }
+        }, 100);
+    },
+
+    submitAnswer(selectedId) {
+        clearInterval(this.state.timer);
+        const question = this.state.questions[this.state.currentIdx];
+        const isCorrect = selectedId === question.respuestaCorrecta;
+        
+        const grid = document.getElementById('options-grid');
+        const buttons = grid.querySelectorAll('button');
+        
+        buttons.forEach(btn => {
+            const optId = btn.querySelector('span').innerText;
+            btn.onclick = null;
+            if (optId === question.respuestaCorrecta) {
+                btn.style.borderColor = 'var(--color-success)';
+                btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else if (optId === selectedId && !isCorrect) {
+                btn.style.borderColor = 'var(--color-danger)';
+                btn.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+        });
+
+        if (isCorrect) {
+            this.state.score += 10;
+            this.state.xpEarned += 2;
+            this.state.combo++;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            document.getElementById('game-score').innerText = this.state.score;
+        } else {
+            this.state.combo = 0;
+            this.state.lives--;
+            this.updateLivesDisplay();
+            const grid = document.getElementById('question-container');
+            grid.classList.add('shake-anim');
+            setTimeout(() => grid.classList.remove('shake-anim'), 400);
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+        }
+
+        setTimeout(() => {
+            if (this.state.lives <= 0) {
+                this.endGame('Game Over');
+            } else {
+                this.state.currentIdx++;
+                if (this.state.currentIdx < this.state.questions.length) {
+                    this.startContrarrelojQuestion();
+                } else {
+                    this.endGame('¡Completado!');
+                }
+            }
+        }, 1500);
+    },
+
+    handleTimeout() {
+        this.state.lives--;
+        this.updateLivesDisplay();
+        this.state.currentIdx++;
+        if (this.state.lives <= 0) {
+            this.endGame('Tiempo Agotado');
+        } else if (this.state.currentIdx < this.state.questions.length) {
+            this.startContrarrelojQuestion();
+        } else {
+            this.endGame('Fin del tiempo');
+        }
+    },
+
+    updateLivesDisplay() {
+        const container = document.getElementById('game-lives');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            const heart = document.createElement('span');
+            heart.className = 'material-icons-round';
+            heart.innerText = i < this.state.lives ? 'favorite' : 'favorite_border';
+            container.appendChild(heart);
+        }
+    },
+
+    endGame(status) {
+        clearInterval(this.state.timer);
+        const arena = document.getElementById('game-arena');
+        
+        // Final XP calculation based on score, capped for balance
+        // Base logical: approx 1-3 XP per answer. 
+        // We use state.xpEarned which is accumulated during game.
+        const totalXP = Math.min(this.state.xpEarned, 20); // Cap at 20 XP per game max.
+        
+        // Award XP
+        if (typeof GamificationModule !== 'undefined' && totalXP > 0) {
+            GamificationModule.addXP(totalXP);
+        }
+
+        // Save Record
+        const currentRecord = parseInt(localStorage.getItem(`record_game_${this.state.activeGame}`) || 0);
+        if (this.state.score > currentRecord) {
+            localStorage.setItem(`record_game_${this.state.activeGame}`, this.state.score);
+        }
+
+        const isWin = status.includes('Completado') || status.includes('Resuelto') || status.includes('Dominada') || status.includes('Excelente');
+
+        arena.innerHTML = `
+            <div class="glass p-12 text-center animate-fade-in border-t-4" style="border-color: ${isWin ? 'var(--color-success)' : 'var(--color-danger)'}">
+                <div class="text-6xl mb-6">${isWin ? '🏆' : '🎮'}</div>
+                <h2 class="text-3xl font-bold mb-2">${status}</h2>
+                <div class="p-6 bg-surface-2 rounded-2xl inline-block mb-8 border border-white/5">
+                    <p class="text-muted text-xs uppercase mb-1">Puntuación Final</p>
+                    <div class="text-5xl font-black text-primary mb-2">${this.state.score}</div>
+                    <div class="badge badge-success px-4 py-2">+${totalXP} XP Ganados</div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="btn btn-primary px-8" onclick="GamesModule.startGame('${this.state.activeGame}')">Reintentar</button>
+                    <button class="btn btn-secondary px-8" onclick="GamesModule.renderSelection()">Zona de Selección</button>
+                </div>
+            </div>
+        `;
+    },
+
+    // --- SURVIVAL GAME ENGINE ---
+    initSurvival() {
+        const pool = (window.NATIVE_EXAM_DATA || []).map(q => this.normalizeQuestion(q));
+        if (pool.length < 10) {
+            document.getElementById('game-arena').innerHTML = '<div class="p-8 text-center">No hay suficientes preguntas para el modo Survival.</div>';
+            return;
+        }
+        this.state.questions = pool.sort(() => 0.5 - Math.random());
+        this.renderSurvivalFrame();
+        this.startSurvivalRound();
+    },
+
+    renderSurvivalFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-6 border-l-4 border-purple-500 bg-purple-500/5">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="badge" style="background: #8b5cf620; color: #8b5cf6; border: 1px solid #8b5cf640;">SURVIVAL MODE</span>
+                        <span class="text-xs font-bold text-muted">Racha: <span id="survival-streak">0</span></span>
+                    </div>
+                    <div id="survival-lives" class="flex gap-1 text-danger">
+                        <span class="material-icons-round">security</span>
+                        <span class="material-icons-round">security</span>
+                        <span class="material-icons-round">security</span>
+                    </div>
+                </div>
+                <div id="survival-content"></div>
+            </div>
+        `;
+    },
+
+    startSurvivalRound() {
+        const question = this.state.questions[Math.floor(Math.random() * this.state.questions.length)];
+        const content = document.getElementById('survival-content');
+        
+        content.innerHTML = `
+            <div class="animate-fade-in">
+                <div class="flex gap-2 mb-4">
+                    <span class="badge badge-primary" style="background: var(--color-primary)20; color: var(--color-primary); border: 1px solid var(--color-primary)30;">${question.area}</span>
+                    <span class="text-xs font-bold text-muted uppercase">Muerte Súbita</span>
+                </div>
+                <p class="text-lg font-bold mb-6">${question.enunciado}</p>
+                <div class="grid grid-cols-1 gap-3" id="options-grid">
+                    ${question.opciones.map(opt => `
+                        <button onclick="GamesModule.submitSurvivalAnswer('${opt.id}', '${question.respuestaCorrecta}')" class="btn btn-secondary justify-start text-left px-6 py-4 hover:border-purple-500 transition-all group">
+                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-purple-500 group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="flex-1">${opt.texto}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    },
+
+    submitSurvivalAnswer(selectedId, correctId) {
+        const isCorrect = selectedId === correctId;
+        const grid = document.getElementById('options-grid');
+        const buttons = grid.querySelectorAll('button');
+        
+        buttons.forEach(btn => {
+            const optId = btn.querySelector('span').innerText;
+            btn.onclick = null;
+            if (optId === correctId) {
+                btn.style.borderColor = 'var(--color-success)';
+                btn.style.background = 'rgba(16, 185, 129, 0.1)';
+            } else if (optId === selectedId && !isCorrect) {
+                btn.style.borderColor = 'var(--color-danger)';
+                btn.style.background = 'rgba(239, 68, 68, 0.1)';
+            }
+        });
+
+        if (isCorrect) {
+            this.state.score += 20;
+            this.state.xpEarned += 1; // Minimal XP per answer in survival
+            this.state.streak++;
+            document.getElementById('survival-streak').innerText = this.state.streak;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+        } else {
+            this.state.lives--;
+            this.state.streak = 0;
+            this.updateSurvivalLives();
+            const content = document.getElementById('survival-content');
+            content.classList.add('shake-anim');
+            setTimeout(() => content.classList.remove('shake-anim'), 400);
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+        }
+
+        setTimeout(() => {
+            if (this.state.lives <= 0) {
+                this.endGame('Fin de la Superviviencia');
+            } else {
+                this.startSurvivalRound();
+            }
+        }, 1200);
+    },
+
+    updateSurvivalLives() {
+        const container = document.getElementById('survival-lives');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            const heart = document.createElement('span');
+            heart.className = 'material-icons-round';
+            heart.innerText = i < this.state.lives ? 'security' : 'shield';
+            heart.style.opacity = i < this.state.lives ? '1' : '0.3';
+            container.appendChild(heart);
+        }
+    },
+    getRandomQuestions(count) {
+        const pool = (window.NATIVE_EXAM_DATA || []).map(q => this.normalizeQuestion(q));
+        if (pool.length === 0) return [];
+        const shuffled = [...pool].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    },
+
+    normalizeQuestion(q) {
+        return {
+            ...q,
+            enunciado: q.enunciado || q.texto || 'Sin enunciado',
+            opciones: q.opciones || [
+                { id: 'A', texto: q.a || q.opcionA || 'Opción A' },
+                { id: 'B', texto: q.b || q.opcionB || 'Opción B' },
+                { id: 'C', texto: q.c || q.opcionC || 'Opción C' },
+                { id: 'D', texto: q.d || q.opcionD || 'Opción D' }
+            ],
+            respuestaCorrecta: q.respuestaCorrecta || q.respuesta_correcta || 'A'
+        };
+    },
+
+    // ============================================================================
+    // ARCADE ENGINE: MULTIPLE CHOICE (8 Juegos)
+    // ============================================================================
+    arcadeMCData: {
+        backsolve: {
+            color: '#eab308', title: 'Hacker Backsolve',
+            levels: [
+                { q: "Si x=0, y=5. ¿Cuál es la ecuación?", options: ["y = x² + 2", "y = x² + x + 5", "y = 5x + 1"], correct: 1, trick: "Al reemplazar x=0, la opción B es la única que da 5. Adiós álgebra." },
+                { q: "Si x=1, y=4. ¿Cuál es la recta?", options: ["y = x + 1", "y = 2x + 1", "y = 3x + 1"], correct: 2, trick: "Si x=1, 3(1)+1 = 4. Resuelto con suma de primaria." },
+                { q: "Si x=2, y=0. Escoge la parábola.", options: ["y = x² - 4", "y = x² + 4", "y = x - 4"], correct: 0, trick: "Cuando y=0, solo x=2 hace que la opción A se anule: 2² - 4 = 0." },
+                { q: "Abre hacia abajo y pasa por (0, 10).", options: ["y = x² + 10", "y = -x² + 10", "y = -2x - 10"], correct: 1, trick: "Al reemplazar x=0 da 10, y el signo negativo al inicio indica que abre hacia abajo." }
+            ]
+        },
+        casillas: {
+            color: '#a855f7', title: 'Mente Casillas',
+            levels: [
+                { q: "Tienes 5 camisas, 4 pantalonetas y 3 medias. ¿Uniformes?", options: ["5! / (5-3)!", "5 + 4 + 3", "5 x 4 x 3"], correct: 2, trick: "Multiplicación directa: [5] x [4] x [3] = 60." },
+                { q: "Carrera de 8 autos. Podio 1°, 2° y 3°. ¿Formas?", options: ["8 x 7 x 6", "8! / 3!", "8 + 7 + 6"], correct: 0, trick: "3 casillas sin reposición: [8] x [7] x [6]." },
+                { q: "Clave de 4 dígitos. Se puede repetir.", options: ["10 x 4", "10 x 10 x 10 x 10", "10! / 4!"], correct: 1, trick: "4 casillas con repetición permitida: [10]x[10]x[10]x[10]." },
+                { q: "2 bolas de 6 sabores (en vasito, el orden NO importa).", options: ["6 x 5", "(6 x 5) / 2", "6!"], correct: 1, trick: "Casillas [6]x[5], pero como el orden no importa (vasito), divides entre 2." }
+            ]
+        },
+        lectordual: {
+            color: '#f97316', title: 'Lector Dual',
+            levels: [
+                { q: "El experimento evalúa cómo afectan la Temperatura y la Presión.", options: ["La temperatura expande todo.", "La presión reduce el volumen.", "La temperatura expande y la presión reduce."], correct: 2, trick: "Regla de Conjunción: La respuesta correcta DEBE mencionar ambas variables." },
+                { q: "Impacto de Deforestación y Contaminación Hídrica.", options: ["Pérdida de flora terrestre y muerte de peces.", "La tala masiva destruye hábitats.", "Los químicos asfixian la vida acuática."], correct: 0, trick: "Busca la opción que responda tanto por la tierra como por el agua." },
+                { q: "Relación entre Inflación y Desempleo.", options: ["Los precios suben afectando la canasta.", "La subida de precios frena contratos y deja gente sin trabajo.", "La falta de trabajo empobrece familias."], correct: 1, trick: "La única que conecta 'subida de precios' con 'sin trabajo'." },
+                { q: "Efectos de la Luz Solar y Humedad.", options: ["La planta absorbe fotones.", "El agua pudre la raíz.", "La luz activa fotosíntesis y el agua hidrata."], correct: 2, trick: "El ICFES cruza dos variables, la respuesta no puede dejar una por fuera." }
+            ]
+        },
+        dispersion: {
+            color: '#14b8a6', title: 'Domador Curvas',
+            levels: [
+                { q: "Desviación=2. Si a TODOS se les suman 5 puntos...", options: ["Nueva Desviación = 7", "Nueva Desviación = 2", "Nueva Desviación = 10"], correct: 1, trick: "Invarianza Sumativa: Si sumas lo mismo a todos, la dispersión no cambia." },
+                { q: "Promedio 3.0. El profesor regala +1.0 a todos.", options: ["Nuevo Promedio = 3.0", "Nuevo Promedio = 4.0", "Nuevo Promedio = 0.5"], correct: 1, trick: "El Promedio SÍ se desplaza con las sumas directas." },
+                { q: "Desviación=$10. Se DUPLICA el salario a todos (x2).", options: ["Desviación = $10", "Desviación = $20", "Desviación = $100"], correct: 1, trick: "Al multiplicar, la brecha (dispersión) también se multiplica." },
+                { q: "Desviación=4. Le restan 2 puntos a absolutamente todos.", options: ["Desviación = 2", "Desviación = 4", "Desviación = 48"], correct: 1, trick: "Restar, al igual que sumar, no afecta la desviación estándar." }
+            ]
+        },
+        tanque: {
+            color: '#06b6d4', title: 'El Fontanero',
+            levels: [
+                { q: "Tanque 50 L. Entran 30 L. ¿Fracción?", options: ["3/5", "5/3", "30/100"], correct: 0, trick: "30/50 -> Cortas ceros = 3/5." },
+                { q: "Tanque 80 L. Entran 20 L. ¿Fracción?", options: ["1/4", "2/80", "1/2"], correct: 0, trick: "20/80 -> 2/8 -> 1/4 (mitad de la mitad)." },
+                { q: "Tanque 120 L. Entran 40 L. ¿Fracción?", options: ["1/3", "1/4", "4/12"], correct: 0, trick: "40/120 -> 4/12 -> Divides entre 4 = 1/3." },
+                { q: "Tanque 2500 L. Entran 500 L. ¿Fracción?", options: ["5/20", "1/5", "2/5"], correct: 1, trick: "500/2500 -> 5/25 -> 1/5." }
+            ]
+        },
+        francotirador: {
+            color: '#ef4444', title: 'Francotirador',
+            levels: [
+                { q: "4500 × 0.1 =", options: ["45", "450", "45000"], correct: 1, trick: "Multiplicar por 0.1 es dividir entre 10. Quitas un cero." },
+                { q: "72 ÷ 0.1 =", options: ["7.2", "720", "0.72"], correct: 1, trick: "Dividir entre 0.1 es multiplicar por 10. Agregas un cero." },
+                { q: "El 1% de 350 es:", options: ["3.5", "35", "0.35"], correct: 0, trick: "El 1% es mover la coma dos veces a la izquierda: 3.5." },
+                { q: "8.5 ÷ 0.1 =", options: ["0.85", "85", "850"], correct: 1, trick: "Dividir entre 0.1 hace que el número crezca x10." }
+            ]
+        },
+        balanza: {
+            color: '#8b5cf6', title: 'Balanza Lógica',
+            levels: [
+                { q: "V = D / T. Si el Tiempo (abajo) se duplica...", options: ["V se duplica", "V baja a la mitad", "V se cuadruplica"], correct: 1, trick: "Denominador mayor = Resultado menor." },
+                { q: "I = V / R. Si el Voltaje (arriba) se triplica...", options: ["I baja a un tercio", "R se triplica", "I se triplica"], correct: 2, trick: "Numerador mayor = Resultado mayor." },
+                { q: "F = m × a. Si la masa se duplica...", options: ["F se duplica", "F se reduce", "a sube"], correct: 0, trick: "Multiplicación directa es proporción directa." },
+                { q: "P = F / A. Si el Área (abajo) baja a la mitad...", options: ["P se duplica", "P baja a la mitad", "P no cambia"], correct: 0, trick: "Denominador menor = Resultado mayor (inverso)." }
+            ]
+        },
+        pinochazo: {
+            color: '#f59e0b', title: 'Pinochazo Educado',
+            levels: [
+                { q: "¿Aproximadamente cuánto es el 32% de 1.480?", options: ["4.5", "47", "473"], correct: 2, trick: "32% es un tercio aprox. 1500/3 = 500. La única cerca es 473." },
+                { q: "Artículo de $85.000, 15% de descuento. ¿Cuánto se paga?", options: ["$12.750", "$72.250", "$97.750"], correct: 1, trick: "12k es el descuento, 97k es más caro. Por descarte, queda 72k." },
+                { q: "Triángulo Base=10.2, Altura=9.8. Fórmula (b x h)/2", options: ["5", "50", "100"], correct: 1, trick: "Redondea: 10x10=100. Entre 2=50." },
+                { q: "Velocidad promedio de un bus intermunicipal", options: ["3 km/h", "60 km/h", "300 km/h"], correct: 1, trick: "Física real: 3 es caminar, 300 es F1. 60 km/h tiene sentido lógico." }
+            ]
+        }
+    },
+
+    initArcadeMultipleChoice(gameId) {
+        const gameData = this.arcadeMCData[gameId];
+        if (!gameData) return;
+        this.state.arcadeLevels = gameData.levels;
+        this.renderArcadeMCFrame(gameData.title, gameData.color);
+        this.startArcadeMCRound();
+    },
+
+    renderArcadeMCFrame(title, color) {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-8 border-t-4" style="border-top-color: ${color}; max-width: 600px; width: 100%;">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-black text-white" style="color: ${color}">${title}</h3>
+                    <div id="arcade-mc-progress" class="flex gap-2"></div>
+                </div>
+                <div id="arcade-mc-content" class="space-y-6"></div>
+            </div>
+        `;
+    },
+
+    startArcadeMCRound() {
+        const data = this.state.arcadeLevels[this.state.currentIdx];
+        const content = document.getElementById('arcade-mc-content');
+        const prog = document.getElementById('arcade-mc-progress');
+        
+        // Render Progress
+        prog.innerHTML = this.state.arcadeLevels.map((_, i) => 
+            `<div class="h-2 w-8 rounded-full ${i <= this.state.currentIdx ? 'bg-white' : 'bg-white/20'}"></div>`
+        ).join('');
+
+        content.innerHTML = `
+            <div class="animate-fade-in text-center">
+                <p class="text-xl font-bold text-white mb-8">${data.q}</p>
+                <div class="grid grid-cols-1 gap-4" id="arcade-mc-opts">
+                    ${data.options.map((opt, i) => `
+                        <button onclick="GamesModule.submitArcadeMC(${i}, this)" class="btn w-full py-4 text-lg bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl border-2 border-slate-700 hover:border-blue-500 transition-all">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    },
+
+    submitArcadeMC(selectedIdx, btn) {
+        const data = this.state.arcadeLevels[this.state.currentIdx];
+        const buttons = document.querySelectorAll('#arcade-mc-opts button');
+        buttons.forEach(b => b.onclick = null);
+
+        const isCorrect = (selectedIdx === data.correct);
+
+        if (isCorrect) {
+            btn.classList.add('correct-flash');
+            btn.style.background = '#10b981';
+            btn.style.borderColor = '#10b981';
+            this.state.score += 50;
+            this.state.xpEarned += 2;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            
+            setTimeout(() => {
+                this.showFeedbackModal('¡Hackeo Exitoso!', data.trick, true, () => {
+                    this.state.currentIdx++;
+                    if (this.state.currentIdx >= this.state.arcadeLevels.length) {
+                        this.endGame('¡Misión Completada!');
+                    } else {
+                        this.startArcadeMCRound();
+                    }
+                });
+            }, 800);
+        } else {
+            btn.classList.add('animate-shake-custom');
+            btn.style.background = '#ef4444';
+            btn.style.borderColor = '#ef4444';
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'error');
+            
+            setTimeout(() => {
+                this.showFeedbackModal('Error de Cálculo', 'Respuesta incorrecta. Analiza el tip e inténtalo de nuevo.', false, () => {
+                    this.startArcadeMCRound(); // Reintentar nivel
+                });
+            }, 800);
+        }
+    },
+
+    showFeedbackModal(title, desc, isCorrect, cb) {
+        const arena = document.getElementById('game-arena');
+        const color = isCorrect ? '#10b981' : '#ef4444';
+        const icon = isCorrect ? 'check_circle' : 'warning';
+        
+        const modal = document.createElement('div');
+        modal.className = 'absolute inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-8 text-center animate-fade-in';
+        modal.innerHTML = `
+            <span class="material-icons-round text-6xl mb-6 shadow-xl" style="color: ${color}; filter: drop-shadow(0 0 15px ${color}80)">${icon}</span>
+            <h2 class="text-3xl font-black text-white mb-4 uppercase tracking-widest">${title}</h2>
+            <div class="border-2 p-6 rounded-3xl mb-10 shadow-xl max-w-sm w-full bg-slate-800" style="border-color: ${color}50">
+                <p class="text-white text-lg font-medium">${desc}</p>
+            </div>
+            <button id="feedback-cb-btn" class="font-black py-4 px-8 w-full max-w-xs rounded-2xl shadow-xl transition-transform active:scale-95 text-lg text-white text-slate-900" style="background: ${color}">
+                Continuar
+            </button>
+        `;
+        arena.appendChild(modal);
+        document.getElementById('feedback-cb-btn').onclick = () => {
+            modal.remove();
+            cb();
+        };
+    },
+
+    // ==========================================
+    // CUSTOM ENGINES: NINJA DE CEROS
+    // ==========================================
+    initNinja() {
+        this.state.ninjaLevels = [
+            { perc: 20, num: 4000, zeros: 2, text: "Básico (Corta 2 ceros)", exp: "2 x 40 = 800. ¡Fácil!" },
+            { perc: 30, num: 500, zeros: 2, text: "Intermedio", exp: "3 x 5 = 15. Le agregas el cero sobrante: 150." },
+            { perc: 10, num: 850, zeros: 1, text: "El Poder del 10%", exp: "El 10% de ALGO es simplemente borrarle su último cero (o mover la coma). 85." },
+            { perc: 50, num: 2400, zeros: 1, text: "Mitad Rápida (50%)", exp: "El 50% es lo mismo que dividir entre 2. La mitad de 2400 es 1200." },
+            { perc: 5, num: 600, zeros: 1, text: "El truco del 5%", exp: "Sacas el 10% (cortando un cero = 60) y luego lo partes a la mitad. ¡30!" }
+        ];
+        this.renderNinjaFrame();
+        this.startNinjaRound();
+    },
+
+    renderNinjaFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-8 border-t-4 border-pink-500 w-full max-w-lg text-center mx-auto">
+                <h3 class="text-3xl font-black text-pink-400 mb-2">Ninja de Ceros</h3>
+                <div id="ninja-level-text" class="bg-pink-500/20 text-pink-300 rounded-full px-4 py-1 text-sm inline-block font-bold mb-8">Nivel</div>
+                
+                <div class="flex items-center justify-center text-4xl md:text-6xl font-black text-white space-x-4 select-none mb-12">
+                    <div class="relative group">
+                        <span id="ninja-perc-val" class="hover:text-pink-400 cursor-pointer"></span>
+                        <span id="ninja-perc-zero" class="cursor-pointer transition-all duration-300 hover:text-pink-400" onclick="GamesModule.slashNinja(0, this)">0</span>
+                        <span class="text-3xl ml-1 text-slate-400 opacity-50">%</span>
+                    </div>
+                    <span class="text-2xl text-slate-500 opacity-50">de</span>
+                    <div class="relative group">
+                        <span id="ninja-num-val" class="hover:text-pink-400 cursor-pointer"></span>
+                        <span id="ninja-num-zero" class="cursor-pointer transition-all duration-300 hover:text-pink-400" onclick="GamesModule.slashNinja(1, this)">0</span>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-400">Haz clic sobre los ceros innecesarios para cortarlos.</p>
+            </div>
+        `;
+    },
+
+    startNinjaRound() {
+        const data = this.state.ninjaLevels[this.state.currentIdx];
+        document.getElementById('ninja-level-text').innerText = data.text;
+        
+        document.getElementById('ninja-perc-val').innerText = (data.perc >= 10 && data.perc % 10 === 0) ? data.perc / 10 : data.perc;
+        const pz = document.getElementById('ninja-perc-zero');
+        pz.className = "cursor-pointer transition-all duration-300 hover:text-pink-400";
+        pz.innerText = '0';
+        pz.style.display = (data.perc >= 10 && data.perc % 10 === 0) ? 'inline' : 'none';
+
+        document.getElementById('ninja-num-val').innerText = data.num / 10;
+        const nz = document.getElementById('ninja-num-zero');
+        nz.className = "cursor-pointer transition-all duration-300 hover:text-pink-400";
+        nz.innerText = '0';
+
+        // Errores
+        document.getElementById('ninja-perc-val').onclick = () => this.wrongNinja(document.getElementById('ninja-perc-val'));
+        document.getElementById('ninja-num-val').onclick = () => this.wrongNinja(document.getElementById('ninja-num-val'));
+
+        this.state.ninjaHits = 0;
+    },
+
+    slashNinja(idx, el) {
+        if (el.classList.contains('text-green-500')) return; // ya cortado
+        const data = this.state.ninjaLevels[this.state.currentIdx];
+        
+        el.className = "text-green-500 opacity-30 line-through scale-150 transition-all duration-300 absolute";
+        this.triggerVFX(el.getBoundingClientRect().x, el.getBoundingClientRect().y, 'correct');
+        this.state.ninjaHits++;
+        
+        if (this.state.ninjaHits === data.zeros) {
+            this.state.score += 50;
+            this.state.xpEarned += 2;
+            setTimeout(() => {
+                this.showFeedbackModal('Matemática Mental', data.exp, true, () => {
+                    this.state.currentIdx++;
+                    if (this.state.currentIdx >= this.state.ninjaLevels.length) this.endGame('Misión Completada');
+                    else this.startNinjaRound();
+                });
+            }, 600);
+        }
+    },
+
+    wrongNinja(el) {
+        el.classList.add('text-red-500', 'animate-shake-custom');
+        this.triggerVFX(el.getBoundingClientRect().x, el.getBoundingClientRect().y, 'error');
+        setTimeout(() => el.classList.remove('text-red-500', 'animate-shake-custom'), 400);
+        setTimeout(() => {
+            this.showFeedbackModal('¡Ese no es un Cero!', 'Ninja, te equivocaste. Solo corta los ceros finales.', false, () => {
+                this.startNinjaRound();
+            });
+        }, 600);
+    },
+
+    // ==========================================
+    // CUSTOM ENGINES: CAZADOR IMPOSTOR
+    // ==========================================
+    initCazador() {
+        this.state.cazadorLevels = [
+            { target: "SIEMPRE", context: "Ciencias", opts: [{ text: "La introducción de especies exóticas SIEMPRE causa extinción.", bad: true }, { text: "La introducción puede alterar el equilibrio.", bad: false }] },
+            { target: "NUNCA", context: "Sociales", opts: [{ text: "Las políticas NUNCA benefician áreas rurales.", bad: true }, { text: "Tienen un impacto desigual.", bad: false }] },
+            { target: "EXCLUSIVAMENTE", context: "Biología", opts: [{ text: "Depende EXCLUSIVAMENTE de los rayos UV.", bad: true }, { text: "Son un factor que contribuye.", bad: false }] },
+            { target: "TODOS", context: "Lectura", opts: [{ text: "Asume que TODOS rechazan la reforma.", bad: true }, { text: "Sugiere un descontento generalizado.", bad: false }] }
+        ];
+        this.renderCazadorFrame();
+        this.startCazadorRound();
+    },
+
+    renderCazadorFrame() {
+        const arena = document.getElementById('game-arena');
+        arena.innerHTML = `
+            <div class="glass p-8 border-t-4 border-emerald-500 w-full max-w-2xl text-center mx-auto">
+                <h3 class="text-3xl font-black text-emerald-400 mb-2">Cazador Impostor</h3>
+                <div id="cazador-ctx" class="text-emerald-300 font-bold mb-6 tracking-widest uppercase text-xs"></div>
+                <p class="text-slate-300 mb-8 font-medium">Destruye la afirmación extremista y absolutista.</p>
+                <div id="cazador-opts" class="space-y-4"></div>
+            </div>
+        `;
+    },
+
+    startCazadorRound() {
+        const data = this.state.cazadorLevels[this.state.currentIdx];
+        document.getElementById('cazador-ctx').innerText = `Context: ${data.context}`;
+        
+        const container = document.getElementById('cazador-opts');
+        container.innerHTML = data.opts.sort(() => 0.5 - Math.random()).map((opt, i) => `
+            <div onclick="GamesModule.popCazador(${i}, ${opt.bad}, this)" class="w-full p-6 bg-slate-800 border-2 border-slate-700 rounded-2xl cursor-pointer hover:scale-[1.02] transform transition-all text-white font-bold text-lg">
+                "${opt.text}"
+            </div>
+        `).join('');
+    },
+
+    popCazador(i, isBad, el) {
+        if (isBad) {
+            el.className = "scale-0 opacity-0 absolute transition-all duration-300";
+            this.state.score += 50;
+            this.state.xpEarned += 2;
+            this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
+            setTimeout(() => {
+                this.showFeedbackModal('¡Trampa Destruida!', `Las palabras absolutistas ignoran el contexto y casi siempre son distractores ICFES.`, true, () => {
+                    this.state.currentIdx++;
+                    if (this.state.currentIdx >= this.state.cazadorLevels.length) this.endGame('Completado');
+                    else this.startCazadorRound();
+                });
+            }, 600);
+        } else {
+            el.classList.add('bg-red-500', 'border-red-600', 'animate-shake-custom');
+            this.triggerVFX(el.getBoundingClientRect().x, el.getBoundingClientRect().y, 'error');
+            setTimeout(() => {
+                this.showFeedbackModal('¡Te Equivocaste!', 'Destruiste la opción prudente llena de matices. ¡Busca el extremismo!', false, () => {
+                    this.startCazadorRound();
+                });
+            }, 600);
+        }
+    },
+
+    // ==========================================
+    // CUSTOM ENGINES: CADENERO Y VISUAL (Simplificados como MC visuals)
+    // ==========================================
+    initCadenero() {
+        this.arcadeMCData.cadenero = {
+            title: 'El Cadenero', color: '#ef4444',
+            levels: [
+                { q: "¿Pitagoras entra al Triángulo Oblicuángulo (0% de 90°)?", options: ["Rechazar 🚫", "Admitir ✅"], correct: 0, trick: "Pitágoras exige 90°, exclusividad total." },
+                { q: "¿Suma Interna = 180° entra al VIP?", options: ["Rechazar 🚫", "Admitir ✅"], correct: 1, trick: "Regla universal para todo triángulo." },
+                { q: "¿SOH CAH TOA entra?", options: ["Rechazar 🚫", "Admitir ✅"], correct: 0, trick: "Sin hipotenusa real (90°), no hay fiesta SOH CAH TOA." },
+                { q: "¿Teorema del Seno/Coseno entra?", options: ["Rechazar 🚫", "Admitir ✅"], correct: 1, trick: "Fueron creados exactamente para estos triángulos deformes." }
+            ]
+        };
+        this.initArcadeMultipleChoice('cadenero');
+        document.getElementById('arcade-mc-content').insertAdjacentHTML('afterbegin', `
+            <div class="w-0 h-0 border-l-[60px] border-l-transparent border-b-[100px] border-b-slate-600 border-r-[120px] border-r-transparent mx-auto mb-6 transform skew-x-12 opacity-80"></div>
+            <p class="text-sm text-red-400 mb-6 uppercase tracking-widest font-bold">Evaluando ingreso a club Oblicuángulo</p>
+        `);
+    },
+
+    initDetector() {
+        this.arcadeMCData.detector = {
+            title: 'Detector Visual', color: '#3b82f6',
+            levels: [
+                { q: "(Barras) La barra A es 80 y la B es 40. Afirmación: El grupo A representa la gran mayoría de la muestra.", options: ["Plausible", "¡Mentira!"], correct: 1, trick: "A no es 'la gran mayoría' si es 80vs40. Visual e imperceptible en gráficos trucados." },
+                { q: "(Líneas) La línea sube desde (20,80) abajo hasta (180,10) arriba. Afirmación: Caída constante.", options: ["Plausible", "¡Mentira!"], correct: 1, trick: "Eje Y va hacia arriba. Es crecimiento continuo, la vista engaña si no miras los ejes." },
+                { q: "(Pastel) Porción oscura ocupa 90 grados. Afirmación: Es exactamente un 25%.", options: ["Plausible", "¡Mentira!"], correct: 0, trick: "90 grados de 360 es 1/4 = 25%. Cierto absoluto." }
+            ]
+        };
+        this.initArcadeMultipleChoice('detector');
+    },
+
+    endGame(title = 'Misión Completada') {
+        const arena = document.getElementById('game-arena');
+        if (!arena) return;
+        
+        arena.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full w-full text-white space-y-8 animate-fade-in">
+                <div class="relative">
+                    <span class="material-icons-round text-yellow-400 text-9xl animate-bounce relative z-10" style="filter: drop-shadow(0 0 30px rgba(250,204,21,0.5))">emoji_events</span>
+                </div>
+                <div class="text-center">
+                    <h2 class="text-5xl font-black mb-4">${title}</h2>
+                    <p class="text-xl text-slate-400 font-medium">Heurística consolidada en tu cerebro. Puntuación: ${this.state.score}</p>
+                </div>
+                <div class="bg-slate-800 border-2 border-slate-700 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
+                    <p class="text-sm uppercase tracking-widest text-indigo-400 mb-2 font-bold">Experiencia Obtenida</p>
+                    <p class="text-6xl font-black text-green-400">+${this.state.xpEarned} <span class="text-2xl">XP</span></p>
+                </div>
+                <button id="end-game-btn" class="bg-indigo-500 hover:bg-indigo-400 text-white font-black py-4 px-12 rounded-2xl flex justify-center items-center space-x-3 transition-transform active:scale-95 text-lg shadow-xl shadow-indigo-500/30">
+                    <span class="material-icons-round">home</span>
+                    <span>Volver al Cuartel</span>
+                </button>
+            </div>
+        `;
+
+        // Award XP if gamification exists
+        if (this.state.xpEarned > 0 && typeof GamificationModule !== 'undefined') {
+            const gameObj = this.games.find(g => g.id === this.state.activeGame);
+            const gameName = gameObj ? gameObj.name : title;
+            GamificationModule.addXP(this.state.xpEarned, `Recompensa Arcade: ${gameName}`);
+        }
+        
+        // Save Record
+        if (this.state.activeGame) {
+            const currRecord = parseInt(localStorage.getItem('record_game_' + this.state.activeGame) || '0');
+            if (this.state.score > currRecord) {
+                localStorage.setItem('record_game_' + this.state.activeGame, this.state.score);
+            }
+        }
+
+        document.getElementById('end-game-btn').onclick = () => {
+            this.renderSelection();
+        };
+    }
+};
+
+window.GamesModule = GamesModule;
 
 window.VirtualTeacherModule = VirtualTeacherModule;
 
