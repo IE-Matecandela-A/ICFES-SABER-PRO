@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <rect width="300" height="300" fill="#f8fafc"/>
+  <circle cx="150" cy="150" r="100" fill="none" stroke="#3b82f6" stroke-width="4" stroke-dasharray="8 4"/>
+  <polygon points="70,90 70,210 230,210" fill="rgba(59, 130, 246, 0.2)" stroke="#1e293b" stroke-width="4"/>
+  <!-- Base = 160, Height = 120, Hypotenuse = 200. Radius=100. Correct proportions! -->
+  <text x="150" y="235" font-family="Arial" font-size="18" fill="#1e293b" text-anchor="middle">8 cm</text>
+  <text x="45" y="150" font-family="Arial" font-size="18" fill="#1e293b" text-anchor="middle">6 cm</text>
+  <polyline points="70,190 90,190 90,210" fill="none" stroke="#1e293b" stroke-width="2"/>
+  <!-- center point -->
+  <circle cx="150" cy="150" r="4" fill="#ef4444"/>
+</svg>

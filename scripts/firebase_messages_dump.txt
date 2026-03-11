@@ -1,0 +1,75 @@
+UID: ZWRnYXJAZ21haWwuY29t
+Name: Edgar Acevedo Aguilar
+{
+  "-OnCyrVvs10tRaqZ6w5N": {
+    "date": "2026-03-08T15:05:34.468Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnD-159lbxBBeGBclRr": {
+    "date": "2026-03-08T15:10:39.950Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnD063f3a3SqRbDGxPy": {
+    "date": "2026-03-08T15:15:22.482Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  }
+}
+
+UID: ZWRnYXJhY2VAZ21haWwuY29t
+Name: edgar
+{
+  "-OnCviwuIpxf7OAOP_J9": {
+    "date": "2026-03-08T14:51:52.944Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnCwuXt1E27wKTT2VTp": {
+    "date": "2026-03-08T14:57:02.588Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnCyoTQx06yP4_7rSoX": {
+    "date": "2026-03-08T15:05:22.012Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnCyq7dV2bZHmBIaD2M": {
+    "date": "2026-03-08T15:05:28.818Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnD-2e2OVz-AskKuxjX": {
+    "date": "2026-03-08T15:10:46.344Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  },
+  "-OnD07N5viKc0rFxin37": {
+    "date": "2026-03-08T15:15:27.826Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  }
+}
+
+UID: ZXNwZWpvanVsaWFuOTIyQGdtYWlsLmNvbQ
+Name: Julián espejo
+{
+  "-OnCve-m8vthbtRApIPd": {
+    "date": "2026-03-08T14:51:32.720Z",
+    "from": "Profesor",
+    "read": false,
+    "text": "recuerde que para que sea valido sus simulcros deben cumplir con minimo 10 minutos de tiempo , inferiores a este no cuenta como simulacro"
+  }
+}
+
