@@ -372,9 +372,10 @@ const ConfigModule = {
         const timeSelector = document.getElementById('time-selector');
 
         const studyBtn = document.getElementById('mode-study');
+        const adaptiveBtn = document.getElementById('mode-adaptive');
 
         // Reset all
-        [examBtn, practiceBtn, challengeBtn, studyBtn].forEach(btn => {
+        [examBtn, practiceBtn, challengeBtn, studyBtn, adaptiveBtn].forEach(btn => {
             if (btn) {
                 btn.classList.remove('selected');
                 btn.style.borderColor = 'var(--color-border)';
@@ -390,6 +391,19 @@ const ConfigModule = {
             }
             if (desc) desc.textContent = 'Sin cronómetro, retroalimentación inmediata';
             if (timeSelector) timeSelector.style.display = 'none';
+
+        } else if (this.config.mode === 'adaptive') {
+            if (adaptiveBtn) {
+                adaptiveBtn.classList.add('selected');
+                adaptiveBtn.style.borderColor = 'rgba(20, 184, 166, 0.5)';
+                adaptiveBtn.style.background = 'rgba(20, 184, 166, 0.08)';
+            }
+            if (desc) desc.textContent = 'Preguntas enfocadas en tus áreas débiles.';
+            if (timeSelector) timeSelector.style.display = 'block';
+            const numSelector = document.getElementById('num-questions-selector');
+            if (numSelector) numSelector.style.display = 'block';
+            const rangeSelector = document.getElementById('study-range-selector');
+            if (rangeSelector) rangeSelector.style.display = 'none';
 
         } else if (this.config.mode === 'challenge') {
             if (challengeBtn) {
@@ -458,6 +472,10 @@ const ConfigModule = {
                 startBtn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
                 startBtn.style.boxShadow = '0 8px 32px rgba(16,185,129,0.35)';
                 startBtn.innerHTML = '▶️ Iniciar Práctica';
+            } else if (this.config.mode === 'adaptive') {
+                startBtn.style.background = 'linear-gradient(135deg, #14b8a6, #0d9488)';
+                startBtn.style.boxShadow = '0 8px 32px rgba(20,184,166,0.35)';
+                startBtn.innerHTML = '🧠 Iniciar Simulacro IA';
             } else if (this.config.mode === 'challenge') {
                 startBtn.style.background = 'linear-gradient(135deg, #ef4444, #f97316)';
                 startBtn.style.boxShadow = '0 8px 32px rgba(239,68,68,0.35)';
@@ -867,6 +885,104 @@ const ExamEngine = {
             const startIdx = Math.max(0, (config.rangeStart || 1) - 1);
             const endIdx = config.rangeEnd || 10;
             this.questions = filtered.slice(startIdx, endIdx);
+        } else if (config.mode === 'adaptive') {
+            const history = JSON.parse(localStorage.getItem('saber_results_history') || '[]');
+            const areaWeakness = {};
+            
+            config.areas.forEach(area => { areaWeakness[area] = 1; });
+
+            const aggregatedStats = {};
+            history.forEach(result => {
+                if (result.byArea) {
+                    Object.keys(result.byArea).forEach(resultArea => {
+                        const countArea = resultArea.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        if (!aggregatedStats[countArea]) {
+                            aggregatedStats[countArea] = { correct: 0, total: 0 };
+                        }
+                        aggregatedStats[countArea].correct += result.byArea[resultArea].correct;
+                        aggregatedStats[countArea].total += result.byArea[resultArea].total;
+                    });
+                }
+            });
+
+            config.areas.forEach(area => {
+                const normArea = area.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                const matchingKey = Object.keys(aggregatedStats).find(k => k.includes(normArea) || normArea.includes(k));
+                if (matchingKey && aggregatedStats[matchingKey].total > 0) {
+                    const accuracy = aggregatedStats[matchingKey].correct / aggregatedStats[matchingKey].total;
+                    areaWeakness[area] = Math.max(0.1, 1 - accuracy);
+                }
+            });
+
+            const poolByArea = {};
+            config.areas.forEach(area => { poolByArea[area] = []; });
+            filtered.forEach(q => {
+                const qArea = q.area.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                const matchedArea = config.areas.find(a => {
+                    const normA = a.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    return qArea.includes(normA) || normA.includes(qArea);
+                });
+                if (matchedArea) {
+                    poolByArea[matchedArea].push(q);
+                }
+            });
+
+            let totalWeakness = Object.values(areaWeakness).reduce((sum, w) => sum + w, 0);
+            const areaCounts = {};
+            let remainingQuestions = config.numQuestions;
+
+            config.areas.forEach(area => {
+                let count = Math.round(config.numQuestions * (areaWeakness[area] / totalWeakness));
+                count = Math.min(count, poolByArea[area].length);
+                areaCounts[area] = count;
+                remainingQuestions -= count;
+            });
+
+            while (remainingQuestions > 0) {
+                let bestArea = null;
+                let maxWeakness = -1;
+                config.areas.forEach(area => {
+                    if (areaCounts[area] < poolByArea[area].length && areaWeakness[area] > maxWeakness) {
+                        maxWeakness = areaWeakness[area];
+                        bestArea = area;
+                    }
+                });
+                if (bestArea) {
+                    areaCounts[bestArea]++;
+                    remainingQuestions--;
+                } else {
+                    break;
+                }
+            }
+
+            while (remainingQuestions < 0) {
+                let bestArea = null;
+                let minWeakness = 999;
+                config.areas.forEach(area => {
+                    if (areaCounts[area] > 0 && areaWeakness[area] < minWeakness) {
+                        minWeakness = areaWeakness[area];
+                        bestArea = area;
+                    }
+                });
+                if (bestArea) {
+                    areaCounts[bestArea]--;
+                    remainingQuestions++;
+                } else {
+                    break;
+                }
+            }
+
+            let finalSelected = [];
+            const qHistory = JSON.parse(localStorage.getItem('icfes_question_history') || '{}');
+            config.areas.forEach(area => {
+                let areaQ = poolByArea[area].map(q => ({ ...q, views: qHistory[q.id] || 0 }));
+                areaQ = this.shuffle(areaQ);
+                areaQ.sort((a, b) => a.views - b.views);
+                finalSelected = finalSelected.concat(areaQ.slice(0, areaCounts[area]));
+            });
+
+            this.questions = this.shuffle(finalSelected);
+
         } else {
             // Read question tracking history
             let history = JSON.parse(localStorage.getItem('icfes_question_history') || '{}');
@@ -2529,7 +2645,18 @@ const ResultsEngine = {
             div.style.animationDelay = `${idx * 0.05}s`;
 
             const isCorrect = detail.isCorrect;
-            const borderColor = isCorrect ? '#10b981' : '#ef4444';
+            const notAnswered = !detail.answered;
+
+            let borderColor = '#ef4444'; // Red for incorrect
+            let statusText = '<span style="color: #ef4444;">✗ Incorrecta</span>';
+
+            if (isCorrect) {
+                borderColor = '#10b981'; // Green for correct
+                statusText = '<span style="color: #34d399;">✓ Correcta</span>';
+            } else if (notAnswered) {
+                borderColor = '#f59e0b'; // Yellow/Orange for unanswered
+                statusText = '<span style="color: #f59e0b;">⏱️ No alcanzada / Sin responder</span>';
+            }
 
             const timeSpent = (this.currentResult.timeRecords && this.currentResult.timeRecords[q.id])
                 ? this.currentResult.timeRecords[q.id]
@@ -2593,7 +2720,7 @@ const ResultsEngine = {
 
             div.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 8px;">
-                        <span>Pregunta ${idx + 1} - ${isCorrect ? '<span style="color: #34d399;">✓ Correcta</span>' : '<span style="color: #ef4444;">✗ Incorrecta</span>'}</span>
+                        <span>Pregunta ${idx + 1} - ${statusText}</span>
                         ${timeBadge}
                     </div>
                     <div class="glass" style="padding: 20px; border-left: 3px solid ${borderColor};">
@@ -2615,13 +2742,27 @@ const ResultsEngine = {
                 `;
 
             if (q.grafica && q.grafica.datos && window.ExamEngine) {
+                // Tweak the timeout and ensure the container is truly available
                 setTimeout(() => {
-                    window.ExamEngine.renderChart(q.grafica, `review-chart-container-${idx}`, `review-chart-${idx}`);
-                }, 50);
+                    const canvas = document.getElementById(`review-chart-${idx}`);
+                    if (canvas) {
+                        window.ExamEngine.renderChart(q.grafica, `review-chart-container-${idx}`, `review-chart-${idx}`);
+                    }
+                }, 200);
             }
 
             container.appendChild(div);
         });
+
+        // Trigger MathJax for rendering math formulas (LaTeX) in Detailed Review
+        if (window.MathJax) {
+            setTimeout(() => {
+                const reviewEl = document.getElementById('question-review');
+                if (MathJax.typesetPromise && reviewEl) {
+                    MathJax.typesetPromise([reviewEl]).catch((err) => console.log('MathJax error in review: ', err.message));
+                }
+            }, 300);
+        }
     },
 
     getScoreColor(percentage) {
@@ -6143,25 +6284,9 @@ if (typeof Router !== 'undefined') {
     Router.go('home');
 }
 
-// Check for active exams to resume
-setTimeout(() => {
-    const savedStandard = localStorage.getItem('saber11_active_exam');
-    const savedPDF = localStorage.getItem('saber11_active_pdf_exam');
-
-    if (savedStandard) {
-        if (confirm('Tienes un simulacro en progreso. ¿Deseas continuarlo?')) {
-            ExamEngine.resume(JSON.parse(savedStandard));
-        } else {
-            localStorage.removeItem('saber11_active_exam');
-        }
-    } else if (savedPDF) {
-        if (confirm('Tienes un simulacro PDF en progreso. ¿Deseas continuarlo?')) {
-            PDFExamModule.resume(JSON.parse(savedPDF));
-        } else {
-            localStorage.removeItem('saber11_active_pdf_exam');
-        }
-    }
-}, 500);
+// Always start with a clean slate to prevent cross-session exam resumption
+localStorage.removeItem('saber11_active_exam');
+localStorage.removeItem('saber11_active_pdf_exam');
 
 // ============ SESSION TRACKER ============
 const SessionTracker = {
@@ -6480,16 +6605,34 @@ const GamificationModule = {
 
         this.lastStudyDate = today;
 
+        // --- Weekly XP tracking (keep in sync with addXP) ---
+        const getWeekStartStreak = () => {
+            const now = new Date();
+            const day = now.getDay();
+            const daysSinceMon = (day + 7 - 1) % 7;
+            const monday = new Date(now);
+            monday.setDate(now.getDate() - daysSinceMon);
+            monday.setHours(0, 0, 0, 0);
+            return monday.getTime();
+        };
+        const currentWeekStartStreak = getWeekStartStreak();
+        if (!this.weekStart || this.weekStart < currentWeekStartStreak) {
+            this.weeklyXP = 0;
+            this.weekStart = currentWeekStartStreak;
+        }
+
         // Award XP for streak
+        let streakBonus = 0;
         if (this.streakDays > 1) {
-            const streakBonus = Math.min(this.streakDays * 5, 50); // max 50 XP/day bonus
+            streakBonus = Math.min(this.streakDays * 5, 50); // max 50 XP/day bonus
             this.currentXP += streakBonus;
+            this.weeklyXP = (this.weeklyXP || 0) + streakBonus;
             setTimeout(() => NotificationModule.show(`🔥 Racha de ${this.streakDays} días! +${streakBonus} XP bonus`, 'success'), 1000);
         } else {
             setTimeout(() => NotificationModule.show('¡Bienvenido de vuelta! Racha iniciada 🔥', 'info'), 1000);
         }
 
-        // Persist to Firebase
+        // Persist to Firebase (now includes weekStart and weeklyXP)
         if (user && user.id) {
             fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${user.id}/gamification.json`, {
                 method: 'PATCH',
@@ -6497,7 +6640,10 @@ const GamificationModule = {
                 body: JSON.stringify({
                     streakDays: this.streakDays,
                     lastStudyDate: this.lastStudyDate,
-                    xp: this.currentXP
+                    xp: this.currentXP,
+                    weeklyXP: this.weeklyXP,
+                    weekStart: this.weekStart,
+                    lastUpdated: Date.now()
                 })
             }).catch(e => console.error('Streak save error:', e));
         }
@@ -6768,8 +6914,11 @@ const AuthModule = {
         localStorage.removeItem('saber11_current_user');
         localStorage.removeItem('saber11_student_name');
         localStorage.removeItem('icfes_question_history');
+        localStorage.removeItem('saber_results_history');
+        localStorage.removeItem('icfes_pdf_exams');
         localStorage.removeItem('saber11_active_exam');
         localStorage.removeItem('saber11_active_pdf_exam');
+        localStorage.removeItem('saber11_daily_bonus_date');
         if (typeof ExamEngine !== 'undefined') ExamEngine.clearProgress();
         if (typeof updateUserUI === 'function') updateUserUI();
         location.reload();
@@ -7421,15 +7570,23 @@ const GlobalResultsModule = {
             if (response.ok) {
                 const data = await response.json();
                 if (data) {
-                    users = Object.values(data).filter(u =>
-                        u.profile && u.profile.role === 'estudiante' &&
-                        u.gamification && (
-                            // Show users with explicit weeklyXP from current week
-                            (u.gamification.weeklyXP > 0 && (!u.gamification.weekStart || u.gamification.weekStart >= currentWeekStart))
-                        )
-                    ).map(u => {
+                    users = Object.values(data).filter(u => {
+                        if (!u.profile || u.profile.role !== 'estudiante' || !u.gamification) return false;
+                        const g = u.gamification;
+                        // Show if weekStart is current week
+                        if (g.weeklyXP > 0 && g.weekStart && g.weekStart >= currentWeekStart) return true;
+                        // Fallback: also show if lastUpdated is this week (fixes stale weekStart bug)
+                        if (g.lastUpdated && g.lastUpdated >= currentWeekStart) return true;
+                        return false;
+                    }).map(u => {
+                        const g = u.gamification;
+                        // If weekStart is stale, their weeklyXP belongs to last week; show them with 0
+                        if (g.weekStart && g.weekStart < currentWeekStart) {
+                            u = JSON.parse(JSON.stringify(u));
+                            u.gamification.weeklyXP = 0;
+                        }
                         // For users without weeklyXP yet, use xp % 700 as a proxy (first launch week)
-                        if (!u.gamification.weeklyXP) {
+                        if (!u.gamification.weeklyXP && !u.gamification.weekStart) {
                             u = JSON.parse(JSON.stringify(u));
                             u.gamification.weeklyXP = u.gamification.xp % 700 || u.gamification.xp;
                         }

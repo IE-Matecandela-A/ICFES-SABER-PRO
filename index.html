@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -85,21 +85,101 @@
                 <!-- Left Text Content -->
                 <div class="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start z-20">
                     <div
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 shadow-sm glass border-[var(--color-border)]">
-                        <span class="animate-pulse">✨</span>
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 shadow-sm glass border-[var(--color-border)]"
+                        style="background: var(--glass-bg); border: 1px solid var(--glass-border);">
+                        <span class="animate-pulse" style="color: var(--color-primary-light);">✨</span>
                         <span class="text-sm font-medium tracking-wide uppercase"
                             style="color: var(--color-primary-light);">Plataforma ICFES Next-Gen</span>
                     </div>
 
-                    <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-6"
-                        style="font-family: 'Outfit', sans-serif;">
-                        <span class="page-title leading-tight"
-                            style="background: linear-gradient(135deg, var(--color-text) 30%, var(--color-primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SABER</span><br />
-                        <span class="page-title leading-tight"
-                            style="background: linear-gradient(135deg, var(--color-primary) 30%, var(--color-accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PRO</span>
-                    </h1>
+                    <style>
+                        /* Hero Animations & Premium Effects */
+                        @keyframes hero-glow {
+                            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+                            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
+                            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+                        }
+                        @keyframes text-shine {
+                            0% { background-position: 0% 50%; }
+                            100% { background-position: 100% 50%; }
+                        }
+                        
+                        [data-theme="dark"] .title-saber {
+                            background: linear-gradient(to right, #d8b4fe, #c084fc, #f472b6, #d8b4fe);
+                            background-size: 200% auto;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                            filter: drop-shadow(0 0 40px rgba(192, 132, 252, 0.7));
+                            animation: text-shine 4s linear infinite;
+                        }
+                        [data-theme="light"] .title-saber {
+                            background: linear-gradient(to right, #7e22ce, #a21caf, #be185d);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                        }
+                        [data-theme="dark"] .title-pro {
+                            background: linear-gradient(to right, #fb923c, #fbbf24, #fde047, #fb923c);
+                            background-size: 200% auto;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                            filter: drop-shadow(0 0 40px rgba(251, 146, 60, 0.7));
+                            animation: text-shine 4s linear infinite;
+                        }
+                        [data-theme="light"] .title-pro {
+                            background: linear-gradient(to right, #c2410c, #b45309, #a16207);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                        }
+                        
+                        [data-theme="light"] .hero-glow-bg { display: none !important; }
+                        [data-theme="dark"] .hero-glow-bg { display: block; }
+                        
+                        .massive-title {
+                            font-size: min(15vw, 10.5rem); 
+                            line-height: 0.85; 
+                            font-family: 'Outfit', sans-serif;
+                            margin-bottom: 0.5rem;
+                        }
+                        
+                        .bg-grid-pattern {
+                            position: absolute;
+                            inset: 0;
+                            background-image: 
+                                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+                            background-size: 40px 40px;
+                            mask-image: radial-gradient(circle at center, black, transparent 80%);
+                            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+                            pointer-events: none;
+                            z-index: 0;
+                        }
+                        [data-theme="light"] .bg-grid-pattern {
+                            background-image: 
+                                linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                                linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+                        }
+                    </style>
+                    
+                    <!-- Premium Background Grid -->
+                    <div class="bg-grid-pattern"></div>
 
-                    <p class="text-lg md:text-xl mb-10 max-w-2xl leading-relaxed font-light"
+                    <div class="relative inline-block mb-6 w-full z-10">
+                        <!-- Ultra glowing background effect for dark mode -->
+                        <div class="absolute top-1/2 left-1/2 hero-glow-bg pointer-events-none rounded-full mix-blend-screen"
+                             style="width: 140%; height: 140%; background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(249,115,22,0.3) 50%, rgba(0,0,0,0) 70%); filter: blur(60px); animation: hero-glow 6s ease-in-out infinite; z-index: -1;">
+                        </div>
+                        
+                        <h1 class="massive-title font-extrabold tracking-tighter relative">
+                            <span class="block title-saber mb-2">SABER</span>
+                            <span class="block title-pro">PRO</span>
+                        </h1>
+                    </div>
+
+                    <p class="text-lg md:text-xl mb-10 max-w-2xl leading-relaxed font-light relative z-10"
                         style="color: var(--color-text-muted);">
                         Eleva tu puntaje con el simulador más <strong
                             style="color: var(--color-text); font-weight: 600;">revolucionario</strong> y <strong
@@ -107,38 +187,35 @@
                         cronómetro oficial y reportes avanzados en tiempo real.
                     </p>
 
-                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-2">
                         <button onclick="Router.go('config')"
-                            class="btn btn-primary btn-lg shadow-lg group relative overflow-hidden group-hover:-translate-y-1 transition-all">
-                            <div
-                                class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                            </div>
-                            <span class="relative flex items-center gap-3">
-                                <span class="material-icons-round">play_arrow</span> Iniciar Simulacro
-                            </span>
+                            class="btn btn-lg shadow-lg group relative overflow-hidden transition-all flex items-center justify-center gap-3 px-8"
+                            style="background: var(--color-primary); border: none; border-radius: 12px; color: white;">
+                            <span class="material-icons-round text-xl">play_arrow</span>
+                            <span class="font-semibold tracking-wide">Iniciar Simulacro</span>
                         </button>
 
                         <button onclick="ExamEngine.startFastTrack()"
-                            class="btn btn-secondary btn-lg glass group flex items-center gap-3">
-                            <span style="color: var(--color-accent);">⚡</span> Reto Rápido
+                            class="btn btn-lg group flex items-center justify-center gap-3 px-8"
+                            style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--color-text);">
+                            <span style="color: var(--color-accent);" class="material-icons-round text-xl">bolt</span>
+                            <span class="font-semibold tracking-wide">Reto Rápido</span>
                         </button>
                     </div>
-
-                    <div class="mt-12 flex items-center gap-6 text-sm" style="color: var(--color-text-muted);">
+                    
+                    <!-- Teacher Info Block -->
+                    <div class="mt-8 flex items-center gap-4 relative z-10 animate-fade-in" style="animation-delay: 0.3s;">
                         <div class="flex -space-x-3">
-                            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-white font-bold text-xs shadow-md"
-                                style="background: var(--color-info); border-color: var(--color-surface); z-index: 3;">
-                                95%</div>
-                            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-white font-bold text-xs shadow-md"
-                                style="background: var(--color-success); border-color: var(--color-surface); z-index: 2;">
-                                Top</div>
-                            <div class="w-10 h-10 rounded-full border-2 flex items-center justify-center text-white font-bold text-xs shadow-md"
-                                style="background: var(--color-accent); border-color: var(--color-surface); z-index: 1;">
-                                4.9⭐</div>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[var(--color-bg)] z-[3]"
+                                style="background-color: #3b82f6;">95%</div>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[var(--color-bg)] z-[2]"
+                                style="background-color: #10b981;">Top</div>
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[var(--color-bg)] z-[1]"
+                                style="background-color: #f59e0b;">96%</div>
                         </div>
-                        <div>
-                            <p class="font-medium" style="color: var(--color-text);">Docente Edgar Acevedo</p>
-                            <p>IE Matecandela • Colombia</p>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-sm" style="color: var(--color-text);">Docente Edgar Acevedo</span>
+                            <span class="text-xs font-medium" style="color: var(--color-text-muted);">IE Matecandela • Colombia</span>
                         </div>
                     </div>
                 </div>
@@ -150,131 +227,149 @@
                     <div class="absolute inset-0 rounded-full filter blur-3xl animate-pulse"
                         style="background: var(--color-primary); opacity: 0.15;"></div>
 
-                    <div class="relative z-10 w-full animate-float">
-                        <img src="img/student_hero.png" alt="Estudiante preparándose para Saber Pro"
-                            class="w-full h-auto object-contain max-h-[500px] lg:max-h-[600px]"
-                            style="filter: drop-shadow(0 20px 50px rgba(99,102,241,0.25));">
+                    <div class="relative z-10 w-full animate-float flex justify-center lg:justify-end">
+                        <img src="img/hero_student_laptop.png" alt="Estudiante preparándose para Saber Pro"
+                            class="w-full h-auto object-cover max-h-[500px] lg:max-h-[600px] rounded-[32px] overflow-hidden"
+                            style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); max-width: 90%;">
 
                         <!-- Floating Badges over image -->
                         <div
-                            class="absolute top-[10%] -left-6 md:-left-12 glass p-3 md:p-4 rounded-2xl shadow-lg flex items-center gap-3 animate-float-slow">
-                            <div class="p-2 rounded-xl"
-                                style="background: rgba(16,185,129,0.15); color: var(--color-success);"><span
-                                    class="material-icons-round">trending_up</span></div>
-                            <div>
-                                <p class="font-bold text-sm md:text-base leading-none"
-                                    style="color: var(--color-text);">95%</p>
-                                <p class="text-[10px] md:text-sm mt-1 mb-0" style="color: var(--color-text-muted);">
-                                    Precisión</p>
+                            class="absolute top-[5%] -left-2 md:-left-8 p-3 px-4 rounded-2xl shadow-lg flex flex-col gap-2 animate-float-slow"
+                            style="background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid rgba(52, 211, 153, 0.4); box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);">
+                            <div class="flex items-center gap-3">
+                                <div class="p-1.5 rounded-xl flex items-center justify-center"
+                                    style="background: rgba(52, 211, 153, 0.15); color: #34d399;">
+                                    <span class="material-icons-round text-sm">trending_up</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-lg leading-none" style="color: var(--color-text);">95%</p>
+                                    <p class="text-[10px] mt-0.5 mb-0 font-medium tracking-wide" style="color: var(--color-text-muted);">PRECISIÓN</p>
+                                </div>
+                            </div>
+                            <div class="w-full mt-1">
+                                <svg viewBox="0 0 100 40" class="w-full h-8" preserveAspectRatio="none">
+                                    <polyline points="0,35 20,20 40,30 60,10 80,15 100,5" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
+                                    <circle cx="60" cy="10" r="2.5" fill="#34d399"></circle>
+                                    <circle cx="100" cy="5" r="2.5" fill="#34d399"></circle>
+                                </svg>
                             </div>
                         </div>
 
-                        <div class="absolute bottom-[20%] -right-6 md:-right-12 glass p-3 md:p-4 rounded-2xl shadow-lg flex items-center gap-3 animate-float"
-                            style="animation-delay: 1s;">
-                            <div class="p-2 rounded-xl"
-                                style="background: rgba(245,158,11,0.15); color: var(--color-accent);"><span
-                                    class="material-icons-round">star</span></div>
+                        <div class="absolute bottom-[20%] -right-4 md:-right-8 p-3 px-5 rounded-2xl shadow-lg flex items-center gap-4 animate-float"
+                            style="animation-delay: 1s; background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid rgba(250, 204, 21, 0.4); box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);">
+                            <div class="relative flex items-center justify-center">
+                                <span style="font-size: 2.2rem; filter: drop-shadow(0 4px 10px rgba(250, 204, 21, 0.4));">🏅</span>
+                            </div>
                             <div>
-                                <p class="font-bold text-sm md:text-base leading-none"
-                                    style="color: var(--color-text);">Top 1</p>
-                                <p class="text-[10px] md:text-sm mt-1 mb-0" style="color: var(--color-text-muted);">
-                                    Mejor ICFES</p>
+                                <p class="font-bold text-lg leading-none" style="color: var(--color-text);">TOP 1</p>
+                                <p class="text-[11px] mt-1.5 mb-0 font-medium tracking-wide" style="color: var(--color-text-muted);">Mejor ICFES</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bento Grid Section (Moved below Hero) -->
-            <div class="w-full max-w-7xl mx-auto mt-24 mb-6 z-20">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-2">
+            <!-- Bento Grid Section -->
+            <div class="w-full max-w-7xl mx-auto mt-24 mb-6 z-20 px-2 lg:px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
 
                     <!-- Card 1: Dashboard -->
-                    <div onclick="Router.go('dashboard')" class="glass bento-card p-8 group">
-                        <div class="flex justify-between items-start mb-6 w-full">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
-                                style="background: rgba(59,130,246,0.1); color: var(--color-info); border: 1px solid rgba(59,130,246,0.2);">
-                                <span class="material-icons-round">analytics</span>
+                    <div onclick="Router.go('dashboard')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
+                        style="background: var(--color-surface-2); border: 2px solid rgba(59, 130, 246, 0.4); box-shadow: 0 0 30px rgba(59, 130, 246, 0.15); overflow: hidden;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none"></div>
+                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
+                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(59,130,246,0.5));">🦉</span>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-blue-500/20"
+                                style="background: var(--glass-bg); border-color: var(--glass-border);">
+                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
                             </div>
-                            <span class="material-icons-round transition-all"
-                                style="color: var(--color-text-muted);">arrow_outward</span>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2">Mi Progreso</h3>
-                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Analítica avanzada,
-                            evolución de puntajes y radar de competencias por área.</p>
+                        <div class="relative z-10 mt-auto">
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Mi Progreso</h3>
+                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Analítica avanzada, evolución de puntajes y radar de competencias por área.</p>
+                        </div>
                     </div>
 
                     <!-- Card 2: Ranking -->
-                    <div onclick="Router.go('global-results')" class="glass bento-card p-8 group">
-                        <div class="flex justify-between items-start mb-6 w-full">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
-                                style="background: rgba(245,158,11,0.1); color: var(--color-accent); border: 1px solid rgba(245,158,11,0.2);">
-                                <span class="material-icons-round">emoji_events</span>
+                    <div onclick="Router.go('global-results')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
+                        style="background: var(--color-surface-2); border: 2px solid rgba(250, 204, 21, 0.4); box-shadow: 0 0 30px rgba(250, 204, 21, 0.15); overflow: hidden;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent pointer-events-none"></div>
+                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
+                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(250,204,21,0.5));">🏆</span>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-yellow-500/20"
+                                style="background: var(--glass-bg); border-color: var(--glass-border);">
+                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
                             </div>
-                            <span class="material-icons-round transition-all"
-                                style="color: var(--color-text-muted);">arrow_outward</span>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2">Ranking Global</h3>
-                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Compite, destaca y revisa
-                            la tabla de posiciones general.</p>
+                        <div class="relative z-10 mt-auto">
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Ranking Global</h3>
+                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Compite, destaca y revisa la tabla de posiciones general.</p>
+                        </div>
                     </div>
 
                     <!-- Card 3: Tips -->
-                    <div onclick="Router.go('tips')" class="glass bento-card p-8 group">
-                        <div class="flex justify-between items-start mb-6 w-full">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
-                                style="background: rgba(16,185,129,0.1); color: var(--color-success); border: 1px solid rgba(16,185,129,0.2);">
-                                <span class="material-icons-round">lightbulb</span>
+                    <div onclick="Router.go('tips')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
+                        style="background: var(--color-surface-2); border: 2px solid rgba(52, 211, 153, 0.4); box-shadow: 0 0 30px rgba(52, 211, 153, 0.15); overflow: hidden;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none"></div>
+                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
+                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(52,211,153,0.5));">💡</span>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-emerald-500/20"
+                                style="background: var(--glass-bg); border-color: var(--glass-border);">
+                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
                             </div>
-                            <span class="material-icons-round transition-all"
-                                style="color: var(--color-text-muted);">arrow_outward</span>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2">Tips Mentales</h3>
-                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Estrategias ICFES, control
-                            de ansiedad y tips para subir puntajes.</p>
+                        <div class="relative z-10 mt-auto">
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Tips Mentales</h3>
+                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Estrategias ICFES, control de ansiedad y tips para subir puntajes.</p>
+                        </div>
                     </div>
 
                     <!-- Card 4: Flashcards -->
-                    <div onclick="Router.go('flashcards')" class="glass bento-card p-8 group">
-                        <div class="flex justify-between items-start mb-6 w-full">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
-                                style="background: rgba(168,85,247,0.1); color: #a855f7; border: 1px solid rgba(168,85,247,0.2);">
-                                <span class="material-icons-round">style</span>
+                    <div onclick="Router.go('flashcards')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
+                        style="background: var(--color-surface-2); border: 2px solid rgba(168, 85, 247, 0.4); box-shadow: 0 0 30px rgba(168, 85, 247, 0.15); overflow: hidden;">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent pointer-events-none"></div>
+                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
+                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(168,85,247,0.5));">🃏</span>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-purple-500/20"
+                                style="background: var(--glass-bg); border-color: var(--glass-border);">
+                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
                             </div>
-                            <span class="material-icons-round transition-all"
-                                style="color: var(--color-text-muted);">arrow_outward</span>
                         </div>
-                        <h3 class="text-2xl font-bold mb-2">Modo Flashcard</h3>
-                        <p class="font-light text-sm" style="color: var(--color-text-muted);">Flashcards inteligentes
-                            para memorizar y reforzar conceptos clave.</p>
+                        <div class="relative z-10 mt-auto">
+                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Modo Flashcard</h3>
+                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Flashcards inteligentes para memorizar y reforzar conceptos clave.</p>
+                        </div>
                     </div>
 
                 </div>
             </div>
 
             <!-- Features Strip Modernized -->
-            <div class="w-full max-w-5xl mx-auto mt-24 mb-10 z-20">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="flex items-center gap-4 p-4 rounded-2xl glass border-[var(--color-border)]">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center"
-                            style="background: rgba(99,102,241,0.15); color: var(--color-primary);">
+            <div class="w-full max-w-5xl mx-auto mt-16 mb-10 z-20">
+                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <div class="flex items-center gap-3 px-6 py-4 rounded-xl"
+                        style="background: var(--color-surface-2); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md);">
+                        <div class="flex items-center justify-center p-1.5 rounded-full"
+                            style="background: rgba(99,102,241,0.15); color: var(--color-primary-light);">
                             <span class="material-icons-round text-sm">psychology</span>
                         </div>
-                        <span class="font-medium" style="color: var(--color-text);">Motor de IA Adaptativo</span>
+                        <span class="font-semibold text-sm" style="color: var(--color-text);">Motor de IA Adaptativo</span>
                     </div>
-                    <div class="flex items-center gap-4 p-4 rounded-2xl glass border-[var(--color-border)]">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center"
-                            style="background: rgba(236,72,153,0.15); color: #ec4899;">
+                    <div class="flex items-center gap-3 px-6 py-4 rounded-xl"
+                        style="background: var(--color-surface-2); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md);">
+                        <div class="flex items-center justify-center p-1.5 rounded-full"
+                            style="background: rgba(236,72,153,0.15); color: #f472b6;">
                             <span class="material-icons-round text-sm">timer</span>
                         </div>
-                        <span class="font-medium" style="color: var(--color-text);">Cronómetro Oficial</span>
+                        <span class="font-semibold text-sm" style="color: var(--color-text);">Cronómetro Oficial</span>
                     </div>
-                    <div class="flex items-center gap-4 p-4 rounded-2xl glass border-[var(--color-border)]">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center"
+                    <div class="flex items-center gap-3 px-6 py-4 rounded-xl"
+                        style="background: var(--color-surface-2); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md);">
+                        <div class="flex items-center justify-center p-1.5 rounded-full"
                             style="background: rgba(16,185,129,0.15); color: var(--color-success);">
                             <span class="material-icons-round text-sm">auto_graph</span>
                         </div>
-                        <span class="font-medium" style="color: var(--color-text);">Analítica Detallada</span>
+                        <span class="font-semibold text-sm" style="color: var(--color-text);">Analítica Detallada</span>
                     </div>
                 </div>
             </div>
@@ -937,6 +1032,20 @@
                                     <div>
                                         <h3 class="config-mode-name">Challenge</h3>
                                         <p class="config-mode-desc">Alta presión: ¡90 segundos por pregunta!</p>
+                                    </div>
+                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                </div>
+                            </label>
+                            <label class="config-mode-option">
+                                <input type="radio" name="study_mode" value="adaptive" class="sr-only"
+                                    onchange="ConfigModule.selectMode('adaptive')">
+                                <div class="config-mode-card" id="mode-adaptive">
+                                    <div class="config-mode-icon config-mode-icon-teal">
+                                        <span class="material-icons-round">psychology</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="config-mode-name">IA Adaptativo</h3>
+                                        <p class="config-mode-desc">Personalizado según tus debilidades.</p>
                                     </div>
                                     <span class="material-icons-round config-mode-check">check_circle</span>
                                 </div>

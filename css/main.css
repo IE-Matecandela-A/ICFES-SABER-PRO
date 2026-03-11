@@ -2104,6 +2104,11 @@ tr:hover td {
     color: #3B82F6;
 }
 
+.config-mode-icon-teal {
+    background: rgba(20, 184, 166, 0.1);
+    color: #14B8A6;
+}
+
 .config-mode-name {
     font-weight: 700;
     font-size: 0.95rem;
