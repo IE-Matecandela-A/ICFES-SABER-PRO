@@ -190,6 +190,7 @@ var Router = {
             if (view === 'admin' && typeof AdminPanelModule !== 'undefined') AdminPanelModule.init();
             if (view === 'global-results' && typeof GlobalResultsModule !== 'undefined') GlobalResultsModule.init();
             if (view === 'games' && typeof GamesModule !== 'undefined') GamesModule.init();
+            if (view === 'duels' && typeof DuelModule !== 'undefined') DuelModule.init();
 
             // Safe check for VirtualTeacherModule since it's defined with `const` later in the file
             if (window.VirtualTeacherModule) {
@@ -2900,7 +2901,7 @@ const PDFExamModule = {
     async resume(state) {
         // Show Loading
         const loadingMsg = document.createElement('div');
-        loadingMsg.innerHTML = `<div style="position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:3000; font-size:1.5rem;"><div>⏳</div><div>Recuperando simulacro PDF...</div></div>`;
+        loadingMsg.innerHTML = `<div style="position:fixed; inset:0; background:rgba(0,0,0,0.8); color: var(--color-text); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:3000; font-size:1.5rem;"><div>⏳</div><div>Recuperando simulacro PDF...</div></div>`;
         document.body.appendChild(loadingMsg);
 
         try {
@@ -3405,7 +3406,7 @@ const PDFExamModule = {
         }
 
         const loadingMsg = document.createElement('div');
-        loadingMsg.innerHTML = `<div style="position:fixed; inset:0; background:rgba(0,0,0,0.8); color:white; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:3000; font-size:1.5rem;"><div>⏳</div><div>Descargando PDF del servidor...</div></div>`;
+        loadingMsg.innerHTML = `<div style="position:fixed; inset:0; background:rgba(0,0,0,0.8); color: var(--color-text); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:3000; font-size:1.5rem;"><div>⏳</div><div>Descargando PDF del servidor...</div></div>`;
         document.body.appendChild(loadingMsg);
 
         try {
@@ -3515,18 +3516,18 @@ const PDFExamModule = {
 
                     <div id="pdf-viewer-container" class="pdf-viewer" style="overflow: auto; justify-content: flex-start; align-items: center;">
                          <div id="pdf-pages" style="display: flex; flex-direction: column; gap: 20px; align-items: center; width: max-content; min-width: 100%;">
-                            <div style="color: white; margin-top: 50px;">Cargando documento...</div>
+                            <div style="color: var(--color-text); margin-top: 50px;">Cargando documento...</div>
                          </div>
 
                          <!-- Floating Controls -->
-                        <div style="position: absolute; bottom: 30px; left: 30px; background: #1e293b; padding: 10px 20px; border-radius: 99px; color: white; display: flex; align-items: center; gap: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); z-index: 100;">
-                             <button onclick="PDFExamModule.changeZoom(-0.2)" style="background:none; border:none; color:white; font-size: 1.2rem; cursor: pointer;">−</button>
+                        <div style="position: absolute; bottom: 30px; left: 30px; background: #1e293b; padding: 10px 20px; border-radius: 99px; color: var(--color-text); display: flex; align-items: center; gap: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); z-index: 100;">
+                             <button onclick="PDFExamModule.changeZoom(-0.2)" style="background:none; border:none; color: var(--color-text); font-size: 1.2rem; cursor: pointer;">−</button>
                              <span id="zoom-level" style="font-weight: 600; font-family: 'Outfit'; min-width: 50px; text-align: center;">100%</span>
-                             <button onclick="PDFExamModule.changeZoom(0.2)" style="background:none; border:none; color:white; font-size: 1.2rem; cursor: pointer;">+</button>
+                             <button onclick="PDFExamModule.changeZoom(0.2)" style="background:none; border:none; color: var(--color-text); font-size: 1.2rem; cursor: pointer;">+</button>
                         </div>
                          
                         <!-- Floating Close Button -->
-                        <button onclick="PDFExamModule.closeExam()" style="position: absolute; top: 20px; left: 20px; z-index: 10; background: #1e293b; color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);">
+                        <button onclick="PDFExamModule.closeExam()" style="position: absolute; top: 20px; left: 20px; z-index: 10; background: #1e293b; color: var(--color-text); border: 1px solid rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);">
                             <span>←</span> Volver
                         </button>
                     </div>
@@ -3839,7 +3840,7 @@ const TeacherModule = {
                                         👁️ Ver
                                     </button>
                                     <!-- SERVER_UPLOAD_BTN -->
-                                    <button class="btn btn-sm" style="background: var(--color-accent); color: white; border: none;" onclick="TeacherModule.uploadPDFToServer('${exam.id}')" title="Subir a Servidor para Estudiantes">
+                                    <button class="btn btn-sm" style="background: var(--color-accent); color: var(--color-text); border: none;" onclick="TeacherModule.uploadPDFToServer('${exam.id}')" title="Subir a Servidor para Estudiantes">
                                         ☁️ Subir
                                     </button>
                                     <button class="btn btn-ghost btn-sm" style="color: var(--color-danger); background: rgba(239,68,68,0.1);" onclick="TeacherModule.deletePDF('${exam.id}')">
@@ -5634,7 +5635,7 @@ const AdminPanelModule = {
                         name: profile.name || 'Desconocido',
                         surnameForSort: surnameForSort,
                         email: profile.email || 'Sin correo',
-                        school: profile.school || 'Sin colegio',
+                        school: profile.school ? profile.school.trim().toUpperCase() : 'SIN COLEGIO',
                         grade: profile.grade || 'N/A',
                         maxScore: maxScore,
                         totalQuestions: totalQuestions,
@@ -5670,7 +5671,7 @@ const AdminPanelModule = {
         const schools = new Set();
         this.allStudents.forEach(s => {
             if (s.grade && s.grade !== 'N/A') grades.add(s.grade);
-            if (s.school && s.school !== 'Sin colegio') schools.add(s.school);
+            if (s.school && s.school !== 'SIN COLEGIO') schools.add(s.school);
         });
 
         // Populate Grade Tabs
@@ -6208,7 +6209,7 @@ const AdminPanelModule = {
                     <!-- Footer -->
                     <div style="padding: 16px 24px; border-top: 1px solid var(--color-border); background: rgba(0,0,0,0.01); display: flex; justify-content: flex-end; gap: 12px;">
                         <button onclick="document.getElementById('student-details-modal-container').innerHTML = ''" style="padding: 10px 16px; border-radius: 10px; border: 1px solid var(--color-border); background: transparent; color: var(--color-text); cursor: pointer; font-weight: 600;">Cancelar</button>
-                        <button onclick="AdminPanelModule.sendMessage('${studentId}')" style="padding: 10px 20px; border-radius: 10px; border: none; background: var(--color-primary); color: white; cursor: pointer; font-weight: 600; display:flex; align-items:center; gap:6px;">
+                        <button onclick="AdminPanelModule.sendMessage('${studentId}')" style="padding: 10px 20px; border-radius: 10px; border: none; background: var(--color-primary); color: var(--color-text); cursor: pointer; font-weight: 600; display:flex; align-items:center; gap:6px;">
                             <span class="material-icons-round" style="font-size: 18px;">send</span> Enviar
                         </button>
                     </div>
@@ -7052,7 +7053,7 @@ const AuthModule = {
         const badgeContainer = document.getElementById('messages-badge-container');
         if (badgeContainer) {
             badgeContainer.innerHTML = unreadCount > 0 ? `
-                <div style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; font-size: 0.6rem; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid white; box-shadow: 0 2px 4px rgba(239,68,68,0.3); z-index: 10;">
+                <div style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: var(--color-text); font-size: 0.6rem; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid white; box-shadow: 0 2px 4px rgba(239,68,68,0.3); z-index: 10;">
                     ${unreadCount}
                 </div>
             ` : '';
@@ -7080,7 +7081,7 @@ const AuthModule = {
                 </button>
                 <div id="messages-badge-container">
                     ${unreadCount > 0 ? `
-                        <div style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; font-size: 0.6rem; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid white; box-shadow: 0 2px 4px rgba(239,68,68,0.3); z-index: 10;">
+                        <div style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: var(--color-text); font-size: 0.6rem; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid white; box-shadow: 0 2px 4px rgba(239,68,68,0.3); z-index: 10;">
                             ${unreadCount}
                         </div>
                     ` : ''}
@@ -7508,10 +7509,13 @@ window.updateUserUI = function () {
                 
                 <!-- Profile -->
                 <div id="user-profile-banner" style="display: flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.5); padding: 2px 8px 2px 2px; border-radius: 20px; border: 1px solid rgba(124, 58, 237, 0.1);">
-                    <div style="width: 26px; height: 26px; border-radius: 50%; overflow: hidden; border: 1.5px solid white;">
+                    <div style="width: 26px; height: 26px; border-radius: 50%; overflow: hidden; border: 1.5px solid white; position: relative;">
                         <img src="img/student_hero.png" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                        ${typeof DuelModule !== 'undefined' && DuelModule.stats.rating >= 2000 ? '<span style="position:absolute; top:-5px; right:-5px; font-size:10px;">👑</span>' : ''}
                     </div>
-                    <div style="font-weight: 700; color: #1e3a8a; font-size: 0.75rem; white-space: nowrap;">Hola, ${formattedName}</div>
+                    <div style="font-weight: 700; color: #1e3a8a; font-size: 0.75rem; white-space: nowrap;">
+                        Hola, ${formattedName} ${typeof DuelModule !== 'undefined' && DuelModule.stats.rating >= 2000 ? '👑' : ''}
+                    </div>
                 </div>
 
                 <!-- Messages -->
@@ -7555,17 +7559,26 @@ const GlobalResultsModule = {
         // Render Loading State
         container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--color-text-muted);"><div style="font-size: 2rem; margin-bottom: 12px; animation: pulse 1.5s infinite;">🔄</div>Cargando rankings globales...</div>`;
 
-        // Fetch All Three Data Sets in Parallel
-        const [scoreHtml, levelHtml, weeklyHtml] = await Promise.all([
+        // Fetch All Four Data Sets in Parallel
+        const [scoreHtml, levelHtml, weeklyHtml, duelHtml] = await Promise.all([
             this._fetchScoreRankingHtml(),
             this._fetchLevelRankingHtml(),
-            this._fetchWeeklyComplianceHtml()
+            this._fetchWeeklyComplianceHtml(),
+            this._fetchBattleRoyalRankingHtml()
         ]);
 
-        // Render Three Sections Horizontally (side by side, top-aligned)
+        // Render sections in a responsive grid
         container.innerHTML = `
-            <div class="global-ranking-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start;">
+            <div class="global-ranking-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: start;">
                 
+                <!-- Battle Royal Ranking Column (Highlight) -->
+                <div style="order: -1;">
+                    <h2 style="font-size: 1.3rem; color: #ef4444; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+                        ⚔️ Reyes de la Battle Royal
+                    </h2>
+                    ${duelHtml}
+                </div>
+
                 <!-- Score Ranking Column -->
                 <div>
                     <h2 style="font-size: 1.3rem; color: var(--color-primary-dark); margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
@@ -7590,6 +7603,81 @@ const GlobalResultsModule = {
                     ${weeklyHtml}
                 </div>
 
+            </div>
+        `;
+    },
+
+    async _fetchBattleRoyalRankingHtml() {
+        let users = [];
+        try {
+            const response = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
+                    users = Object.entries(data)
+                        .filter(([uid, u]) => u.profile && u.profile.role === 'estudiante' && u.duels && u.duels.rating)
+                        .map(([uid, u]) => ({
+                            id: uid,
+                            name: u.profile.name || 'Anónimo',
+                            grade: u.profile.grade || '',
+                            rating: u.duels.rating,
+                            wins: u.duels.wins || 0,
+                            losses: u.duels.losses || 0
+                        }));
+                }
+            }
+        } catch (e) {
+            console.error('Error fetching Battle Royal ranking:', e);
+        }
+
+        if (users.length === 0) {
+            return `<div style="text-align: center; padding: 40px; color: var(--color-text-muted); background: rgba(239, 68, 68, 0.02); border-radius: 16px; border: 1px dashed rgba(239, 68, 68, 0.3);"><div style="font-size: 2.5rem; margin-bottom: 12px;">⚔️</div><div style="font-size: 1rem; font-weight: 600; margin-bottom: 6px;">Sin actividad reciente</div><p style="font-size: 0.8rem;">¡Sé el primero en dominar la arena de duelos!</p></div>`;
+        }
+
+        // Sort by rating descending
+        users.sort((a, b) => b.rating - a.rating);
+
+        return `
+            <div class="glass" style="overflow-x: auto; padding: 0; border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 16px; background: rgba(239, 68, 68, 0.02);">
+                <div style="padding: 10px 16px; font-size: 0.75rem; color: #ef4444; font-weight: 600; border-bottom: 1px solid rgba(239, 68, 68, 0.1); display: flex; align-items: center; justify-content: space-between;">
+                    <span>🔥 El Trono de Hierro</span>
+                    <span style="background: rgba(239, 68, 68, 0.1); padding: 2px 8px; border-radius: 20px;">Arena Activa</span>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
+                    <thead style="background: rgba(239, 68, 68, 0.05); border-bottom: 1px solid rgba(239, 68, 68, 0.15);">
+                        <tr>
+                            <th style="padding: 10px 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #b91c1c; text-transform: uppercase;">#</th>
+                            <th style="padding: 10px 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #b91c1c; text-transform: uppercase;">Guerrero</th>
+                            <th style="padding: 10px 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #b91c1c; text-transform: uppercase;">Récord</th>
+                            <th style="padding: 10px 12px; text-align: right; font-size: 0.70rem; font-weight: 700; color: #b91c1c; text-transform: uppercase;">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.slice(0, 50).map((u, index) => {
+            let medal = '';
+            if (index === 0) medal = '👑';
+            else if (index === 1) medal = '🥈';
+            else if (index === 2) medal = '🥉';
+            else medal = `#${index + 1}`;
+
+            return `
+                                <tr style="border-bottom: 1px solid rgba(239, 68, 68, 0.08);" class="result-row">
+                                    <td style="padding: 10px 12px; font-weight: 800; font-size: 1.1rem; color: ${index === 0 ? '#f59e0b' : 'var(--color-text-muted)'};">${medal}</td>
+                                    <td style="padding: 10px 12px;">
+                                        <div style="font-weight: 700; font-size: 0.9rem; color: var(--color-text);">${u.name}</div>
+                                        <div style="font-size: 0.72rem; color: var(--color-text-muted);">${u.grade}</div>
+                                    </td>
+                                    <td style="padding: 10px 12px;">
+                                        <div style="font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted);">${u.wins}W - ${u.losses}L</div>
+                                    </td>
+                                    <td style="padding: 10px 12px; text-align: right;">
+                                        <div style="font-size: 0.95rem; font-weight: 800; color: #ef4444; font-family: monospace;">${u.rating}</div>
+                                    </td>
+                                </tr>
+                            `;
+        }).join('')}
+                    </tbody>
+                </table>
             </div>
         `;
     },
@@ -8196,7 +8284,7 @@ const FlashcardModule = {
                 btn.style.width = '100%';
                 btn.style.borderColor = 'var(--color-border)';
                 btn.innerHTML = `
-                    <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors" style="flex-shrink:0;">${opt.id}</span>
+                    <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-[color:var(--color-text)] transition-colors" style="flex-shrink:0;">${opt.id}</span>
                     <span style="flex:1;">${opt.texto}</span>
                 `;
                 btn.onclick = (e) => {
@@ -8556,7 +8644,7 @@ const VirtualTeacherModule = {
         actions.forEach(action => {
             const btn = document.createElement('button');
             btn.className = 'btn';
-            btn.style.cssText = "padding: 8px 16px; font-size: 0.85rem; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; background: var(--color-primary); color: white; transition: all 0.2s; box-shadow: 0 4px 0 var(--color-primary-dark);";
+            btn.style.cssText = "padding: 8px 16px; font-size: 0.85rem; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; background: var(--color-primary); color: var(--color-text); transition: all 0.2s; box-shadow: 0 4px 0 var(--color-primary-dark);";
             btn.textContent = action.label;
             btn.onclick = (e) => {
                 e.stopPropagation();
@@ -8774,6 +8862,471 @@ const VirtualTeacherModule = {
     }
 };
 
+// ============ BATTLE ROYAL DUEL MODULE ============
+const DuelModule = {
+    stats: {
+        rating: 1000,
+        wins: 0,
+        losses: 0,
+        rank: 'Soldado'
+    },
+    allStudents: [],
+    currentBattle: null,
+
+    async init() {
+        console.log('Iniciando DuelModule...');
+        if (!AuthModule.currentUser) return;
+        
+        await this.loadUserDuelStats();
+        await this.fetchAllStudents();
+        this.renderStatsUI();
+        this.renderOpponents();
+    },
+
+    async loadUserDuelStats() {
+        if (!AuthModule.currentUser) return;
+        try {
+            const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels.json`);
+            const data = await res.json();
+            if (data) {
+                this.stats = {
+                    rating: data.rating || 1000,
+                    wins: data.wins || 0,
+                    losses: data.losses || 0,
+                    rank: this._calculateRank(data.rating || 1000)
+                };
+            }
+        } catch (e) {
+            console.error('Error loading duel stats:', e);
+        }
+    },
+
+    _calculateRank(rating) {
+        if (rating < 1100) return 'Soldado';
+        if (rating < 1300) return 'Guerrero';
+        if (rating < 1500) return 'Veterano';
+        if (rating < 1800) return 'Comandante';
+        if (rating < 2000) return 'General';
+        return 'Rey de la Arena 👑';
+    },
+
+    async fetchAllStudents() {
+        try {
+            const res = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+            const data = await res.json();
+            if (data) {
+                this.allStudents = Object.entries(data)
+                    .filter(([uid, u]) => u.profile && u.profile.role === 'estudiante' && uid !== AuthModule.currentUser.id)
+                    .map(([uid, u]) => ({
+                        id: uid,
+                        name: u.profile.name || 'Anónimo',
+                        school: u.profile.school || 'IE MATECANDELA',
+                        rating: (u.duels && u.duels.rating) || 1000,
+                        lastActive: (u.gamification && u.gamification.lastUpdated) || 0
+                    }));
+            }
+        } catch (e) {
+            console.error('Error fetching students for duels:', e);
+        }
+    },
+
+    renderStatsUI() {
+        const ratingEl = document.getElementById('duel-my-rating');
+        const recordEl = document.getElementById('duel-my-record');
+        const rankEl = document.getElementById('duel-my-rank');
+
+        if (ratingEl) ratingEl.innerText = this.stats.rating;
+        if (recordEl) recordEl.innerText = `${this.stats.wins}W - ${this.stats.losses}L`;
+        if (rankEl) rankEl.innerText = this.stats.rank;
+    },
+
+    renderOpponents(filter = '') {
+        const container = document.getElementById('duel-opponents-list');
+        const countEl = document.getElementById('duel-online-count');
+        if (!container) return;
+
+        let filtered = this.allStudents;
+        if (filter.trim() !== '') {
+            filtered = filtered.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()));
+        }
+
+        // Sort by last active (recency)
+        filtered.sort((a, b) => b.lastActive - a.lastActive);
+
+        if (countEl) countEl.innerText = `${filtered.length} Estudiantes encontrados`;
+
+        container.innerHTML = filtered.map(opp => `
+            <div class="glass" style="padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); transition: all 0.3s; position: relative; overflow: hidden;">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                    <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
+                        ${opp.name.charAt(0)}
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span style="font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${opp.name}</span>
+                            ${opp.rating >= 2000 ? '<span title="Rey de la Arena">👑</span>' : ''}
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted);">${opp.school}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 800; color: #ef4444; font-size: 0.9rem;">${opp.rating}🏆</div>
+                    </div>
+                </div>
+                <button onclick="DuelModule.challengeUser('${opp.id}')" 
+                    style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); color: #ef4444; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+                    RETAR A DUELO
+                </button>
+            </div>
+        `).join('') || '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-muted);">No se encontraron rivales.</div>';
+    },
+
+    async startMatchmaking() {
+        if (this.allStudents.length === 0) {
+            NotificationModule.show('Buscando oponentes...', 'info');
+            await this.fetchAllStudents();
+        }
+
+        // Visual feedback for searching
+        const btn = document.querySelector('[onclick="DuelModule.startMatchmaking()"]');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-icons-round animate-spin">sync</span> BUSCANDO...';
+
+        setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+
+            // Pick a random opponent close to rating (within 200 pts if possible)
+            let candidates = this.allStudents.filter(s => Math.abs(s.rating - this.stats.rating) <= 200);
+            if (candidates.length === 0) candidates = this.allStudents;
+            
+            if (candidates.length === 0) {
+                NotificationModule.show('No hay oponentes disponibles en este momento.', 'warning');
+                return;
+            }
+
+            const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+            this.challengeUser(chosen.id);
+        }, 2000);
+    },
+
+    challengeUser(opponentId) {
+        const opponent = this.allStudents.find(s => s.id === opponentId);
+        if (!opponent) return;
+
+        // Show VS Screen
+        this.showVSScreen(opponent);
+    },
+
+    showVSScreen(opponent) {
+        const vsOverlay = document.createElement('div');
+        vsOverlay.id = 'duel-vs-overlay';
+        vsOverlay.style = `
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: var(--color-text); font-family: 'Inter', sans-serif; overflow: hidden;
+        `;
+
+        vsOverlay.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 80px; margin-bottom: 40px; transform: scale(1.2);">
+                <!-- User -->
+                <div style="text-align: center; animation: slide-in-left 0.6s ease-out;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-primary); border: 4px solid white; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 15px;">👤</div>
+                    <div style="font-weight: 800; font-size: 1.2rem;">${AuthModule.currentUser.name}</div>
+                    <div style="color: #60a5fa; font-weight: 700;">${this.stats.rating} 🏆</div>
+                </div>
+                
+                <!-- VS -->
+                <div style="font-size: 5rem; font-weight: 900; font-style: italic; color: #ef4444; animation: pop 0.4s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;">VS</div>
+                
+                <!-- Opponent -->
+                <div style="text-align: center; animation: slide-in-right 0.6s ease-out;">
+                    <div style="width: 100px; height: 100px; border-radius: 50%; background: #ef4444; border: 4px solid white; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 15px;">🦦</div>
+                    <div style="font-weight: 800; font-size: 1.2rem;">${opponent.name}</div>
+                    <div style="color: #fca5a5; font-weight: 700;">${opponent.rating} 🏆</div>
+                </div>
+            </div>
+            
+            <div id="duel-vs-timer" style="font-size: 2rem; font-weight: 800; letter-spacing: 4px; color: #ef4444;">PREPARADOS...</div>
+        `;
+
+        document.body.appendChild(vsOverlay);
+
+        // Countdown sounds or logic
+        let count = 3;
+        const interval = setInterval(() => {
+            const timerEl = document.getElementById('duel-vs-timer');
+            if (count > 0) {
+                timerEl.innerText = count;
+                count--;
+            } else {
+                timerEl.innerText = '¡FUEGO! 🔥';
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.body.removeChild(vsOverlay);
+                    this.startBattle(opponent);
+                }, 800);
+            }
+        }, 1000);
+    },
+
+    async startBattle(opponent) {
+        console.log('Preparando batalla contra:', opponent.name);
+        NotificationModule.show('Cargando banco de preguntas...', 'info');
+
+        // Reuse native exam loading logic
+        if (typeof window.SABER_DB !== 'undefined' && window.SABER_DB.examenes) {
+            window.NATIVE_EXAM_DATA = window.NATIVE_EXAM_DATA || [];
+            let scriptsToLoad = window.SABER_DB.examenes.map(exam => {
+                return new Promise((resolve) => {
+                    if (document.querySelector(`script[src="${exam.archivo_js}"]`)) return resolve(true);
+                    const script = document.createElement('script');
+                    script.src = exam.archivo_js;
+                    script.onload = () => resolve(true);
+                    script.onerror = () => resolve(false);
+                    document.body.appendChild(script);
+                });
+            });
+
+            await Promise.all(scriptsToLoad);
+            this._initBattle(opponent);
+        } else {
+            this._initBattle(opponent);
+        }
+    },
+
+    _initBattle(opponent) {
+        let deletedNative = JSON.parse(localStorage.getItem('deleted_native_questions') || '[]');
+        let nativeQuestions = typeof window.NATIVE_EXAM_DATA !== 'undefined' && Array.isArray(window.NATIVE_EXAM_DATA)
+            ? window.NATIVE_EXAM_DATA.filter(q => !deletedNative.includes(q.id)) : [];
+
+        if (nativeQuestions.length < 5) {
+            NotificationModule.show('Error: No hay suficientes preguntas para el duelo.', 'error');
+            return;
+        }
+
+        // Shuffle and take 5
+        let shuffled = this._shuffle(nativeQuestions);
+        this.currentBattle = {
+            opponent,
+            questions: shuffled.slice(0, 5),
+            currentIndex: 0,
+            answers: [],
+            startTime: Date.now(),
+            score: 0,
+            rivalProgress: 0
+        };
+
+        this.renderBattleArena();
+    },
+
+    _shuffle(array) {
+        let current = array.length, random;
+        while (current !== 0) {
+            random = Math.floor(Math.random() * current);
+            current--;
+            [array[current], array[random]] = [array[random], array[current]];
+        }
+        return array;
+    },
+
+    renderBattleArena() {
+        // Create full-screen Battle Arena
+        const arena = document.createElement('div');
+        arena.id = 'duel-battle-arena';
+        arena.style = `
+            position: fixed; inset: 0; background: var(--color-bg); z-index: 10000;
+            display: flex; flex-direction: column; color: var(--color-text); padding: 20px;
+        `;
+
+        arena.innerHTML = `
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="font-weight: 800; color: #60a5fa;">TÚ</div>
+                    <div style="width: 200px; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden;">
+                        <div id="duel-my-progress" style="width: 0%; height: 100%; background: #3b82f6; transition: width 0.3s;"></div>
+                    </div>
+                </div>
+                <div id="duel-battle-timer" style="font-size: 1.5rem; font-weight: 800; font-family: monospace; color: #ef4444;">00s</div>
+                <div style="display: flex; align-items: center; gap: 15px; text-align: right;">
+                    <div style="width: 200px; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden;">
+                        <div id="duel-rival-progress" style="width: 0%; height: 100%; background: #ef4444; transition: width 1s;"></div>
+                    </div>
+                    <div style="font-weight: 800; color: #ef4444;">${this.currentBattle.opponent.name.toUpperCase()}</div>
+                </div>
+            </header>
+
+            <div id="duel-question-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 800px; margin: 0 auto; width: 100%;">
+                <!-- Question will be injected here -->
+            </div>
+        `;
+
+        document.body.appendChild(arena);
+        this.startArenaLoop();
+        this.renderBattleQuestion();
+    },
+
+    startArenaLoop() {
+        this.battleInterval = setInterval(() => {
+            if (!this.currentBattle) return;
+            const elapsed = Math.floor((Date.now() - this.currentBattle.startTime) / 1000);
+            const timerEl = document.getElementById('duel-battle-timer');
+            if (timerEl) timerEl.innerText = `${elapsed}s`;
+
+            // Simulate rival progress
+            if (Math.random() > 0.95 && this.currentBattle.rivalProgress < 100) {
+                this.currentBattle.rivalProgress += 20;
+                const rivalBar = document.getElementById('duel-rival-progress');
+                if (rivalBar) rivalBar.style.width = `${this.currentBattle.rivalProgress}%`;
+            }
+        }, 1000);
+    },
+
+    renderBattleQuestion() {
+        const qContainer = document.getElementById('duel-question-container');
+        let rawQ = this.currentBattle.questions[this.currentBattle.currentIndex];
+        
+        // Normalize Q
+        let q = typeof GamesModule !== 'undefined' && GamesModule.normalizeQuestion 
+            ? GamesModule.normalizeQuestion(rawQ) 
+            : rawQ;
+            
+        // Fallbacks just in case
+        const enunciado = q.enunciado || q.pregunta || q.texto || 'Sin pregunta';
+        const opciones = Array.isArray(q.opciones) ? q.opciones : [
+            { id: 'A', texto: q.a || q.opcionA || 'Opción A' },
+            { id: 'B', texto: q.b || q.opcionB || 'Opción B' },
+            { id: 'C', texto: q.c || q.opcionC || 'Opción C' },
+            { id: 'D', texto: q.d || q.opcionD || 'Opción D' }
+        ];
+        
+        qContainer.innerHTML = `
+            <div class="glass" style="width: 100%; padding: 30px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass-bg);">
+                <div style="font-size: 0.9rem; color: #60a5fa; margin-bottom: 10px; font-weight: 700;">PREGUNTA ${this.currentBattle.currentIndex + 1} DE 5</div>
+                <div style="font-size: 1.25rem; font-weight: 600; line-height: 1.6; margin-bottom: 30px;">${enunciado}</div>
+                <div style="display: grid; gap: 12px; width: 100%;">
+                    ${opciones.map(opt => `
+                        <button onclick="DuelModule.submitBattleAnswer('${opt.id}')" 
+                            style="text-align: left; padding: 16px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: var(--color-surface-2); color: var(--color-text); cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; gap: 12px; align-items: center;">
+                            <span style="width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 800;">${opt.id}</span>
+                            <span>${opt.texto}</span>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        // Update my progress bar
+        const myBar = document.getElementById('duel-my-progress');
+        if (myBar) myBar.style.width = `${(this.currentBattle.currentIndex / 5) * 100}%`;
+    },
+
+    submitBattleAnswer(key) {
+        let rawQ = this.currentBattle.questions[this.currentBattle.currentIndex];
+        let q = typeof GamesModule !== 'undefined' && GamesModule.normalizeQuestion 
+            ? GamesModule.normalizeQuestion(rawQ) 
+            : rawQ;
+            
+        const respuestaCorrecta = q.respuestaCorrecta || q.respuesta_correcta || 'A';
+        const isCorrect = key === respuestaCorrecta;
+        
+        if (isCorrect) this.currentBattle.score += 20; // 20 points per correct answer
+
+        this.currentBattle.answers.push({ qId: q.id || 'N/A', key, isCorrect });
+        this.currentBattle.currentIndex++;
+
+        if (this.currentBattle.currentIndex < 5) {
+            this.renderBattleQuestion();
+        } else {
+            this.finishBattle();
+        }
+    },
+
+    finishBattle() {
+        clearInterval(this.battleInterval);
+        const elapsed = Math.floor((Date.now() - this.currentBattle.startTime) / 1000);
+        
+        // Calculate Time Bonus: max 20 pts if under 30s
+        const timeBonus = Math.max(0, 20 - Math.floor(elapsed / 3));
+        const totalScore = this.currentBattle.score + timeBonus;
+        
+        // Simulate Opponent Score (for now, random 40-90)
+        const opponentScore = 40 + Math.floor(Math.random() * 50);
+        const iWon = totalScore >= opponentScore;
+
+        const arena = document.getElementById('duel-battle-arena');
+        arena.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                <div style="font-size: 5rem; margin-bottom: 20px;">${iWon ? '🏆' : '💀'}</div>
+                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; color: ${iWon ? '#10b981' : '#ef4444'};">${iWon ? '¡VICTORIA!' : 'DERROTA'}</h1>
+                <p style="font-size: 1.2rem; color: #94a3b8; margin-bottom: 40px;">Tu puntuación: ${totalScore} pts (Tiempo: ${elapsed}s)</p>
+                
+                <div class="glass" style="padding: 20px 40px; border-radius: 20px; display: flex; gap: 40px; margin-bottom: 40px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Aciertos</div>
+                        <div style="font-size: 1.5rem; font-weight: 800;">${this.currentBattle.score / 20}/5</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Bono Velocidad</div>
+                        <div style="font-size: 1.5rem; font-weight: 800; color: #f59e0b;">+${timeBonus}</div>
+                    </div>
+                </div>
+
+                <button onclick="DuelModule.closeArenaAndApply('${iWon}')" 
+                    style="padding: 18px 50px; border-radius: 16px; border: none; background: ${iWon ? '#10b981' : '#475569'}; color: var(--color-text); font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+                    CONTINUAR
+                </button>
+            </div>
+        `;
+    },
+
+    async closeArenaAndApply(iWonStr) {
+        const iWon = iWonStr === 'true';
+        const arena = document.getElementById('duel-battle-arena');
+        if (arena) arena.remove();
+
+        // Update ELO and Stats
+        await this.updateElo(this.currentBattle.opponent, iWon);
+        this.currentBattle = null;
+        this.init(); // Refresh UI
+    },
+
+    async updateElo(opponent, iWon) {
+        const kFactor = 32;
+        const expectedScore = 1 / (1 + Math.pow(10, (opponent.rating - this.stats.rating) / 400));
+        const actualScore = iWon ? 1 : 0;
+        const ratingChange = Math.round(kFactor * (actualScore - expectedScore));
+        
+        this.stats.rating += ratingChange;
+        if (iWon) this.stats.wins++; else this.stats.losses++;
+        
+        // Persist to Firebase
+        if (AuthModule.currentUser) {
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    rating: this.stats.rating,
+                    wins: this.stats.wins,
+                    losses: this.stats.losses
+                })
+            });
+        }
+        
+        this.renderStatsUI();
+        NotificationModule.show(`Batalla Finalizada. ${iWon ? '+' : ''}${ratingChange} de Rating.`, iWon ? 'success' : 'error');
+    }
+};
+
+window.DuelModule = DuelModule;
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Register Duel View in Router if Router exists
+    if (typeof Router !== 'undefined' && Router.views) {
+        // This is handled by Router.go switch/init usually
+    }
+});
+
 const GamesModule = {
     games: [
         // 12 NUEVOS JUEGOS DE ATAJOS/HEURÍSTICAS
@@ -8917,7 +9470,7 @@ const GamesModule = {
         this.games.forEach(game => {
             const card = document.createElement('div');
             // Estilos del Dark Neon UI importados de React
-            card.className = "group relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-6 hover:bg-slate-800/80 transition-all duration-300 cursor-pointer overflow-hidden transform hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]";
+            card.className = "group relative bg-[color:var(--color-surface-2)]/50 backdrop-blur-sm border border-[color:var(--color-border)]/50 rounded-3xl p-6 hover:bg-[color:var(--color-surface-2)]/80 transition-all duration-300 cursor-pointer overflow-hidden transform hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]";
             card.onclick = () => this.startGame(game.id);
 
             const record = localStorage.getItem(`record_game_${game.id}`) || 0;
@@ -8926,24 +9479,24 @@ const GamesModule = {
                 <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500" style="background: ${game.color};"></div>
                 <div class="relative z-10 flex flex-col h-full">
                     <div class="flex justify-between items-start mb-4">
-                        <div class="p-3 rounded-2xl bg-slate-900/50 border border-slate-700/50 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-3 rounded-2xl bg-[color:var(--color-bg)]/50 border border-[color:var(--color-border)]/50 shadow-inner group-hover:scale-110 transition-transform duration-300">
                             <span class="material-icons-round text-3xl" style="color: ${game.color}; filter: drop-shadow(0 0 8px ${game.color});">${game.icon}</span>
                         </div>
                         <span class="text-xs font-bold px-3 py-1 rounded-full border tracking-wider" style="background: ${game.color}20; color: ${game.color}; border-color: ${game.color}40;">
                             ${game.badge}
                         </span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text" style="background-image: linear-gradient(to right, #ffffff, ${game.color});">
+                    <h3 class="text-xl font-bold text-[color:var(--color-text)] mb-2 group-hover:text-transparent group-hover:bg-clip-text" style="background-image: linear-gradient(to right, #ffffff, ${game.color});">
                         ${game.name}
                     </h3>
-                    <p class="text-slate-400 text-sm mb-6 line-clamp-2">${game.desc}</p>
+                    <p class="text-[color:var(--color-text-muted)] text-sm mb-6 line-clamp-2">${game.desc}</p>
                     
-                    <div class="flex items-center justify-between mt-auto pt-2 border-t border-slate-700/30">
-                        <span class="text-xs font-medium text-slate-500 bg-slate-900/50 px-3 py-1.5 rounded-lg border border-slate-800">
+                    <div class="flex items-center justify-between mt-auto pt-2 border-t border-[color:var(--color-border)]/30">
+                        <span class="text-xs font-medium text-slate-500 bg-[color:var(--color-bg)]/50 px-3 py-1.5 rounded-lg border border-slate-800">
                             Récord: ${record}
                         </span>
                         <div class="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0" style="background: ${game.color}; shadow-[0_0_10px_${game.color}]">
-                            <span class="material-icons-round text-white text-sm relative left-px">play_arrow</span>
+                            <span class="material-icons-round text-[color:var(--color-text)] text-sm relative left-px">play_arrow</span>
                         </div>
                     </div>
                 </div>
@@ -8991,7 +9544,7 @@ const GamesModule = {
             case 'pinochazo': 
                 this.initArcadeMultipleChoice(gameId); 
                 break;
-            default: arenaEl.innerHTML = '<div class="p-8 text-center text-white">Próximamente... <br><br> <button class="btn btn-primary" onclick="GamesModule.renderSelection()">Volver</button></div>';
+            default: arenaEl.innerHTML = '<div class="p-8 text-center text-[color:var(--color-text)]">Próximamente... <br><br> <button class="btn btn-primary" onclick="GamesModule.renderSelection()">Volver</button></div>';
         }
     },
 
@@ -9139,12 +9692,12 @@ const GamesModule = {
     toggleConexionesItem(btn, item) {
         if (this.state.selectedItems.includes(item)) {
             this.state.selectedItems = this.state.selectedItems.filter(i => i !== item);
-            btn.classList.remove('bg-primary-light', 'text-white', 'border-primary');
+            btn.classList.remove('bg-primary-light', 'text-[color:var(--color-text)]', 'border-primary');
             btn.classList.add('bg-surface-2');
         } else {
             if (this.state.selectedItems.length >= 4) return;
             this.state.selectedItems.push(item);
-            btn.classList.add('bg-primary-light', 'text-white', 'border-primary');
+            btn.classList.add('bg-primary-light', 'text-[color:var(--color-text)]', 'border-primary');
             btn.classList.remove('bg-surface-2');
         }
         
@@ -9155,7 +9708,7 @@ const GamesModule = {
         this.state.selectedItems = [];
         const btns = document.querySelectorAll('#conexiones-grid button');
         btns.forEach(btn => {
-            btn.classList.remove('bg-primary-light', 'text-white', 'border-primary');
+            btn.classList.remove('bg-primary-light', 'text-[color:var(--color-text)]', 'border-primary');
             btn.classList.add('bg-surface-2');
         });
         document.getElementById('conexiones-submit').disabled = true;
@@ -9259,7 +9812,7 @@ const GamesModule = {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="options-grid">
                     ${question.opciones.map(opt => `
                         <button onclick="GamesModule.submitEnglishAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-4 py-3 hover:border-pink-500/50 transition-all group">
-                            <span class="w-8 h-8 rounded-full border border-pink-500/30 flex items-center justify-center mr-3 group-hover:bg-pink-500 group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="w-8 h-8 rounded-full border border-pink-500/30 flex items-center justify-center mr-3 group-hover:bg-pink-500 group-hover:text-[color:var(--color-text)] transition-colors">${opt.id}</span>
                             <span class="flex-1 text-sm font-medium">${opt.texto}</span>
                         </button>
                     `).join('')}
@@ -9406,7 +9959,7 @@ const GamesModule = {
                 <div class="grid grid-cols-1 gap-3" id="options-grid">
                     ${question.opciones.map(opt => `
                         <button onclick="GamesModule.submitDescifraAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-6 py-4 hover:border-primary-light transition-all group">
-                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-[color:var(--color-text)] transition-colors">${opt.id}</span>
                             <span class="flex-1">${opt.texto}</span>
                         </button>
                     `).join('')}
@@ -9515,7 +10068,7 @@ const GamesModule = {
                 <div class="grid grid-cols-1 gap-3" id="options-grid">
                     ${question.opciones.map(opt => `
                         <button onclick="GamesModule.submitAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-6 py-4 hover:border-primary-light transition-all group">
-                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-[color:var(--color-text)] transition-colors">${opt.id}</span>
                             <span class="flex-1">${opt.texto}</span>
                         </button>
                     `).join('')}
@@ -9704,7 +10257,7 @@ const GamesModule = {
                 <div class="grid grid-cols-1 gap-3" id="options-grid">
                     ${question.opciones.map(opt => `
                         <button onclick="GamesModule.submitSurvivalAnswer('${opt.id}', '${question.respuestaCorrecta}')" class="btn btn-secondary justify-start text-left px-6 py-4 hover:border-purple-500 transition-all group">
-                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-purple-500 group-hover:text-white transition-colors">${opt.id}</span>
+                            <span class="w-8 h-8 rounded-full border flex items-center justify-center mr-4 group-hover:bg-purple-500 group-hover:text-[color:var(--color-text)] transition-colors">${opt.id}</span>
                             <span class="flex-1">${opt.texto}</span>
                         </button>
                     `).join('')}
@@ -9879,7 +10432,7 @@ const GamesModule = {
         arena.innerHTML = `
             <div class="glass p-8 border-t-4" style="border-top-color: ${color}; max-width: 600px; width: 100%;">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-2xl font-black text-white" style="color: ${color}">${title}</h3>
+                    <h3 class="text-2xl font-black text-[color:var(--color-text)]" style="color: ${color}">${title}</h3>
                     <div id="arcade-mc-progress" class="flex gap-2"></div>
                 </div>
                 <div id="arcade-mc-content" class="space-y-6"></div>
@@ -9899,10 +10452,10 @@ const GamesModule = {
 
         content.innerHTML = `
             <div class="animate-fade-in text-center">
-                <p class="text-xl font-bold text-white mb-8">${data.q}</p>
+                <p class="text-xl font-bold text-[color:var(--color-text)] mb-8">${data.q}</p>
                 <div class="grid grid-cols-1 gap-4" id="arcade-mc-opts">
                     ${data.options.map((opt, i) => `
-                        <button onclick="GamesModule.submitArcadeMC(${i}, this)" class="btn w-full py-4 text-lg bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl border-2 border-slate-700 hover:border-blue-500 transition-all">
+                        <button onclick="GamesModule.submitArcadeMC(${i}, this)" class="btn w-full py-4 text-lg bg-[color:var(--color-surface-2)] hover:bg-[color:var(--color-surface-3)] text-[color:var(--color-text)] font-bold rounded-2xl border-2 border-[color:var(--color-border)] hover:border-blue-500 transition-all">
                             ${opt}
                         </button>
                     `).join('')}
@@ -9956,14 +10509,14 @@ const GamesModule = {
         const icon = isCorrect ? 'check_circle' : 'warning';
         
         const modal = document.createElement('div');
-        modal.className = 'absolute inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-8 text-center animate-fade-in';
+        modal.className = 'absolute inset-0 bg-[color:var(--color-bg)]/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-8 text-center animate-fade-in';
         modal.innerHTML = `
             <span class="material-icons-round text-6xl mb-6 shadow-xl" style="color: ${color}; filter: drop-shadow(0 0 15px ${color}80)">${icon}</span>
-            <h2 class="text-3xl font-black text-white mb-4 uppercase tracking-widest">${title}</h2>
-            <div class="border-2 p-6 rounded-3xl mb-10 shadow-xl max-w-sm w-full bg-slate-800" style="border-color: ${color}50">
-                <p class="text-white text-lg font-medium">${desc}</p>
+            <h2 class="text-3xl font-black text-[color:var(--color-text)] mb-4 uppercase tracking-widest">${title}</h2>
+            <div class="border-2 p-6 rounded-3xl mb-10 shadow-xl max-w-sm w-full bg-[color:var(--color-surface-2)]" style="border-color: ${color}50">
+                <p class="text-[color:var(--color-text)] text-lg font-medium">${desc}</p>
             </div>
-            <button id="feedback-cb-btn" class="font-black py-4 px-8 w-full max-w-xs rounded-2xl shadow-xl transition-transform active:scale-95 text-lg text-white text-slate-900" style="background: ${color}">
+            <button id="feedback-cb-btn" class="font-black py-4 px-8 w-full max-w-xs rounded-2xl shadow-xl transition-transform active:scale-95 text-lg text-[color:var(--color-text)] text-slate-900" style="background: ${color}">
                 Continuar
             </button>
         `;
@@ -9996,11 +10549,11 @@ const GamesModule = {
                 <h3 class="text-3xl font-black text-pink-400 mb-2">Ninja de Ceros</h3>
                 <div id="ninja-level-text" class="bg-pink-500/20 text-pink-300 rounded-full px-4 py-1 text-sm inline-block font-bold mb-8">Nivel</div>
                 
-                <div class="flex items-center justify-center text-4xl md:text-6xl font-black text-white space-x-4 select-none mb-12">
+                <div class="flex items-center justify-center text-4xl md:text-6xl font-black text-[color:var(--color-text)] space-x-4 select-none mb-12">
                     <div class="relative group">
                         <span id="ninja-perc-val" class="hover:text-pink-400 cursor-pointer"></span>
                         <span id="ninja-perc-zero" class="cursor-pointer transition-all duration-300 hover:text-pink-400" onclick="GamesModule.slashNinja(0, this)">0</span>
-                        <span class="text-3xl ml-1 text-slate-400 opacity-50">%</span>
+                        <span class="text-3xl ml-1 text-[color:var(--color-text-muted)] opacity-50">%</span>
                     </div>
                     <span class="text-2xl text-slate-500 opacity-50">de</span>
                     <div class="relative group">
@@ -10008,7 +10561,7 @@ const GamesModule = {
                         <span id="ninja-num-zero" class="cursor-pointer transition-all duration-300 hover:text-pink-400" onclick="GamesModule.slashNinja(1, this)">0</span>
                     </div>
                 </div>
-                <p class="text-sm text-slate-400">Haz clic sobre los ceros innecesarios para cortarlos.</p>
+                <p class="text-sm text-[color:var(--color-text-muted)]">Haz clic sobre los ceros innecesarios para cortarlos.</p>
             </div>
         `;
     },
@@ -10087,7 +10640,7 @@ const GamesModule = {
             <div class="glass p-8 border-t-4 border-emerald-500 w-full max-w-2xl text-center mx-auto">
                 <h3 class="text-3xl font-black text-emerald-400 mb-2">Cazador Impostor</h3>
                 <div id="cazador-ctx" class="text-emerald-300 font-bold mb-6 tracking-widest uppercase text-xs"></div>
-                <p class="text-slate-300 mb-8 font-medium">Destruye la afirmación extremista y absolutista.</p>
+                <p class="text-[color:var(--color-text-muted)] mb-8 font-medium">Destruye la afirmación extremista y absolutista.</p>
                 <div id="cazador-opts" class="space-y-4"></div>
             </div>
         `;
@@ -10099,7 +10652,7 @@ const GamesModule = {
         
         const container = document.getElementById('cazador-opts');
         container.innerHTML = data.opts.sort(() => 0.5 - Math.random()).map((opt, i) => `
-            <div onclick="GamesModule.popCazador(${i}, ${opt.bad}, this)" class="w-full p-6 bg-slate-800 border-2 border-slate-700 rounded-2xl cursor-pointer hover:scale-[1.02] transform transition-all text-white font-bold text-lg">
+            <div onclick="GamesModule.popCazador(${i}, ${opt.bad}, this)" class="w-full p-6 bg-[color:var(--color-surface-2)] border-2 border-[color:var(--color-border)] rounded-2xl cursor-pointer hover:scale-[1.02] transform transition-all text-[color:var(--color-text)] font-bold text-lg">
                 "${opt.text}"
             </div>
         `).join('');
@@ -10166,19 +10719,19 @@ const GamesModule = {
         if (!arena) return;
         
         arena.innerHTML = `
-            <div class="flex flex-col items-center justify-center h-full w-full text-white space-y-8 animate-fade-in">
+            <div class="flex flex-col items-center justify-center h-full w-full text-[color:var(--color-text)] space-y-8 animate-fade-in">
                 <div class="relative">
                     <span class="material-icons-round text-yellow-400 text-9xl animate-bounce relative z-10" style="filter: drop-shadow(0 0 30px rgba(250,204,21,0.5))">emoji_events</span>
                 </div>
                 <div class="text-center">
                     <h2 class="text-5xl font-black mb-4">${title}</h2>
-                    <p class="text-xl text-slate-400 font-medium">Heurística consolidada en tu cerebro. Puntuación: ${this.state.score}</p>
+                    <p class="text-xl text-[color:var(--color-text-muted)] font-medium">Heurística consolidada en tu cerebro. Puntuación: ${this.state.score}</p>
                 </div>
-                <div class="bg-slate-800 border-2 border-slate-700 p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
+                <div class="bg-[color:var(--color-surface-2)] border-2 border-[color:var(--color-border)] p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl">
                     <p class="text-sm uppercase tracking-widest text-indigo-400 mb-2 font-bold">Experiencia Obtenida</p>
                     <p class="text-6xl font-black text-green-400">+${this.state.xpEarned} <span class="text-2xl">XP</span></p>
                 </div>
-                <button id="end-game-btn" class="bg-indigo-500 hover:bg-indigo-400 text-white font-black py-4 px-12 rounded-2xl flex justify-center items-center space-x-3 transition-transform active:scale-95 text-lg shadow-xl shadow-indigo-500/30">
+                <button id="end-game-btn" class="bg-indigo-500 hover:bg-indigo-400 text-[color:var(--color-text)] font-black py-4 px-12 rounded-2xl flex justify-center items-center space-x-3 transition-transform active:scale-95 text-lg shadow-xl shadow-indigo-500/30">
                     <span class="material-icons-round">home</span>
                     <span>Volver al Cuartel</span>
                 </button>
@@ -10207,6 +10760,7 @@ const GamesModule = {
 };
 
 window.GamesModule = GamesModule;
+window.DuelModule = DuelModule;
 
 window.VirtualTeacherModule = VirtualTeacherModule;
 
