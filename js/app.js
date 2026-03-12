@@ -8933,7 +8933,52 @@ const DuelModule = {
         this.renderStatsUI();
         this.renderOpponents();
         this.loadDuelRanking();
+        this.fetchHistory(); // Cargar historial
         this.listenForChallenges();
+    },
+
+    async fetchHistory() {
+        if (!AuthModule.currentUser) return;
+        try {
+            const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/history.json`);
+            const data = await res.json();
+            if (data) {
+                const history = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
+                this.renderHistoryUI(history);
+            }
+        } catch (e) {
+            console.error('Error fetching history:', e);
+        }
+    },
+
+    renderHistoryUI(history) {
+        const container = document.getElementById('duel-history-list');
+        if (!container) return;
+
+        if (history.length === 0) {
+            container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--color-text-muted); background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px dashed var(--color-border);">No hay batallas registradas.</div>`;
+            return;
+        }
+
+        container.innerHTML = history.slice(0, 10).map(h => {
+            const date = new Date(h.timestamp).toLocaleString();
+            const isWin = h.result === 'win';
+            const color = isWin ? '#10b981' : '#ef4444';
+            const icon = isWin ? 'trending_up' : 'trending_down';
+
+            return `
+                <div class="glass" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; border-left: 4px solid ${color};">
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700; color: var(--color-text); font-size: 0.9rem;">${isWin ? 'Victoria' : 'Derrota'} contra ${h.opponentName}</div>
+                        <div style="font-size: 0.7rem; color: var(--color-text-muted);">${date}</div>
+                    </div>
+                    <div style="text-align: right; display: flex; align-items: center; gap: 8px;">
+                        <span style="font-weight: 800; color: ${color}; font-size: 1rem;">${isWin ? '+' : ''}${h.eloChange}</span>
+                        <span class="material-icons-round" style="color: ${color}; font-size: 1.2rem;">${icon}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
     },
 
     async loadDuelRanking() {
@@ -9006,6 +9051,27 @@ const DuelModule = {
         if (ratingEl) ratingEl.innerText = this.stats.rating;
         if (recordEl) recordEl.innerText = `${this.stats.wins}W - ${this.stats.losses}L`;
         if (rankEl) rankEl.innerText = this.stats.rank;
+    },
+
+    async recordBattleInHistory(userToUpdateId, opponentInfo, iWon, eloChange, myScore = 0, rivalScore = 0) {
+        const historyEntry = {
+            timestamp: Date.now(),
+            opponentId: opponentInfo.id,
+            opponentName: opponentInfo.name,
+            result: iWon ? 'win' : 'loss',
+            eloChange: eloChange,
+            myScore: myScore,
+            rivalScore: rivalScore
+        };
+        
+        try {
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${userToUpdateId}/duels/history.json`, {
+                method: 'POST',
+                body: JSON.stringify(historyEntry)
+            });
+        } catch (e) {
+            console.error('Error recording history:', e);
+        }
     },
 
     renderOpponents(filter = '') {
@@ -9665,29 +9731,66 @@ const DuelModule = {
     },
 
     async updateElo(opponent, iWon) {
-        const kFactor = 32;
-        const expectedScore = 1 / (1 + Math.pow(10, (opponent.rating - this.stats.rating) / 400));
-        const actualScore = iWon ? 1 : 0;
-        const ratingChange = Math.round(kFactor * (actualScore - expectedScore));
+        // FLAT 50 POINTS as requested by user
+        const ratingChange = 50;
+        const myChange = iWon ? ratingChange : -ratingChange;
         
-        this.stats.rating += ratingChange;
-        if (iWon) this.stats.wins++; else this.stats.losses++;
-        
-        // Persist to Firebase
-        if (AuthModule.currentUser) {
+        if (iWon) {
+            // I WON: I am responsible for updating BOTH accounts to ensure symmetry
+            this.stats.rating += ratingChange;
+            this.stats.wins++;
+
+            // 1. Update Winner (Self)
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels.json`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     rating: this.stats.rating,
-                    wins: this.stats.wins,
-                    losses: this.stats.losses
+                    wins: this.stats.wins
                 })
             });
+
+            // 2. Update Loser (Opponent)
+            try {
+                const oppRes = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`);
+                const oppData = await oppRes.json() || { rating: 1000, losses: 0 };
+                
+                const newOppRating = (oppData.rating || 1000) - ratingChange;
+                const newOppLosses = (oppData.losses || 0) + 1;
+
+                await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        rating: newOppRating,
+                        losses: newOppLosses
+                    })
+                });
+
+                // 3. Record History for Loser
+                await this.recordBattleInHistory(opponent.id, { id: AuthModule.currentUser.id, name: AuthModule.currentUser.name }, false, -ratingChange);
+            } catch (e) {
+                console.error("Error updating opponent stats:", e);
+            }
+
+            // 4. Record History for Winner (Self)
+            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, true, ratingChange);
+            
+            NotificationModule.show(`¡Victoria! +${ratingChange} Rating. Los datos del oponente han sido actualizados.`, 'success');
+        } else {
+            // I LOST: The winner client is responsible for updating my points in DB
+            // I will just wait a bit and refresh my local stats to reflect the change
+            NotificationModule.show(`Derrota. -${ratingChange} Rating. Sincronizando datos...`, 'error');
+            
+            setTimeout(async () => {
+                await this.loadUserDuelStats();
+                this.renderStatsUI();
+                this.fetchHistory();
+            }, 3000);
         }
         
         this.renderStatsUI();
-        NotificationModule.show(`Batalla Finalizada. ${iWon ? '+' : ''}${ratingChange} de Rating.`, iWon ? 'success' : 'error');
+        this.fetchHistory();
     }
 };
 
