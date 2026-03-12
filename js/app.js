@@ -6609,6 +6609,9 @@ const GamificationModule = {
         this.streakDays = 0;
         this.lastStudyDate = null;
         this.earnedBadges = [];
+        this.updatePresence();
+        if (this.presenceInterval) clearInterval(this.presenceInterval);
+        this.presenceInterval = setInterval(() => this.updatePresence(), 60000); // Pulse every 1 min
         try {
             const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${user.id}/gamification.json`);
             const data = await res.json();
@@ -8881,6 +8884,7 @@ const DuelModule = {
         await this.fetchAllStudents();
         this.renderStatsUI();
         this.renderOpponents();
+        this.listenForChallenges();
     },
 
     async loadUserDuelStats() {
@@ -8950,34 +8954,44 @@ const DuelModule = {
             filtered = filtered.filter(s => s.name.toLowerCase().includes(filter.toLowerCase()));
         }
 
-        // Sort by last active (recency)
-        filtered.sort((a, b) => b.lastActive - a.lastActive);
+        const now = Date.now();
+        const online = filtered.filter(s => (now - s.lastActive) < 300000); // 5 mins
+        const offline = filtered.filter(s => (now - s.lastActive) >= 300000);
 
-        if (countEl) countEl.innerText = `${filtered.length} Estudiantes encontrados`;
+        if (countEl) countEl.innerText = `${online.length} Chigüiros Conectados`;
 
-        container.innerHTML = filtered.map(opp => `
-            <div class="glass" style="padding: 16px; border-radius: 16px; border: 1px solid var(--glass-border); transition: all 0.3s; position: relative; overflow: hidden;">
+        container.innerHTML = `
+            ${online.map(s => this._renderOpponentCard(s, true)).join('')}
+            ${offline.map(s => this._renderOpponentCard(s, false)).join('')}
+        `;
+    },
+
+    _renderOpponentCard(s, isOnline) {
+        return `
+            <div class="glass animate-fade-in" style="padding: 16px; border-radius: 16px; border: 1px solid ${isOnline ? 'rgba(16, 185, 129, 0.4)' : 'var(--glass-border)'}; transition: all 0.3s; position: relative;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
-                        ${opp.name.charAt(0)}
+                    <div style="position: relative;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
+                            ${s.name.charAt(0)}
+                        </div>
+                        ${isOnline ? '<div style="position: absolute; -top: 2px; -right: 2px; width: 12px; height: 12px; background: #10b981; border: 2px solid #0f172a; border-radius: 50%; box-shadow: 0 0 10px #10b981;"></div>' : ''}
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <div style="display: flex; align-items: center; gap: 4px;">
-                            <span style="font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${opp.name}</span>
-                            ${opp.rating >= 2000 ? '<span title="Rey de la Arena">👑</span>' : ''}
+                            <span style="font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.name}</span>
                         </div>
-                        <div style="font-size: 0.75rem; color: var(--color-text-muted);">${opp.school}</div>
+                        <div style="font-size: 0.7rem; color: var(--color-text-muted);">${isOnline ? '🟢 Disponible' : '⚪ Desconectado'}</div>
                     </div>
                     <div style="text-align: right;">
-                        <div style="font-weight: 800; color: #ef4444; font-size: 0.9rem;">${opp.rating}🏆</div>
+                        <div style="font-weight: 800; color: #ef4444; font-size: 0.9rem;">${s.rating} 🏆</div>
                     </div>
                 </div>
-                <button onclick="DuelModule.challengeUser('${opp.id}')" 
-                    style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); color: #ef4444; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+                <button onclick="DuelModule.challengeUser('${s.id}')" 
+                    style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid ${isOnline ? '#ef4444' : 'rgba(255,255,255,0.1)'}; background: ${isOnline ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255,255,255,0.05)'}; color: ${isOnline ? '#ef4444' : 'var(--color-text-muted)'}; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
                     RETAR A DUELO
                 </button>
             </div>
-        `).join('') || '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--color-text-muted);">No se encontraron rivales.</div>';
+        `;
     },
 
     async startMatchmaking() {
@@ -9006,23 +9020,173 @@ const DuelModule = {
             }
 
             const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-            this.challengeUser(chosen.id);
+            this.sendChallenge(chosen.id);
         }, 2000);
     },
 
-    challengeUser(opponentId) {
+    async sendChallenge(opponentId) {
         const opponent = this.allStudents.find(s => s.id === opponentId);
         if (!opponent) return;
 
-        // Show VS Screen
-        this.showVSScreen(opponent);
+        NotificationModule.show(`Enviando reto a ${opponent.name}...`, 'info');
+
+        try {
+            const matchId = `match_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+            const challenge = {
+                id: matchId,
+                fromId: AuthModule.currentUser.id,
+                fromName: AuthModule.currentUser.name,
+                fromRating: this.stats.rating,
+                timestamp: Date.now(),
+                status: 'pending',
+                questions: []
+            };
+
+            // Pick 5 random questions
+            const pool = (window.NATIVE_EXAM_DATA || []);
+            const shuffled = [...pool].sort(() => 0.5 - Math.random());
+            challenge.questions = shuffled.slice(0, 5);
+
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponentId}/duels/incoming.json`, {
+                method: 'PUT',
+                body: JSON.stringify(challenge)
+            });
+
+            this.showWaitingScreen(opponent);
+        } catch (e) {
+            console.error('Error sending challenge:', e);
+            NotificationModule.show('Error al enviar el reto.', 'danger');
+        }
     },
 
-    showVSScreen(opponent) {
+    async listenForChallenges() {
+        if (this._listenerInterval) clearInterval(this._listenerInterval);
+        this._listenerInterval = setInterval(async () => {
+            if (!AuthModule.currentUser || this.currentBattle) return;
+            try {
+                const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`);
+                const challenge = await res.json();
+                
+                if (challenge && challenge.status === 'pending' && (Date.now() - challenge.timestamp < 45000)) {
+                    this.onChallengeReceived(challenge);
+                }
+            } catch (e) {}
+        }, 3000);
+    },
+
+    onChallengeReceived(challenge) {
+        if (document.getElementById('duel-challenge-modal')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'duel-challenge-modal';
+        modal.className = 'glass animate-fade-in';
+        modal.style = `
+            position: fixed; top: 20px; right: 20px; width: 320px; z-index: 10001;
+            padding: 20px; border: 2px solid #ef4444; background: rgba(15, 23, 42, 0.95);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+        `;
+
+        modal.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                <div style="font-size: 2rem;">⚔️</div>
+                <div>
+                    <div style="font-weight: 800; color: #ef4444; font-size: 0.9rem;">¡TE ESTÁN RETANDO!</div>
+                    <div style="font-weight: 700; color: white;">${challenge.fromName}</div>
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 15px;">Rating: ${challenge.fromRating} 🏆</p>
+            <div style="display: flex; gap: 8px;">
+                <button id="accept-duel" class="btn btn-sm" style="flex: 1; background: #10b981; color: white; border: none;">ACEPTAR</button>
+                <button id="decline-duel" class="btn btn-sm" style="flex: 1; background: #64748b; color: white; border: none;">IGNORAR</button>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        document.getElementById('accept-duel').onclick = async () => {
+            modal.remove();
+            this.acceptChallenge(challenge);
+        };
+
+        document.getElementById('decline-duel').onclick = async () => {
+            modal.remove();
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`, {
+                method: 'DELETE'
+            });
+        };
+    },
+
+    async acceptChallenge(challenge) {
+        try {
+            // Update challenge status to 'accepted'
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming/status.json`, {
+                method: 'PUT',
+                body: JSON.stringify('accepted')
+            });
+
+            const opponent = {
+                id: challenge.fromId,
+                name: challenge.fromName,
+                rating: challenge.fromRating
+            };
+
+            this.showVSScreen(opponent, challenge.questions, challenge.id);
+        } catch (e) {
+            console.error('Error accepting challenge:', e);
+        }
+    },
+
+    showWaitingScreen(opponent) {
+        const overlay = document.createElement('div');
+        overlay.id = 'duel-waiting-overlay';
+        overlay.style = `
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10001;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        `;
+        overlay.innerHTML = `
+            <div class="loading-spinner" style="width: 60px; height: 60px; margin-bottom: 20px;"></div>
+            <h2 style="color: white; font-weight: 800;">RETO ENVIADO A ${opponent.name.toUpperCase()}</h2>
+            <p style="color: #94a3b8; margin-top: 10px;">Esperando respuesta...</p>
+            <button onclick="document.getElementById('duel-waiting-overlay').remove();" class="btn btn-sm mt-8">CANCELAR</button>
+        `;
+        document.body.appendChild(overlay);
+
+        // Poll for acceptance
+        const poll = setInterval(async () => {
+            if (!document.getElementById('duel-waiting-overlay')) {
+                clearInterval(poll);
+                return;
+            }
+            try {
+                const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`);
+                const data = await res.json();
+                if (data && data.status === 'accepted') {
+                    clearInterval(poll);
+                    if (document.getElementById('duel-waiting-overlay')) document.getElementById('duel-waiting-overlay').remove();
+                    this.showVSScreen(opponent, data.questions, data.id);
+                }
+            } catch (e) {}
+        }, 2000);
+
+        // Timeout after 30s
+        setTimeout(() => {
+            if (document.getElementById('duel-waiting-overlay')) {
+                document.getElementById('duel-waiting-overlay').remove();
+                NotificationModule.show('El oponente no respondió.', 'warning');
+                clearInterval(poll);
+            }
+        }, 30000);
+    },
+
+    challengeUser(opponentId) {
+        this.sendChallenge(opponentId);
+    },
+
+    showVSScreen(opponent, syncedQuestions = null, matchId = null) {
         const vsOverlay = document.createElement('div');
         vsOverlay.id = 'duel-vs-overlay';
         vsOverlay.style = `
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10002;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: var(--color-text); font-family: 'Inter', sans-serif; overflow: hidden;
         `;
@@ -9063,58 +9227,59 @@ const DuelModule = {
                 timerEl.innerText = '¡FUEGO! 🔥';
                 clearInterval(interval);
                 setTimeout(() => {
-                    document.body.removeChild(vsOverlay);
-                    this.startBattle(opponent);
+                    const overlay = document.getElementById('duel-vs-overlay');
+                    if (overlay) overlay.remove();
+                    this.startBattle(opponent, syncedQuestions, matchId);
                 }, 800);
             }
         }, 1000);
     },
 
-    async startBattle(opponent) {
+    async startBattle(opponent, syncedQuestions, matchId) {
         console.log('Preparando batalla contra:', opponent.name);
         NotificationModule.show('Cargando banco de preguntas...', 'info');
-
-        // Reuse native exam loading logic
-        if (typeof window.SABER_DB !== 'undefined' && window.SABER_DB.examenes) {
-            window.NATIVE_EXAM_DATA = window.NATIVE_EXAM_DATA || [];
-            let scriptsToLoad = window.SABER_DB.examenes.map(exam => {
-                return new Promise((resolve) => {
-                    if (document.querySelector(`script[src="${exam.archivo_js}"]`)) return resolve(true);
-                    const script = document.createElement('script');
-                    script.src = exam.archivo_js;
-                    script.onload = () => resolve(true);
-                    script.onerror = () => resolve(false);
-                    document.body.appendChild(script);
-                });
-            });
-
-            await Promise.all(scriptsToLoad);
-            this._initBattle(opponent);
-        } else {
-            this._initBattle(opponent);
-        }
+        
+        this._initBattle(opponent, syncedQuestions, matchId);
     },
 
-    _initBattle(opponent) {
+    _initBattle(opponent, syncedQuestions, matchId) {
+        const battleId = matchId || `bot_${Date.now()}`;
+        if (syncedQuestions && syncedQuestions.length >= 5) {
+            this.currentBattle = {
+                id: battleId,
+                opponent,
+                questions: syncedQuestions,
+                currentIndex: 0,
+                score: 0,
+                startTime: Date.now(),
+                answers: [],
+                rivalProgress: 0,
+                isReal: !!matchId
+            };
+            this.renderBattleArena();
+            return;
+        }
+
         let deletedNative = JSON.parse(localStorage.getItem('deleted_native_questions') || '[]');
         let nativeQuestions = typeof window.NATIVE_EXAM_DATA !== 'undefined' && Array.isArray(window.NATIVE_EXAM_DATA)
             ? window.NATIVE_EXAM_DATA.filter(q => !deletedNative.includes(q.id)) : [];
 
         if (nativeQuestions.length < 5) {
-            NotificationModule.show('Error: No hay suficientes preguntas para el duelo.', 'error');
+            NotificationModule.show('Error: No hay suficientes preguntas para el duelo.', 'warning');
             return;
         }
 
-        // Shuffle and take 5
-        let shuffled = this._shuffle(nativeQuestions);
+        let shuffled = this._shuffle([...nativeQuestions]);
         this.currentBattle = {
+            id: battleId,
             opponent,
             questions: shuffled.slice(0, 5),
             currentIndex: 0,
             answers: [],
             startTime: Date.now(),
             score: 0,
-            rivalProgress: 0
+            rivalProgress: 0,
+            isReal: false
         };
 
         this.renderBattleArena();
@@ -9173,13 +9338,36 @@ const DuelModule = {
             const timerEl = document.getElementById('duel-battle-timer');
             if (timerEl) timerEl.innerText = `${elapsed}s`;
 
-            // Simulate rival progress
-            if (Math.random() > 0.95 && this.currentBattle.rivalProgress < 100) {
-                this.currentBattle.rivalProgress += 20;
-                const rivalBar = document.getElementById('duel-rival-progress');
-                if (rivalBar) rivalBar.style.width = `${this.currentBattle.rivalProgress}%`;
+            // Sync progress
+            if (this.currentBattle.isReal) {
+                this.syncProgressWithRival();
+            } else {
+                // Simulate rival progress
+                if (Math.random() > 0.95 && this.currentBattle.rivalProgress < 100) {
+                    this.currentBattle.rivalProgress += 20;
+                    const rivalBar = document.getElementById('duel-rival-progress');
+                    if (rivalBar) rivalBar.style.width = `${this.currentBattle.rivalProgress}%`;
+                }
             }
         }, 1000);
+    },
+
+    async syncProgressWithRival() {
+        try {
+            // My progress
+            fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${AuthModule.currentUser.id}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(this.currentBattle.currentIndex)
+            });
+
+            // Rival progress
+            const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${this.currentBattle.opponent.id}.json`);
+            const index = await res.json();
+            if (index !== null) {
+                const rivalBar = document.getElementById('duel-rival-progress');
+                if (rivalBar) rivalBar.style.width = `${(index / 5) * 100}%`;
+            }
+        } catch (e) {}
     },
 
     renderBattleQuestion() {
@@ -9242,38 +9430,98 @@ const DuelModule = {
         }
     },
 
-    finishBattle() {
+    async finishBattle() {
         clearInterval(this.battleInterval);
         const elapsed = Math.floor((Date.now() - this.currentBattle.startTime) / 1000);
         
-        // Calculate Time Bonus: max 20 pts if under 30s
+        // Calculate Time Bonus: max 20 pts if under 60s
         const timeBonus = Math.max(0, 20 - Math.floor(elapsed / 3));
         const totalScore = this.currentBattle.score + timeBonus;
         
-        // Simulate Opponent Score (for now, random 40-90)
-        const opponentScore = 40 + Math.floor(Math.random() * 50);
-        const iWon = totalScore >= opponentScore;
-
         const arena = document.getElementById('duel-battle-arena');
+        
+        if (this.currentBattle.isReal) {
+            arena.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 20px;">
+                    <div class="loading-spinner" style="width: 60px; height: 60px; margin-bottom: 30px; border-top-color: #ef4444;"></div>
+                    <h1 style="font-size: 2.5rem; font-weight: 900; color: white;">¡BATALLA TERMINADA!</h1>
+                    <p style="font-size: 1.1rem; color: #94a3b8; margin-top: 10px;">Esperando puntuación de ${this.currentBattle.opponent.name}...</p>
+                    <div class="glass" style="margin-top: 40px; padding: 20px 40px; border-radius: 20px;">
+                        <div style="font-size: 0.9rem; color: #94a3b8; text-transform: uppercase;">Tu Puntuación</div>
+                        <div style="font-size: 3rem; font-weight: 900; color: #60a5fa;">${totalScore}</div>
+                    </div>
+                </div>
+            `;
+
+            const myResult = {
+                uid: AuthModule.currentUser.id,
+                name: AuthModule.currentUser.name,
+                score: totalScore,
+                correct: this.currentBattle.score / 20,
+                time: elapsed
+            };
+
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/results/${AuthModule.currentUser.id}.json`, {
+                method: 'PUT',
+                body: JSON.stringify(myResult)
+            });
+
+            // Clean up challenge
+            fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`, { method: 'DELETE' });
+
+            // Poll for rival result
+            const poll = setInterval(async () => {
+                try {
+                    const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/results/${this.currentBattle.opponent.id}.json`);
+                    const rivalResult = await res.json();
+                    if (rivalResult) {
+                        clearInterval(poll);
+                        this.showFinalResult(myResult, rivalResult);
+                    }
+                } catch (e) {}
+            }, 2000);
+
+            // Timeout
+            setTimeout(() => {
+                if (poll) {
+                    clearInterval(poll);
+                    this.showFinalResult(myResult, { score: 0, name: this.currentBattle.opponent.name, correct: 0, time: 999 });
+                }
+            }, 60000);
+
+        } else {
+            // Bot/Fake logic
+            const opponentScore = 30 + Math.floor(Math.random() * 50);
+            this.showFinalResult({ score: totalScore, correct: this.currentBattle.score / 20, time: elapsed }, { score: opponentScore, name: this.currentBattle.opponent.name, correct: Math.floor(opponentScore/20), time: 45 });
+        }
+    },
+
+    showFinalResult(me, rival) {
+        const iWon = me.score >= rival.score;
+        const arena = document.getElementById('duel-battle-arena');
+        if (!arena) return;
+
         arena.innerHTML = `
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
                 <div style="font-size: 5rem; margin-bottom: 20px;">${iWon ? '🏆' : '💀'}</div>
                 <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; color: ${iWon ? '#10b981' : '#ef4444'};">${iWon ? '¡VICTORIA!' : 'DERROTA'}</h1>
-                <p style="font-size: 1.2rem; color: #94a3b8; margin-bottom: 40px;">Tu puntuación: ${totalScore} pts (Tiempo: ${elapsed}s)</p>
                 
-                <div class="glass" style="padding: 20px 40px; border-radius: 20px; display: flex; gap: 40px; margin-bottom: 40px;">
+                <div style="display: flex; gap: 40px; margin: 40px 0;">
                     <div style="text-align: center;">
-                        <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Aciertos</div>
-                        <div style="font-size: 1.5rem; font-weight: 800;">${this.currentBattle.score / 20}/5</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">TÚ</div>
+                        <div style="font-size: 2rem; font-weight: 900; color: #60a5fa;">${me.score}</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">${me.correct}/5 aciertos</div>
                     </div>
+                    <div style="font-size: 2rem; font-weight: 900; color: #334155; display: flex; align-items: center;">VS</div>
                     <div style="text-align: center;">
-                        <div style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase;">Bono Velocidad</div>
-                        <div style="font-size: 1.5rem; font-weight: 800; color: #f59e0b;">+${timeBonus}</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">${rival.name.toUpperCase()}</div>
+                        <div style="font-size: 2rem; font-weight: 900; color: #ef4444;">${rival.score}</div>
+                        <div style="font-size: 0.7rem; color: #64748b;">${rival.correct}/5 aciertos</div>
                     </div>
                 </div>
 
                 <button onclick="DuelModule.closeArenaAndApply('${iWon}')" 
-                    style="padding: 18px 50px; border-radius: 16px; border: none; background: ${iWon ? '#10b981' : '#475569'}; color: var(--color-text); font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+                    style="padding: 18px 50px; border-radius: 16px; border: none; background: ${iWon ? '#10b981' : '#475569'}; color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
                     CONTINUAR
                 </button>
             </div>
