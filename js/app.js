@@ -6630,6 +6630,18 @@ const GamificationModule = {
         } catch (e) { console.error('Error loading gamification data:', e); }
     },
 
+    async updatePresence() {
+        if (!AuthModule.currentUser || !AuthModule.currentUser.id) return;
+        try {
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/gamification/lastUpdated.json`, {
+                method: 'PUT',
+                body: JSON.stringify(Date.now())
+            });
+        } catch (e) {
+            console.warn('Silent fail updating presence', e);
+        }
+    },
+
     // --- STREAK LOGIC ---
     _todayStr() {
         const d = new Date();
@@ -8920,7 +8932,7 @@ const DuelModule = {
             const data = await res.json();
             if (data) {
                 this.allStudents = Object.entries(data)
-                    .filter(([uid, u]) => u.profile && uid !== AuthModule.currentUser.id)
+                    .filter(([uid, u]) => u.profile && uid !== AuthModule.currentUser.id) // Removed role requirement to allow anyone to battle
                     .map(([uid, u]) => ({
                         id: uid,
                         name: u.profile.name || 'Anónimo',
@@ -9042,10 +9054,27 @@ const DuelModule = {
                 questions: []
             };
 
-            // Pick 5 random questions
+            // Pick 5 random questions. Ensure NATIVE_EXAM_DATA is loaded.
+            if (!window.NATIVE_EXAM_DATA || window.NATIVE_EXAM_DATA.length === 0) {
+                if (typeof DataModule !== 'undefined' && DataModule.loadExamBank) {
+                    await DataModule.loadExamBank();
+                }
+            }
+            
             const pool = (window.NATIVE_EXAM_DATA || []);
+            if (pool.length < 5) {
+                NotificationModule.show('Error: Banco de preguntas no disponible.', 'danger');
+                return;
+            }
+
             const shuffled = [...pool].sort(() => 0.5 - Math.random());
-            challenge.questions = shuffled.slice(0, 5);
+            challenge.questions = shuffled.slice(0, 5).map(q => ({
+                id: q.id || `q_${Math.random().toString(36).substr(2, 9)}`,
+                text: q.text,
+                options: q.options,
+                answer: q.answer,
+                subject: q.subject || 'Conocimiento General'
+            }));
 
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponentId}/duels/incoming.json`, {
                 method: 'PUT',
@@ -9076,6 +9105,12 @@ const DuelModule = {
 
     onChallengeReceived(challenge) {
         if (document.getElementById('duel-challenge-modal')) return;
+
+        // Stop polling temporarily while handling this challenge
+        if (this._listenerInterval) {
+            clearInterval(this._listenerInterval);
+            this._listenerInterval = null;
+        }
 
         const modal = document.createElement('div');
         modal.id = 'duel-challenge-modal';
@@ -9137,6 +9172,12 @@ const DuelModule = {
     },
 
     showWaitingScreen(opponent) {
+        // Stop polling to prevent getting challenged while waiting
+        if (this._listenerInterval) {
+            clearInterval(this._listenerInterval);
+            this._listenerInterval = null;
+        }
+
         const overlay = document.createElement('div');
         overlay.id = 'duel-waiting-overlay';
         overlay.style = `
@@ -9172,8 +9213,11 @@ const DuelModule = {
         setTimeout(() => {
             if (document.getElementById('duel-waiting-overlay')) {
                 document.getElementById('duel-waiting-overlay').remove();
-                NotificationModule.show('El oponente no respondió.', 'warning');
+                NotificationModule.show('El oponente no respondió o rechazó el duelo.', 'warning');
                 clearInterval(poll);
+                // Clean up the challenge I sent
+                fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`, { method: 'DELETE' }).catch(()=>console.error);
+                this.listenForChallenges(); // Resume listening
             }
         }, 30000);
     },
@@ -9483,10 +9527,9 @@ const DuelModule = {
 
             // Timeout
             setTimeout(() => {
-                if (poll) {
-                    clearInterval(poll);
-                    this.showFinalResult(myResult, { score: 0, name: this.currentBattle.opponent.name, correct: 0, time: 999 });
-                }
+                if (poll) clearInterval(poll);
+                // Instead of random zero, explicitly state opponent abandoned/timeout
+                this.showFinalResult(myResult, { score: 0, name: this.currentBattle.opponent.name, correct: 0, time: 999, abandoned: true });
             }, 60000);
 
         } else {
@@ -10051,17 +10094,18 @@ const GamesModule = {
         const content = document.getElementById('english-content');
         
         content.innerHTML = `
-            <div class="animate-fade-in">
-                <p class="text-sm text-muted mb-2 uppercase tracking-tight">${question.competencia || 'General English'}</p>
-                <div class="text-xl font-bold mb-6 leading-relaxed bg-surface-2 p-6 rounded-2xl border border-white/5">
+            <div class="animate-fade-in flex flex-col h-full">
+                <p class="text-sm text-muted mb-2 uppercase tracking-tight shrink-0">${question.competencia || 'General English'}</p>
+                
+                <div class="text-xl font-bold mb-4 leading-relaxed bg-surface-2 p-4 sm:p-6 rounded-2xl border border-white/5 overflow-y-auto max-h-[40vh] sm:max-h-[50vh] scrollbar-thin scrollbar-thumb-pink-500/50">
                     ${question.enunciado.replace(/\n/g, '<br>')}
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="options-grid">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 shrink-0" id="options-grid">
                     ${question.opciones.map(opt => `
-                        <button onclick="GamesModule.submitEnglishAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-4 py-3 hover:border-pink-500/50 transition-all group">
-                            <span class="w-8 h-8 rounded-full border border-pink-500/30 flex items-center justify-center mr-3 group-hover:bg-pink-500 group-hover:text-[color:var(--color-text)] transition-colors">${opt.id}</span>
-                            <span class="flex-1 text-sm font-medium">${opt.texto}</span>
+                        <button onclick="GamesModule.submitEnglishAnswer('${opt.id}')" class="btn btn-secondary justify-start text-left px-3 py-2 sm:px-4 sm:py-3 hover:border-pink-500/50 transition-all group min-h-[44px]">
+                            <span class="shrink-0 w-8 h-8 rounded-full border border-pink-500/30 flex items-center justify-center mr-3 group-hover:bg-pink-500 group-hover:text-[color:var(--color-text)] transition-colors">${opt.id}</span>
+                            <span class="flex-1 text-xs sm:text-sm font-medium leading-tight">${opt.texto}</span>
                         </button>
                     `).join('')}
                 </div>
