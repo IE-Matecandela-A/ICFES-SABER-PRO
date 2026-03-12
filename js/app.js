@@ -8935,6 +8935,16 @@ const DuelModule = {
         this.loadDuelRanking();
         this.fetchHistory(); // Cargar historial
         this.listenForChallenges();
+
+        // 10-second polling for live ranking updates
+        if (this._refreshInterval) clearInterval(this._refreshInterval);
+        this._refreshInterval = setInterval(async () => {
+            if (document.getElementById('view-duels').style.display !== 'none') {
+                await this.fetchAllStudents();
+                this.renderOpponents();
+                this.loadDuelRanking();
+            }
+        }, 10000);
     },
 
     async fetchHistory() {
