@@ -6880,10 +6880,15 @@ const AuthModule = {
                 GamificationModule.init(this.currentUser);
             }
 
-            // Load messages and start polling for returning user
+            // Load messages and start polling
             this.loadMessages();
             if (this.messagePollInterval) clearInterval(this.messagePollInterval);
             this.messagePollInterval = setInterval(() => this.loadMessages(), 30000);
+
+            // Global Challenge Listener
+            if (typeof DuelModule !== 'undefined' && DuelModule.listenForChallenges) {
+                DuelModule.listenForChallenges();
+            }
         } else {
             // New user or logged out - Show Auth Onboarding
             if (typeof VirtualTeacherModule !== 'undefined') {
@@ -6919,6 +6924,11 @@ const AuthModule = {
         // Start message polling
         if (this.messagePollInterval) clearInterval(this.messagePollInterval);
         this.messagePollInterval = setInterval(() => this.loadMessages(), 30000);
+
+        // Global Challenge Listener
+        if (typeof DuelModule !== 'undefined' && DuelModule.listenForChallenges) {
+            DuelModule.listenForChallenges();
+        }
 
         // Profe Chiguiro Welcome
         if (typeof VirtualTeacherModule !== 'undefined') {
@@ -8971,14 +8981,17 @@ const DuelModule = {
             const data = await res.json();
             if (data) {
                 this.allStudents = Object.entries(data)
-                    .filter(([uid, u]) => u.profile && uid !== AuthModule.currentUser.id) // Removed role requirement to allow anyone to battle
-                    .map(([uid, u]) => ({
-                        id: uid,
-                        name: u.profile.name || 'Anónimo',
-                        school: u.profile.school || 'IE MATECANDELA',
-                        rating: (u.duels && u.duels.rating) || 1000,
-                        lastActive: (u.gamification && u.gamification.lastUpdated) || 0
-                    }));
+                    .filter(([uid, u]) => (u.profile || uid === 'master') && uid !== AuthModule.currentUser.id) 
+                    .map(([uid, u]) => {
+                        const profile = u.profile || {};
+                        return {
+                            id: uid,
+                            name: profile.name || (uid === 'master' ? 'MASTER' : 'Anónimo'),
+                            school: profile.school || 'IE MATECANDELA',
+                            rating: (u.duels && u.duels.rating) || 1000,
+                            lastActive: (u.gamification && u.gamification.lastUpdated) || 0
+                        };
+                    });
             }
         } catch (e) {
             console.error('Error fetching students for duels:', e);
@@ -9107,13 +9120,18 @@ const DuelModule = {
             }
 
             const shuffled = [...pool].sort(() => 0.5 - Math.random());
-            challenge.questions = shuffled.slice(0, 5).map(q => ({
-                id: q.id || `q_${Math.random().toString(36).substr(2, 9)}`,
-                enunciado: q.enunciado || q.text,
-                opciones: q.opciones || q.options,
-                respuestaCorrecta: q.respuestaCorrecta || q.answer,
-                subject: q.subject || q.area || 'Conocimiento General'
-            }));
+            challenge.questions = shuffled.slice(0, 5).map(q => {
+                // Use normalizeQuestion to handle different field names (enunciado vs texto vs text)
+                const normalized = (typeof GamesModule !== 'undefined' && GamesModule.normalizeQuestion)
+                    ? GamesModule.normalizeQuestion(q)
+                    : q;
+                
+                return {
+                    ...normalized,
+                    id: normalized.id || `q_${Math.random().toString(36).substr(2, 9)}`,
+                    subject: normalized.subject || normalized.area || 'Conocimiento General'
+                };
+            });
 
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponentId}/duels/incoming.json`, {
                 method: 'PUT',
@@ -9470,11 +9488,36 @@ const DuelModule = {
             { id: 'C', texto: q.c || q.opcionC || 'Opción C' },
             { id: 'D', texto: q.d || q.opcionD || 'Opción D' }
         ];
+
+        // Prepare Image HTML
+        let imageHtml = '';
+        if (q.imagen) {
+            imageHtml = `<div style="margin-bottom: 20px; text-align: center;"><img src="${q.imagen}" alt="Grafica" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-height: 250px;"></div>`;
+        }
+
+        // Prepare Chart/Graph HTML
+        let chartHtml = '';
+        if (q.grafica && q.grafica.datos) {
+            chartHtml = `
+                <div style="width: 100%; max-width: 500px; height: 300px; margin-bottom: 24px; position: relative; background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px;">
+                    <canvas id="duel-question-chart"></canvas>
+                </div>
+            `;
+            setTimeout(() => {
+                if (typeof ExamEngine !== 'undefined' && ExamEngine.renderChart) {
+                    ExamEngine.renderChart(q.grafica, 'duel-question-container', 'duel-question-chart');
+                }
+            }, 100);
+        }
         
         qContainer.innerHTML = `
             <div class="glass animate-fade-in" style="width: 100%; padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass-bg); margin-top: 10px;">
                 <div style="font-size: 0.9rem; color: #60a5fa; margin-bottom: 10px; font-weight: 700;">PREGUNTA ${this.currentBattle.currentIndex + 1} DE 5</div>
-                <div style="font-size: 1.25rem; font-weight: 600; line-height: 1.6; margin-bottom: 30px;">${enunciado}</div>
+                <div style="font-size: 1.15rem; font-weight: 600; line-height: 1.6; margin-bottom: 25px;">${typeof renderMarkdown !== 'undefined' ? renderMarkdown(enunciado) : enunciado}</div>
+                
+                ${imageHtml}
+                ${chartHtml}
+
                 <div style="display: grid; gap: 12px; width: 100%;">
                     ${opciones.map(opt => `
                         <button onclick="DuelModule.submitBattleAnswer('${opt.id}')" 
