@@ -754,22 +754,7 @@ const ExamEngine = {
 
     saveProgress() {
         this.trackTimeOnCurrentQuestion();
-        // Save current state to localStorage
-        const state = {
-            currentIndex: this.currentIndex,
-            questions: this.questions,
-            answers: this.answers,
-            timeRecords: this.timeRecords,
-            examMode: this.examMode,
-            expireTime: this.expireTime,
-            infractions: this.infractions
-        };
-        localStorage.setItem('saber11_active_exam', JSON.stringify(state));
-
-        // Save to cloud if logged in
-        if (typeof AuthModule !== 'undefined' && AuthModule.currentUser) {
-            AuthModule.saveCloudProgress(state);
-        }
+        // Progress persistence disabled by user request
     },
 
     clearProgress() {
@@ -2128,8 +2113,8 @@ const ResultsEngine = {
             questions // Optional: might be too heavy to save everything always?
         };
 
-        // Anti-Spam Check: Don't award XP if under 10 minutes (600 seconds)
-        const isSpam = (timeSpent < 600);
+        // Anti-Spam Check: Don't award XP if under 10 seconds
+        const isSpam = (timeSpent < 10);
         const isInvalidated = (typeof ExamEngine !== 'undefined' && ExamEngine.examInvalidated === true);
 
         if (isInvalidated) {
@@ -2174,11 +2159,21 @@ const ResultsEngine = {
                 localStorage.setItem('saber_results_history', JSON.stringify(history));
 
                 // ---- NEW: Firebase Save (Fire and forget) ----
-                fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/results.json', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(historyItem)
-                }).then(v => console.log('Guardado en Firebase existosamente')).catch(e => console.log('Error Firebase:', e));
+                if (AuthModule.currentUser) {
+                    // 1. Global ranking sync
+                    fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/results.json', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(historyItem)
+                    }).catch(e => console.log('Error Global Firebase:', e));
+
+                    // 2. Private user history sync
+                    fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/results.json`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(historyItem)
+                    }).catch(e => console.log('Error Private Firebase:', e));
+                }
                 // ----------------------------------------------
 
                 // ---- GAMIFICATION EXP REWARD ----
@@ -6916,9 +6911,9 @@ const AuthModule = {
         // Update UI
         if (typeof updateUserUI === 'function') updateUserUI();
 
-        // Load cloud progress and history
-        this.loadCloudProgress();
+        // Load cloud history and results
         this.loadCloudHistory();
+        this.loadCloudResults();
         this.loadMessages();
 
         // Start message polling
@@ -6985,34 +6980,9 @@ const AuthModule = {
         location.reload();
     },
 
-    saveCloudProgress(state) {
-        if (!this.currentUser) return;
-
-        fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${this.currentUser.id}/en_progreso.json`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(state)
-        }).catch(e => console.error('Cloud save error:', e));
-    },
-
-    loadCloudProgress() {
-        if (!this.currentUser) return;
-        NotificationModule.show('Buscando progreso en la nube...', 'info');
-        fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${this.currentUser.id}/en_progreso.json`)
-            .then(res => res.json())
-            .then(state => {
-                if (state && typeof ExamEngine !== 'undefined') {
-                    if (confirm('Tienes un simulacro en progreso en la nube. ¿Deseas reanudarlo?')) {
-                        ExamEngine.resume(state);
-                        Router.go('exam');
-                        NotificationModule.show('Progreso restaurado con éxito.', 'success');
-                    }
-                }
-            })
-            .catch(e => {
-                console.error('Cloud load error:', e);
-            });
-    },
+    // Cloud progress persistence disabled by user request
+    saveCloudProgress(state) { },
+    loadCloudProgress() { },
 
     saveCloudHistory(historyObj) {
         if (!this.currentUser) return;
@@ -7034,6 +7004,67 @@ const AuthModule = {
                 }
             })
             .catch(e => console.error('Cloud history load error:', e));
+    },
+
+    loadCloudResults() {
+        if (!this.currentUser) return;
+        fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${this.currentUser.id}/results.json`)
+            .then(res => res.json())
+            .then(resultsObj => {
+                if (resultsObj) {
+                    const resultsArray = Object.values(resultsObj).sort((a, b) => new Date(b.date) - new Date(a.date));
+                    localStorage.setItem('saber_results_history', JSON.stringify(resultsArray));
+                    console.log('✅ Historial de resultados sincronizado desde Firebase:', resultsArray.length);
+                    // Refresh dashboard if active
+                    if (typeof DashboardModule !== 'undefined' && Router.currentView === 'dashboard') {
+                        DashboardModule.init();
+                    }
+                } else {
+                    // LEGACY RECOVERY: If private history is empty, try to find matches in global ranking by name
+                    this.recoverLegacyResults();
+                }
+            })
+            .catch(e => console.error('Cloud results load error:', e));
+    },
+
+    async recoverLegacyResults() {
+        if (!this.currentUser || !this.currentUser.name) return;
+        console.log('🔍 Buscando resultados históricos para:', this.currentUser.name);
+        try {
+            const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/results.json`);
+            const allResults = await res.json();
+            if (!allResults) return;
+
+            // Filter results from the global collection that match this student's name
+            const matches = Object.values(allResults).filter(r => 
+                r.studentName && r.studentName.trim().toLowerCase() === this.currentUser.name.trim().toLowerCase()
+            );
+
+            if (matches.length > 0) {
+                console.log(`✅ Recuperados ${matches.length} resultados legados para ${this.currentUser.name}`);
+                
+                // Save them to private cloud for future logins (Deduplicate or batch if possible, here we just POST them)
+                // In a real scenario we'd use a transaction or bulk update, but given this is a recovery phase:
+                for (const match of matches) {
+                    fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${this.currentUser.id}/results.json`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(match)
+                    });
+                }
+                
+                // Update local storage immediately for the current session
+                const sortedMatches = matches.sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+                localStorage.setItem('saber_results_history', JSON.stringify(sortedMatches));
+                
+                // Refresh dashboard if active
+                if (typeof DashboardModule !== 'undefined' && Router.currentView === 'dashboard') {
+                    DashboardModule.init();
+                }
+            }
+        } catch (e) {
+            console.error('Legacy recovery error:', e);
+        }
     },
 
     loadMessages() {
@@ -7499,7 +7530,7 @@ window.updateUserUI = function () {
                 <div id="gamification-status" style="background: rgba(var(--color-primary-rgb), 0.05); padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(124, 58, 237, 0.1); min-width: 120px; display: flex; flex-direction: column; justify-content: center;">
                     <div style="font-size: 0.6rem; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 4px; line-height: 1; margin-bottom: 2px;">
                         <span class="material-icons-round" style="font-size: 10px; color: #f59e0b;">stars</span> 
-                        Lvl ${level.level} ${streak > 0 ? `<span title="${streak} días de racha" style="color:#ef4444; font-size:0.65rem;">🔥${streak}</span>` : ''}
+                        Lvl ${level.level} (<span style="color:#f59e0b;">${GamificationModule.currentXP} XP</span>) ${streak > 0 ? `<span title="${streak} días de racha" style="color:#ef4444; font-size:0.65rem;">🔥${streak}</span>` : ''}
                     </div>
                     <div style="width: 100%; height: 3px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;">
                         <div style="width: ${progress}%; height: 100%; background: linear-gradient(90deg, var(--color-primary) 0%, #8b5cf6 100%);"></div>
@@ -7815,7 +7846,7 @@ const GlobalResultsModule = {
 
         // Only use server results for global ranking (no localStorage to prevent fake entries)
         // Filter out results under 10 minutes (600 seconds)
-        const filtered = serverResults.filter(r => r.timeSpent && r.timeSpent >= 600);
+        const filtered = serverResults.filter(r => r.timeSpent && r.timeSpent >= 10);
 
         filtered.sort((a, b) => {
             const scoreA = a.icfesScore || Math.round((a.correct / a.total) * 500) || 0;
@@ -8537,6 +8568,12 @@ const VirtualTeacherModule = {
         if (overlay) {
             overlay.onclick = () => this.endTour();
         }
+
+        const container = document.getElementById('chiguiro-container');
+        if (container) {
+            container.style.cursor = 'pointer';
+            container.onclick = () => this.hide();
+        }
     },
 
     setupListeners() {
@@ -9072,10 +9109,10 @@ const DuelModule = {
             const shuffled = [...pool].sort(() => 0.5 - Math.random());
             challenge.questions = shuffled.slice(0, 5).map(q => ({
                 id: q.id || `q_${Math.random().toString(36).substr(2, 9)}`,
-                text: q.text,
-                options: q.options,
-                answer: q.answer,
-                subject: q.subject || 'Conocimiento General'
+                enunciado: q.enunciado || q.text,
+                opciones: q.opciones || q.options,
+                respuestaCorrecta: q.respuestaCorrecta || q.answer,
+                subject: q.subject || q.area || 'Conocimiento General'
             }));
 
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponentId}/duels/incoming.json`, {
