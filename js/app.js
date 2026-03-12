@@ -7615,7 +7615,7 @@ const GlobalResultsModule = {
                 const data = await response.json();
                 if (data) {
                     users = Object.entries(data)
-                        .filter(([uid, u]) => u.profile && u.profile.role === 'estudiante' && u.duels && u.duels.rating)
+                        .filter(([uid, u]) => u.profile && uid !== (AuthModule.currentUser ? AuthModule.currentUser.id : '') && u.duels && u.duels.rating)
                         .map(([uid, u]) => ({
                             id: uid,
                             name: u.profile.name || 'Anónimo',
@@ -8916,7 +8916,7 @@ const DuelModule = {
             const data = await res.json();
             if (data) {
                 this.allStudents = Object.entries(data)
-                    .filter(([uid, u]) => u.profile && u.profile.role === 'estudiante' && uid !== AuthModule.currentUser.id)
+                    .filter(([uid, u]) => u.profile && uid !== AuthModule.currentUser.id)
                     .map(([uid, u]) => ({
                         id: uid,
                         name: u.profile.name || 'Anónimo',
@@ -9156,7 +9156,7 @@ const DuelModule = {
                 </div>
             </header>
 
-            <div id="duel-question-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 800px; margin: 0 auto; width: 100%;">
+            <div id="duel-question-container" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; max-width: 800px; margin: 0 auto; width: 100%; padding-bottom: 40px; -webkit-overflow-scrolling: touch;">
                 <!-- Question will be injected here -->
             </div>
         `;
@@ -9201,7 +9201,7 @@ const DuelModule = {
         ];
         
         qContainer.innerHTML = `
-            <div class="glass" style="width: 100%; padding: 30px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass-bg);">
+            <div class="glass animate-fade-in" style="width: 100%; padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass-bg); margin-top: 10px;">
                 <div style="font-size: 0.9rem; color: #60a5fa; margin-bottom: 10px; font-weight: 700;">PREGUNTA ${this.currentBattle.currentIndex + 1} DE 5</div>
                 <div style="font-size: 1.25rem; font-weight: 600; line-height: 1.6; margin-bottom: 30px;">${enunciado}</div>
                 <div style="display: grid; gap: 12px; width: 100%;">
