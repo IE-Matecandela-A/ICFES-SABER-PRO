@@ -9150,6 +9150,7 @@ const DuelModule = {
             }
 
             const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+            this.isChallenger = true; // Soy el retador
             this.sendChallenge(chosen.id);
         }, 2000);
     },
@@ -9158,6 +9159,7 @@ const DuelModule = {
         const opponent = this.allStudents.find(s => s.id === opponentId);
         if (!opponent) return;
 
+        this.isChallenger = true; // Soy el retador
         NotificationModule.show(`Enviando reto a ${opponent.name}...`, 'info');
 
         try {
@@ -9281,6 +9283,8 @@ const DuelModule = {
                 method: 'PUT',
                 body: JSON.stringify('accepted')
             });
+
+            this.isChallenger = false; // Yo acepté, no soy el retador
 
             const opponent = {
                 id: challenge.fromId,
@@ -9421,7 +9425,8 @@ const DuelModule = {
                 startTime: Date.now(),
                 answers: [],
                 rivalProgress: 0,
-                isReal: !!matchId
+                isReal: !!matchId,
+                isChallenger: this.isChallenger
             };
             this.renderBattleArena();
             return;
@@ -9446,7 +9451,8 @@ const DuelModule = {
             startTime: Date.now(),
             score: 0,
             rivalProgress: 0,
-            isReal: false
+            isReal: false,
+            isChallenger: true // Contra bots siempre mando yo
         };
 
         this.renderBattleArena();
@@ -9711,51 +9717,74 @@ const DuelModule = {
                     </div>
                 </div>
 
-                <button onclick="DuelModule.closeArenaAndApply('${iWon}')" 
-                    style="padding: 18px 50px; border-radius: 16px; border: none; background: ${iWon ? '#10b981' : '#475569'}; color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
+                <button onclick="DuelModule.closeArenaAndApply('${me.score}', '${rival.score}')" 
+                    style="padding: 18px 50px; border-radius: 16px; border: none; background: ${me.score > rival.score ? '#10b981' : (me.score === rival.score ? '#f59e0b' : '#475569')}; color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
                     CONTINUAR
                 </button>
             </div>
         `;
     },
 
-    async closeArenaAndApply(iWonStr) {
-        const iWon = iWonStr === 'true';
+    async closeArenaAndApply(myScoreStr, rivalScoreStr) {
+        const myScore = parseInt(myScoreStr);
+        const rivalScore = parseInt(rivalScoreStr);
+        
+        let result = 'loss';
+        if (myScore > rivalScore) result = 'win';
+        else if (myScore === rivalScore) result = 'draw';
+
         const arena = document.getElementById('duel-battle-arena');
         if (arena) arena.remove();
 
         // Update ELO and Stats
-        await this.updateElo(this.currentBattle.opponent, iWon);
+        await this.updateElo(this.currentBattle.opponent, result);
         this.currentBattle = null;
         this.init(); // Refresh UI
     },
 
-    async updateElo(opponent, iWon) {
-        // FLAT 50 POINTS as requested by user
-        const ratingChange = 50;
-        const myChange = iWon ? ratingChange : -ratingChange;
-        
-        if (iWon) {
-            // I WON: I am responsible for updating BOTH accounts to ensure symmetry
-            this.stats.rating += ratingChange;
-            this.stats.wins++;
+    async updateElo(opponent, result) {
+        // FLAT 50 POINTS for win, -30 for draw, -50 for loss
+        let ratingChange = 0;
+        let iWon = false;
+        let isDraw = false;
 
-            // 1. Update Winner (Self)
+        if (result === 'win') {
+            ratingChange = 50;
+            iWon = true;
+        } else if (result === 'draw') {
+            ratingChange = -30;
+            isDraw = true;
+        } else {
+            ratingChange = -50;
+        }
+        
+        const isChallenger = this.currentBattle.isChallenger;
+
+        if (iWon || (isDraw && isChallenger)) {
+            // AUTHORITATIVE CLIENT: I update both
+            const myUpdate = iWon ? 50 : -30;
+            const oppUpdate = iWon ? -50 : -30;
+
+            this.stats.rating += myUpdate;
+            if (iWon) this.stats.wins++; else this.stats.losses++;
+
+            // 1. Update Winner/Challenger (Self)
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels.json`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     rating: this.stats.rating,
-                    wins: this.stats.wins
+                    wins: this.stats.wins,
+                    losses: this.stats.losses
                 })
             });
 
-            // 2. Update Loser (Opponent)
+            // 2. Update Opponent
             try {
                 const oppRes = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`);
-                const oppData = await oppRes.json() || { rating: 1000, losses: 0 };
+                const oppData = await oppRes.json() || { rating: 1000, wins: 0, losses: 0 };
                 
-                const newOppRating = (oppData.rating || 1000) - ratingChange;
+                const newOppRating = (oppData.rating || 1000) + oppUpdate;
                 const newOppLosses = (oppData.losses || 0) + 1;
 
                 await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`, {
@@ -9767,26 +9796,27 @@ const DuelModule = {
                     })
                 });
 
-                // 3. Record History for Loser
-                await this.recordBattleInHistory(opponent.id, { id: AuthModule.currentUser.id, name: AuthModule.currentUser.name }, false, -ratingChange);
+                // 3. Record History for Opponent
+                await this.recordBattleInHistory(opponent.id, { id: AuthModule.currentUser.id, name: AuthModule.currentUser.name }, false, oppUpdate);
             } catch (e) {
                 console.error("Error updating opponent stats:", e);
             }
 
-            // 4. Record History for Winner (Self)
-            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, true, ratingChange);
+            // 4. Record History for Me
+            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, iWon, myUpdate);
             
-            NotificationModule.show(`¡Victoria! +${ratingChange} Rating. Los datos del oponente han sido actualizados.`, 'success');
+            if (iWon) NotificationModule.show(`¡Victoria! +50 Rating.`, 'success');
+            else NotificationModule.show(`Empate. Ambos pierden 30 puntos por falta de letalidad.`, 'warning');
+
         } else {
-            // I LOST: The winner client is responsible for updating my points in DB
-            // I will just wait a bit and refresh my local stats to reflect the change
-            NotificationModule.show(`Derrota. -${ratingChange} Rating. Sincronizando datos...`, 'error');
+            // SUBORDINATE CLIENT: Wait for authoritative update
+            NotificationModule.show(`${isDraw ? 'Empate' : 'Derrota'}. Sincronizando datos...`, 'error');
             
             setTimeout(async () => {
                 await this.loadUserDuelStats();
                 this.renderStatsUI();
                 this.fetchHistory();
-            }, 3000);
+            }, 4000);
         }
         
         this.renderStatsUI();
