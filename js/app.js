@@ -2184,7 +2184,7 @@ const ResultsEngine = {
                 // ---- GAMIFICATION EXP REWARD ----
                 // Rules: 10 XP per correct answer + 30 XP daily session bonus (once per day)
                 if (typeof GamificationModule !== 'undefined') {
-                    let xpToAdd = correct * 10; // 10 XP per correct answer
+                    let xpToAdd = correct * 8; // 8 XP per correct answer (Balanced for 3h/week)
 
                     // Daily session bonus: 30 XP, only once per calendar day
                     const today = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
@@ -7574,25 +7574,16 @@ const GlobalResultsModule = {
         // Render Loading State
         container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--color-text-muted);"><div style="font-size: 2rem; margin-bottom: 12px; animation: pulse 1.5s infinite;">🔄</div>Cargando rankings globales...</div>`;
 
-        // Fetch All Four Data Sets in Parallel
-        const [scoreHtml, levelHtml, weeklyHtml, duelHtml] = await Promise.all([
+        // Fetch Data Sets in Parallel (Removed Battle Royal from here)
+        const [scoreHtml, levelHtml, weeklyHtml] = await Promise.all([
             this._fetchScoreRankingHtml(),
             this._fetchLevelRankingHtml(),
-            this._fetchWeeklyComplianceHtml(),
-            this._fetchBattleRoyalRankingHtml()
+            this._fetchWeeklyComplianceHtml()
         ]);
 
         // Render sections in a responsive grid
         container.innerHTML = `
-            <div class="global-ranking-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: start;">
-                
-                <!-- Battle Royal Ranking Column (Highlight) -->
-                <div style="order: -1;">
-                    <h2 style="font-size: 1.3rem; color: #ef4444; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                        ⚔️ Reyes de la Battle Royal
-                    </h2>
-                    ${duelHtml}
-                </div>
+            <div class="global-ranking-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start;">
 
                 <!-- Score Ranking Column -->
                 <div>
@@ -7853,7 +7844,6 @@ const GlobalResultsModule = {
                         <tr>
                             <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Puesto</th>
                             <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Estudiante</th>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Prueba</th>
                             <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Puntaje</th>
                         </tr>
                     </thead>
@@ -7873,7 +7863,6 @@ const GlobalResultsModule = {
                                 <tr style="border-bottom: 1px solid var(--color-border);" class="result-row">
                                     <td style="padding: 12px; font-weight: 800; font-size: 1.1rem;">${medal}</td>
                                     <td style="padding: 12px; font-weight: 600; font-size: 0.95rem;">${item.studentName || 'Anónimo'}</td>
-                                    <td style="padding: 12px; font-size: 0.8rem; color: var(--color-text-muted);">${item.title || 'Simulacro'}</td>
                                     <td style="padding: 12px;">
                                         <div style="font-size: 1rem; font-weight: 800; color: ${scoreColor};">${scoreValue} / 500</div>
                                     </td>
@@ -8445,14 +8434,14 @@ const FlashcardModule = {
 
         // Award global XP proportionally ONLY to correctly answered cards
         if (typeof GamificationModule !== 'undefined' && validCards > 0) {
-            const xp = validCards * 5; // 5 XP per Correct answer
+            const xp = validCards * 1; // 1 XP per Correct answer
             GamificationModule.addXP(xp);
             NotificationModule.show(`+${xp} XP Ganados por Repaso 🃏`, 'success', 3000);
         }
 
         // Upload to Flashcard Ranking Leaderboard
         if (typeof AuthModule !== 'undefined' && AuthModule.currentUser && validCards > 0) {
-            const pointsEarned = validCards * 10; // 10 points per valid card for flashcard ranking
+            const pointsEarned = validCards * 3; // 3 points per valid card for flashcard ranking
             try {
                 // Get current user flashcard ranking points
                 const uId = AuthModule.currentUser.id;
@@ -8896,7 +8885,20 @@ const DuelModule = {
         await this.fetchAllStudents();
         this.renderStatsUI();
         this.renderOpponents();
+        this.loadDuelRanking();
         this.listenForChallenges();
+    },
+
+    async loadDuelRanking() {
+        const container = document.getElementById('duel-ranking-container');
+        if (!container) return;
+        container.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--color-text-muted);">Cargando ranking...</div>`;
+        if (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._fetchBattleRoyalRankingHtml) {
+            const html = await GlobalResultsModule._fetchBattleRoyalRankingHtml();
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--color-danger);">Error al cargar ranking.</div>`;
+        }
     },
 
     async loadUserDuelStats() {
@@ -10013,7 +10015,7 @@ const GamesModule = {
         
         if (matchingGroup) {
             this.state.solvedGroups.push(matchingGroup);
-            this.state.xpEarned += 4; // 4 XP per full group (16 items total, 4 groups = 16 XP)
+            this.state.xpEarned += 5; // 5 XP per full group (Balanced)
             this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
             this.revealSolvedGroup(matchingGroup);
             this.state.selectedItems = [];
@@ -10160,7 +10162,7 @@ const GamesModule = {
 
         if (isCorrect) {
             this.state.score += 10;
-            this.state.xpEarned += 2;
+            this.state.xpEarned += 1; // 1 XP per English answer (Balanced)
             this.state.streak++;
             this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
         } else {
@@ -10284,7 +10286,7 @@ const GamesModule = {
 
         if (isCorrect) {
             this.state.score += 15;
-            this.state.xpEarned += 3;
+            this.state.xpEarned += 2; // 2 XP per Descifra answer (Balanced)
             this.triggerVFX(window.innerWidth / 2, window.innerHeight / 2, 'correct');
             // Visual feedback
             const header = document.getElementById('descifra-header');
@@ -10470,7 +10472,7 @@ const GamesModule = {
         // Final XP calculation based on score, capped for balance
         // Base logical: approx 1-3 XP per answer. 
         // We use state.xpEarned which is accumulated during game.
-        const totalXP = Math.min(this.state.xpEarned, 20); // Cap at 20 XP per game max.
+        const totalXP = Math.min(this.state.xpEarned, 25); // Cap at 25 XP per game max.
         
         // Award XP
         if (typeof GamificationModule !== 'undefined' && totalXP > 0) {
