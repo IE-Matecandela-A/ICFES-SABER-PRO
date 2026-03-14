@@ -190,6 +190,7 @@ var Router = {
             if (view === 'admin' && typeof AdminPanelModule !== 'undefined') AdminPanelModule.init();
             if (view === 'global-results' && typeof GlobalResultsModule !== 'undefined') GlobalResultsModule.init();
             if (view === 'games' && typeof GamesModule !== 'undefined') GamesModule.init();
+            if (view === 'arcade-games' && typeof ArcadeGamesModule !== 'undefined') ArcadeGamesModule.init();
             if (view === 'duels' && typeof DuelModule !== 'undefined') DuelModule.init();
 
             // Safe check for VirtualTeacherModule since it's defined with `const` later in the file
@@ -8928,6 +8929,9 @@ const DuelModule = {
         console.log('Iniciando DuelModule...');
         if (!AuthModule.currentUser) return;
         
+        // Cleanup any existing intervals
+        this.cleanup();
+        
         await this.loadUserDuelStats();
         await this.fetchAllStudents();
         this.renderStatsUI();
@@ -8939,12 +8943,31 @@ const DuelModule = {
         // 10-second polling for live ranking updates
         if (this._refreshInterval) clearInterval(this._refreshInterval);
         this._refreshInterval = setInterval(async () => {
-            if (document.getElementById('view-duels').style.display !== 'none') {
+            if (document.getElementById('view-duels') && document.getElementById('view-duels').style.display !== 'none') {
                 await this.fetchAllStudents();
                 this.renderOpponents();
                 this.loadDuelRanking();
             }
         }, 10000);
+        
+        // Cleanup on page unload to prevent stuck intervals
+        window.addEventListener('beforeunload', () => this.cleanup());
+    },
+    
+    cleanup() {
+        // Clean up all intervals to prevent memory leaks
+        if (this._refreshInterval) {
+            clearInterval(this._refreshInterval);
+            this._refreshInterval = null;
+        }
+        if (this._listenerInterval) {
+            clearInterval(this._listenerInterval);
+            this._listenerInterval = null;
+        }
+        if (this.battleInterval) {
+            clearInterval(this.battleInterval);
+            this.battleInterval = null;
+        }
     },
 
     async fetchHistory() {
@@ -9231,7 +9254,7 @@ const DuelModule = {
                 const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`);
                 const challenge = await res.json();
                 
-                if (challenge && challenge.status === 'pending' && (Date.now() - challenge.timestamp < 45000)) {
+                if (challenge && challenge.status === 'pending' && (Date.now() - challenge.timestamp < 120000)) { // 120 segundos (2 minutos) para aceptar/rechazar
                     this.onChallengeReceived(challenge);
                 }
             } catch (e) {}
@@ -9346,7 +9369,7 @@ const DuelModule = {
             } catch (e) {}
         }, 2000);
 
-        // Timeout after 30s
+        // Timeout after 60s (more time for opponent to accept)
         setTimeout(() => {
             if (document.getElementById('duel-waiting-overlay')) {
                 document.getElementById('duel-waiting-overlay').remove();
@@ -9356,7 +9379,7 @@ const DuelModule = {
                 fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`, { method: 'DELETE' }).catch(()=>console.error);
                 this.listenForChallenges(); // Resume listening
             }
-        }, 30000);
+        }, 60000);
     },
 
     challengeUser(opponentId) {
@@ -9537,8 +9560,8 @@ const DuelModule = {
 
     async syncProgressWithRival() {
         try {
-            // My progress
-            fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${AuthModule.currentUser.id}.json`, {
+            // My progress - with await to ensure it completes
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${AuthModule.currentUser.id}.json`, {
                 method: 'PUT',
                 body: JSON.stringify(this.currentBattle.currentIndex)
             });
@@ -9546,11 +9569,14 @@ const DuelModule = {
             // Rival progress
             const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${this.currentBattle.opponent.id}.json`);
             const index = await res.json();
-            if (index !== null) {
+            if (index !== null && typeof index === 'number') {
                 const rivalBar = document.getElementById('duel-rival-progress');
                 if (rivalBar) rivalBar.style.width = `${(index / 5) * 100}%`;
             }
-        } catch (e) {}
+        } catch (e) {
+            console.warn('Sync progress error (non-critical):', e);
+            // Silently fail - don't interrupt the duel
+        }
     },
 
     renderBattleQuestion() {
@@ -9580,16 +9606,25 @@ const DuelModule = {
         // Prepare Chart/Graph HTML
         let chartHtml = '';
         if (q.grafica && q.grafica.datos) {
+            const chartId = `duel-question-chart-${Date.now()}`;
             chartHtml = `
-                <div style="width: 100%; max-width: 500px; height: 300px; margin-bottom: 24px; position: relative; background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px;">
-                    <canvas id="duel-question-chart"></canvas>
+                <div id="duel-chart-container" style="width: 100%; max-width: 500px; height: 300px; margin-bottom: 24px; position: relative; background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px;">
+                    <canvas id="${chartId}"></canvas>
                 </div>
             `;
+            // Render chart after DOM is updated - use requestAnimationFrame + retry
             setTimeout(() => {
-                if (typeof ExamEngine !== 'undefined' && ExamEngine.renderChart) {
-                    ExamEngine.renderChart(q.grafica, 'duel-question-container', 'duel-question-chart');
+                const canvas = document.getElementById(chartId);
+                const container = document.getElementById('duel-chart-container');
+                if (canvas && container && typeof ExamEngine !== 'undefined' && ExamEngine.renderChart) {
+                    try {
+                        ExamEngine.renderChart(q.grafica, 'duel-chart-container', chartId);
+                    } catch (e) {
+                        console.error('Error rendering chart in duel:', e);
+                        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-muted);">Gráfica no disponible</div>';
+                    }
                 }
-            }, 100);
+            }, 150);
         }
         
         qContainer.innerHTML = `
@@ -9746,10 +9781,19 @@ const DuelModule = {
         const arena = document.getElementById('duel-battle-arena');
         if (arena) arena.remove();
 
-        // Update ELO and Stats
-        await this.updateElo(this.currentBattle.opponent, result);
+        // Ensure listening resumes even if something fails
         this.currentBattle = null;
-        this.init(); // Refresh UI
+        
+        try {
+            // Update ELO and Stats
+            await this.updateElo(this.currentBattle?.opponent || { id: '' }, result);
+        } catch (e) {
+            console.warn('Error updating ELO:', e);
+        }
+        
+        // Always refresh UI and restart listening
+        this.listenForChallenges();
+        this.renderStatsUI();
     },
 
     async updateElo(opponent, result) {

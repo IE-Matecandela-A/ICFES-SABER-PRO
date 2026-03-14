@@ -782,6 +782,59 @@ h6 {
     background: rgba(99, 102, 241, 0.05);
 }
 
+/* ============ FIX FOR TABLES IN QUESTIONS (Prevent White on White) ============ */
+.question-text-rendered table,
+#question-text table,
+.question-area table,
+.exam-question-content table,
+.question-content table,
+.option-text table,
+.option-item table,
+.glass table,
+.question-card table {
+    background: white !important;
+    color: #1e293b !important;
+    border-collapse: collapse;
+    margin: 10px auto;
+}
+
+.question-text-rendered table td,
+.question-text-rendered table th,
+#question-text table td,
+#question-text table th,
+.question-area table td,
+.question-area table th,
+.exam-question-content table td,
+.exam-question-content table th,
+.question-content table td,
+.question-content table th,
+.option-text table td,
+.option-text table th,
+.option-item table td,
+.option-item table th,
+.glass table td,
+.glass table th,
+.question-card table td,
+.question-card table th {
+    color: #1e293b !important;
+    background: white !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 8px 12px !important;
+}
+
+/* Force dark text for any inline styles that might try to override to white */
+.question-text-rendered table *,
+#question-text table *,
+.question-area table *,
+.exam-question-content table *,
+.question-content table *,
+.option-text table *,
+.option-item table *,
+.glass table *,
+.question-card table * {
+    color: #1e293b !important;
+}
+
 /* ============ EXAM STYLES ============ */
 #view-exam {
     height: 100vh;
@@ -845,6 +898,20 @@ h6 {
     /* Distinct from card bg */
     transition: all 0.2s;
     margin-bottom: 12px;
+}
+
+/* Fix for tables inside option text */
+.option-text table,
+.option-item table {
+    color: #1e293b !important;
+    background: white !important;
+}
+
+.option-text table td,
+.option-text table th,
+.option-item table td,
+.option-item table th {
+    color: #1e293b !important;
 }
 
 .option-item:hover {
@@ -1159,6 +1226,11 @@ h6 {
     /* Ranking tables mobile – prevent horizontal overflow */
     .global-ranking-grid table {
         font-size: 0.8rem;
+    }
+
+    .global-ranking-grid td,
+    .global-ranking-grid th {
+        padding: 8px 6px !important;
     }
 
     .global-ranking-grid td,
