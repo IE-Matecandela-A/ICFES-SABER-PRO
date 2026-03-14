@@ -5,15 +5,7 @@
 
 const ArcadeGamesModule = {
     // --- DATOS GLOBALES (Fieles a arcane.html) ---
-    WEEKLY_RANKING: [
-        { rank: 1, name: "Laura Gómez", grade: "11-A", score: 15420, avatar: "👩🏽‍🚀" },
-        { rank: 2, name: "Andrés Muñoz", grade: "11-B", score: 14200, avatar: "👨🏻‍💻" },
-        { rank: 3, name: "Sofia Castro", grade: "10-A", score: 12850, avatar: "🦸🏽‍♀️" },
-        { rank: 4, name: "Diego Rojas", grade: "11-A", score: 11500, avatar: "🥷🏽" },
-        { rank: 5, name: "Valentina P.", grade: "10-B", score: 9800,  avatar: "🕵🏻‍♀️" },
-        { rank: 6, name: "Mateo Silva", grade: "9-A",  score: 8400,  avatar: "🧙🏽‍♂️" },
-        { rank: 7, name: "Camila V.",   grade: "11-B", score: 7200,  avatar: "👩🏻‍🔬" }
-    ],
+    WEEKLY_RANKING: [],
 
     QUESTIONS_MATH: [
         { q: "¿50% de 10?", a: "5", f1: "10", f2: "2" }, { q: "¿50% de 20?", a: "10", f1: "5", f2: "15" },
@@ -132,6 +124,22 @@ const ArcadeGamesModule = {
     updateRankingUI() {
         const table = document.getElementById('arcade-ranking-table-body');
         if (!table) return;
+        if (this.WEEKLY_RANKING.length === 0) {
+            table.innerHTML = `
+                <tr>
+                    <td colspan="4" class="p-12 text-center">
+                        <div class="flex flex-col items-center gap-4 text-slate-500">
+                            <i data-lucide="ghost" class="w-12 h-12 opacity-20"></i>
+                            <p class="text-lg font-medium">¡No hay récords esta semana!</p>
+                            <p class="text-sm opacity-60">Sé el primero en jugar y dominar el ranking.</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            return;
+        }
+
         table.innerHTML = this.WEEKLY_RANKING.map(p => `
             <tr class="hover:bg-slate-800/50 transition-colors group">
                 <td class="p-4 text-center">
