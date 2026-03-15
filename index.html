@@ -631,17 +631,16 @@
 
         <!-- CONTENEDOR DE JUEGOS -->
         <div id="arcade-view-game" class="hidden min-h-screen bg-slate-950 flex flex-col items-center justify-center p-0 sm:p-4">
-            <!-- Aviso de Orientación para Celulares -->
-            <div id="arcade-orientation-prompt" class="hidden fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center p-8 text-center sm:hidden">
-                <div class="w-24 h-24 mb-6 text-cyan-500 animate-bounce">
+            <!-- Aviso de Orientación para Celulares (ahora opcional) -->
+            <div id="arcade-orientation-prompt" class="hidden fixed inset-0 z-[100] bg-slate-950/90 flex flex-col items-center justify-center p-8 text-center sm:hidden pointer-events-none">
+                <div class="w-16 h-16 mb-4 text-cyan-500 opacity-60">
                     <i data-lucide="rotate-cw" class="w-full h-full"></i>
                 </div>
-                <h2 class="text-2xl font-black text-white mb-2 uppercase tracking-tighter">Gira tu dispositivo</h2>
-                <p class="text-slate-400">Este juego está optimizado para pantalla horizontal.</p>
+                <p class="text-slate-400 text-sm">Mejor en horizontal</p>
             </div>
 
-            <div id="arcade-game-border" class="relative w-full h-screen sm:h-[80vh] sm:max-h-[700px] sm:min-h-[500px] max-w-6xl mx-auto bg-black sm:border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden sm:rounded-xl touch-none flex items-center justify-center">
-                <canvas id="arcade-game-canvas" class="block w-full h-full object-contain"></canvas>
+            <div id="arcade-game-border" class="relative w-full h-screen sm:h-[80vh] sm:max-h-[700px] sm:min-h-[500px] max-w-6xl mx-auto bg-black sm:border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden sm:rounded-xl flex items-center justify-center">
+                <canvas id="arcade-game-canvas" class="block w-full h-full"></canvas>
                 <div id="arcade-touch-controls" class="hidden absolute inset-0 z-40 flex">
                     <div class="flex-1" onpointerdown="ArcadeGamesModule.Engine.handleTouch('left')"></div>
                     <div class="flex-1" onpointerdown="ArcadeGamesModule.Engine.handleTouch('right')"></div>
@@ -676,9 +675,13 @@
                 <div id="arcade-ui-question" class="hidden absolute top-24 left-1/2 -translate-x-1/2 bg-white/90 border-4 border-black px-8 py-3 rounded-full shadow-[0_0_30px_rgba(255,255,255,0.8)] pointer-events-none transition-all z-20">
                     <h2 id="arcade-ui-q-text" class="text-black text-2xl md:text-3xl font-black tracking-wide whitespace-nowrap">Pregunta</h2>
                 </div>
-                <div id="arcade-ui-mobile-controls" class="hidden absolute bottom-6 right-6 flex flex-col gap-4 md:hidden z-50 pointer-events-auto">
-                    <button onpointerdown="ArcadeGamesModule.Engine.handleTouch('up')" class="w-20 h-20 bg-slate-800/80 border border-slate-600 rounded-full flex items-center justify-center active:bg-white active:text-black"><span class="text-3xl text-white">▲</span></button>
-                    <button onpointerdown="ArcadeGamesModule.Engine.handleTouch('down')" class="w-20 h-20 bg-slate-800/80 border border-slate-600 rounded-full flex items-center justify-center active:bg-white active:text-black"><span class="text-3xl text-white">▼</span></button>
+                <div id="arcade-ui-mobile-controls" class="hidden absolute bottom-6 left-6 right-6 flex justify-between md:hidden z-50 pointer-events-auto">
+                    <button onpointerdown="ArcadeGamesModule.Engine.handleTouch('left')" class="w-16 h-16 bg-slate-800/80 border border-slate-600 rounded-full flex items-center justify-center active:bg-white active:text-black"><span class="text-2xl text-white">◀</span></button>
+                    <div class="flex gap-3">
+                        <button onpointerdown="ArcadeGamesModule.Engine.handleTouch('up')" class="w-14 h-14 bg-slate-800/80 border border-slate-600 rounded-full flex items-center justify-center active:bg-white active:text-black"><span class="text-xl text-white">▲</span></button>
+                        <button onpointerdown="ArcadeGamesModule.Engine.handleTouch('down')" class="w-14 h-14 bg-slate-800/80 border border-slate-600 rounded-full flex items-center justify-center active:bg-white active:text-black"><span class="text-xl text-white">▼</span></button>
+                    </div>
+                    <button onpointerdown="ArcadeGamesModule.Engine.handleTouch('right')" class="w-16 h-16 bg-slate-800/80 border border-slate-600 rounded-full flex items-center justify-center active:bg-white active:text-black"><span class="text-2xl text-white">▶</span></button>
                 </div>
                 <div id="arcade-screen-start" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center z-50 overflow-y-auto p-4">
                     <div class="text-center space-y-4 md:space-y-6 max-w-lg w-full my-auto pb-4">

@@ -93,13 +93,11 @@ const ArcadeGamesModule = {
             const prompt = document.getElementById('arcade-orientation-prompt');
             if (!prompt) return;
             
-            // Si es móvil y está en portrait
+            // Ahora solo sugerimos rotate pero permitimos jugar en portrait
             if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
                 prompt.classList.remove('hidden');
-                if (this.Engine.st) this.Engine.st.isPaused = true;
             } else {
                 prompt.classList.add('hidden');
-                if (this.Engine.st) this.Engine.st.isPaused = false;
             }
         };
 
@@ -263,8 +261,10 @@ const ArcadeGamesModule = {
             document.getElementById('arcade-ui-score-panel').classList.toggle('hidden', stateStr !== 'playing');
             document.getElementById('arcade-ui-lives').classList.toggle('hidden', stateStr !== 'playing');
             
-            document.getElementById('arcade-ui-mobile-controls').classList.toggle('hidden', stateStr !== 'playing' || this.gameId !== 'neon_dash');
-            document.getElementById('arcade-touch-controls').classList.toggle('hidden', stateStr !== 'playing' || this.gameId !== 'numeric_defender');
+            // Mostrar controles táctiles en móviles durante el juego
+            const isMobile = window.innerWidth < 768;
+            document.getElementById('arcade-ui-mobile-controls').classList.toggle('hidden', stateStr !== 'playing' || !isMobile);
+            document.getElementById('arcade-touch-controls').classList.toggle('hidden', stateStr !== 'playing' || !isMobile);
             
             this.st.isPlaying = stateStr === 'playing';
             if (stateStr === 'playing') this.resize();
@@ -276,13 +276,15 @@ const ArcadeGamesModule = {
             if (!container) return;
 
             const rect = container.getBoundingClientRect();
-            // Mantener un aspecto 16:9 base para la lógica interna pero ajustar visualmente
             this.canvas.width = rect.width;
             this.canvas.height = rect.height;
             
-            // Guardar escalas para convertir coordenadas de lógica (1024x600) a reales
-            this.st.scaleX = this.canvas.width / 1024;
-            this.st.scaleY = this.canvas.height / 600;
+            const baseWidth = 1024;
+            const baseHeight = 600;
+            
+            this.st.scaleX = this.canvas.width / baseWidth;
+            this.st.scaleY = this.canvas.height / baseHeight;
+            this.st.baseScale = Math.min(this.st.scaleX, this.st.scaleY);
         },
         
         updateScore(s) { document.getElementById('arcade-ui-score').innerText = s.toString().padStart(5, '0'); },
@@ -334,6 +336,10 @@ const ArcadeGamesModule = {
                 if(act==='left') this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
                 else this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
                 ArcadeGamesModule.AudioSys.play('rotate');
+            } else if(this.gameId === 'atomic_catcher') {
+                if(act==='left') this.st.player.targetX = Math.max(40, this.st.player.targetX - 80);
+                else if(act==='right') this.st.player.targetX = Math.min(this.canvas.width - 40, this.st.player.targetX + 80);
+                else if(act==='shoot') this.fireShoot();
             }
         },
         handlePointerMove(e) {
@@ -343,9 +349,39 @@ const ArcadeGamesModule = {
             this.st.player.targetX = (e.clientX - rect.left) * scaleX;
         },
         handlePointerDown(e) {
-            if(!this.st.isPlaying || this.gameId !== 'atomic_catcher') return;
-            this.handlePointerMove(e);
-            this.fireShoot();
+            if(!this.st.isPlaying) return;
+            if(this.gameId === 'atomic_catcher') {
+                this.handlePointerMove(e);
+                this.fireShoot();
+            }
+        },
+        
+        handleTouchStart(e) {
+            if(!this.st.isPlaying) return;
+            const rect = this.canvas.getBoundingClientRect();
+            const touchX = e.touches[0].clientX - rect.left;
+            const canvasWidth = rect.width;
+            
+            if(this.gameId === 'neon_dash') {
+                const touchY = e.touches[0].clientY - rect.top;
+                const canvasHeight = rect.height;
+                if(touchY < canvasHeight / 2) {
+                    this.st.player.lane = Math.max(0, this.st.player.lane - 1);
+                } else {
+                    this.st.player.lane = Math.min(2, this.st.player.lane + 1);
+                }
+            } else if(this.gameId === 'numeric_defender') {
+                if(touchX < canvasWidth / 2) {
+                    this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
+                    ArcadeGamesModule.AudioSys.play('rotate');
+                } else {
+                    this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
+                    ArcadeGamesModule.AudioSys.play('rotate');
+                }
+            } else if(this.gameId === 'atomic_catcher') {
+                this.st.player.targetX = (touchX / canvasWidth) * this.canvas.width;
+                this.fireShoot();
+            }
         },
         fireShoot() {
             if(this.st.player.shootCooldown <= 0 && this.st.isPlaying) {
@@ -441,14 +477,17 @@ const ArcadeGamesModule = {
             window.removeEventListener('keydown', this._kd);
             this.canvas.removeEventListener('pointermove', this._pm);
             this.canvas.removeEventListener('pointerdown', this._pd);
+            this.canvas.removeEventListener('touchstart', this._ts);
 
             this._kd = (e) => this.handleKeyDown(e);
             this._pm = (e) => this.handlePointerMove(e);
             this._pd = (e) => this.handlePointerDown(e);
+            this._ts = (e) => { e.preventDefault(); this.handleTouchStart(e); };
 
             window.addEventListener('keydown', this._kd);
             this.canvas.addEventListener('pointermove', this._pm);
             this.canvas.addEventListener('pointerdown', this._pd);
+            this.canvas.addEventListener('touchstart', this._ts, { passive: false });
         }
     }
 };
