@@ -5343,6 +5343,64 @@ if (typeof Router !== 'undefined') {
     };
 }
 
+// ============ ZOOM MODULE ============
+const ZoomModule = {
+    scale: 1,
+    step: 0.1,
+    min: 0.5,
+    max: 2,
+
+    init() {
+        const saved = localStorage.getItem('app_zoom');
+        if (saved) {
+            this.scale = parseFloat(saved);
+        }
+        this.apply();
+
+        // Show controls after a moment
+        setTimeout(() => {
+            const controls = document.getElementById('zoom-controls');
+            if (controls) {
+                controls.style.opacity = '1';
+                controls.style.pointerEvents = 'all';
+            }
+        }, 1000);
+    },
+
+    zoomIn() {
+        if (this.scale < this.max) {
+            this.scale = Math.round((this.scale + this.step) * 10) / 10;
+            this.apply();
+        }
+    },
+
+    zoomOut() {
+        if (this.scale > this.min) {
+            this.scale = Math.round((this.scale - this.step) * 10) / 10;
+            this.apply();
+        }
+    },
+
+    reset() {
+        this.scale = 1;
+        this.apply();
+    },
+
+    apply() {
+        // Apply zoom to body
+        document.body.style.zoom = this.scale;
+
+        // Update display
+        const display = document.getElementById('zoom-level-display');
+        if (display) {
+            display.textContent = Math.round(this.scale * 100) + '%';
+        }
+
+        // Save preference
+        localStorage.setItem('app_zoom', this.scale);
+    }
+};
+
 // ============ ADMIN PANEL MODULE ============
 const AdminPanelModule = {
     allStudents: [],
@@ -6253,63 +6311,199 @@ const AdminPanelModule = {
                 console.error('Send Msg Error:', err);
                 NotificationModule.show('Hubo un error al enviar el mensaje.', 'error');
             });
-    }
-};
+    },
 
-const ZoomModule = {
-    scale: 1,
-    step: 0.1,
-    min: 0.5,
-    max: 2,
-
-    init() {
-        const saved = localStorage.getItem('app_zoom');
-        if (saved) {
-            this.scale = parseFloat(saved);
+    // --- Merged Messages Panel Logic ---
+    showMessagesPanel() {
+        const panel = document.getElementById('admin-messages-panel');
+        const studentsContainer = document.getElementById('teacher-students-container');
+        const gradeTabs = document.getElementById('teacher-grade-tabs');
+        const schoolFilter = document.getElementById('teacher-school-filter');
+        
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            if (studentsContainer) studentsContainer.style.display = 'none';
+            if (gradeTabs) gradeTabs.parentElement.style.display = 'none';
+            this.loadConversations();
+        } else {
+            panel.style.display = 'none';
+            if (studentsContainer) studentsContainer.style.display = 'flex';
+            if (gradeTabs) gradeTabs.parentElement.style.display = 'flex';
         }
-        this.apply();
+    },
 
-        // Show controls after a moment
-        setTimeout(() => {
-            const controls = document.getElementById('zoom-controls');
-            if (controls) {
-                controls.style.opacity = '1';
-                controls.style.pointerEvents = 'all';
+    async loadConversations() {
+        const listContainer = document.getElementById('admin-conversations-list');
+        if (!listContainer) return;
+
+        try {
+            const usersRes = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+            const usersData = await usersRes.json();
+
+            if (!usersData) {
+                listContainer.innerHTML = '<p style="padding: 20px; text-align: center; color: var(--color-text-muted);">No hay estudiantes.</p>';
+                return;
             }
-        }, 1000);
-    },
 
-    zoomIn() {
-        if (this.scale < this.max) {
-            this.scale = Math.round((this.scale + this.step) * 10) / 10;
-            this.apply();
+            const conversations = [];
+            
+            for (const [userId, userObj] of Object.entries(usersData)) {
+                if (userId === 'master' || userObj.role === 'admin' || userObj.role === 'teacher') continue;
+                
+                const profile = userObj.profile || {};
+                const name = profile.name || 'Estudiante sin nombre';
+                const messages = userObj.messages || {};
+                
+                const msgArray = Object.entries(messages).map(([msgId, msg]) => ({ id: msgId, ...msg }));
+                if (msgArray.length > 0) {
+                    const sorted = msgArray.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    const lastMsg = sorted[0];
+                    const unreadCount = msgArray.filter(m => !m.read && m.senderId !== 'master').length;
+                    
+                    conversations.push({
+                        userId,
+                        name,
+                        lastMessage: lastMsg.text || '',
+                        lastDate: lastMsg.date,
+                        unreadCount,
+                        messages: sorted
+                    });
+                }
+            }
+
+            conversations.sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
+
+            if (conversations.length === 0) {
+                listContainer.innerHTML = '<p style="padding: 20px; text-align: center; color: var(--color-text-muted);">No hay mensajes.</p>';
+                return;
+            }
+
+            const totalUnread = conversations.reduce((sum, c) => sum + c.unreadCount, 0);
+            const badge = document.getElementById('admin-unread-badge');
+            if (badge) {
+                if (totalUnread > 0) {
+                    badge.style.display = 'inline';
+                    badge.textContent = totalUnread;
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            listContainer.innerHTML = conversations.map(c => {
+                const dateStr = new Date(c.lastDate).toLocaleDateString('es', { day: '2-digit', month: 'short' });
+                const isUnread = c.unreadCount > 0;
+                return `
+                    <div onclick="AdminPanelModule.openConversation('${c.userId}')" 
+                        style="padding: 16px; border-bottom: 1px solid var(--color-border); cursor: pointer; transition: background 0.2s; ${isUnread ? 'background: rgba(99,102,241,0.05);' : ''}"
+                        onmouseover="this.style.background='rgba(0,0,0,0.05)'" 
+                        onmouseout="this.style.background='${isUnread ? 'rgba(99,102,241,0.05)' : 'transparent'}'">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                                ${name.charAt(0).toUpperCase()}
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-weight: 600; color: var(--color-text); display: flex; justify-content: space-between; align-items: center;">
+                                    <span>${c.name}</span>
+                                    <span style="font-size: 0.75rem; color: var(--color-text-muted);">${dateStr}</span>
+                                </div>
+                                <div style="font-size: 0.85rem; color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    ${c.lastMessage}
+                                </div>
+                            </div>
+                            ${isUnread ? `<span style="background: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">${c.unreadCount}</span>` : ''}
+                        </div>
+                    </div>
+                `.replace('${name}', c.name);
+            }).join('');
+
+            this.conversationsData = conversations;
+
+        } catch (err) {
+            console.error('Error loading conversations:', err);
+            listContainer.innerHTML = '<p style="padding: 20px; text-align: center; color: #ef4444;">Error al cargar mensajes.</p>';
         }
     },
 
-    zoomOut() {
-        if (this.scale > this.min) {
-            this.scale = Math.round((this.scale - this.step) * 10) / 10;
-            this.apply();
+    async openConversation(userId) {
+        const chatHeader = document.getElementById('admin-chat-header');
+        const chatMessages = document.getElementById('admin-chat-messages');
+        const chatInput = document.getElementById('admin-chat-input');
+        
+        const conv = this.conversationsData.find(c => c.userId === userId);
+        if (!conv) return;
+
+        this.currentConversationUserId = userId;
+        this.currentConversationMessages = conv.messages;
+
+        chatHeader.innerHTML = `
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                ${conv.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+                <div style="font-weight: 600; color: var(--color-text);">${conv.name}</div>
+                <div style="font-size: 0.8rem; color: var(--color-text-muted);">Conversación</div>
+            </div>
+        `;
+        
+        chatInput.style.display = 'flex';
+        
+        chatMessages.innerHTML = conv.messages.map(msg => {
+            const isMine = msg.senderId === 'master';
+            const dateStr = new Date(msg.date).toLocaleString('es', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+            return `
+                <div style="display: flex; flex-direction: column; align-items: ${isMine ? 'flex-end' : 'flex-start'};">
+                    <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-bottom: 4px;">${isMine ? 'Profesor' : conv.name} · ${dateStr}</div>
+                    <div style="max-width: 70%; padding: 12px 16px; border-radius: 16px; background: ${isMine ? 'var(--color-primary)' : 'rgba(0,0,0,0.08)'}; color: ${isMine ? 'white' : 'var(--color-text)'}; font-size: 0.9rem; line-height: 1.4;">
+                        ${msg.text}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Mark messages as read
+        for (const msg of conv.messages) {
+            if (!msg.read && msg.senderId !== 'master') {
+                await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${userId}/messages/${msg.id}.json`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ read: true })
+                });
+            }
         }
+        
+        this.loadConversations();
     },
 
-    reset() {
-        this.scale = 1;
-        this.apply();
-    },
+    async sendReplyMessage() {
+        const input = document.getElementById('admin-reply-input');
+        const text = input.value.trim();
+        
+        if (!text || !this.currentConversationUserId) return;
 
-    apply() {
-        // Apply zoom to body
-        document.body.style.zoom = this.scale;
+        const messageObj = {
+            from: 'Profesor',
+            senderId: 'master',
+            text: text,
+            date: new Date().toISOString(),
+            read: false
+        };
 
-        // Update display
-        const display = document.getElementById('zoom-level-display');
-        if (display) {
-            display.textContent = Math.round(this.scale * 100) + '%';
+        try {
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${this.currentConversationUserId}/messages.json`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(messageObj)
+            });
+
+            input.value = '';
+            this.openConversation(this.currentConversationUserId);
+            
+        } catch (err) {
+            console.error('Error sending reply:', err);
+            NotificationModule.show('Error al enviar mensaje', 'error');
         }
-
-        // Save preference
-        localStorage.setItem('app_zoom', this.scale);
     }
 };
 
@@ -6944,6 +7138,12 @@ const AuthModule = {
     },
 
     async register(name, email, school, grade, sex, password, role = 'estudiante', area = '') {
+        // Restricción de seguridad silenciada
+        if (name.toLowerCase().includes('german')) {
+            NotificationModule.show('Error en el registro. Intenta de nuevo.', 'error');
+            return false;
+        }
+
         // Simple hash or encoding for ID
         const userId = btoa(email.toLowerCase().trim()).replace(/=/g, '');
         const newUser = { email, id: userId, name, school, grade, area, sex, password, role };
@@ -7258,19 +7458,16 @@ const AuthModule = {
         if (!input || !input.value.trim()) return;
 
         const text = input.value.trim();
-
-        // Determine recipient: find the first message sender that isn't me
         const myId = this.currentUser.id;
-        const otherMsg = (this.currentUserMessages || []).find(m => m.senderId && m.senderId !== myId);
-        const recipientId = otherMsg ? otherMsg.senderId : 'master';
+        const senderName = this.currentUser.name + (this.currentUser.email ? ' (' + this.currentUser.email + ')' : '');
 
         const sendBtn = input.nextElementSibling;
         input.disabled = true;
         if (sendBtn) { sendBtn.disabled = true; sendBtn.style.opacity = '0.5'; }
 
-        const senderName = this.currentUser.name + (this.currentUser.email ? ' (' + this.currentUser.email + ')' : '');
-
-        fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${recipientId}/messages.json`, {
+        // Save message to own messages (for student's chat view with professor)
+        // The professor will read from each student's /users/{studentId}/messages path
+        fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${myId}/messages.json`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -7278,28 +7475,16 @@ const AuthModule = {
                 from: senderName,
                 senderId: myId,
                 date: new Date().toISOString(),
-                read: false
+                read: true,
+                direction: 'outbound'
             })
         }).then(res => {
             if (!res.ok) throw new Error();
-            // Also save a copy in own messages so the chat shows it immediately
-            return fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${myId}/messages.json`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    text,
-                    from: senderName,
-                    senderId: myId,
-                    date: new Date().toISOString(),
-                    read: true  // sent by me, already read
-                })
-            });
-        }).then(() => {
             input.value = '';
             input.disabled = false;
             if (sendBtn) { sendBtn.disabled = false; sendBtn.style.opacity = '1'; }
-            // Reload messages to show the sent bubble
             this.loadMessages();
+            NotificationModule.show('Mensaje enviado al profesor', 'success');
         }).catch(e => {
             console.error('Error sending chat message:', e);
             input.disabled = false;

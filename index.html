@@ -630,9 +630,18 @@
         </div>
 
         <!-- CONTENEDOR DE JUEGOS -->
-        <div id="arcade-view-game" class="hidden min-h-screen bg-slate-950 flex-col items-center justify-center p-2 sm:p-4">
-            <div id="arcade-game-border" class="relative w-full h-[75vh] min-h-[600px] max-w-6xl mx-auto bg-black border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden rounded-xl touch-none">
-                <canvas id="arcade-game-canvas" width="1024" height="600" class="absolute inset-0 w-full h-full object-cover"></canvas>
+        <div id="arcade-view-game" class="hidden min-h-screen bg-slate-950 flex flex-col items-center justify-center p-0 sm:p-4">
+            <!-- Aviso de Orientación para Celulares -->
+            <div id="arcade-orientation-prompt" class="hidden fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center p-8 text-center sm:hidden">
+                <div class="w-24 h-24 mb-6 text-cyan-500 animate-bounce">
+                    <i data-lucide="rotate-cw" class="w-full h-full"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white mb-2 uppercase tracking-tighter">Gira tu dispositivo</h2>
+                <p class="text-slate-400">Este juego está optimizado para pantalla horizontal.</p>
+            </div>
+
+            <div id="arcade-game-border" class="relative w-full h-screen sm:h-[80vh] sm:max-h-[700px] sm:min-h-[500px] max-w-6xl mx-auto bg-black sm:border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden sm:rounded-xl touch-none flex items-center justify-center">
+                <canvas id="arcade-game-canvas" class="block w-full h-full object-contain"></canvas>
                 <div id="arcade-touch-controls" class="hidden absolute inset-0 z-40 flex">
                     <div class="flex-1" onpointerdown="ArcadeGamesModule.Engine.handleTouch('left')"></div>
                     <div class="flex-1" onpointerdown="ArcadeGamesModule.Engine.handleTouch('right')"></div>
@@ -2371,6 +2380,46 @@
                     style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.1); color: #10b981; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                     <span class="material-icons-round" style="font-size: 1.1rem;">sync</span> Actualizar Datos
                 </button>
+                
+                <!-- Mensajes Button -->
+                <button onclick="AdminPanelModule.showMessagesPanel()"
+                    style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(99,102,241,0.3); background: rgba(99,102,241,0.1); color: #6366f1; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                    <span class="material-icons-round" style="font-size: 1.1rem;">mail</span> Mensajes
+                    <span id="admin-unread-badge" style="display: none; background: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">0</span>
+                </button>
+            </div>
+            
+            <!-- Messages Panel (Hidden by default) -->
+            <div id="admin-messages-panel" style="display: none; max-width: 1000px; margin: 24px auto;">
+                <div style="display: flex; gap: 24px; min-height: 500px;">
+                    <!-- Conversations List -->
+                    <div style="width: 300px; background: var(--color-surface); border-radius: 16px; border: 1px solid var(--color-border); overflow: hidden;">
+                        <div style="padding: 16px; border-bottom: 1px solid var(--color-border);">
+                            <h3 style="margin: 0; color: var(--color-text);">Conversaciones</h3>
+                        </div>
+                        <div id="admin-conversations-list" style="max-height: 450px; overflow-y: auto;">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                    <!-- Chat Area -->
+                    <div style="flex: 1; background: var(--color-surface); border-radius: 16px; border: 1px solid var(--color-border); display: flex; flex-direction: column; overflow: hidden;">
+                        <div id="admin-chat-header" style="padding: 16px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px;">
+                            <span style="color: var(--color-text-muted);">Selecciona una conversación</span>
+                        </div>
+                        <div id="admin-chat-messages" style="flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Messages injected via JS -->
+                        </div>
+                        <div id="admin-chat-input" style="padding: 16px; border-top: 1px solid var(--color-border); display: none; gap: 12px; align-items: center;">
+                            <input type="text" id="admin-reply-input" placeholder="Escribe un mensaje..." 
+                                style="flex: 1; padding: 12px 16px; border-radius: 24px; border: 1px solid var(--color-border); background: var(--color-background); color: var(--color-text); outline: none;"
+                                onkeydown="if(event.key === 'Enter') AdminPanelModule.sendReplyMessage()">
+                            <button onclick="AdminPanelModule.sendReplyMessage()" 
+                                style="width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--color-primary); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                <span class="material-icons-round">send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="teacher-loading-spinner" style="display: none; text-align: center; margin: 40px 0;">

@@ -58,11 +58,54 @@ const ArcadeGamesModule = {
     scores: { neon_dash: null, atomic_catcher: null, numeric_defender: null },
 
     /**
-     * Inicializa el módulo, asegurando que los iconos de Lucide se carguen
+     * Inicializa el módulo, asegura carga de iconos y sincroniza récords con Firebase
      */
-    init() {
+    async init() {
         if (typeof lucide !== 'undefined') lucide.createIcons();
+        
+        // Cargar récords personales desde Firebase
+        if (typeof AuthModule !== 'undefined' && AuthModule.currentUser) {
+            try {
+                const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/arcade_v1.json`);
+                const data = await res.json();
+                if (data) {
+                    this.scores.neon_dash = data.neon_dash || 0;
+                    this.scores.atomic_catcher = data.atomic_catcher || 0;
+                    this.scores.numeric_defender = data.numeric_defender || 0;
+                }
+            } catch (e) {
+                console.error('Error al cargar récords arcade:', e);
+            }
+        }
+        
         this.updateRankingUI();
+        this.setupOrientationHandler();
+        
+        window.addEventListener('resize', () => {
+            if (this.Engine.st && this.Engine.st.isPlaying) {
+                this.Engine.resize();
+            }
+        });
+    },
+
+    setupOrientationHandler() {
+        const checkOrientation = () => {
+            const prompt = document.getElementById('arcade-orientation-prompt');
+            if (!prompt) return;
+            
+            // Si es móvil y está en portrait
+            if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
+                prompt.classList.remove('hidden');
+                if (this.Engine.st) this.Engine.st.isPaused = true;
+            } else {
+                prompt.classList.add('hidden');
+                if (this.Engine.st) this.Engine.st.isPaused = false;
+            }
+        };
+
+        window.addEventListener('resize', checkOrientation);
+        window.addEventListener('orientationchange', checkOrientation);
+        checkOrientation();
     },
 
     // --- SISTEMA DE AUDIO (AudioSys) ---
@@ -121,38 +164,77 @@ const ArcadeGamesModule = {
         if (tab === 'ranking') this.updateRankingUI();
     },
 
-    updateRankingUI() {
+    async updateRankingUI() {
         const table = document.getElementById('arcade-ranking-table-body');
         if (!table) return;
-        if (this.WEEKLY_RANKING.length === 0) {
-            table.innerHTML = `
-                <tr>
-                    <td colspan="4" class="p-12 text-center">
-                        <div class="flex flex-col items-center gap-4 text-slate-500">
-                            <i data-lucide="ghost" class="w-12 h-12 opacity-20"></i>
-                            <p class="text-lg font-medium">¡No hay récords esta semana!</p>
-                            <p class="text-sm opacity-60">Sé el primero en jugar y dominar el ranking.</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            if (typeof lucide !== 'undefined') lucide.createIcons();
-            return;
-        }
 
-        table.innerHTML = this.WEEKLY_RANKING.map(p => `
-            <tr class="hover:bg-slate-800/50 transition-colors group">
-                <td class="p-4 text-center">
-                    ${p.rank === 1 ? `<span class="inline-block w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-500 font-black leading-10 border border-yellow-500/50">1</span>` :
-                      p.rank === 2 ? `<span class="inline-block w-10 h-10 rounded-full bg-slate-300/20 text-slate-300 font-black leading-10 border border-slate-300/50">2</span>` :
-                      p.rank === 3 ? `<span class="inline-block w-10 h-10 rounded-full bg-amber-700/20 text-amber-500 font-black leading-10 border border-amber-700/50">3</span>` :
-                      `<span class="text-slate-500 font-bold">${p.rank}</span>`}
-                </td>
-                <td class="p-4"><div class="flex items-center gap-3"><span class="text-3xl">${p.avatar}</span><span class="font-bold ${p.rank <= 3 ? 'text-white' : 'text-slate-300'}">${p.name}</span></div></td>
-                <td class="p-4"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded text-sm font-bold border border-slate-700">${p.grade}</span></td>
-                <td class="p-4 text-right"><span class="font-mono font-black ${p.rank === 1 ? 'text-yellow-400' : 'text-cyan-400'}">${p.score}</span></td>
-            </tr>
-        `).join('');
+        // Mostrar estado de carga
+        table.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 animate-pulse">Cargando ranking global...</td></tr>`;
+
+        try {
+            const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json`;
+            const res = await fetch(dbUrl);
+            const users = await res.json();
+
+            let rankingList = [];
+            if (users) {
+                Object.values(users).forEach(u => {
+                    const arc = u.arcade_v1;
+                    if (arc && (arc.totalScore > 0 || arc.neon_dash > 0 || arc.atomic_catcher > 0 || arc.numeric_defender > 0)) {
+                        rankingList.push({
+                            name: arc.name || u.profile?.name || 'Estudiante',
+                            school: arc.school || u.profile?.school || 'IE MATECANDELA',
+                            grade: arc.grade || u.profile?.grade || '',
+                            score: arc.totalScore || 0,
+                            avatar: arc.avatar || '👤'
+                        });
+                    }
+                });
+            }
+
+            // Ordenar de mayor a menor y tomar top 50
+            rankingList.sort((a, b) => b.score - a.score);
+            rankingList = rankingList.slice(0, 50);
+
+            if (rankingList.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="p-12 text-center">
+                            <div class="flex flex-col items-center gap-4 text-slate-500">
+                                <i data-lucide="ghost" class="w-12 h-12 opacity-20"></i>
+                                <p class="text-lg font-medium">¡No hay récords esta semana!</p>
+                                <p class="text-sm opacity-60">Sé el primero en jugar y dominar el ranking.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+
+            table.innerHTML = rankingList.map((p, index) => {
+                const rank = index + 1;
+                return `
+                    <tr class="hover:bg-slate-800/50 transition-colors group">
+                        <td class="p-4 text-center">
+                            ${rank === 1 ? `<span class="inline-block w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-500 font-black leading-10 border border-yellow-500/50">1</span>` :
+                              rank === 2 ? `<span class="inline-block w-10 h-10 rounded-full bg-slate-300/20 text-slate-300 font-black leading-10 border border-slate-300/50">2</span>` :
+                              rank === 3 ? `<span class="inline-block w-10 h-10 rounded-full bg-amber-700/20 text-amber-500 font-black leading-10 border border-amber-700/50">3</span>` :
+                              `<span class="text-slate-500 font-bold">${rank}</span>`}
+                        </td>
+                        <td class="p-4"><div class="flex items-center gap-3"><span class="text-3xl">${p.avatar || '👤'}</span><span class="font-bold ${rank <= 3 ? 'text-white' : 'text-slate-300'}">${p.name}</span></div></td>
+                        <td class="p-4"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded text-sm font-bold border border-slate-700">${p.grade || p.school}</span></td>
+                        <td class="p-4 text-right"><span class="font-mono font-black ${rank === 1 ? 'text-yellow-400' : 'text-cyan-400'}">${p.score}</span></td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        } catch (e) {
+            console.error('Error al cargar ranking arcade:', e);
+            table.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-red-500">Error al conectar con la base de datos.</td></tr>`;
+        }
 
         const personalRecs = document.getElementById('arcade-personal-records');
         if (!personalRecs) return;
@@ -185,6 +267,22 @@ const ArcadeGamesModule = {
             document.getElementById('arcade-touch-controls').classList.toggle('hidden', stateStr !== 'playing' || this.gameId !== 'numeric_defender');
             
             this.st.isPlaying = stateStr === 'playing';
+            if (stateStr === 'playing') this.resize();
+        },
+
+        resize() {
+            if (!this.canvas) return;
+            const container = document.getElementById('arcade-game-border');
+            if (!container) return;
+
+            const rect = container.getBoundingClientRect();
+            // Mantener un aspecto 16:9 base para la lógica interna pero ajustar visualmente
+            this.canvas.width = rect.width;
+            this.canvas.height = rect.height;
+            
+            // Guardar escalas para convertir coordenadas de lógica (1024x600) a reales
+            this.st.scaleX = this.canvas.width / 1024;
+            this.st.scaleY = this.canvas.height / 600;
         },
         
         updateScore(s) { document.getElementById('arcade-ui-score').innerText = s.toString().padStart(5, '0'); },
@@ -290,9 +388,13 @@ const ArcadeGamesModule = {
                 document.getElementById('arcade-start-subtitle').className = 'text-base md:text-xl text-cyan-400 font-bold tracking-[0.3em] mt-1 md:mt-2';
                 document.getElementById('arcade-start-desc').innerText = 'Esquiva obstáculos, recolecta datos y resuelve matemáticas.';
                 document.getElementById('arcade-start-rules').classList.add('hidden');
-                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">↑ W</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">↓ S</span><span class="text-cyan-400 font-bold px-2 py-1 w-full sm:w-auto">O usa botones en pantalla</span>';
+                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">↑ W</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">↓ S</span><span class="text-cyan-400 font-bold px-2 py-1 w-full sm:w-auto">O Usa botones</span>';
                 document.getElementById('arcade-start-btn-text').innerText = 'JUGAR AHORA';
-                document.getElementById('arcade-game-border').className = 'relative w-full h-[75vh] min-h-[600px] max-w-6xl mx-auto bg-black border-y-4 border-cyan-500 shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden rounded-xl font-sans select-none touch-none';
+                
+                const border = document.getElementById('arcade-game-border');
+                border.style.borderColor = '#06b6d4';
+                border.style.boxShadow = '0 0 50px rgba(6,182,212,0.3)';
+                border.className = border.className.replace(/bg-\S+/, 'bg-black');
             } 
             else if (gameId === 'atomic_catcher') {
                 document.getElementById('arcade-start-icon').setAttribute('data-lucide', 'target');
@@ -305,9 +407,13 @@ const ArcadeGamesModule = {
                 document.getElementById('arcade-start-desc').innerText = 'Controla el cañón de plasma. Dispara al isótopo correcto.';
                 document.getElementById('arcade-start-rules').classList.remove('hidden');
                 document.getElementById('arcade-start-rules-list').innerHTML = '<li><strong class="text-emerald-400">Aprende jugando:</strong> El símbolo correcto siempre estará en la pregunta (Ej: ORO (Au)).</li><li><strong class="text-emerald-400">Dificultad progresiva:</strong> A medida que avances, los símbolos se moverán en zigzag, saldrán escudos y todo será más caótico.</li><li><strong class="text-emerald-400">Bullet Time:</strong> Tienes 5 segundos en cámara lenta para apuntar con cuidado.</li>';
-                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">← Mover →</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">ESPACIO: Disparar</span><span class="text-emerald-400 font-bold px-2 py-1 w-full sm:w-auto">O toca la pantalla</span>';
+                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">← Mover →</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">ESPACIO: Disparar</span><span class="text-emerald-400 font-bold px-2 py-1 w-full sm:w-auto text-center">O toca pantalla</span>';
                 document.getElementById('arcade-start-btn-text').innerText = 'INICIAR DEFENSA';
-                document.getElementById('arcade-game-border').className = 'relative w-full h-[75vh] min-h-[600px] max-w-6xl mx-auto bg-slate-950 border-y-4 border-emerald-500 shadow-[0_0_50px_rgba(16,185,129,0.3)] overflow-hidden rounded-xl font-sans select-none touch-none';
+                
+                const border = document.getElementById('arcade-game-border');
+                border.style.borderColor = '#10b981';
+                border.style.boxShadow = '0 0 50px rgba(16,185,129,0.3)';
+                border.className = border.className.replace(/bg-\S+/, 'bg-slate-950');
             }
             else if (gameId === 'numeric_defender') {
                 document.getElementById('arcade-start-icon').setAttribute('data-lucide', 'shield-alert');
@@ -320,9 +426,13 @@ const ArcadeGamesModule = {
                 document.getElementById('arcade-start-desc').innerText = 'Eres el núcleo. Gira tus 4 escudos para interceptar las anomalías usando la equivalencia matemática correcta.';
                 document.getElementById('arcade-start-rules').classList.remove('hidden');
                 document.getElementById('arcade-start-rules-list').innerHTML = '<li><strong class="text-blue-400">Aprendizaje rápido:</strong> Relaciona porcentajes, decimales, fracciones y ecuaciones al instante.</li><li><strong class="text-blue-400">Ayudas visuales:</strong> En el primer nivel el escudo correcto brilla en verde.</li><li><strong class="text-blue-400">Bullet Time:</strong> Tienes 10 segundos en cámara lenta cuando sale un nuevo virus.</li>';
-                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">← Flecha Izq</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">Flecha Der →</span><span class="text-blue-400 font-bold px-2 py-1 w-full sm:w-auto">O toca los lados</span>';
+                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">← Flecha Izq</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">Flecha Der →</span><span class="text-blue-400 font-bold px-2 py-1 w-full sm:w-auto">O toca lados</span>';
                 document.getElementById('arcade-start-btn-text').innerText = 'ACTIVAR ESCUDOS';
-                document.getElementById('arcade-game-border').className = 'relative w-full h-[75vh] min-h-[600px] max-w-6xl mx-auto bg-slate-950 border-y-4 border-blue-500 shadow-[0_0_50px_rgba(59,130,246,0.3)] overflow-hidden rounded-xl font-sans select-none touch-none';
+                
+                const border = document.getElementById('arcade-game-border');
+                border.style.borderColor = '#3b82f6';
+                border.style.boxShadow = '0 0 50px rgba(59,130,246,0.3)';
+                border.className = border.className.replace(/bg-\S+/, 'bg-slate-950');
             }
             
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -348,24 +458,25 @@ Object.assign(ArcadeGamesModule.Engine, {
         ArcadeGamesModule.AudioSys.init();
         const cv = this.canvas;
         if(this.gameId === 'neon_dash') {
+            const h = cv.height;
             this.st = { 
-                player: { lane: 1, y: 300, targetY: 300, invulnerableTimer: 0 }, 
+                player: { lane: 1, y: h/2, targetY: h/2, invulnerableTimer: 0 }, 
                 speed: 6, baseSpeed: 6, internalScore: 0, level: 0, lastLevel: 0, 
                 obs: [], parts: [], stars: [], dist: 0, frames: 0, 
-                gateAct: false, isTrans: true, lanes: [120, 300, 480], 
+                gateAct: false, isTrans: true, lanes: [h*0.25, h*0.5, h*0.75], 
                 qs: [...ArcadeGamesModule.QUESTIONS_MATH].sort(() => Math.random() - 0.5), 
-                isPlaying: true, lives: 3, isGameOverTriggered: false 
+                isPlaying: true, isPaused: false, lives: 3, isGameOverTriggered: false 
             };
             ArcadeGamesModule.AudioSys.startEngine();
             this.updateThemeInfo(ArcadeGamesModule.THEMES_NEON[0].name, 0, 'cyan');
             this.showAnnounce(ArcadeGamesModule.THEMES_NEON[0].name, "VELOCIDAD AUMENTADA");
         } else if(this.gameId === 'atomic_catcher') {
             this.st = { 
-                player: { x: 512, targetX: 512, width: 60, height: 60, shootCooldown: 0 }, 
+                player: { x: cv.width/2, targetX: cv.width/2, width: 60, height: 60, shootCooldown: 0 }, 
                 baseSpeedY: 3, internalScore: 0, level: 0, lastLevel: 0, frames: 0, 
                 atoms: [], bullets: [], junk: [], parts: [], cq: null, 
                 qs: [...ArcadeGamesModule.QUESTIONS_CHEMISTRY].sort(() => Math.random() - 0.5), 
-                spawnTimer: 0, bulletTimeTimer: 0, isTrans: true, isPlaying: true, lives: 3, 
+                spawnTimer: 0, bulletTimeTimer: 0, isTrans: true, isPlaying: true, isPaused: false, lives: 3, 
                 isGameOverTriggered: false 
             };
             this.updateThemeInfo(ArcadeGamesModule.THEMES_CHEMISTRY[0].name, 0, 'emerald');
@@ -375,7 +486,7 @@ Object.assign(ArcadeGamesModule.Engine, {
                 rotIdx: 0, dispAng: 0, internalScore: 0, level: 0, lastLevel: 0, frames: 0, 
                 enemy: null, parts: [], qs: [...ArcadeGamesModule.QUESTIONS_DEFENDER].sort(() => Math.random() - 0.5), 
                 cq: null, opts: [], isTrans: true, eSpeed: 2.5, bulletTimeTimer: 0, 
-                isPlaying: true, lives: 3, isGameOverTriggered: false 
+                isPlaying: true, isPaused: false, lives: 3, isGameOverTriggered: false 
             };
             this.updateThemeInfo(ArcadeGamesModule.THEMES_DEFENDER[0].name, 0, 'blue');
             this.showAnnounce(ArcadeGamesModule.THEMES_DEFENDER[0].name, "SISTEMA ACTUALIZADO");
@@ -397,13 +508,39 @@ Object.assign(ArcadeGamesModule.Engine, {
         ArcadeGamesModule.AudioSys.stopEngine();
         if (this.req) cancelAnimationFrame(this.req);
         
-        // Save score and XP
-        if(!ArcadeGamesModule.scores[this.gameId] || this.st.internalScore > ArcadeGamesModule.scores[this.gameId]) {
+        // Guardar récord y XP en Firebase
+        const currentBest = ArcadeGamesModule.scores[this.gameId] || 0;
+        if (this.st.internalScore > currentBest) {
             ArcadeGamesModule.scores[this.gameId] = this.st.internalScore;
+            
             if (typeof AuthModule !== 'undefined' && AuthModule.currentUser) {
+                const uid = AuthModule.currentUser.id;
+                const totalScore = (ArcadeGamesModule.scores.neon_dash || 0) + 
+                                  (ArcadeGamesModule.scores.atomic_catcher || 0) + 
+                                  (ArcadeGamesModule.scores.numeric_defender || 0);
+                                  
+                const arcadeData = {
+                    [this.gameId]: this.st.internalScore,
+                    totalScore: totalScore,
+                    name: AuthModule.currentUser.name,
+                    school: AuthModule.currentUser.school,
+                    grade: AuthModule.currentUser.grade,
+                    avatar: AuthModule.currentUser.id === 'master' ? '🚀' : '👤',
+                    lastUpdated: Date.now()
+                };
+
+                // Guardar en Firebase (estilo flashcardRanking_v2)
+                fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${uid}/arcade_v1.json`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(arcadeData)
+                }).catch(e => console.error('Error saving arcade score:', e));
+
+                // Otorgar XP proporcionalmente (10% del puntaje obtenido)
                 const xpGained = Math.floor(this.st.internalScore / 10);
-                if (xpGained > 0) {
-                    AuthModule.addXP(xpGained);
+                if (xpGained > 0 && typeof GamificationModule !== 'undefined') {
+                    // Usar GamificationModule.addXP directamente si está disponible
+                    GamificationModule.addXP(xpGained);
                     if (typeof NotificationModule !== 'undefined') {
                         NotificationModule.show(`+${xpGained} XP ganado en el Arcade`, 'success');
                     }
@@ -499,9 +636,11 @@ Object.assign(ArcadeGamesModule.Engine, {
 
     loop() {
         if(!this.st.isPlaying) return;
-        if(this.gameId === 'neon_dash') this.updateNeonDash();
-        else if(this.gameId === 'atomic_catcher') this.updateAtomic();
-        else if(this.gameId === 'numeric_defender') this.updateDefender();
+        if(!this.st.isPaused) {
+            if(this.gameId === 'neon_dash') this.updateNeonDash();
+            else if(this.gameId === 'atomic_catcher') this.updateAtomic();
+            else if(this.gameId === 'numeric_defender') this.updateDefender();
+        }
         this.req = requestAnimationFrame(() => this.loop());
     }
 });
@@ -550,7 +689,7 @@ Object.assign(ArcadeGamesModule.Engine, {
         }
 
         s.player.targetY = s.lanes[s.player.lane]; s.player.y += (s.player.targetY - s.player.y)*0.2;
-        let px=150, py=s.player.y; let isInv = s.player.invulnerableTimer>0;
+        let px=cv.width*0.15, py=s.player.y; let isInv = s.player.invulnerableTimer>0;
         let dColor = isInv ? `hsl(${(s.frames*15)%360},100%,60%)` : th.p1;
         cx.fillStyle = th.p2; cx.beginPath(); cx.moveTo(px-20,py); cx.lineTo(px-40-Math.random()*25, py-10); cx.lineTo(px-40-Math.random()*25, py+10); cx.fill();
         cx.shadowBlur=15; cx.shadowColor=dColor; cx.fillStyle=dColor; cx.beginPath(); cx.moveTo(px+30,py); cx.lineTo(px-20,py-20); cx.lineTo(px-20,py+20); cx.fill(); cx.shadowBlur=0;
@@ -561,7 +700,7 @@ Object.assign(ArcadeGamesModule.Engine, {
             if(o.type==='orb') { cx.save(); cx.translate(o.x,oy); o.r+=0.05; cx.fillStyle=th.p3; cx.shadowBlur=10; cx.shadowColor=th.p3; cx.beginPath(); cx.arc(0,0,o.sz+Math.sin(s.frames*0.2)*2,0,Math.PI*2); cx.fill(); cx.fillStyle='#fff'; cx.beginPath(); cx.arc(0,0,o.sz*0.4,0,Math.PI*2); cx.fill(); cx.restore(); }
             if(o.type==='ast') { o.r+=o.rs; cx.save(); cx.translate(o.x,oy); cx.rotate(o.r); cx.strokeStyle=th.e1; cx.lineWidth=3; cx.shadowBlur=15; cx.shadowColor=th.e1; cx.beginPath(); let hs=o.sz/2; if(o.sh==='sq'){cx.rect(-hs,-hs,o.sz,o.sz);cx.moveTo(-hs/2,-hs/2);cx.lineTo(hs/2,hs/2);}else if(o.sh==='tr'){cx.moveTo(0,-hs);cx.lineTo(hs,hs);cx.lineTo(-hs,hs);cx.closePath();cx.moveTo(0,0);cx.arc(0,0,2,0,Math.PI*2);}else if(o.sh==='ci'){cx.arc(0,0,hs,0,Math.PI*2);cx.moveTo(-hs,0);cx.lineTo(hs,0);}else{for(let j=0;j<6;j++){let a=(j*Math.PI)/3; cx[j===0?'moveTo':'lineTo'](hs*Math.cos(a), hs*Math.sin(a));} cx.closePath();cx.moveTo(0,-hs);cx.lineTo(0,hs);} cx.stroke(); cx.restore(); }
             if(o.type==='star') { o.r+=o.rs; cx.save(); cx.translate(o.x,oy); cx.rotate(o.r); cx.fillStyle='#fbbf24'; cx.shadowBlur=20; cx.shadowColor='#fbbf24'; this.drawStar(0,0,o.sz,5,0.5); cx.fill(); cx.restore(); }
-            if(o.type==='gate') { cx.fillStyle=th.e2f; cx.strokeStyle=th.e2; cx.lineWidth=3; cx.shadowBlur=15; cx.shadowColor=th.e2; cx.fillRect(o.x, oy-o.h/2, o.w, o.h); cx.strokeRect(o.x, oy-o.h/2, o.w, o.h); cx.shadowBlur=0; cx.fillStyle='#fff'; cx.font='bold 24px Arial'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(o.t, o.x+o.w/2, oy); }
+            if(o.type==='gate') { cx.fillStyle=th.e2f; cx.strokeStyle=th.e2; cx.lineWidth=3; cx.shadowBlur=15; cx.shadowColor=th.e2; cx.fillRect(o.x, oy-o.h/2, o.w, o.h); cx.strokeRect(o.x, oy-o.h/2, o.w, o.h); cx.shadowBlur=0; cx.fillStyle='#fff'; cx.font='bold 18px Arial'; if(cv.width>600) cx.font='bold 24px Arial'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(o.t, o.x+o.w/2, oy); }
 
             let dy = Math.abs(py - oy);
             if(o.x < px+25 && o.x+(o.w||o.sz*2) > px-25 && dy < 25 && !o.del) {
@@ -624,7 +763,7 @@ Object.assign(ArcadeGamesModule.Engine, {
         }
 
         s.player.x += (s.player.targetX - s.player.x)*0.2;
-        if(s.player.x<30) s.player.x=30; if(s.player.x>cv.width-30) s.player.x=cv.width-30;
+        if(s.player.x<40) s.player.x=40; if(s.player.x>cv.width-40) s.player.x=cv.width-40;
         let py = cv.height-50;
         cx.save(); cx.translate(s.player.x,py); cx.fillStyle='#1e293b'; cx.strokeStyle=th.p1; cx.lineWidth=3; cx.beginPath(); cx.moveTo(-30,20); cx.lineTo(30,20); cx.lineTo(20,-10); cx.lineTo(-20,-10); cx.closePath(); cx.fill(); cx.stroke();
         cx.fillStyle='#0f172a'; cx.fillRect(-10,-40,20,30); cx.strokeRect(-10,-40,20,30); cx.shadowBlur=15; cx.shadowColor=th.p1; cx.fillStyle=th.p1; cx.beginPath(); cx.arc(0,5,8+Math.sin(s.frames*0.3)*3,0,Math.PI*2); cx.fill(); cx.shadowBlur=0; cx.restore();
@@ -681,7 +820,7 @@ Object.assign(ArcadeGamesModule.Engine, {
         cx.fillStyle = s.bulletTimeTimer>0 ? `rgba(${th.bg}, 0.8)` : `rgba(${th.bg}, 0.6)`; cx.fillRect(0,0,cv.width,cv.height);
         cx.strokeStyle = th.grid; cx.lineWidth=1;
         let go = (s.frames*0.5)%40; for(let i=-go;i<cv.width;i+=40){cx.beginPath();cx.moveTo(i,0);cx.lineTo(i,cv.height);cx.stroke();} for(let i=-go;i<cv.height;i+=40){cx.beginPath();cx.moveTo(0,i);cx.lineTo(cv.width,i);cx.stroke();}
-        const cxC = cv.width/2, cyC = cv.height/2, sr = 150;
+        const cxC = cv.width/2, cyC = cv.height/2, sr = Math.min(cv.width, cv.height) * 0.25;
         let d = (s.rotationIndex*(Math.PI/2)) - s.dispAng;
         if(d>Math.PI) d-=Math.PI*2; if(d<-Math.PI) d+=Math.PI*2; s.dispAng += d*0.2;
         if(!s.enemy && !s.isTrans) this.spawnDefEnemy();
@@ -712,8 +851,8 @@ Object.assign(ArcadeGamesModule.Engine, {
                 cx.fillStyle='#fff'; this.drawMathText(t, tx, ty, 20);
             }
         }
-        cx.save(); cx.translate(cxC,cyC); cx.shadowBlur=20; cx.shadowColor=th.p1; cx.fillStyle='rgba(15,23,42,0.9)'; cx.strokeStyle=th.p1; cx.lineWidth=4; cx.beginPath(); cx.arc(0,0,90+Math.sin(s.frames*0.1)*3,0,Math.PI*2); cx.fill(); cx.stroke();
-        if(s.cq && !s.isTrans) { cx.shadowBlur=0; cx.fillStyle='#fff'; let fs = 18; let tw = this.measureMathText(s.cq, fs); if(tw>160) fs=13; else if(tw>140) fs=15; this.drawMathText(s.cq, 0, 0, fs); }
+        cx.save(); cx.translate(cxC,cyC); cx.shadowBlur=20; cx.shadowColor=th.p1; cx.fillStyle='rgba(15,23,42,0.9)'; cx.strokeStyle=th.p1; cx.lineWidth=4; cx.beginPath(); cx.arc(0,0,(sr*0.6)+Math.sin(s.frames*0.1)*3,0,Math.PI*2); cx.fill(); cx.stroke();
+        if(s.cq && !s.isTrans) { cx.shadowBlur=0; cx.fillStyle='#fff'; let fs = sr*0.12; let tw = this.measureMathText(s.cq, fs); if(tw>(sr*1.1)) fs=fs*0.7; else if(tw>(sr*0.95)) fs=fs*0.85; this.drawMathText(s.cq, 0, 0, fs); }
         cx.restore();
         for(let i=s.parts.length-1; i>=0; i--) { let p=s.parts[i]; p.x+=p.vx; p.y+=p.vy; p.life-=0.05; if(p.life<=0){p.del=true;continue;} cx.fillStyle=p.color; cx.globalAlpha=p.life; cx.beginPath(); cx.arc(p.x,p.y,p.size,0,Math.PI*2); cx.fill(); cx.globalAlpha=1; }
         s.parts = s.parts.filter(p=>!p.del);
@@ -724,7 +863,7 @@ Object.assign(ArcadeGamesModule.Engine, {
         this.st.cq = q.q;
         let sp = Math.floor(Math.random()*4);
         this.st.opts = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false},{t:q.f3,c:false}].sort(()=>Math.random()-0.5);
-        this.st.enemy = { posIdx: sp, dist: 400, speed: this.st.eSpeed };
+        this.st.enemy = { posIdx: sp, dist: Math.max(cv.width, cv.height)*0.45, speed: this.st.eSpeed };
         this.st.bulletTimeTimer = 600; 
     }
 });
