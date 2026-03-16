@@ -113,17 +113,18 @@ const StudyModules = {
         
         container.innerHTML = '';
 
-        if (moduleId === 'mat_mod_1') {
-            console.log("StudyModules: Iniciando Módulo React...");
-            console.log("StudyModules: window.renderMathModule1 disponible?", typeof window.renderMathModule1);
-            console.log("StudyModules: window.ReactDOM disponible?", typeof window.ReactDOM);
+        if (moduleId === 'mat_mod_1' || moduleId === 'mat_mod_2' || moduleId === 'mat_mod_3') {
+            const renderFnName = moduleId === 'mat_mod_1' ? 'renderMathModule1' : 
+                               (moduleId === 'mat_mod_2' ? 'renderMathModule2' : 'renderMathModule3');
+            console.log(`StudyModules: Iniciando Módulo React ${moduleId}...`);
+            console.log(`StudyModules: window.${renderFnName} disponible?`, typeof window[renderFnName]);
             
             const tryRender = () => {
-                if (window.renderMathModule1) {
-                    console.log("StudyModules: Ejecutando renderMathModule1...");
-                    window.renderMathModule1(containerId);
+                if (window[renderFnName]) {
+                    console.log(`StudyModules: Ejecutando ${renderFnName}...`);
+                    window[renderFnName](containerId);
                 } else {
-                    console.warn("StudyModules: Esperando a Babel/React... Intentos: ", (this.attempts || 0) + 1);
+                    console.warn(`StudyModules: Esperando a Babel/React para ${moduleId}... Intentos: `, (this.attempts || 0) + 1);
                     this.attempts = (this.attempts || 0) + 1;
                     if (this.attempts > 10) {
                         container.innerHTML = `<div class="p-10 text-center" style="color: var(--color-text)"><h2 class="text-xl font-bold" style="color: #f87171">Error: No se pudo cargar el módulo</h2><p style="color: var(--color-text-muted)">Por favor actualiza la página e intenta de nuevo</p></div>`;
