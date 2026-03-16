@@ -5,7 +5,7 @@
         Brain, ArrowRight, ArrowDown, RefreshCw, Award, Search, Scale, 
         ShieldCheck, XCircle, CheckCircle, AlertTriangle, Lightbulb, 
         MessageSquare, TrendingUp, EyeOff, BookOpen, Calculator 
-    } = LucideReact;
+    } = LucideReact || {};
 
     function ModuloArgumentacion() {
   const [activeTab, setActiveTab] = useState('introduccion');
