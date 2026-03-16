@@ -3,40 +3,36 @@
     const React = window.React;
     const { useState, useEffect, useMemo, useCallback } = React;
 
-    // Helper to get Lucide icons safely
-    const getIcon = (name) => {
-        return (props) => {
-            const IconComponent = (window.LucideReact && window.LucideReact[name]) || 
-                                 ((p) => React.createElement('span', p, ''));
-            return React.createElement(IconComponent, props);
-        };
-    };
-
-    const Brain = getIcon('Brain');
-    const ArrowRight = getIcon('ArrowRight');
-    const ArrowDown = getIcon('ArrowDown');
-    const RefreshCw = getIcon('RefreshCw');
-    const Award = getIcon('Award');
-    const Search = getIcon('Search');
-    const Scale = getIcon('Scale');
-    const ShieldCheck = getIcon('ShieldCheck');
-    const XCircle = getIcon('XCircle');
-    const CheckCircle = getIcon('CheckCircle');
-    const AlertTriangle = getIcon('AlertTriangle');
-    const Lightbulb = getIcon('Lightbulb');
-    const MessageSquare = getIcon('MessageSquare');
-    const TrendingUp = getIcon('TrendingUp');
-    const EyeOff = getIcon('EyeOff');
-    const BookOpen = getIcon('BookOpen');
-    const Calculator = getIcon('Calculator');
-    const Shapes = getIcon('Shapes');
-    const Sigma = getIcon('Sigma');
-    const Percent = getIcon('Percent');
-    const Dices = getIcon('Dices');
-
+    // Standard Icon component using Material Icons (matches Module 1 style)
     const Icon = ({ name, className = "", style = {} }) => (
-      React.createElement("span", { className: `material-icons-round ${className}`, style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } }, name)
+      React.createElement("span", { 
+        className: `material-icons-round ${className}`, 
+        style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } 
+      }, name)
     );
+
+    // Component wrappers for the icons used in the module
+    const Brain = (props) => React.createElement(Icon, { name: "psychology", ...props });
+    const ArrowRight = (props) => React.createElement(Icon, { name: "arrow_forward", ...props });
+    const ArrowDown = (props) => React.createElement(Icon, { name: "arrow_downward", ...props });
+    const RefreshCw = (props) => React.createElement(Icon, { name: "refresh", ...props });
+    const Award = (props) => React.createElement(Icon, { name: "emoji_events", ...props });
+    const Search = (props) => React.createElement(Icon, { name: "search", ...props });
+    const Scale = (props) => React.createElement(Icon, { name: "balance", ...props });
+    const ShieldCheck = (props) => React.createElement(Icon, { name: "verified_user", ...props });
+    const XCircle = (props) => React.createElement(Icon, { name: "cancel", ...props });
+    const CheckCircle = (props) => React.createElement(Icon, { name: "check_circle", ...props });
+    const AlertTriangle = (props) => React.createElement(Icon, { name: "warning", ...props });
+    const Lightbulb = (props) => React.createElement(Icon, { name: "lightbulb", ...props });
+    const MessageSquare = (props) => React.createElement(Icon, { name: "forum", ...props });
+    const TrendingUp = (props) => React.createElement(Icon, { name: "trending_up", ...props });
+    const EyeOff = (props) => React.createElement(Icon, { name: "visibility_off", ...props });
+    const BookOpen = (props) => React.createElement(Icon, { name: "auto_stories", ...props });
+    const Calculator = (props) => React.createElement(Icon, { name: "calculate", ...props });
+    const Shapes = (props) => React.createElement(Icon, { name: "category", ...props });
+    const Sigma = (props) => React.createElement(Icon, { name: "functions", ...props });
+    const Percent = (props) => React.createElement(Icon, { name: "percent", ...props });
+    const Dices = (props) => React.createElement(Icon, { name: "casino", ...props });
 
     function ModuloArgumentacion() {
   const [activeTab, setActiveTab] = useState('introduccion');
@@ -54,62 +50,62 @@
   const ejemplosEstrategia1 = [
     {
       titulo: "El despeje invertido",
-      premisa: "Pregunta: Â¿En quÃ© paso se equivocÃ³ al resolver 2x + 8 = 20? / Paso 1: 2x = 20 + 8 / Paso 2: 2x = 28 / Paso 3: x = 14.",
-      comprender: "El estudiante intenta despejar 'x' moviendo los tÃ©rminos al otro lado del signo igual (=).",
+      premisa: "Pregunta: ¿En qué paso se equivocó al resolver 2x + 8 = 20? / Paso 1: 2x = 20 + 8 / Paso 2: 2x = 28 / Paso 3: x = 14.",
+      comprender: "El estudiante intenta despejar 'x' moviendo los términos al otro lado del signo igual (=).",
       rastrear: (
         <ul className="text-xs space-y-2">
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>EcuaciÃ³n: <strong>2x + 8 = 20</strong></li>
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0 mt-0.5"/>El +8 debe pasar con la operaciÃ³n contraria (restando).</li>
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>El estudiante lo pasÃ³ sumando en el Paso 1.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Ecuación: <strong>2x + 8 = 20</strong></li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0 mt-0.5"/>El +8 debe pasar con la operación contraria (restando).</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>El estudiante lo pasó sumando en el Paso 1.</li>
         </ul>
       ),
       esFalso: true,
-      veredicto: "Error detectado en el Paso 1. Todo lo demÃ¡s es invÃ¡lido."
+      veredicto: "Error detectado en el Paso 1. Todo lo demás es inválido."
     },
     {
-      titulo: "La trampa de la JerarquÃ­a (PEMDAS)",
-      premisa: "Un estudiante calcula el Ã¡rea total resolviendo la expresiÃ³n: 5 + 3 Ã— 2. Su resultado final es 16.",
-      comprender: "El estudiante realiza operaciones aritmÃ©ticas combinadas (suma y multiplicaciÃ³n).",
+      titulo: "La trampa de la Jerarquía (PEMDAS)",
+      premisa: "Un estudiante calcula el área total resolviendo la expresión: 5 + 3 × 2. Su resultado final es 16.",
+      comprender: "El estudiante realiza operaciones aritméticas combinadas (suma y multiplicación).",
       rastrear: (
         <div className="space-y-2 text-xs">
-          <p>Verificamos la jerarquÃ­a (PEMDAS): Primero multiplicaciones, luego sumas.</p>
+          <p>Verificamos la jerarquía (PEMDAS): Primero multiplicaciones, luego sumas.</p>
           <div className="bg-white p-2 rounded border border-orange-200 font-mono text-[10px]">
-            <div>Lo que hizo: (5 + 3) = 8 â†’ 8 Ã— 2 = 16 <strong className="text-rose-500">âœ—</strong></div>
-            <div className="mt-1">Lo correcto: (3 Ã— 2) = 6 â†’ 5 + 6 = 11 <strong className="text-emerald-500">âœ“</strong></div>
+            <div>Lo que hizo: (5 + 3) = 8 → 8 × 2 = 16 <strong className="text-rose-500">✗</strong></div>
+            <div className="mt-1">Lo correcto: (3 × 2) = 6 → 5 + 6 = 11 <strong className="text-emerald-500">✓</strong></div>
           </div>
         </div>
       ),
       esFalso: true,
-      veredicto: "Procedimiento incorrecto. No respetÃ³ la jerarquÃ­a de las operaciones."
+      veredicto: "Procedimiento incorrecto. No respetó la jerarquía de las operaciones."
     },
     {
       titulo: "El signo multiplicador oculto",
       premisa: "Al resolver -4x = 12, el alumno concluye que el primer paso es: x = 12 + 4.",
-      comprender: "El alumno ve un nÃºmero negativo (-4) junto a una 'x' e intenta despejarlo.",
+      comprender: "El alumno ve un número negativo (-4) junto a una 'x' e intenta despejarlo.",
       rastrear: (
         <ul className="text-xs space-y-2">
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0 mt-0.5"/>El -4 no estÃ¡ restando a la 'x', la estÃ¡ <strong>multiplicando</strong>.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0 mt-0.5"/>El -4 no está restando a la 'x', la está <strong>multiplicando</strong>.</li>
           <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Para despejar, debe pasar a dividir conservando su signo negativo.</li>
           <li className="flex gap-2 font-mono font-bold">Correcto: x = 12 / -4</li>
         </ul>
       ),
       esFalso: true,
-      veredicto: "Error conceptual. ConfundiÃ³ un coeficiente negativo con una resta."
+      veredicto: "Error conceptual. Confundió un coeficiente negativo con una resta."
     }
   ];
 
   const ejemplosEstrategia2 = [
     {
       titulo: "El mito del crecimiento",
-      premisa: "AfirmaciÃ³n: Si multiplicas un nÃºmero por cualquier otro, el resultado siempre serÃ¡ mÃ¡s grande que el nÃºmero original.",
-      comprender: "Aseguran que la regla (X * Y > X) se cumple para ABSOLUTAMENTE TODOS los nÃºmeros del universo.",
+      premisa: "Afirmación: Si multiplicas un número por cualquier otro, el resultado siempre será más grande que el número original.",
+      comprender: "Aseguran que la regla (X * Y > X) se cumple para ABSOLUTAMENTE TODOS los números del universo.",
       rastrear: (
         <div className="space-y-2 text-xs">
           <p>Buscamos romper la regla probando casos "extremos" (cero o decimales):</p>
           <ul className="font-mono bg-white p-2 rounded border border-orange-200">
-            <li>5 Ã— 2 = 10 (Se cumple)</li>
-            <li className="text-rose-600 font-bold mt-1">5 Ã— 0.5 = 2.5 (Â¡FallÃ³! 2.5 no es mayor a 5)</li>
-            <li className="text-rose-600 font-bold">5 Ã— 0 = 0 (Â¡FallÃ³!)</li>
+            <li>5 × 2 = 10 (Se cumple)</li>
+            <li className="text-rose-600 font-bold mt-1">5 × 0.5 = 2.5 (¡Falló! 2.5 no es mayor a 5)</li>
+            <li className="text-rose-600 font-bold">5 × 0 = 0 (¡Falló!)</li>
           </ul>
         </div>
       ),
@@ -117,41 +113,41 @@
       veredicto: "Basta un solo contraejemplo (multiplicar por decimales menores a 1) para destruir la palabra 'siempre'."
     },
     {
-      titulo: "GeometrÃ­a Absoluta",
-      premisa: "AfirmaciÃ³n: Todos los cuadrilÃ¡teros que tienen sus cuatro lados exactamente iguales, son obligatoriamente cuadrados.",
+      titulo: "Geometría Absoluta",
+      premisa: "Afirmación: Todos los cuadriláteros que tienen sus cuatro lados exactamente iguales, son obligatoriamente cuadrados.",
       comprender: "Establece que Lados Iguales = Cuadrado, sin excepciones.",
       rastrear: (
         <div className="space-y-2 text-xs">
-          <p>Â¿Existe alguna figura de 4 lados iguales que NO sea un cuadrado?</p>
+          <p>¿Existe alguna figura de 4 lados iguales que NO sea un cuadrado?</p>
           <div className="flex items-center gap-3 bg-white p-2 rounded border border-orange-200 mt-2">
             <div className="w-6 h-6 border-2 border-orange-500 rotate-45 transform skew-x-12 ml-2"></div>
-            <span>El <strong>Rombo</strong> tiene 4 lados iguales, pero sus Ã¡ngulos no son de 90Â°.</span>
+            <span>El <strong>Rombo</strong> tiene 4 lados iguales, pero sus ángulos no son de 90Â°.</span>
           </div>
         </div>
       ),
       esFalso: true,
-      veredicto: "El Rombo es el contraejemplo perfecto. Refuta la afirmaciÃ³n geomÃ©trica."
+      veredicto: "El Rombo es el contraejemplo perfecto. Refuta la afirmación geométrica."
     },
     {
-      titulo: "Sumas EngaÃ±osas",
-      premisa: "AfirmaciÃ³n: Sumar dos nÃºmeros distintos siempre da como resultado un nÃºmero mayor que ambos.",
-      comprender: "Garantiza que la adiciÃ³n (X + Y = Z) siempre hace que Z > X y Z > Y.",
+      titulo: "Sumas Engañosas",
+      premisa: "Afirmación: Sumar dos números distintos siempre da como resultado un número mayor que ambos.",
+      comprender: "Garantiza que la adición (X + Y = Z) siempre hace que Z > X y Z > Y.",
       rastrear: (
         <ul className="text-xs space-y-2 font-mono">
           <li className="flex gap-2">Prueba 1: 5 + 3 = 8 (8 &gt; 5 y 8 &gt; 3). Funciona.</li>
           <li className="flex gap-2 font-bold text-rose-600">Contraejemplo: 5 + (-2) = 3.</li>
-          <li className="text-slate-600 font-sans">El resultado (3) NO es mayor que el nÃºmero original (5).</li>
+          <li className="text-slate-600 font-sans">El resultado (3) NO es mayor que el número original (5).</li>
         </ul>
       ),
       esFalso: true,
-      veredicto: "Falso. La regla se rompe al sumar nÃºmeros negativos."
+      veredicto: "Falso. La regla se rompe al sumar números negativos."
     }
   ];
 
   const ejemplosEstrategia3 = [
     {
       titulo: "Bases Diferentes",
-      premisa: "Mi negocio creciÃ³ un 100% y el hipermercado creciÃ³ un 50%. Por tanto, mi negocio ganÃ³ mÃ¡s dinero este mes.",
+      premisa: "Mi negocio creció un 100% y el hipermercado creció un 50%. Por tanto, mi negocio ganó más dinero este mes.",
       comprender: "Asume que Mayor % Relativo = Mayor Cantidad Absoluta de Dinero.",
       rastrear: (
         <div className="text-xs space-y-2">
@@ -167,7 +163,7 @@
     },
     {
       titulo: "El Espejismo del Descuento",
-      premisa: "Este abrigo tiene un 50% de descuento. Al llegar a caja, aplican un 50% extra por usar tarjeta. Â¡El abrigo sale GRATIS (100% descuento)!",
+      premisa: "Este abrigo tiene un 50% de descuento. Al llegar a caja, aplican un 50% extra por usar tarjeta. ¡El abrigo sale GRATIS (100% descuento)!",
       comprender: "El cliente suma los porcentajes (50 + 50 = 100) directamente.",
       rastrear: (
         <div className="space-y-2 text-xs">
@@ -183,130 +179,130 @@
       veredicto: "Falso. Los descuentos sucesivos NO se suman, se aplican uno tras el remanente del otro."
     },
     {
-      titulo: "Recuperar la InversiÃ³n",
-      premisa: "Ayer perdÃ­ el 50% del valor de mis acciones. Si hoy la bolsa sube un 50%, recuperarÃ© todo mi dinero exacto.",
+      titulo: "Recuperar la Inversión",
+      premisa: "Ayer perdí el 50% del valor de mis acciones. Si hoy la bolsa sube un 50%, recuperaré todo mi dinero exacto.",
       comprender: "Cree que bajar X% y subir X% te regresa al punto de partida.",
       rastrear: (
         <div className="space-y-2 text-xs">
-          <p>Simulamos con $100 de inversiÃ³n inicial:</p>
+          <p>Simulamos con $100 de inversión inicial:</p>
           <ul className="bg-white p-2 rounded border border-orange-200 font-mono space-y-1">
             <li>Ayer (Pierde 50%): Me quedan $50.</li>
             <li>Hoy (Sube 50%): El 50% de $50 son $25.</li>
-            <li>Total: $50 + $25 = $75. (PerdÃ­ $25 al final).</li>
+            <li>Total: $50 + $25 = $75. (Perdí $25 al final).</li>
           </ul>
         </div>
       ),
       esFalso: true,
-      veredicto: "Para recuperar una pÃ©rdida del 50%, Â¡necesitas un crecimiento del 100%!"
+      veredicto: "Para recuperar una pérdida del 50%, ¡necesitas un crecimiento del 100%!"
     }
   ];
 
   const ejemplosEstrategia4 = [
     {
       titulo: "Helados y Ahogamientos",
-      premisa: "Un estudio muestra que los meses donde se venden mÃ¡s helados, hay mÃ¡s ahogados en la playa. ConclusiÃ³n: Comer helados causa ahogamientos.",
-      comprender: "Al ver dos grÃ¡ficas subir juntas (CorrelaciÃ³n), se asume que una provoca la otra (Causalidad).",
+      premisa: "Un estudio muestra que los meses donde se venden más helados, hay más ahogados en la playa. Conclusión: Comer helados causa ahogamientos.",
+      comprender: "Al ver dos gráficas subir juntas (Correlación), se asume que una provoca la otra (Causalidad).",
       rastrear: (
         <div className="text-xs space-y-2">
-          <p>Buscamos una tercera variable (Variable de ConfusiÃ³n) que afecte a ambas:</p>
+          <p>Buscamos una tercera variable (Variable de Confusión) que afecte a ambas:</p>
           <div className="bg-white p-2 rounded border border-orange-200 font-bold text-center text-orange-600">
             EL VERANO / CALOR
           </div>
-          <p className="mt-1">El calor hace que la gente compre helados, y tambiÃ©n hace que vayan a nadar (donde ocurren accidentes).</p>
+          <p className="mt-1">El calor hace que la gente compre helados, y también hace que vayan a nadar (donde ocurren accidentes).</p>
         </div>
       ),
       esFalso: true,
-      veredicto: "Falsa Causalidad. Las variables estÃ¡n correlacionadas por una tercera causa comÃºn."
+      veredicto: "Falsa Causalidad. Las variables están correlacionadas por una tercera causa común."
     },
     {
-      titulo: "TutorÃ­as y Malas Notas",
-      premisa: "Los datos de un colegio indican que los estudiantes que asisten a tutorÃ­as privadas reprueban mÃ¡s exÃ¡menes. ConclusiÃ³n: Â¡Las tutorÃ­as empeoran el rendimiento!",
-      comprender: "Asume que la tutorÃ­a (A) causa la mala nota (B).",
+      titulo: "Tutorías y Malas Notas",
+      premisa: "Los datos de un colegio indican que los estudiantes que asisten a tutorías privadas reprueban más exámenes. Conclusión: ¡Las tutorías empeoran el rendimiento!",
+      comprender: "Asume que la tutoría (A) causa la mala nota (B).",
       rastrear: (
         <div className="text-xs space-y-2">
           <p>Analizamos el sentido de la temporalidad (Causalidad Inversa):</p>
           <ul className="bg-white p-2 rounded border border-orange-200 space-y-1">
-            <li>Â¿La tutorÃ­a bajÃ³ la nota? NO.</li>
-            <li>Â¿Tener malas notas provocÃ³ que contrataran la tutorÃ­a? SÃ.</li>
+            <li>¿La tutoría bajó la nota? NO.</li>
+            <li>¿Tener malas notas provocó que contrataran la tutoría? SÃ.</li>
           </ul>
         </div>
       ),
       esFalso: true,
-      veredicto: "Falso. Confunde la causa con el efecto. Estudiaban porque ya iban mal, no al revÃ©s."
+      veredicto: "Falso. Confunde la causa con el efecto. Estudiaban porque ya iban mal, no al revés."
     },
     {
       titulo: "Hospitales y Mortalidad",
-      premisa: "Las estadÃ­sticas muestran que los hospitales mÃ¡s grandes y costosos tienen la tasa mÃ¡s alta de pacientes fallecidos. ConclusiÃ³n: Tienen peores mÃ©dicos.",
+      premisa: "Las estadísticas muestran que los hospitales más grandes y costosos tienen la tasa más alta de pacientes fallecidos. Conclusión: Tienen peores médicos.",
       comprender: "Se asocia 'Hospital Grande' = 'Mayor Mortalidad = Peor Medicina'.",
       rastrear: (
         <div className="text-xs space-y-2">
-          <p>Aplicamos lÃ³gica contextual a la variable de entrada:</p>
+          <p>Aplicamos lógica contextual a la variable de entrada:</p>
           <div className="bg-white p-2 rounded border border-orange-200">
-            Los hospitales grandes y equipados son los Ãºnicos que reciben los casos de trauma extremo y urgencias fatales que los hospitales pequeÃ±os rechazan.
+            Los hospitales grandes y equipados son los únicos que reciben los casos de trauma extremo y urgencias fatales que los hospitales pequeños rechazan.
           </div>
         </div>
       ),
       esFalso: true,
-      veredicto: "Falso sesgo de selecciÃ³n. Atienden mÃ¡s muertes porque reciben casos mucho mÃ¡s graves."
+      veredicto: "Falso sesgo de selección. Atienden más muertes porque reciben casos mucho más graves."
     }
   ];
 
   const ejemplosEstrategia5 = [
     {
-      titulo: "El TriÃ¡ngulo EngaÃ±oso",
-      premisa: "La imagen muestra un triÃ¡ngulo y el estudiante multiplicÃ³ el Lado Izquierdo por la Base para hallar el Ã¡rea, porque la esquina 'parece' recta.",
-      comprender: "El estudiante asumiÃ³ que el lado inclinado es la 'Altura' matemÃ¡tica de la figura.",
+      titulo: "El Triángulo Engañoso",
+      premisa: "La imagen muestra un triángulo y el estudiante multiplicó el Lado Izquierdo por la Base para hallar el área, porque la esquina 'parece' recta.",
+      comprender: "El estudiante asumió que el lado inclinado es la 'Altura' matemática de la figura.",
       rastrear: (
         <ul className="text-xs space-y-2">
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Revisamos el enunciado y la grÃ¡fica.</li>
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>No hay ningÃºn cuadrito de 90Â° en la esquina.</li>
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>No dice 'triÃ¡ngulo rectÃ¡ngulo' en el texto.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Revisamos el enunciado y la gráfica.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>No hay ningún cuadrito de 90Â° en la esquina.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>No dice 'triángulo rectángulo' en el texto.</li>
         </ul>
       ),
       esFalso: true,
-      veredicto: "SuposiciÃ³n InvÃ¡lida. En geometrÃ­a del ICFES, nunca confÃ­es en el dibujo sin datos explÃ­citos."
+      veredicto: "Suposición Inválida. En geometría del ICFES, nunca confíes en el dibujo sin datos explícitos."
     },
     {
-      titulo: "El Eje Truncado (GrÃ¡ficas)",
-      premisa: "En la grÃ¡fica de barras, la barra del 2023 es el doble de alta que la del 2022. Por tanto, las ventas se duplicaron exactamente este aÃ±o.",
-      comprender: "Concluye basÃ¡ndose EXCLUSIVAMENTE en el impacto visual (proporciÃ³n de la tinta impresa).",
+      titulo: "El Eje Truncado (Gráficas)",
+      premisa: "En la gráfica de barras, la barra del 2023 es el doble de alta que la del 2022. Por tanto, las ventas se duplicaron exactamente este año.",
+      comprender: "Concluye basándose EXCLUSIVAMENTE en el impacto visual (proporción de la tinta impresa).",
       rastrear: (
         <div className="text-xs space-y-2">
-          <p>Verificamos el Eje Y de la grÃ¡fica:</p>
+          <p>Verificamos el Eje Y de la gráfica:</p>
           <div className="bg-white p-2 rounded border border-orange-200 font-mono">
             Eje Y empieza en <strong>1.000</strong> (truncado).<br/>
             - Barra 2022 llega a 1.010.<br/>
             - Barra 2023 llega a 1.020.
           </div>
-          <p>1.020 NO es el doble de 1.010, aunque la barra dibujada sobre el eje 1000 sÃ­ mida el doble de centÃ­metros.</p>
+          <p>1.020 NO es el doble de 1.010, aunque la barra dibujada sobre el eje 1000 sí mida el doble de centímetros.</p>
         </div>
       ),
       esFalso: true,
-      veredicto: "Trampa visual. Supuso errÃ³neamente que el Eje Y empezaba en Cero (0)."
+      veredicto: "Trampa visual. Supuso erróneamente que el Eje Y empezaba en Cero (0)."
     },
     {
       titulo: "Probabilidad vs Certeza",
-      premisa: "En una urna hay 99 bolas rojas y 1 bola azul. Pedro afirma: 'Como la abrumadora mayorÃ­a es roja, es IMPOSIBLE sacar la azul'.",
+      premisa: "En una urna hay 99 bolas rojas y 1 bola azul. Pedro afirma: 'Como la abrumadora mayoría es roja, es IMPOSIBLE sacar la azul'.",
       comprender: "Iguala una probabilidad muy baja (1%) con una imposibilidad absoluta (0%).",
       rastrear: (
         <ul className="text-xs space-y-2">
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Â¿Imposible = Probabilidad de 0/100? SÃ.</li>
-          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Â¿CuÃ¡l es la probabilidad real de la azul? 1/100.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>¿Imposible = Probabilidad de 0/100? SÃ.</li>
+          <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>¿Cuál es la probabilidad real de la azul? 1/100.</li>
           <li className="flex gap-2"><ArrowRight className="w-3 h-3 text-orange-500 shrink-0"/>Como 1/100 &gt; 0, el evento PUEDE ocurrir.</li>
         </ul>
       ),
       esFalso: true,
-      veredicto: "Falso. ConfundiÃ³ 'altamente improbable' con 'matemÃ¡ticamente imposible'."
+      veredicto: "Falso. Confundió 'altamente improbable' con 'matemáticamente imposible'."
     }
   ];
 
-  // FunciÃ³n Helper para renderizar los Casos DidÃ¡cticos
+  // Función Helper para renderizar los Casos Didácticos
   const renderCasos = (casosArray) => (
     <div className="space-y-12">
       {casosArray.map((caso, index) => (
         <div key={index} className="pt-8 border-t border-slate-200 mt-8 first:border-t-0 first:pt-0 first:mt-0">
           <h4 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-            <Lightbulb className="w-6 h-6 text-orange-500" /> Caso PrÃ¡ctico {index + 1}: {caso.titulo}
+            <Lightbulb className="w-6 h-6 text-orange-500" /> Caso Práctico {index + 1}: {caso.titulo}
           </h4>
           <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm mb-6 border-l-4 border-l-slate-800">
             <p className="text-slate-700 font-medium italic text-sm md:text-base">"{caso.premisa}"</p>
@@ -328,7 +324,7 @@
                 <h5 className="font-bold text-rose-700 flex items-center gap-2 mb-3"><ShieldCheck className="w-4 h-4"/> 3. Veredicto</h5>
                 <div className="flex flex-col gap-2 mt-auto">
                    <div className={`px-2 py-2 rounded text-center shadow-sm ${caso.esFalso ? 'bg-rose-600' : 'bg-emerald-600'}`}>
-                     <span className="text-xs font-bold text-white uppercase tracking-wider">{caso.esFalso ? 'AfirmaciÃ³n / Procedimiento Falso' : 'AfirmaciÃ³n Verdadera'}</span>
+                     <span className="text-xs font-bold text-white uppercase tracking-wider">{caso.esFalso ? 'Afirmación / Procedimiento Falso' : 'Afirmación Verdadera'}</span>
                    </div>
                    <div className="text-[11px] text-center text-rose-800 leading-tight font-medium bg-rose-100/50 p-2 rounded">
                      {caso.veredicto}
@@ -347,42 +343,42 @@
   const questions = [
     {
       type: "Caza-errores",
-      question: "Un estudiante intentÃ³ resolver la ecuaciÃ³n 3x - 5 = 10. Â¿En quÃ© paso cometiÃ³ el primer error?",
+      question: "Un estudiante intentó resolver la ecuación 3x - 5 = 10. ¿En qué paso cometió el primer error?",
       visual: (
         <div className="w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 font-mono text-center">
-          <div className="text-slate-500 mb-2 border-b border-slate-100 pb-2">EcuaciÃ³n: 3x - 5 = 10</div>
+          <div className="text-slate-500 mb-2 border-b border-slate-100 pb-2">Ecuación: 3x - 5 = 10</div>
           <div className="py-2"><span className="text-amber-600 font-bold mr-2">Paso 1:</span> 3x = 10 - 5</div>
           <div className="py-2"><span className="text-amber-600 font-bold mr-2">Paso 2:</span> 3x = 5</div>
           <div className="py-2"><span className="text-amber-600 font-bold mr-2">Paso 3:</span> x = 5 / 3</div>
         </div>
       ),
-      options: ["En el Paso 1", "En el Paso 2", "En el Paso 3", "No hay ningÃºn error."],
+      options: ["En el Paso 1", "En el Paso 2", "En el Paso 3", "No hay ningún error."],
       correct: 0,
-      feedback: "Â¡Bien detectado! Al pasar el '-5', debiÃ³ pasar sumando (+5). El Paso 1 debiÃ³ ser: 3x = 10 + 5."
+      feedback: "¡Bien detectado! Al pasar el '-5', debió pasar sumando (+5). El Paso 1 debió ser: 3x = 10 + 5."
     },
     {
       type: "Contraejemplo",
-      question: "Alguien afirma: 'Si elevas cualquier nÃºmero al cuadrado, el resultado siempre serÃ¡ mayor que el nÃºmero original'. Â¿QuÃ© nÃºmero sirve como contraejemplo?",
+      question: "Alguien afirma: 'Si elevas cualquier número al cuadrado, el resultado siempre será mayor que el número original'. ¿Qué número sirve como contraejemplo?",
       visual: (
         <div className="relative h-32 w-full max-w-sm mx-auto mb-8 mt-6">
           <svg className="w-full h-full overflow-visible" viewBox="0 0 200 80">
             <rect x="10" y="10" width="180" height="60" rx="10" fill="#fffbeb" stroke="#f59e0b" strokeWidth="2" strokeDasharray="4 4"/>
             <text x="100" y="45" fontSize="16" fill="#b45309" textAnchor="middle" fontWeight="bold" fontFamily="monospace">XÂ² &gt; X</text>
-            <text x="100" y="60" fontSize="8" fill="#d97706" textAnchor="middle" fontStyle="italic">Â¿Siempre se cumple?</text>
+            <text x="100" y="60" fontSize="8" fill="#d97706" textAnchor="middle" fontStyle="italic">¿Siempre se cumple?</text>
           </svg>
         </div>
       ),
       options: ["x = -2", "x = 2", "x = 0.5", "x = 10"],
       correct: 2,
-      feedback: "Â¡Excelente! Si x = 0.5, entonces xÂ² = 0.25. AquÃ­, 0.25 NO es mayor que 0.5, lo que destruye la afirmaciÃ³n."
+      feedback: "¡Excelente! Si x = 0.5, entonces xÂ² = 0.25. Aquí, 0.25 NO es mayor que 0.5, lo que destruye la afirmación."
     },
     {
-      type: "AnÃ¡lisis LÃ³gico",
-      question: "El dueÃ±o de la Tienda A afirma: 'Mi tienda creciÃ³ mÃ¡s porque mi porcentaje (50%) es mayor que el de la tienda B (20%)'. Â¿Por quÃ© NO es vÃ¡lido?",
+      type: "Análisis Lógico",
+      question: "El dueño de la Tienda A afirma: 'Mi tienda creció más porque mi porcentaje (50%) es mayor que el de la tienda B (20%)'. ¿Por qué NO es válido?",
       visual: (
         <div className="flex gap-4 w-full max-w-md mx-auto mb-6 mt-4 p-4 bg-white rounded-xl shadow-sm border border-slate-200">
            <div className="flex-1 border-r border-slate-100 pr-4 text-center">
-             <div className="text-[10px] text-slate-400">VendÃ­a $1.000</div>
+             <div className="text-[10px] text-slate-400">Vendía $1.000</div>
              <div className="flex justify-center my-2">
                <div className="w-8 h-16 bg-gradient-to-t from-orange-400 to-amber-400 rounded-sm relative">
                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold text-orange-600">+50%</span>
@@ -390,7 +386,7 @@
              </div>
            </div>
            <div className="flex-1 pl-4 text-center">
-             <div className="text-[10px] text-slate-400">VendÃ­a $10.000</div>
+             <div className="text-[10px] text-slate-400">Vendía $10.000</div>
              <div className="flex justify-center my-2">
                <div className="w-12 h-20 bg-gradient-to-t from-blue-400 to-cyan-400 rounded-sm relative">
                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold text-blue-600">+20%</span>
@@ -401,16 +397,16 @@
       ),
       options: [
         "El 50% siempre es menor que el 20% en negocios.",
-        "Un porcentaje mayor no da mÃ¡s dinero si las bases iniciales son distintas.",
-        "La grÃ¡fica de B estÃ¡ dibujada mÃ¡s alta.",
-        "SÃ­ es vÃ¡lido."
+        "Un porcentaje mayor no da más dinero si las bases iniciales son distintas.",
+        "La gráfica de B está dibujada más alta.",
+        "Sí es válido."
       ],
       correct: 1,
-      feedback: "Â¡Perfecto! Un 50% de poco dinero ($500) es menos que un 20% de mucho dinero ($2.000)."
+      feedback: "¡Perfecto! Un 50% de poco dinero ($500) es menos que un 20% de mucho dinero ($2.000)."
     },
     {
-      type: "GeometrÃ­a Falsa",
-      question: "Un carpintero dice: 'Si duplico el ancho y el largo de esta ventana cuadrada de 1 metro, gastarÃ© el doble en vidrio'. Â¿Es correcta su conclusiÃ³n?",
+      type: "Geometría Falsa",
+      question: "Un carpintero dice: 'Si duplico el ancho y el largo de esta ventana cuadrada de 1 metro, gastaré el doble en vidrio'. ¿Es correcta su conclusión?",
       visual: (
         <div className="flex items-center justify-center gap-8 w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200">
           <div className="text-center">
@@ -425,17 +421,17 @@
         </div>
       ),
       options: [
-        "SÃ­, si los lados se multiplican por 2, el Ã¡rea tambiÃ©n.",
-        "No, al duplicar ambos lados (2x2), el Ã¡rea aumenta 4 veces.",
-        "SÃ­, porque el perÃ­metro es el doble.",
-        "No, porque el vidrio se cobra por perÃ­metro."
+        "Sí, si los lados se multiplican por 2, el área también.",
+        "No, al duplicar ambos lados (2x2), el área aumenta 4 veces.",
+        "Sí, porque el perímetro es el doble.",
+        "No, porque el vidrio se cobra por perímetro."
       ],
       correct: 1,
-      feedback: "Â¡Exacto! El Ã¡rea original es 1x1=1. El Ã¡rea nueva es 2x2=4. Crece 4 veces, no 2."
+      feedback: "¡Exacto! El área original es 1x1=1. El área nueva es 2x2=4. Crece 4 veces, no 2."
     },
     {
       type: "Falsa Causalidad",
-      question: "Un estudio muestra que las ciudades con mÃ¡s bibliotecas tienen mÃ¡s delitos. Un periodista afirma: 'Â¡Las bibliotecas causan delincuencia!'. Â¿Por quÃ© es errÃ³neo?",
+      question: "Un estudio muestra que las ciudades con más bibliotecas tienen más delitos. Un periodista afirma: '¡Las bibliotecas causan delincuencia!'. ¿Por qué es erróneo?",
       visual: (
         <div className="w-full max-w-md mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 flex justify-center items-center gap-6">
           <div className="text-center">
@@ -451,16 +447,16 @@
       ),
       options: [
         "Los criminales no leen.",
-        "CorrelaciÃ³n no es causalidad; una tercera variable (poblaciÃ³n total) causa que ambas suban.",
+        "Correlación no es causalidad; una tercera variable (población total) causa que ambas suban.",
         "Las encuestas tienen margen de error.",
-        "La conclusiÃ³n es vÃ¡lida."
+        "La conclusión es válida."
       ],
       correct: 1,
-      feedback: "Â¡Excelente! Que dos grÃ¡ficas suban juntas no significa que una cause a la otra. Ciudades grandes tienen mÃ¡s de todo."
+      feedback: "¡Excelente! Que dos gráficas suban juntas no significa que una cause a la otra. Ciudades grandes tienen más de todo."
     },
     {
-      type: "SuposiciÃ³n Oculta",
-      question: "Pedro afirma que el Ã¡rea de este triÃ¡ngulo es exactamente 24 cmÂ² porque multiplicÃ³ (6 Ã— 8) / 2. Â¿Es vÃ¡lida su afirmaciÃ³n matemÃ¡tica?",
+      type: "Suposición Oculta",
+      question: "Pedro afirma que el área de este triángulo es exactamente 24 cmÂ² porque multiplicó (6 × 8) / 2. ¿Es válida su afirmación matemática?",
       visual: (
         <div className="w-full max-w-sm mx-auto mb-8 mt-6 flex justify-center">
           <svg className="w-48 h-40 overflow-visible" viewBox="0 0 100 100">
@@ -473,13 +469,13 @@
         </div>
       ),
       options: [
-        "SÃ­, la fÃ³rmula es B x h / 2.",
-        "SÃ­, 6 x 8 es 48, y la mitad es 24.",
-        "No, requiere un Ã¡ngulo recto (90Â°) para usar el 6 como altura, y no lo tiene.",
-        "No, el Ã¡rea se suma."
+        "Sí, la fórmula es B x h / 2.",
+        "Sí, 6 x 8 es 48, y la mitad es 24.",
+        "No, requiere un ángulo recto (90Â°) para usar el 6 como altura, y no lo tiene.",
+        "No, el área se suma."
       ],
       correct: 2,
-      feedback: "Â¡Brillante! Si un Ã¡ngulo no dice 90Â° explÃ­citamente, NO puedes asumir que ese lado inclinado es la altura real."
+      feedback: "¡Brillante! Si un ángulo no dice 90Â° explícitamente, NO puedes asumir que ese lado inclinado es la altura real."
     }
   ];
 
@@ -510,9 +506,9 @@
 
   const getResultMessage = () => {
     const percentage = score / questions.length;
-    if (percentage === 1) return { title: "Â¡Analista Maestro!", desc: "Posees un pensamiento crÃ­tico impecable. No te dejas engaÃ±ar por falacias matemÃ¡ticas ni suposiciones ocultas. EstÃ¡s listo para cualquier prueba." };
-    if (percentage >= 0.6) return { title: "Â¡Gran Razonamiento!", desc: "Detectas bien la mayorÃ­a de errores, pero cuidado con las trampas mÃ¡s sutiles. Sigue practicando las tÃ©cnicas de refutaciÃ³n." };
-    return { title: "Â¡Cuidado con las trampas!", desc: "La argumentaciÃ³n requiere dudar de todo y ser metÃ³dico. Vuelve a la teorÃ­a y practica cÃ³mo verificar cada paso de una afirmaciÃ³n sin suponer nada." };
+    if (percentage === 1) return { title: "¡Analista Maestro!", desc: "Posees un pensamiento crítico impecable. No te dejas engañar por falacias matemáticas ni suposiciones ocultas. Estás listo para cualquier prueba." };
+    if (percentage >= 0.6) return { title: "¡Gran Razonamiento!", desc: "Detectas bien la mayoría de errores, pero cuidado con las trampas más sutiles. Sigue practicando las técnicas de refutación." };
+    return { title: "¡Cuidado con las trampas!", desc: "La argumentación requiere dudar de todo y ser metódico. Vuelve a la teoría y practica cómo verificar cada paso de una afirmación sin suponer nada." };
   };
 
   const resultData = getResultMessage();
@@ -533,13 +529,13 @@
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-3 mb-5 px-4 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
                 <Scale className="w-5 h-5 text-orange-400" />
-                <span className="text-orange-300 font-semibold tracking-widest text-xs uppercase">MÃ³dulo de Competencia 3</span>
+                <span className="text-orange-300 font-semibold tracking-widest text-xs uppercase">Módulo de Competencia 3</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white tracking-tight">
-                ArgumentaciÃ³n y <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">ValidaciÃ³n</span>
+                Argumentación y <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Validación</span>
               </h1>
               <p className="text-slate-300 text-lg leading-relaxed font-light">
-                EvalÃºa tu capacidad de pensamiento crÃ­tico: encuentra errores en procedimientos, identifica falacias lÃ³gicas, usa contraejemplos y justifica matemÃ¡ticamente.
+                Evalúa tu capacidad de pensamiento crítico: encuentra errores en procedimientos, identifica falacias lógicas, usa contraejemplos y justifica matemáticamente.
               </p>
             </div>
             <div className="hidden md:flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-500 to-rose-600 rounded-2xl shadow-[0_0_30px_rgba(245,158,11,0.3)] transform rotate-3">
@@ -548,13 +544,13 @@
           </div>
         </header>
 
-        {/* NavegaciÃ³n */}
+        {/* Navegación */}
         <nav className="px-6 md:px-10 pt-8 pb-4">
           <div className="flex bg-slate-200/50 backdrop-blur-md p-1.5 rounded-2xl border border-slate-300/50 overflow-x-auto hide-scrollbar">
             {[
-              { id: 'introduccion', icon: Search, label: 'El Pensamiento CrÃ­tico' },
-              { id: 'teoria', icon: MessageSquare, label: 'TÃ©cnicas de RefutaciÃ³n' },
-              { id: 'practica', icon: ShieldCheck, label: 'Tribunal MatemÃ¡tico' }
+              { id: 'introduccion', icon: Search, label: 'El Pensamiento Crítico' },
+              { id: 'teoria', icon: MessageSquare, label: 'Técnicas de Refutación' },
+              { id: 'practica', icon: ShieldCheck, label: 'Tribunal Matemático' }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -575,7 +571,7 @@
         {/* Contenido Principal */}
         <main className="p-6 md:px-10 md:pb-10 md:pt-4">
           
-          {/* SECCIÃ“N: INTRODUCCIÃ“N */}
+          {/* SECCIÓN: INTRODUCCIÓN */}
           {activeTab === 'introduccion' && (
             <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
               <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -583,18 +579,18 @@
                 <div className="space-y-6">
                   <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">No creas todo lo que calculas</h2>
                   <p className="text-slate-600 leading-relaxed text-lg font-light">
-                    En las pruebas estandarizadas te vas a encontrar con problemas que ya estÃ¡n "resueltos". Alguien afirma una conclusiÃ³n y te preguntan: <strong className="font-semibold text-orange-700">Â¿Tiene la razÃ³n? Â¿Por quÃ© sÃ­ o por quÃ© no?</strong> 
+                    En las pruebas estandarizadas te vas a encontrar con problemas que ya están "resueltos". Alguien afirma una conclusión y te preguntan: <strong className="font-semibold text-orange-700">¿Tiene la razón? ¿Por qué sí o por qué no?</strong> 
                   </p>
                   
                   <div className="bg-gradient-to-br from-white to-amber-50/50 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group">
                     <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-amber-400 to-rose-500 rounded-l-2xl"></div>
-                    <h3 className="font-bold text-slate-800 mb-4 text-lg">Â¿QuÃ© evalÃºa la argumentaciÃ³n?</h3>
+                    <h3 className="font-bold text-slate-800 mb-4 text-lg">¿Qué evalúa la argumentación?</h3>
                     <ul className="space-y-4">
                       {[
-                        "Detectar el paso exacto donde un cÃ¡lculo o ecuaciÃ³n se arruinÃ³.",
-                        "Diferenciar entre un dato absoluto y un porcentaje engaÃ±oso.",
-                        "Identificar cuÃ¡ndo dos grÃ¡ficas muestran casualidad y no causalidad.",
-                        "Usar un solo 'Contraejemplo' para destruir una teorÃ­a absoluta."
+                        "Detectar el paso exacto donde un cálculo o ecuación se arruinó.",
+                        "Diferenciar entre un dato absoluto y un porcentaje engañoso.",
+                        "Identificar cuándo dos gráficas muestran casualidad y no causalidad.",
+                        "Usar un solo 'Contraejemplo' para destruir una teoría absoluta."
                       ].map((text, i) => (
                         <li key={i} className="flex items-start gap-3 text-slate-600">
                           <div className="mt-1 bg-orange-100 p-1 rounded-full shrink-0 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
@@ -622,7 +618,7 @@
                     </div>
                   </div>
                   <p className="text-sm text-slate-500 font-medium italic mt-2 text-center">
-                    "Las matemÃ¡ticas no mienten, pero las personas pueden usar matemÃ¡ticas falsas."
+                    "Las matemáticas no mienten, pero las personas pueden usar matemáticas falsas."
                   </p>
                   <button 
                     onClick={() => setActiveTab('teoria')}
@@ -635,16 +631,16 @@
             </div>
           )}
 
-          {/* SECCIÃ“N: TEORÃA Y ESTRATEGIAS CON SUS BLOQUES TEÃ“RICOS */}
+          {/* SECCIÓN: TEORÃA Y ESTRATEGIAS CON SUS BLOQUES TEÓRICOS */}
           {activeTab === 'teoria' && (
             <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-10">
               
               {/* Proceso Mental */}
               <div className="grid md:grid-cols-3 gap-6">
                 {[
-                  { icon: Search, title: '1. Comprender la Premisa', desc: 'Identificar exactamente quÃ© es lo que la persona estÃ¡ intentando asegurar o vender como "cierto".', color: 'text-amber-600', bg: 'bg-amber-100', border: 'border-amber-100' },
-                  { icon: AlertTriangle, title: '2. Rastrear Evidencia', desc: 'Hacer tus propios cÃ¡lculos rÃ¡pidos. Revisar lÃ­nea por lÃ­nea buscando el "truco" algebraico o lÃ³gico.', color: 'text-orange-600', bg: 'bg-orange-100', border: 'border-orange-100' },
-                  { icon: ShieldCheck, title: '3. Emitir Veredicto', desc: 'Concluir si es Falso o Verdadero, y emparejar esa conclusiÃ³n con la justificaciÃ³n matemÃ¡tica real.', color: 'text-rose-600', bg: 'bg-rose-100', border: 'border-rose-100' }
+                  { icon: Search, title: '1. Comprender la Premisa', desc: 'Identificar exactamente qué es lo que la persona está intentando asegurar o vender como "cierto".', color: 'text-amber-600', bg: 'bg-amber-100', border: 'border-amber-100' },
+                  { icon: AlertTriangle, title: '2. Rastrear Evidencia', desc: 'Hacer tus propios cálculos rápidos. Revisar línea por línea buscando el "truco" algebraico o lógico.', color: 'text-orange-600', bg: 'bg-orange-100', border: 'border-orange-100' },
+                  { icon: ShieldCheck, title: '3. Emitir Veredicto', desc: 'Concluir si es Falso o Verdadero, y emparejar esa conclusión con la justificación matemática real.', color: 'text-rose-600', bg: 'bg-rose-100', border: 'border-rose-100' }
                 ].map((item, i) => (
                   <div key={i} className="bg-white/80 backdrop-blur-xl border border-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-300">
                     <div className={`w-14 h-14 ${item.bg} ${item.color} rounded-xl flex items-center justify-center mb-5 shadow-sm border ${item.border}`}>
@@ -659,10 +655,10 @@
               {/* MANUAL DE ESTRATEGIAS */}
               <div className="bg-white rounded-3xl p-6 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/40">
                 <div className="text-center mb-10">
-                  <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">TÃ©cnicas de RefutaciÃ³n Maestras</h2>
+                  <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Técnicas de Refutación Maestras</h2>
                   <div className="w-20 h-1.5 bg-gradient-to-r from-amber-400 to-rose-500 mx-auto mt-4 rounded-full"></div>
                   <p className="mt-4 text-slate-500 max-w-2xl mx-auto text-base">
-                    Para argumentar que algo "estÃ¡ mal", primero debes conocer <strong className="text-orange-600">la regla que rompe</strong>. Estudia la teorÃ­a y luego analiza los 15 casos.
+                    Para argumentar que algo "está mal", primero debes conocer <strong className="text-orange-600">la regla que rompe</strong>. Estudia la teoría y luego analiza los 15 casos.
                   </p>
                 </div>
 
@@ -680,25 +676,25 @@
                     {/* BLOQUE DE TEORÃA: ESTRATEGIA 1 */}
                     <div className="bg-white rounded-xl p-6 mb-8 border border-amber-200 shadow-sm">
                        <h4 className="font-bold text-amber-800 mb-4 flex items-center gap-2">
-                         <BookOpen className="w-5 h-5"/> TeorÃ­a Clave: Â¿CuÃ¡les son las reglas inquebrantables?
+                         <BookOpen className="w-5 h-5"/> Teoría Clave: ¿Cuáles son las reglas inquebrantables?
                        </h4>
                        <div className="grid md:grid-cols-2 gap-6">
                          <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
-                           <h5 className="font-bold text-amber-700 text-sm mb-2 border-b border-amber-200 pb-1">1. JerarquÃ­a de Operaciones (PEMDAS)</h5>
+                           <h5 className="font-bold text-amber-700 text-sm mb-2 border-b border-amber-200 pb-1">1. Jerarquía de Operaciones (PEMDAS)</h5>
                            <ul className="text-xs text-slate-600 space-y-1.5 font-mono">
-                             <li><strong className="text-slate-800">P</strong>arÃ©ntesis ( )</li>
+                             <li><strong className="text-slate-800">P</strong>aréntesis ( )</li>
                              <li><strong className="text-slate-800">E</strong>xponentes xÂ²</li>
-                             <li><strong className="text-slate-800">M</strong>ultiplicaciÃ³n y <strong className="text-slate-800">D</strong>ivisiÃ³n (De Izq a Der)</li>
-                             <li><strong className="text-slate-800">A</strong>diciÃ³n (Suma) y <strong className="text-slate-800">S</strong>ustracciÃ³n (Resta)</li>
+                             <li><strong className="text-slate-800">M</strong>ultiplicación y <strong className="text-slate-800">D</strong>ivisión (De Izq a Der)</li>
+                             <li><strong className="text-slate-800">A</strong>dición (Suma) y <strong className="text-slate-800">S</strong>ustracción (Resta)</li>
                            </ul>
-                           <p className="text-[10px] text-amber-600 mt-2">Nunca sumes antes de multiplicar si no hay parÃ©ntesis.</p>
+                           <p className="text-[10px] text-amber-600 mt-2">Nunca sumes antes de multiplicar si no hay paréntesis.</p>
                          </div>
                          <div className="bg-orange-50 p-4 rounded-lg border border-orange-100">
                            <h5 className="font-bold text-orange-700 text-sm mb-2 border-b border-orange-200 pb-1">2. Leyes de Despeje (Ecuaciones)</h5>
                            <ul className="text-xs text-slate-600 space-y-1.5 font-mono">
                              <li>Lo que suma (+) <ArrowRight className="inline w-3 h-3 text-orange-500"/> Pasa a restar (-)</li>
                              <li>Lo que resta (-) <ArrowRight className="inline w-3 h-3 text-orange-500"/> Pasa a sumar (+)</li>
-                             <li>Lo que multiplica (Ã—) <ArrowRight className="inline w-3 h-3 text-orange-500"/> Pasa a dividir (Ã·) <strong className="text-rose-600 underline">con el mismo signo</strong>.</li>
+                             <li>Lo que multiplica (×) <ArrowRight className="inline w-3 h-3 text-orange-500"/> Pasa a dividir (Ã·) <strong className="text-rose-600 underline">con el mismo signo</strong>.</li>
                            </ul>
                            <p className="text-[10px] text-orange-600 mt-2">Ej: -4x = 12 $\rightarrow$ x = 12 / -4. El menos (-4) NO pasa a sumar.</p>
                          </div>
@@ -720,18 +716,18 @@
                     {/* BLOQUE DE TEORÃA: ESTRATEGIA 2 */}
                     <div className="bg-white rounded-xl p-6 mb-8 border border-orange-200 shadow-sm">
                        <h4 className="font-bold text-orange-800 mb-4 flex items-center gap-2">
-                         <BookOpen className="w-5 h-5"/> TeorÃ­a Clave: La LÃ³gica del "Cisne Negro"
+                         <BookOpen className="w-5 h-5"/> Teoría Clave: La Lógica del "Cisne Negro"
                        </h4>
                        <div className="flex flex-col md:flex-row items-center gap-6">
                          <div className="flex-1 text-sm text-slate-600 leading-relaxed">
-                           En matemÃ¡ticas, si alguien afirma que "Todos los cisnes son blancos", no tienes que revisar todos los cisnes del universo para ver si miente. <strong className="text-orange-600">Basta con encontrar UN SOLO cisne negro</strong> (un contraejemplo) para demostrar que su afirmaciÃ³n absoluta es FALSA.
+                           En matemáticas, si alguien afirma que "Todos los cisnes son blancos", no tienes que revisar todos los cisnes del universo para ver si miente. <strong className="text-orange-600">Basta con encontrar UN SOLO cisne negro</strong> (un contraejemplo) para demostrar que su afirmación absoluta es FALSA.
                          </div>
                          <div className="flex-1 w-full">
                            <div className="bg-slate-50 p-3 rounded border border-slate-200 text-xs">
-                             <div className="font-bold text-slate-700 mb-1 border-b border-slate-200 pb-1">Palabras de Alerta MÃ¡xima en ExÃ¡menes:</div>
+                             <div className="font-bold text-slate-700 mb-1 border-b border-slate-200 pb-1">Palabras de Alerta Máxima en Exámenes:</div>
                              <div className="flex gap-2 font-mono text-rose-600 font-bold mb-2">"Siempre", "Nunca", "Todos", "Ninguno"</div>
                              <div className="font-bold text-slate-700 mb-1 border-b border-slate-200 pb-1">Tus Armas para crear contraejemplos:</div>
-                             <div className="text-slate-600 font-mono">Usa el Cero (0), nÃºmeros negativos (-2) o fracciones (0.5).</div>
+                             <div className="text-slate-600 font-mono">Usa el Cero (0), números negativos (-2) o fracciones (0.5).</div>
                            </div>
                          </div>
                        </div>
@@ -752,14 +748,14 @@
                     {/* BLOQUE DE TEORÃA: ESTRATEGIA 3 */}
                     <div className="bg-white rounded-xl p-6 mb-8 border border-rose-200 shadow-sm">
                        <h4 className="font-bold text-rose-800 mb-4 flex items-center gap-2">
-                         <BookOpen className="w-5 h-5"/> TeorÃ­a Clave: Valor Absoluto vs. Relativo
+                         <BookOpen className="w-5 h-5"/> Teoría Clave: Valor Absoluto vs. Relativo
                        </h4>
                        <div className="grid md:grid-cols-2 gap-6">
                          <div className="bg-rose-50 p-4 rounded-lg border border-rose-100 text-sm">
                            <h5 className="font-bold text-rose-700 mb-2 border-b border-rose-200 pb-1">El Porcentaje necesita una Base</h5>
                            <p className="text-slate-600 mb-2">Un porcentaje (20%) no es dinero real, es una "rebanada de pastel".</p>
-                           <p className="font-mono text-xs text-slate-700 bg-white p-2 rounded">Valor Absoluto = Base Ã— (Porcentaje / 100)</p>
-                           <p className="text-xs text-rose-600 font-bold mt-2">Nunca puedes afirmar que el 50% es mÃ¡s dinero que el 20% si los "pasteles" (Bases) son de distinto tamaÃ±o.</p>
+                           <p className="font-mono text-xs text-slate-700 bg-white p-2 rounded">Valor Absoluto = Base × (Porcentaje / 100)</p>
+                           <p className="text-xs text-rose-600 font-bold mt-2">Nunca puedes afirmar que el 50% es más dinero que el 20% si los "pasteles" (Bases) son de distinto tamaño.</p>
                          </div>
                          <div className="flex items-center justify-center p-4 bg-slate-50 rounded-lg border border-slate-200">
                            <div className="text-center">
@@ -771,7 +767,7 @@
                            <div className="text-center">
                              <div className="text-[10px] text-slate-500 font-bold uppercase">10% de $1000</div>
                              <div className="w-16 h-8 bg-blue-500 mx-auto mt-1 mb-2"></div>
-                             <div className="text-xs font-bold text-blue-600">Â¡Son $100!</div>
+                             <div className="text-xs font-bold text-blue-600">¡Son $100!</div>
                            </div>
                          </div>
                        </div>
@@ -785,20 +781,20 @@
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                       <h3 className="text-2xl font-bold text-slate-800 flex items-center gap-3">
                         <div className="p-3 bg-teal-100 rounded-xl"><TrendingUp className="w-6 h-6 text-teal-600" /></div>
-                        4. CorrelaciÃ³n vs. Causalidad
+                        4. Correlación vs. Causalidad
                       </h3>
                     </div>
 
                     {/* BLOQUE DE TEORÃA: ESTRATEGIA 4 */}
                     <div className="bg-white rounded-xl p-6 mb-8 border border-teal-200 shadow-sm">
                        <h4 className="font-bold text-teal-800 mb-4 flex items-center gap-2">
-                         <BookOpen className="w-5 h-5"/> TeorÃ­a Clave: La Tercera Variable
+                         <BookOpen className="w-5 h-5"/> Teoría Clave: La Tercera Variable
                        </h4>
                        <div className="grid md:grid-cols-2 gap-6 items-center">
                          <div className="text-sm text-slate-600 space-y-3">
-                           <p><strong className="text-teal-700">CorrelaciÃ³n:</strong> Dos variables suben o bajan al mismo tiempo en una grÃ¡fica.</p>
+                           <p><strong className="text-teal-700">Correlación:</strong> Dos variables suben o bajan al mismo tiempo en una gráfica.</p>
                            <p><strong className="text-teal-700">Causalidad:</strong> Variable A provoca a Variable B de forma directa.</p>
-                           <p className="bg-teal-50 p-2 rounded border border-teal-100 text-xs">El error en los exÃ¡menes es ver que las lÃ­neas suben juntas y asumir "A causa B". Casi siempre existe una <strong className="text-teal-700 font-bold">Variable de ConfusiÃ³n (C)</strong> que estÃ¡ causando ambas a la vez.</p>
+                           <p className="bg-teal-50 p-2 rounded border border-teal-100 text-xs">El error en los exámenes es ver que las líneas suben juntas y asumir "A causa B". Casi siempre existe una <strong className="text-teal-700 font-bold">Variable de Confusión (C)</strong> que está causando ambas a la vez.</p>
                          </div>
                          <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 text-center flex flex-col items-center">
                            <div className="px-3 py-1 bg-teal-600 text-white text-xs font-bold rounded shadow-sm">C (El Verano)</div>
@@ -812,7 +808,7 @@
                                <div className="px-2 py-1 border border-slate-300 bg-white text-xs rounded">B (Ahogados)</div>
                              </div>
                            </div>
-                           <div className="mt-3 text-[10px] text-slate-500">Helados (A) y Ahogados (B) no se causan entre sÃ­.</div>
+                           <div className="mt-3 text-[10px] text-slate-500">Helados (A) y Ahogados (B) no se causan entre sí.</div>
                          </div>
                        </div>
                     </div>
@@ -832,21 +828,21 @@
                     {/* BLOQUE DE TEORÃA: ESTRATEGIA 5 */}
                     <div className="bg-white rounded-xl p-6 mb-8 border border-indigo-200 shadow-sm">
                        <h4 className="font-bold text-indigo-800 mb-4 flex items-center gap-2">
-                         <BookOpen className="w-5 h-5"/> TeorÃ­a Clave: Leer lo ExplÃ­cito (Axiomas)
+                         <BookOpen className="w-5 h-5"/> Teoría Clave: Leer lo Explícito (Axiomas)
                        </h4>
                        <div className="flex flex-col md:flex-row items-center gap-6">
                          <div className="flex-1 text-sm text-slate-600 leading-relaxed">
-                           "A ojo" no sirve en matemÃ¡ticas. Los dibujantes de las pruebas estandarizadas suelen hacer figuras engaÃ±osas a propÃ³sito (grÃ¡ficas cortadas o triÃ¡ngulos deformes). <strong className="text-indigo-600">Si un dato no estÃ¡ escrito en el texto ni marcado con el sÃ­mbolo matemÃ¡tico correcto, asume que NO es cierto.</strong>
+                           "A ojo" no sirve en matemáticas. Los dibujantes de las pruebas estandarizadas suelen hacer figuras engañosas a propósito (gráficas cortadas o triángulos deformes). <strong className="text-indigo-600">Si un dato no está escrito en el texto ni marcado con el símbolo matemático correcto, asume que NO es cierto.</strong>
                          </div>
                          <div className="flex-1 w-full bg-indigo-50 p-3 rounded-lg border border-indigo-100">
-                           <div className="font-bold text-indigo-800 mb-2 border-b border-indigo-200 pb-1 text-xs">SÃ­mbolos que SÃ puedes creer:</div>
+                           <div className="font-bold text-indigo-800 mb-2 border-b border-indigo-200 pb-1 text-xs">Símbolos que SÃ puedes creer:</div>
                            <div className="flex items-center gap-3 mb-2">
                              <div className="w-4 h-4 border-2 border-indigo-500 rounded-sm"></div>
                              <span className="text-xs text-slate-700">Ãngulo recto (90Â° garantizados)</span>
                            </div>
                            <div className="flex items-center gap-3">
                              <div className="text-indigo-500 font-bold text-lg">&gt; &gt;</div>
-                             <span className="text-xs text-slate-700">LÃ­neas paralelas garantizadas</span>
+                             <span className="text-xs text-slate-700">Líneas paralelas garantizadas</span>
                            </div>
                          </div>
                        </div>
@@ -860,7 +856,7 @@
             </div>
           )}
 
-          {/* SECCIÃ“N: PRÃCTICA */}
+          {/* SECCIÓN: PRÃCTICA */}
           {activeTab === 'practica' && (
             <div className="animate-in fade-in zoom-in-95 duration-500 max-w-3xl mx-auto">
               {!showResults ? (
@@ -870,9 +866,9 @@
                   <div className="mb-8 flex justify-between items-end">
                     <div>
                       <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">
-                        DesafÃ­o de: <span className="text-orange-500">{questions[currentQuestion].type}</span>
+                        Desafío de: <span className="text-orange-500">{questions[currentQuestion].type}</span>
                       </p>
-                      <h4 className="text-3xl font-extrabold text-slate-800">CuestiÃ³n {currentQuestion + 1}</h4>
+                      <h4 className="text-3xl font-extrabold text-slate-800">Cuestión {currentQuestion + 1}</h4>
                     </div>
                     <span className="text-slate-400 font-medium">de {questions.length}</span>
                   </div>
