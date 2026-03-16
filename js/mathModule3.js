@@ -1,15 +1,38 @@
-﻿(function() {
+(function() {
     console.log("mathModule3.js: Iniciando carga...");
     const React = window.React;
     const { useState, useEffect, useMemo, useCallback } = React;
-    const LucideReact = window.LucideReact || {};
 
-    const { 
-        Brain, ArrowRight, ArrowDown, RefreshCw, Award, Search, Scale, 
-        ShieldCheck, XCircle, CheckCircle, AlertTriangle, Lightbulb, 
-        MessageSquare, TrendingUp, EyeOff, BookOpen, Calculator,
-        Shapes, Sigma, Percent, Dices
-    } = LucideReact;
+    // Helper to get Lucide icons safely
+    const getIcon = (name) => {
+        return (props) => {
+            const IconComponent = (window.LucideReact && window.LucideReact[name]) || 
+                                 ((p) => React.createElement('span', p, ''));
+            return React.createElement(IconComponent, props);
+        };
+    };
+
+    const Brain = getIcon('Brain');
+    const ArrowRight = getIcon('ArrowRight');
+    const ArrowDown = getIcon('ArrowDown');
+    const RefreshCw = getIcon('RefreshCw');
+    const Award = getIcon('Award');
+    const Search = getIcon('Search');
+    const Scale = getIcon('Scale');
+    const ShieldCheck = getIcon('ShieldCheck');
+    const XCircle = getIcon('XCircle');
+    const CheckCircle = getIcon('CheckCircle');
+    const AlertTriangle = getIcon('AlertTriangle');
+    const Lightbulb = getIcon('Lightbulb');
+    const MessageSquare = getIcon('MessageSquare');
+    const TrendingUp = getIcon('TrendingUp');
+    const EyeOff = getIcon('EyeOff');
+    const BookOpen = getIcon('BookOpen');
+    const Calculator = getIcon('Calculator');
+    const Shapes = getIcon('Shapes');
+    const Sigma = getIcon('Sigma');
+    const Percent = getIcon('Percent');
+    const Dices = getIcon('Dices');
 
     const Icon = ({ name, className = "", style = {} }) => (
       React.createElement("span", { className: `material-icons-round ${className}`, style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } }, name)
@@ -973,15 +996,18 @@
         const container = document.getElementById(containerId);
         if (container && window.ReactDOM) {
             try {
-                const root = window.ReactDOM.createRoot(container);
-                root.render(React.createElement(ModuloArgumentacion));
+                if (!window._reactRoots) window._reactRoots = {};
+                if (!window._reactRoots[containerId]) {
+                    window._reactRoots[containerId] = window.ReactDOM.createRoot(container);
+                }
+                window._reactRoots[containerId].render(React.createElement(ModuloArgumentacion));
                 console.log("mathModule3.js: Renderizado exitoso.");
             } catch (e) {
                 console.error("mathModule3.js Error:", e);
-                container.innerHTML = `<div class="p-10 text-center" style="color: #f87171"><h2 class="text-xl font-bold">Error en renderizado: \${e.message}</h2></div>`;
+                container.innerHTML = `<div class="p-10 text-center" style="color: #f87171"><h2 class="text-xl font-bold">Error en renderizado: ${e.message}</h2></div>`;
             }
         } else {
-            console.warn("mathModule3.js: No se encontrÃ³ ReactDOM o el contenedor.");
+            console.warn("mathModule3.js: No se encontró ReactDOM o el contenedor.");
         }
     };
 })();
