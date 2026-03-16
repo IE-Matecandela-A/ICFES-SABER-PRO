@@ -1,12 +1,3 @@
-(function() {
-    const { useState, useEffect, useMemo } = React;
-
-    function ModuloFormulacion() {
-  const [activeTab, setActiveTab] = useState('introduccion');
-  
-  // Quiz State
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [hasAnswered, setHasAnswered] = useState(false);
@@ -136,24 +127,6 @@
       setHasAnswered(false);
     } else {
       setShowResults(true);
-    }
-  };
-
-  const resetQuiz = () => {
-    setCurrentQuestion(0);
-    setScore(0);
-    setShowResults(false);
-    setSelectedAnswer(null);
-    setHasAnswered(false);
-  };
-
-  const getResultMessage = () => {
-    const percentage = score / questions.length;
-    if (percentage === 1) return { title: "¡Estratega Maestro!", desc: "Tienes una habilidad excepcional para modelar situaciones matemáticas y ejecutar los cálculos sin errores." };
-    if (percentage >= 0.5) return { title: "¡Buen Análisis!", desc: "Lograste formular varios problemas con éxito. Repasa los pasos de modelado geométrico y algebraico para alcanzar la perfección." };
-    return { title: "¡Sigue Entrenando!", desc: "Formular problemas requiere práctica. Vuelve a la sección de Teoría y repasa cómo traducir el lenguaje cotidiano a matemáticas." };
-  };
-
   const resultData = getResultMessage();
 
   return (

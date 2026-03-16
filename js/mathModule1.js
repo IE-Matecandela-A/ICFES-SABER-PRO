@@ -1,15 +1,13 @@
-// mathModule1.js - Módulo 1 de Matemáticas: Interpretación y Representación
-console.log("Babel: mathModule1.js CARGADO correctamente");
+(function() {
+    const React = window.React;
+    const { useState, useEffect, useMemo, useCallback } = React;
+    
+    // Icon component wrapper for Material Icons
+    const Icon = ({ name, className = "", style = {} }) => (
+      React.createElement("span", { className: `material-icons-round ${className}`, style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } }, name)
+    );
 
-const { useState, useEffect } = window.React;
-console.log("Babel: React hooks extraídos, useState:", typeof useState);
-
-// Icon component wrapper for Material Icons
-const Icon = ({ name, className = "", style = {} }) => (
-  React.createElement("span", { className: `material-icons-round ${className}`, style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } }, name)
-);
-
-function MathModule1() {
+    function MathModule1() {
   const [activeTab, setActiveTab] = useState('introduccion');
   
   // Quiz State
@@ -702,22 +700,19 @@ function MathModule1() {
   );
 }
 
-// Global Assignment - Render function
-window.renderMathModule1 = (containerId) => {
-  console.log("React Render Engine: Ejecutando en", containerId);
-  console.log("React Render Engine: ReactDOM disponible?", typeof window.ReactDOM);
-  const container = document.getElementById(containerId);
-  if (container && window.ReactDOM) {
-    try {
-      const root = window.ReactDOM.createRoot(container);
-      root.render(React.createElement(MathModule1));
-      console.log("React Render Engine: Renderizado exitoso.");
-    } catch (e) {
-      console.error("React Render Engine Error:", e);
+  window.renderMathModule1 = (containerId) => {
+    console.log("React Render Engine: Ejecutando en", containerId);
+    const container = document.getElementById(containerId);
+    if (container && window.ReactDOM) {
+      try {
+        const root = window.ReactDOM.createRoot(container);
+        root.render(React.createElement(MathModule1));
+        console.log("React Render Engine: Renderizado exitoso.");
+      } catch (e) {
+        console.error("React Render Engine Error:", e);
+      }
+    } else {
+      console.warn("React Render Engine: No se encontró ReactDOM o el contenedor.");
     }
-  } else {
-    console.warn("React Render Engine: No se encontró ReactDOM o el contenedor.");
-  }
-};
-
-console.log("mathModule1.js: Listo para ser usado. renderMathModule1 disponible:", typeof window.renderMathModule1);
+  };
+})();

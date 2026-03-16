@@ -1,4 +1,5 @@
 (function() {
+    const { React, ReactDOM, LucideReact } = window;
     const { useState, useEffect, useMemo } = React;
     const { 
         Brain, ArrowRight, ArrowDown, RefreshCw, Award, Search, Scale, 
