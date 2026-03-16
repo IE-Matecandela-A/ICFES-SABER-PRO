@@ -111,6 +111,17 @@ const StudyModules = {
         headerTitle.textContent = module.title;
         headerTitle.style.color = subject.color;
         
+        // Limpiar raíz de React previa de forma segura
+        if (window._reactRoots && window._reactRoots[containerId]) {
+            console.log(`StudyModules: Desmontando módulo previo en ${containerId}...`);
+            try {
+                window._reactRoots[containerId].unmount();
+                delete window._reactRoots[containerId];
+            } catch (e) {
+                console.warn("StudyModules: Error al desmontar raíz:", e);
+            }
+        }
+
         container.innerHTML = '';
 
         if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3'].includes(moduleId)) {

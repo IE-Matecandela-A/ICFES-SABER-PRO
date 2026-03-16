@@ -705,8 +705,11 @@
     const container = document.getElementById(containerId);
     if (container && window.ReactDOM) {
       try {
-        const root = window.ReactDOM.createRoot(container);
-        root.render(React.createElement(MathModule1));
+        if (!window._reactRoots) window._reactRoots = {};
+        if (!window._reactRoots[containerId]) {
+            window._reactRoots[containerId] = window.ReactDOM.createRoot(container);
+        }
+        window._reactRoots[containerId].render(React.createElement(MathModule1));
         console.log("React Render Engine: Renderizado exitoso.");
       } catch (e) {
         console.error("React Render Engine Error:", e);
