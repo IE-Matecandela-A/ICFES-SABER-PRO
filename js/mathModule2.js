@@ -1,9 +1,9 @@
 (function() {
-    const { useState, useEffect, useMemo } = React;
+    const { useState, useEffect, useMemo } = window.React;
     const { 
         Calculator, Shapes, CheckCircle, Brain, ArrowRight, ArrowDown, 
         RefreshCw, Award, Sigma, Percent, Dices, Scale, Lightbulb 
-    } = LucideReact;
+    } = window.LucideReact;
 
     function ModuloFormulacion() {
   const [activeTab, setActiveTab] = useState('introduccion');
@@ -814,8 +814,8 @@
     window.renderMathModule2 = (containerId) => {
         const container = document.getElementById(containerId);
         if (container) {
-            const root = ReactDOM.createRoot(container);
-            root.render(React.createElement(ModuloFormulacion));
+            const root = window.ReactDOM.createRoot(container);
+            root.render(window.React.createElement(ModuloFormulacion));
         }
     };
 })();
