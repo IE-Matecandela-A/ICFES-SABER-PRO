@@ -1,6 +1,0 @@
-ID: nat_sim_01_icfes-2025-simulacro-cien-01
-Unos estudiantes quieren determinar si la presencia de hormigas en los árboles de acacia protege a estos del ataque de insectos herbívoros. Para ello, realizan seguimiento a 10 hojas de dos grupos de árboles similares, uno sin hormigas y otro con hormigas. En su gráfica de resultados (Eje Y: Porcentaje consumido), olvidaron poner las convenciones de las barras. ¿Cuál de las siguientes opciones es el principal error en la forma como se muestran los resultados?
-
-ID: nat_sim_01_icfes-2025-simulacro-cien-21
-El átomo de Sodio (Na) pertenece al grupo IA de la tabla periódica y tiene un solo electrón en su capa de valencia, mientras que el Cloro (Cl) pertenece al grupo VIIA y tiene siete electrones. Cuando reaccionan para formar la sal de mesa (NaCl), ¿qué tipo de enlace químico se forma predominantemente?
-
