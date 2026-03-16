@@ -1,10 +1,10 @@
 (function() {
-    const { useState, useEffect, useMemo } = window.React;
+    const { useState, useEffect, useMemo } = React;
     const { 
         Brain, ArrowRight, ArrowDown, RefreshCw, Award, Search, Scale, 
         ShieldCheck, XCircle, CheckCircle, AlertTriangle, Lightbulb, 
         MessageSquare, TrendingUp, EyeOff, BookOpen, Calculator 
-    } = window.LucideReact;
+    } = LucideReact;
 
     function ModuloArgumentacion() {
   const [activeTab, setActiveTab] = useState('introduccion');
@@ -962,8 +962,8 @@
     window.renderMathModule3 = (containerId) => {
         const container = document.getElementById(containerId);
         if (container) {
-            const root = window.ReactDOM.createRoot(container);
-            root.render(window.React.createElement(ModuloArgumentacion));
+            const root = ReactDOM.createRoot(container);
+            root.render(React.createElement(ModuloArgumentacion));
         }
     };
 })();

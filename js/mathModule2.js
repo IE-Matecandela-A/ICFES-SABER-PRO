@@ -1,9 +1,5 @@
 (function() {
-    const { useState, useEffect, useMemo } = window.React;
-    const { 
-        Calculator, Shapes, CheckCircle, Brain, ArrowRight, ArrowDown, 
-        RefreshCw, Award, Sigma, Percent, Dices, Scale, Lightbulb 
-    } = window.LucideReact;
+    const { useState, useEffect, useMemo } = React;
 
     function ModuloFormulacion() {
   const [activeTab, setActiveTab] = useState('introduccion');
@@ -53,7 +49,7 @@
       question: "Un plan de telefonía cobra una tarifa fija de $15.000 más $200 por cada minuto hablado. ¿Cuál es la ecuación que representa el costo total (C) por (m) minutos hablados?",
       visual: (
         <div className="w-full max-w-sm mx-auto mb-6 mt-4 p-6 bg-indigo-50 rounded-xl shadow-sm border border-indigo-100 flex items-center justify-center gap-4">
-           <Calculator className="w-10 h-10 text-indigo-500" />
+            <Calculator className="w-10 h-10 text-indigo-500" />
            <div className="text-left">
              <p className="text-sm font-bold text-slate-700">Tarifa Base: <span className="text-indigo-600">$15.000</span></p>
              <p className="text-sm font-bold text-slate-700">Por minuto (m): <span className="text-violet-600">+$200</span></p>
@@ -103,11 +99,11 @@
         <div className="w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200">
           <div className="flex justify-between items-center px-4">
              <div className="text-center">
-               <div className="flex gap-1 justify-center mb-2"><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/></div>
+                <div className="flex gap-1 justify-center mb-2"><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/><CheckCircle className="w-4 h-4 text-violet-500 fill-violet-500"/></div>
                <span className="font-bold text-slate-700">4 Personas</span>
                <p className="text-sm text-slate-500">200g Harina</p>
              </div>
-             <ArrowRight className="w-6 h-6 text-slate-300" />
+              <ArrowRight className="w-6 h-6 text-slate-300" />
              <div className="text-center">
                <div className="text-violet-500 font-bold text-lg mb-1">10 Personas</div>
                <p className="text-sm font-bold text-indigo-600">¿X gramos?</p>
@@ -175,7 +171,7 @@
           <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="max-w-2xl">
               <div className="inline-flex items-center gap-3 mb-5 px-4 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
-                <Brain className="w-5 h-5 text-indigo-400" />
+                 <Brain className="w-5 h-5 text-indigo-400" />
                 <span className="text-indigo-300 font-semibold tracking-widest text-xs uppercase">Módulo de Competencia 2</span>
               </div>
               <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white tracking-tight">
@@ -814,8 +810,8 @@
     window.renderMathModule2 = (containerId) => {
         const container = document.getElementById(containerId);
         if (container) {
-            const root = window.ReactDOM.createRoot(container);
-            root.render(window.React.createElement(ModuloFormulacion));
+            const root = ReactDOM.createRoot(container);
+            root.render(React.createElement(ModuloFormulacion));
         }
     };
 })();
