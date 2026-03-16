@@ -7801,37 +7801,154 @@ const GlobalResultsModule = {
         // Render Loading State
         container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--color-text-muted);"><div style="font-size: 2rem; margin-bottom: 12px; animation: pulse 1.5s infinite;">🔄</div>Cargando rankings globales...</div>`;
 
-        // Fetch Data Sets in Parallel (Removed Battle Royal from here)
+        // Fetch Data Sets in Parallel
         const [scoreHtml, levelHtml, weeklyHtml] = await Promise.all([
             this._fetchScoreRankingHtml(),
             this._fetchLevelRankingHtml(),
             this._fetchWeeklyComplianceHtml()
         ]);
 
-        // Render sections in a responsive grid
+        // Render sections in a responsive grid - Stacks on mobile, 2 cols on tablet, 3 cols on desktop
         container.innerHTML = `
-            <div class="global-ranking-grid" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start;">
+            <style>
+                .global-ranking-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 28px;
+                    align-items: start;
+                }
+                @media (min-width: 768px) {
+                    .global-ranking-grid {
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                    }
+                }
+                @media (min-width: 1400px) {
+                    .global-ranking-grid {
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                    }
+                }
+                .ranking-table-container {
+                    overflow: hidden;
+                    border-radius: 16px;
+                    border: 1px solid var(--color-border);
+                    background: var(--color-surface);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                }
+                .ranking-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .ranking-table thead {
+                    background: var(--color-surface-2);
+                    border-bottom: 2px solid var(--color-border);
+                }
+                .ranking-table th {
+                    padding: 12px 14px;
+                    text-align: left;
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    color: var(--color-text-muted);
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                .ranking-table td {
+                    padding: 12px 14px;
+                    vertical-align: middle;
+                }
+                .ranking-table tbody tr {
+                    border-bottom: 1px solid var(--color-border);
+                    transition: background 0.2s ease;
+                }
+                .ranking-table tbody tr:last-child {
+                    border-bottom: none;
+                }
+                .ranking-table tbody tr:hover {
+                    background: var(--color-surface-2);
+                }
+                .ranking-medal {
+                    font-weight: 800;
+                    font-size: 1.1rem;
+                    min-width: 32px;
+                    display: inline-block;
+                }
+                .ranking-student-name {
+                    font-weight: 700;
+                    font-size: 0.85rem;
+                    color: var(--color-text);
+                    line-height: 1.25;
+                }
+                .ranking-student-grade {
+                    font-size: 0.68rem;
+                    color: var(--color-text-muted);
+                    font-weight: 500;
+                }
+                .ranking-score {
+                    font-size: 0.90rem;
+                    font-weight: 800;
+                    font-family: 'SF Mono', 'Consolas', monospace;
+                }
+                .ranking-header-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
+                    background: rgba(255,255,255,0.08);
+                    padding: 3px 8px;
+                    border-radius: 12px;
+                    font-size: 0.65rem;
+                    font-weight: 700;
+                }
+                .ranking-level-badge {
+                    display: inline-flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 1px;
+                    background: rgba(245,158,11,0.12);
+                    border: 1px solid rgba(245,158,11,0.25);
+                    padding: 4px 8px;
+                    border-radius: 8px;
+                    line-height: 1.1;
+                }
+                .ranking-level-title {
+                    font-weight: 700;
+                    color: #d97706;
+                    font-size: 0.65rem;
+                    max-width: 80px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .ranking-level-num {
+                    font-weight: 600;
+                    color: #b45309;
+                    font-size: 0.60rem;
+                }
+            </style>
+            
+            <div class="global-ranking-grid">
 
                 <!-- Score Ranking Column -->
                 <div>
-                    <h2 style="font-size: 1.3rem; color: var(--color-primary-dark); margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                        🏆 Mejores Puntajes ICFES
+                    <h2 style="font-size: 1.25rem; font-weight: 800; color: var(--color-primary-dark); margin-bottom: 18px; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.6rem;">🏆</span>
+                        <span>Mejores Puntajes ICFES</span>
                     </h2>
                     ${scoreHtml}
                 </div>
 
                 <!-- Level Ranking Column -->
                 <div>
-                    <h2 style="font-size: 1.3rem; color: #b45309; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                        ⭐ Niveles Más Altos (XP)
+                    <h2 style="font-size: 1.25rem; font-weight: 800; color: #d97706; margin-bottom: 18px; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.6rem;">⭐</span>
+                        <span>Niveles Más Altos (XP)</span>
                     </h2>
                     ${levelHtml}
                 </div>
 
                 <!-- Weekly Compliance Ranking Column -->
                 <div>
-                    <h2 style="font-size: 1.3rem; color: #10b981; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                        📅 Cumplimiento Semanal
+                    <h2 style="font-size: 1.25rem; font-weight: 800; color: #10b981; margin-bottom: 18px; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.6rem;">📅</span>
+                        <span>Cumplimiento Semanal</span>
                     </h2>
                     ${weeklyHtml}
                 </div>
@@ -7930,33 +8047,35 @@ const GlobalResultsModule = {
         const weekEndDate = new Date(currentWeekStart + 7 * 24 * 60 * 60 * 1000);
         const weekLabel = `Semana ${new Date(currentWeekStart).toLocaleDateString('es-CO', { day: '2-digit', month: 'short' })} – ${weekEndDate.toLocaleDateString('es-CO', { day: '2-digit', month: 'short' })}`;
 
-        let users = [];
+        let usersList = [];
         try {
             const response = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
             if (response.ok) {
                 const data = await response.json();
                 if (data) {
-                    users = Object.values(data).filter(u => {
+                    usersList = Object.values(data).filter(u => {
                         if (!u.profile || u.profile.role !== 'estudiante' || !u.gamification) return false;
                         const g = u.gamification;
-                        // Show if weekStart is current week
-                        if (g.weeklyXP > 0 && g.weekStart && g.weekStart >= currentWeekStart) return true;
-                        // Fallback: also show if lastUpdated is this week (fixes stale weekStart bug)
-                        if (g.lastUpdated && g.lastUpdated >= currentWeekStart) return true;
-                        return false;
+                        // Show if weekStart is current week or lastUpdated is this week
+                        return (g.weeklyXP > 0 && g.weekStart && g.weekStart >= currentWeekStart) ||
+                               (g.lastUpdated && g.lastUpdated >= currentWeekStart);
                     }).map(u => {
                         const g = u.gamification;
+                        // Deep clone to avoid mutating original if needed (though not strictly necessary here)
+                        const user = JSON.parse(JSON.stringify(u));
                         // If weekStart is stale, their weeklyXP belongs to last week; show them with 0
-                        if (g.weekStart && g.weekStart < currentWeekStart) {
-                            u = JSON.parse(JSON.stringify(u));
-                            u.gamification.weeklyXP = 0;
+                        if (user.gamification.weekStart && user.gamification.weekStart < currentWeekStart) {
+                            user.gamification.weeklyXP = 0;
                         }
-                        // For users without weeklyXP yet, use xp % 700 as a proxy (first launch week)
-                        if (!u.gamification.weeklyXP && !u.gamification.weekStart) {
-                            u = JSON.parse(JSON.stringify(u));
-                            u.gamification.weeklyXP = u.gamification.xp % 700 || u.gamification.xp;
+                        // For users without weeklyXP yet, use a proxy or just 0
+                        if (!user.gamification.weeklyXP) {
+                            user.gamification.weeklyXP = 0;
                         }
-                        return u;
+                        return {
+                            name: user.profile?.name || 'Anónimo',
+                            school: user.profile?.school || user.info?.school || 'Matecandela',
+                            weeklyXP: user.gamification.weeklyXP
+                        };
                     });
                 }
             }
@@ -7964,58 +8083,57 @@ const GlobalResultsModule = {
             console.error('Error fetching weekly compliance:', e);
         }
 
-        if (users.length === 0) {
-            return `<div style="text-align: center; padding: 40px; color: var(--color-text-muted); background: rgba(16,185,129,0.02); border-radius: 16px; border: 1px dashed rgba(16,185,129,0.3);"><div style="font-size: 2.5rem; margin-bottom: 12px;">📅</div><div style="font-size: 1rem; font-weight: 600; margin-bottom: 6px;">Sin datos esta semana</div><p style="font-size: 0.85rem;">${weekLabel}</p><p style="font-size: 0.8rem;">La meta semanal es de 700 XP. ¡Sé el primero en cumplirla!</p></div>`;
+        if (usersList.length === 0) {
+            return `
+                <div class="ranking-table-container" style="text-align: center; padding: 48px 24px; color: var(--color-text-muted); border: 1px dashed rgba(16,185,129,0.3);">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">📅</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--color-text);">Sin datos esta semana</div>
+                    <p style="font-size: 0.85rem; margin-bottom: 8px;">${weekLabel}</p>
+                    <p style="font-size: 0.85rem; margin: 0; color: var(--color-text-muted);">La meta semanal es de 700 XP. ¡Sé el primero en cumplirla!</p>
+                </div>
+            `;
         }
 
         // Sort by weeklyXP descending
-        users.sort((a, b) => (b.gamification.weeklyXP || 0) - (a.gamification.weeklyXP || 0));
+        usersList.sort((a, b) => b.weeklyXP - a.weeklyXP);
 
         return `
-            <div class="glass" style="overflow-x: auto; padding: 0; border: 1px solid rgba(16,185,129,0.2); border-radius: 16px;">
-                <div style="padding: 10px 16px; font-size: 0.75rem; color: #10b981; font-weight: 600; border-bottom: 1px solid rgba(16,185,129,0.1); display: flex; align-items: center; justify-content: space-between;">
-                    <span>📅 ${weekLabel}</span>
-                    <span style="background: rgba(16,185,129,0.1); padding: 2px 8px; border-radius: 20px;">Meta: 700 XP</span>
+            <div class="ranking-table-container" style="border-color: rgba(16,185,129,0.3);">
+                <div style="padding: 12px 16px; border-bottom: 1px solid rgba(16,185,129,0.15); background: linear-gradient(180deg, rgba(16,185,129,0.08), transparent); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px;">📅 ${weekLabel}</span>
+                    <span class="ranking-header-badge" style="background: rgba(16,185,129,0.15); color: #10b981;">Meta: 700 XP</span>
                 </div>
-                <table style="width: 100%; border-collapse: collapse; min-width: 320px;">
-                    <thead style="background: rgba(16,185,129,0.05); border-bottom: 1px solid rgba(16,185,129,0.15);">
+                <table class="ranking-table">
+                    <thead>
                         <tr>
-                            <th style="padding: 10px 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #059669; text-transform: uppercase;">#</th>
-                            <th style="padding: 10px 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #059669; text-transform: uppercase;">Estudiante</th>
-                            <th style="padding: 10px 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #059669; text-transform: uppercase;">Progreso</th>
-                            <th style="padding: 10px 12px; text-align: right; font-size: 0.70rem; font-weight: 700; color: #059669; text-transform: uppercase;">XP Sem.</th>
+                            <th style="width: 60px;">#</th>
+                            <th>Estudiante</th>
+                            <th style="width: 100px; text-align: right;">XP Semana</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${users.slice(0, 50).map((userObj, index) => {
-            const wxp = userObj.gamification.weeklyXP || 0;
-            const pct = Math.min(100, Math.round((wxp / 700) * 100));
-            const met = wxp >= 700;
+                        ${usersList.map((user, index) => {
+            const isQualified = user.weeklyXP >= 700;
+            const scoreColor = isQualified ? 'var(--color-success)' : 'var(--color-danger)';
+            
             let medal = '';
-            if (index === 0) medal = '🥇';
+            if (index === 0) medal = '👑';
             else if (index === 1) medal = '🥈';
             else if (index === 2) medal = '🥉';
-            else medal = `#${index + 1}`;
+            else medal = `<span style="font-weight: 800; color: var(--color-text-muted);">#${index + 1}</span>`;
+            
             return `
-                <tr style="border-bottom: 1px solid rgba(16,185,129,0.08);" class="result-row">
-                    <td style="padding: 10px 12px; font-weight: 800; font-size: 1rem; color: var(--color-text-muted);">${medal}</td>
-                    <td style="padding: 10px 12px;">
-                        <div style="font-weight: 700; font-size: 0.9rem; color: var(--color-text);">${userObj.profile?.name || 'Anónimo'}</div>
-                        <div style="font-size: 0.72rem; color: var(--color-text-muted);">${userObj.profile?.grade || ''}</div>
-                    </td>
-                    <td style="padding: 10px 12px; min-width: 100px;">
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                            <div style="flex: 1; height: 6px; background: rgba(16,185,129,0.15); border-radius: 3px; overflow: hidden;">
-                                <div style="width: ${pct}%; height: 100%; background: ${met ? '#10b981' : 'linear-gradient(90deg,#34d399,#059669)'}; border-radius: 3px;"></div>
-                            </div>
-                            ${met ? '<span style="font-size:14px;">✅</span>' : `<span style="font-size: 0.7rem; color: #059669; font-weight:600;">${pct}%</span>`}
-                        </div>
-                    </td>
-                    <td style="padding: 10px 12px; text-align: right;">
-                        <div style="font-size: 0.95rem; font-weight: 800; color: ${met ? '#10b981' : 'var(--color-primary)'}; font-family: monospace;">${wxp}</div>
-                    </td>
-                </tr>
-            `;
+                                <tr style="border-bottom: 1px solid var(--color-surface-2);">
+                                    <td style="padding: 12px 8px;"><span class="ranking-medal">${medal}</span></td>
+                                    <td style="padding: 12px 8px;">
+                                        <div class="ranking-student-name">${user.name}</div>
+                                        <div class="ranking-student-grade">${user.school}</div>
+                                    </td>
+                                    <td style="padding: 12px 8px; text-align: right; font-weight: 800; color: ${scoreColor}; font-family: 'SF Mono', 'Consolas', monospace;">
+                                        ${user.weeklyXP.toLocaleString()}
+                                    </td>
+                                </tr>
+                            `;
         }).join('')}
                     </tbody>
                 </table>
@@ -8056,42 +8174,50 @@ const GlobalResultsModule = {
 
         if (filtered.length === 0) {
             return `
-                <div style="text-align: center; padding: 40px; color: var(--color-text-muted); background: var(--color-surface); border-radius: 16px; border: 1px dashed var(--color-border);">
-                    <div style="font-size: 2.5rem; margin-bottom: 12px;">📊</div>
-                    <div style="font-size: 1rem; font-weight: 600; margin-bottom: 4px;">Sin resultados</div>
-                    <p style="font-size: 0.85rem;">Sé el primero en completar un simulacro.</p>
+                <div class="ranking-table-container" style="text-align: center; padding: 48px 24px; color: var(--color-text-muted); border: 1px dashed var(--color-border);">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">📊</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--color-text);">Sin resultados aún</div>
+                    <p style="font-size: 0.9rem; margin: 0;">Sé el primero en completar un simulacro y aparecer en el ranking.</p>
                 </div>
             `;
         }
 
         return `
-            <div class="glass" style="overflow-x: auto; padding: 0; border: 1px solid var(--color-border); border-radius: 16px;">
-                <table style="width: 100%; border-collapse: collapse; min-width: 400px;">
-                    <thead style="background: var(--color-surface-2); border-bottom: 1px solid var(--color-border);">
+            <div class="ranking-table-container">
+                <div style="padding: 12px 16px; border-bottom: 1px solid var(--color-border); background: linear-gradient(180deg, var(--color-surface-2), transparent); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px;">🏆 Top 50 Estudiantes</span>
+                    <span class="ranking-header-badge" style="background: rgba(124, 58, 237, 0.1); color: var(--color-primary);">Puntaje ICFES</span>
+                </div>
+                <table class="ranking-table">
+                    <thead>
                         <tr>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Puesto</th>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Estudiante</th>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase;">Puntaje</th>
+                            <th style="width: 50px;">#</th>
+                            <th>Estudiante</th>
+                            <th style="width: 80px; text-align: right;">Puntaje</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${filtered.slice(0, 50).map((item, index) => { // Limit to top 50 to avoid massive lists
+                        ${filtered.slice(0, 50).map((item, index) => {
             const scoreColor = item.score >= 80 ? 'var(--color-success)' : (item.score >= 60 ? 'var(--color-accent)' : 'var(--color-danger)');
 
             let medal = '';
             if (index === 0) medal = '🥇';
             else if (index === 1) medal = '🥈';
             else if (index === 2) medal = '🥉';
-            else medal = `#${index + 1}`;
+            else medal = `<span style="font-weight: 800; color: var(--color-text-muted);">#${index + 1}</span>`;
 
             const scoreValue = item.icfesScore || Math.round((item.correct / item.total) * 500);
 
             return `
-                                <tr style="border-bottom: 1px solid var(--color-border);" class="result-row">
-                                    <td style="padding: 12px; font-weight: 800; font-size: 1.1rem;">${medal}</td>
-                                    <td style="padding: 12px; font-weight: 600; font-size: 0.95rem;">${item.studentName || 'Anónimo'}</td>
-                                    <td style="padding: 12px;">
-                                        <div style="font-size: 1rem; font-weight: 800; color: ${scoreColor};">${scoreValue} / 500</div>
+                                <tr>
+                                    <td><span class="ranking-medal">${medal}</span></td>
+                                    <td>
+                                        <div class="ranking-student-name">${item.studentName || 'Anónimo'}</div>
+                                        ${item.grade ? `<div class="ranking-student-grade" style="font-size: 0.65rem;">${item.grade}</div>` : ''}
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span class="ranking-score" style="color: ${scoreColor};">${scoreValue}</span>
+                                        <span style="font-size: 0.65rem; color: var(--color-text-muted); font-weight: 600;">/500</span>
                                     </td>
                                 </tr>
                             `;
@@ -8118,29 +8244,36 @@ const GlobalResultsModule = {
         }
 
         if (users.length === 0) {
-            return `<div style="text-align: center; padding: 40px; color: var(--color-text-muted); background: rgba(245,158,11,0.02); border-radius: 16px; border: 1px dashed rgba(245,158,11,0.3);"><div style="font-size: 2.5rem; margin-bottom: 12px;">⭐</div><div style="font-size: 1rem; font-weight: 600;">Sin experiencia aún.</div><p style="font-size: 0.85rem;">Resuelve preguntas para subir de nivel.</p></div>`;
+            return `
+                <div class="ranking-table-container" style="text-align: center; padding: 48px 24px; color: var(--color-text-muted); border: 1px dashed rgba(245,158,11,0.3);">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">⭐</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--color-text);">Sin experiencia aún</div>
+                    <p style="font-size: 0.9rem; margin: 0;">Resuelve preguntas y completa simulacros para ganar XP y subir de nivel.</p>
+                </div>
+            `;
         }
 
         // Sort by XP descending
         users.sort((a, b) => (b.gamification.xp || 0) - (a.gamification.xp || 0));
 
-        // Wait to make sure GamificationModule is ready to calculate levels
-        const G = window.GamificationModule;
-
         return `
-            <div class="glass" style="overflow-x: auto; padding: 0; border: 1px solid #f59e0b33; border-radius: 16px;">
-                <table style="width: 100%; border-collapse: collapse; min-width: 400px;">
-                    <thead style="background: rgba(245,158,11,0.05); border-bottom: 1px solid rgba(245,158,11,0.2);">
+            <div class="ranking-table-container" style="border-color: rgba(245,158,11,0.3);">
+                <div style="padding: 12px 16px; border-bottom: 1px solid rgba(245,158,11,0.15); background: linear-gradient(180deg, rgba(245,158,11,0.08), transparent); display: flex; align-items: center; justify-content: space-between;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.5px;">⭐ Top 50 por XP</span>
+                    <span class="ranking-header-badge" style="background: rgba(245,158,11,0.15); color: #d97706;">Experiencia Total</span>
+                </div>
+                <table class="ranking-table">
+                    <thead>
                         <tr>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #b45309; text-transform: uppercase;">Puesto</th>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #b45309; text-transform: uppercase;">Estudiante</th>
-                            <th style="padding: 12px; text-align: left; font-size: 0.70rem; font-weight: 700; color: #b45309; text-transform: uppercase;">Nivel</th>
-                            <th style="padding: 12px; text-align: right; font-size: 0.70rem; font-weight: 700; color: #b45309; text-transform: uppercase;">XP</th>
+                            <th style="width: 60px;">Puesto</th>
+                            <th>Estudiante</th>
+                            <th style="width: 90px;">Nivel</th>
+                            <th style="width: 75px; text-align: right;">XP</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${users.slice(0, 50).map((userObj, index) => {
-            // Inline level calculation: 200 XP per level (no dependency on module availability)
+            // Inline level calculation: 200 XP per level
             const xp = userObj.gamification?.xp || 0;
             const level = Math.floor(xp / 200) + 1;
             const _titles = (lvl) => {
@@ -8161,23 +8294,23 @@ const GlobalResultsModule = {
             if (index === 0) medal = '🥇';
             else if (index === 1) medal = '🥈';
             else if (index === 2) medal = '🥉';
-            else medal = `#${index + 1}`;
+            else medal = `<span style="font-weight: 800; color: var(--color-text-muted);">#${index + 1}</span>`;
 
             return `
-                                <tr style="border-bottom: 1px solid var(--color-border);" class="result-row">
-                                    <td style="padding: 12px; font-weight: 800; font-size: 1.1rem; color: var(--color-text-muted);">${medal}</td>
-                                    <td style="padding: 12px;">
-                                        <div style="font-weight: 700; font-size: 0.95rem; color: var(--color-text);">${userObj.profile?.name || 'Anónimo'}</div>
-                                        <div style="font-size: 0.75rem; color: var(--color-text-muted);">${userObj.profile?.grade || 'N/A'}</div>
+                                <tr>
+                                    <td><span class="ranking-medal">${medal}</span></td>
+                                    <td>
+                                        <div class="ranking-student-name">${userObj.profile?.name || 'Anónimo'}</div>
+                                        <div class="ranking-student-grade">${userObj.profile?.grade || 'N/A'}</div>
                                     </td>
-                                    <td style="padding: 12px;">
-                                        <div style="display:inline-flex; align-items:center; gap:4px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); padding: 2px 8px; border-radius: 20px;">
-                                            <span class="material-icons-round" style="font-size: 12px; color: #f59e0b;">stars</span>
-                                            <span style="font-weight: 700; color: #d97706; font-size: 0.80rem;">Lvl ${levelObj.level} | ${levelObj.title}</span>
+                                    <td>
+                                        <div class="ranking-level-badge">
+                                            <span class="ranking-level-title">${levelObj.title}</span>
+                                            <span class="ranking-level-num">Nvl ${levelObj.level}</span>
                                         </div>
                                     </td>
-                                    <td style="padding: 12px; text-align: right;">
-                                        <div style="font-size: 1rem; font-weight: 800; color: var(--color-primary); font-family: monospace;">${xp.toLocaleString()}</div>
+                                    <td style="text-align: right;">
+                                        <span class="ranking-score" style="color: var(--color-primary);">${xp.toLocaleString()}</span>
                                     </td>
                                 </tr>
                             `;

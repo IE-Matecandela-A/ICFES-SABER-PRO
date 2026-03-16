@@ -197,11 +197,11 @@ const ArcadeGamesModule = {
             if (rankingList.length === 0) {
                 table.innerHTML = `
                     <tr>
-                        <td colspan="4" class="p-12 text-center">
-                            <div class="flex flex-col items-center gap-4 text-slate-500">
-                                <i data-lucide="ghost" class="w-12 h-12 opacity-20"></i>
-                                <p class="text-lg font-medium">¡No hay récords esta semana!</p>
-                                <p class="text-sm opacity-60">Sé el primero en jugar y dominar el ranking.</p>
+                        <td colspan="4" class="p-8 md:p-12 text-center">
+                            <div class="flex flex-col items-center gap-3 md:gap-4 text-slate-500">
+                                <i data-lucide="ghost" class="w-10 h-10 md:w-12 md:h-12 opacity-20"></i>
+                                <p class="text-base md:text-lg font-medium">¡No hay récords esta semana!</p>
+                                <p class="text-xs md:text-sm opacity-60">Sé el primero en jugar y dominar el ranking.</p>
                             </div>
                         </td>
                     </tr>
@@ -214,15 +214,15 @@ const ArcadeGamesModule = {
                 const rank = index + 1;
                 return `
                     <tr class="hover:bg-slate-800/50 transition-colors group">
-                        <td class="p-4 text-center">
-                            ${rank === 1 ? `<span class="inline-block w-10 h-10 rounded-full bg-yellow-500/20 text-yellow-500 font-black leading-10 border border-yellow-500/50">1</span>` :
-                              rank === 2 ? `<span class="inline-block w-10 h-10 rounded-full bg-slate-300/20 text-slate-300 font-black leading-10 border border-slate-300/50">2</span>` :
-                              rank === 3 ? `<span class="inline-block w-10 h-10 rounded-full bg-amber-700/20 text-amber-500 font-black leading-10 border border-amber-700/50">3</span>` :
-                              `<span class="text-slate-500 font-bold">${rank}</span>`}
+                        <td class="p-2 md:p-4 text-center">
+                            ${rank === 1 ? `<span class="inline-block w-8 h-8 md:w-10 md:h-10 rounded-full bg-yellow-500/20 text-yellow-500 font-black leading-8 md:leading-10 border border-yellow-500/50">1</span>` :
+                              rank === 2 ? `<span class="inline-block w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-300/20 text-slate-300 font-black leading-8 md:leading-10 border border-slate-300/50">2</span>` :
+                              rank === 3 ? `<span class="inline-block w-8 h-8 md:w-10 md:h-10 rounded-full bg-amber-700/20 text-amber-500 font-black leading-8 md:leading-10 border border-amber-700/50">3</span>` :
+                              `<span class="text-slate-500 font-bold text-sm">${rank}</span>`}
                         </td>
-                        <td class="p-4"><div class="flex items-center gap-3"><span class="text-3xl">${p.avatar || '👤'}</span><span class="font-bold ${rank <= 3 ? 'text-white' : 'text-slate-300'}">${p.name}</span></div></td>
-                        <td class="p-4"><span class="bg-slate-800 text-slate-400 px-3 py-1 rounded text-sm font-bold border border-slate-700">${p.grade || p.school}</span></td>
-                        <td class="p-4 text-right"><span class="font-mono font-black ${rank === 1 ? 'text-yellow-400' : 'text-cyan-400'}">${p.score}</span></td>
+                        <td class="p-2 md:p-4"><div class="flex items-center gap-2 md:gap-3"><span class="text-2xl md:text-3xl">${p.avatar || '👤'}</span><span class="font-bold text-sm md:text-base ${rank <= 3 ? 'text-white' : 'text-slate-300'}">${p.name}</span></div></td>
+                        <td class="p-2 md:p-4 hidden sm:table-cell"><span class="bg-slate-800 text-slate-400 px-2 md:px-3 py-1 rounded text-xs md:text-sm font-bold border border-slate-700">${p.grade || p.school}</span></td>
+                        <td class="p-2 md:p-4 text-right"><span class="font-mono font-black text-sm md:text-base ${rank === 1 ? 'text-yellow-400' : 'text-cyan-400'}">${p.score}</span></td>
                     </tr>
                 `;
             }).join('');
@@ -262,9 +262,14 @@ const ArcadeGamesModule = {
             document.getElementById('arcade-ui-lives').classList.toggle('hidden', stateStr !== 'playing');
             
             // Mostrar controles táctiles en móviles durante el juego
-            const isMobile = window.innerWidth < 768;
-            document.getElementById('arcade-ui-mobile-controls').classList.toggle('hidden', stateStr !== 'playing' || !isMobile);
-            document.getElementById('arcade-touch-controls').classList.toggle('hidden', stateStr !== 'playing' || !isMobile);
+            const isMobile = window.innerWidth < 1024; // Aumentar rango para tablets
+            const mc = document.getElementById('arcade-ui-mobile-controls');
+            if (mc) {
+                mc.classList.toggle('hidden', stateStr !== 'playing' || !isMobile);
+                // Mostrar botón de disparo solo en Atomic Catcher
+                const shootBtn = document.getElementById('arcade-mobile-action-container');
+                if (shootBtn) shootBtn.classList.toggle('hidden', this.gameId !== 'atomic_catcher');
+            }
             
             this.st.isPlaying = stateStr === 'playing';
             if (stateStr === 'playing') this.resize();
@@ -276,14 +281,19 @@ const ArcadeGamesModule = {
             if (!container) return;
 
             const rect = container.getBoundingClientRect();
-            this.canvas.width = rect.width;
-            this.canvas.height = rect.height;
+            // Evitar distorsión: mantener proporción 16:9 o similar
+            let w = rect.width;
+            let h = rect.height;
             
-            const baseWidth = 1024;
+            this.canvas.width = w;
+            this.canvas.height = h;
+            
+            // Base lógica para posicionamiento consistente
+            const baseWidth = 800;
             const baseHeight = 600;
             
-            this.st.scaleX = this.canvas.width / baseWidth;
-            this.st.scaleY = this.canvas.height / baseHeight;
+            this.st.scaleX = w / baseWidth;
+            this.st.scaleY = h / baseHeight;
             this.st.baseScale = Math.min(this.st.scaleX, this.st.scaleY);
         },
         
@@ -328,18 +338,27 @@ const ArcadeGamesModule = {
 
         handleTouch(act) {
             if(!this.st.isPlaying) return;
+            // Prevenir vibración o feedback táctil de sistema si es posible
+            if (window.navigator && window.navigator.vibrate) window.navigator.vibrate(5);
+            
             if(this.gameId === 'neon_dash') {
                 if(act==='up') this.st.player.lane = Math.max(0, this.st.player.lane - 1);
                 else if(act==='down') this.st.player.lane = Math.min(2, this.st.player.lane + 1);
+                else if(act==='left') this.st.player.lane = Math.max(0, this.st.player.lane - 1);
+                else if(act==='right') this.st.player.lane = Math.min(2, this.st.player.lane + 1);
             } else if(this.gameId === 'numeric_defender') {
                 if(this.st.isTransitioning) return;
                 if(act==='left') this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
-                else this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
+                else if(act==='right') this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
+                else if(act==='up') this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
+                else if(act==='down') this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
                 ArcadeGamesModule.AudioSys.play('rotate');
             } else if(this.gameId === 'atomic_catcher') {
-                if(act==='left') this.st.player.targetX = Math.max(40, this.st.player.targetX - 80);
-                else if(act==='right') this.st.player.targetX = Math.min(this.canvas.width - 40, this.st.player.targetX + 80);
+                // Paso más grande para botones táctiles
+                if(act==='left') this.st.player.targetX = Math.max(40, this.st.player.targetX - 100);
+                else if(act==='right') this.st.player.targetX = Math.min(this.canvas.width - 40, this.st.player.targetX + 100);
                 else if(act==='shoot') this.fireShoot();
+                else if(act==='up' || act==='down') this.fireShoot(); 
             }
         },
         handlePointerMove(e) {
@@ -358,28 +377,30 @@ const ArcadeGamesModule = {
         
         handleTouchStart(e) {
             if(!this.st.isPlaying) return;
+            // No llamar a preventDefault aquí si queremos que los botones de la UI funcionen,
+            // pero sí en el canvas directamente.
+            
             const rect = this.canvas.getBoundingClientRect();
             const touchX = e.touches[0].clientX - rect.left;
             const canvasWidth = rect.width;
+            const scaleX = this.canvas.width / canvasWidth;
             
             if(this.gameId === 'neon_dash') {
                 const touchY = e.touches[0].clientY - rect.top;
                 const canvasHeight = rect.height;
-                if(touchY < canvasHeight / 2) {
-                    this.st.player.lane = Math.max(0, this.st.player.lane - 1);
-                } else {
-                    this.st.player.lane = Math.min(2, this.st.player.lane + 1);
-                }
+                // Dividir pantalla en tercios para carriles
+                if(touchY < canvasHeight / 3) this.st.player.lane = 0;
+                else if(touchY < (canvasHeight * 2) / 3) this.st.player.lane = 1;
+                else this.st.player.lane = 2;
             } else if(this.gameId === 'numeric_defender') {
                 if(touchX < canvasWidth / 2) {
                     this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
-                    ArcadeGamesModule.AudioSys.play('rotate');
                 } else {
                     this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
-                    ArcadeGamesModule.AudioSys.play('rotate');
                 }
+                ArcadeGamesModule.AudioSys.play('rotate');
             } else if(this.gameId === 'atomic_catcher') {
-                this.st.player.targetX = (touchX / canvasWidth) * this.canvas.width;
+                this.st.player.targetX = touchX * scaleX;
                 this.fireShoot();
             }
         },
@@ -488,6 +509,12 @@ const ArcadeGamesModule = {
             this.canvas.addEventListener('pointermove', this._pm);
             this.canvas.addEventListener('pointerdown', this._pd);
             this.canvas.addEventListener('touchstart', this._ts, { passive: false });
+            
+            // Prevenir gestos del sistema en el canvas
+            this.canvas.style.touchAction = 'none';
+            this.canvas.style.userSelect = 'none';
+            this.canvas.style.webkitUserSelect = 'none';
+            this.canvas.style.webkitTouchCallout = 'none';
         }
     }
 };
@@ -502,7 +529,9 @@ Object.assign(ArcadeGamesModule.Engine, {
                 player: { lane: 1, y: h/2, targetY: h/2, invulnerableTimer: 0 }, 
                 speed: 6, baseSpeed: 6, internalScore: 0, level: 0, lastLevel: 0, 
                 obs: [], parts: [], stars: [], dist: 0, frames: 0, 
-                gateAct: false, isTrans: true, lanes: [h*0.25, h*0.5, h*0.75], 
+                gateAct: false, isTrans: true, 
+                get lanes() { return [this.canvas.height*0.25, this.canvas.height*0.5, this.canvas.height*0.75]; },
+                canvas: cv, // Referencia para el getter
                 qs: [...ArcadeGamesModule.QUESTIONS_MATH].sort(() => Math.random() - 0.5), 
                 isPlaying: true, isPaused: false, lives: 3, isGameOverTriggered: false 
             };
@@ -774,7 +803,7 @@ Object.assign(ArcadeGamesModule.Engine, {
         const btEff = document.getElementById('arcade-effect-bullet-time');
         if(btEff) {
             btEff.classList.toggle('hidden', s.bulletTimeTimer<=0);
-            btEff.className = 'absolute inset-0 border-8 border-cyan-500/30 animate-pulse pointer-events-none z-10 box-border rounded-xl';
+            btEff.style.borderColor = 'rgba(6, 182, 212, 0.3)';
         }
 
         cx.fillStyle = s.bulletTimeTimer>0 ? `rgba(${th.bg}, 0.7)` : `rgba(${th.bg}, 0.4)`; cx.fillRect(0,0,cv.width,cv.height);
