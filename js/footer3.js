@@ -1,23 +1,19 @@
     }
 
     window.renderMathModule3 = (containerId) => {
-        console.log("mathModule3.js: Rendering to", containerId);
-        try {
-            const container = document.getElementById(containerId);
-            if (container && ReactDOM) {
-                const root = ReactDOM.createRoot(container);
+        console.log("mathModule3.js: Ejecutando render en", containerId);
+        const container = document.getElementById(containerId);
+        if (container && window.ReactDOM) {
+            try {
+                const root = window.ReactDOM.createRoot(container);
                 root.render(React.createElement(ModuloArgumentacion));
-                console.log("mathModule3.js: Render success.");
-            } else {
-                console.warn("mathModule3.js: Container or ReactDOM missing.");
+                console.log("mathModule3.js: Renderizado exitoso.");
+            } catch (e) {
+                console.error("mathModule3.js Error:", e);
+                container.innerHTML = `<div class="p-10 text-center" style="color: #f87171"><h2 class="text-xl font-bold">Error en renderizado: \${e.message}</h2></div>`;
             }
-        } catch (err) {
-            console.error("mathModule3.js: Render error:", err);
-            const container = document.getElementById(containerId);
-            if (container) {
-                container.innerHTML = `<div style="padding: 20px; color: #ef4444; background: #fee2e2; border: 1px solid #fecaca; rounded: 12px;"><h3>Error al cargar el módulo</h3><p>${err.message}</p></div>`;
-            }
+        } else {
+            console.warn("mathModule3.js: No se encontró ReactDOM o el contenedor.");
         }
     };
-    console.log("mathModule3.js: IIFE Finished, renderMathModule3 registered.");
 })();

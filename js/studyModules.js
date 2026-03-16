@@ -113,9 +113,8 @@ const StudyModules = {
         
         container.innerHTML = '';
 
-        if (moduleId === 'mat_mod_1' || moduleId === 'mat_mod_2' || moduleId === 'mat_mod_3') {
-            const renderFnName = moduleId === 'mat_mod_1' ? 'renderMathModule1' : 
-                               (moduleId === 'mat_mod_2' ? 'renderMathModule2' : 'renderMathModule3');
+        if (moduleId === 'mat_mod_1' || moduleId === 'mat_mod_3') {
+            const renderFnName = moduleId === 'mat_mod_1' ? 'renderMathModule1' : 'renderMathModule3';
             console.log(`StudyModules: Iniciando Módulo React ${moduleId}...`);
             console.log(`StudyModules: window.${renderFnName} disponible?`, typeof window[renderFnName]);
             
