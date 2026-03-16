@@ -1,0 +1,47 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="white" />
+  <style>
+    .line { stroke: black; stroke-width: 2; fill: none; }
+    .dashed { stroke: black; stroke-width: 2; stroke-dasharray: 4; fill: none; }
+    .label { font-family: Arial, sans-serif; font-size: 14px; fill: black; }
+    .water { fill: #e0f2fe; stroke: #0ea5e9; stroke-width: 1; opacity: 0.5; }
+    .diver { stroke: black; stroke-width: 2; fill: none; }
+  </style>
+
+  <!-- Ground and Ladder -->
+  <line x1="20" y1="220" x2="120" y2="220" class="line" />
+  <line x1="80" y1="220" x2="100" y2="60" class="line" /> <!-- Left support -->
+  <line x1="110" y1="220" x2="110" y2="60" class="line" /> <!-- Vertical support -->
+  
+  <!-- Platform -->
+  <line x1="100" y1="60" x2="150" y2="60" class="line" />
+  <text x="155" y="65" class="label">P</text>
+
+  <!-- Vertical Height PQ -->
+  <line x1="130" y1="60" x2="130" y2="220" class="line" />
+  <text x="115" y="140" class="label" transform="rotate(-90 115,140)">5 m</text>
+  <circle cx="130" cy="220" r="4" fill="black" />
+  <text x="135" y="215" class="label">Q</text>
+
+  <!-- Path to R -->
+  <line x1="150" y1="60" x2="250" y2="220" class="dashed" />
+  <circle cx="250" cy="220" r="4" fill="black" />
+  <text x="255" y="215" class="label">R</text>
+
+  <!-- Angles -->
+  <path d="M 130 90 A 30 30 0 0 0 144 82" class="line" />
+  <text x="140" y="100" class="label">45°</text>
+
+  <path d="M 220 220 A 30 30 0 0 1 236 198" class="line" />
+  <text x="200" y="210" class="label">55°</text>
+
+  <!-- Water -->
+  <rect x="131" y="221" width="250" height="60" class="water" />
+  <path d="M 140 240 Q 150 230 160 240 T 180 240 T 200 240" class="line" style="stroke: #0ea5e9; stroke-width: 1; opacity: 0.3;" />
+  <path d="M 160 260 Q 170 250 180 260 T 200 260 T 220 260" class="line" style="stroke: #0ea5e9; stroke-width: 1; opacity: 0.3;" />
+
+  <!-- Diver simplified -->
+  <circle cx="145" cy="45" r="5" class="diver" />
+  <line x1="145" y1="50" x2="145" y2="60" class="line" />
+  <line x1="135" y1="55" x2="155" y2="55" class="line" />
+</svg>

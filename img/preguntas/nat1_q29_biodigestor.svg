@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+    <defs>
+        <style>
+            .bg { fill: #ffffff; }
+            .tank { fill: #ecf0f1; stroke: #7f8c8d; stroke-width: 4; }
+            .biomass { fill: #8e44ad; opacity: 0.6; }
+            .biogas { fill: #f1c40f; opacity: 0.5; }
+            .pipe { fill: #bdc3c7; stroke: #95a5a6; stroke-width: 3; }
+            .arrow { fill: none; stroke: #e74c3c; stroke-width: 3; marker-end: url(#arrowhead); }
+            .text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: bold; fill: #2c3e50; }
+        </style>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#e74c3c" />
+        </marker>
+    </defs>
+    
+    <rect x="0" y="0" width="100%" height="100%" class="bg"/>
+
+    <!-- Ground Level -->
+    <line x1="20" y1="250" x2="380" y2="250" stroke="#27ae60" stroke-width="4"/>
+    <text x="30" y="270" fill="#27ae60" font-family="Arial" font-size="14" font-weight="bold">Suelo</text>
+
+    <!-- Main Biodigester Tank ( अंडरग्राउंड) -->
+    <path d="M 120 180 C 120 280, 280 280, 280 180 Z" class="tank"/>
+    <!-- Dome Top -->
+    <path d="M 120 180 C 120 80, 280 80, 280 180 Z" class="tank"/>
+
+    <!-- Biomass layer (Bottom) -->
+    <path d="M 123 200 C 130 270, 270 270, 277 200 Z" class="biomass"/>
+    
+    <!-- Biogas layer (Top) -->
+    <path d="M 125 180 C 130 110, 270 110, 275 180 Z" class="biogas"/>
+    
+    <!-- Input Pipe -->
+    <path d="M 50 120 L 90 120 L 130 180 L 110 190 L 70 135 L 50 135 Z" class="pipe"/>
+    <circle cx="70" cy="115" r="20" fill="#ecf0f1" stroke="#95a5a6" stroke-width="3"/>
+    
+    <!-- Output Pipe (Fertilizer) -->
+    <path d="M 270 190 L 250 180 L 310 120 L 350 120 L 350 135 L 320 135 Z" class="pipe"/>
+    
+    <!-- Gas Outlet Pipe -->
+    <rect x="190" y="40" width="20" height="60" class="pipe"/>
+    <rect x="190" y="40" width="80" height="20" class="pipe"/>
+    
+    <!-- Labels -->
+    <text x="10" y="80" class="text">Materia Orgánica</text>
+    <text x="30" y="95" class="text" font-size="12">(Estiércol, Cultivos)</text>
+    <path d="M 70 100 L 70 110" class="arrow"/>
+    
+    <text x="140" y="230" class="text" fill="#ffffff">Fermentación</text>
+    <text x="150" y="245" class="text" fill="#ffffff">Anaerobia</text>
+
+    <!-- Formula for Biogas -->
+    <text x="175" y="160" class="text" fill="#d35400">CH₄ + CO₂</text>
+    <text x="175" y="145" class="text" fill="#d35400">BIOGÁS:</text>
+
+    <text x="280" y="60" class="text" fill="#e74c3c">Salida de Biogás</text>
+    <text x="280" y="75" class="text" fill="#e74c3c" font-size="12">(Electricidad/Calor)</text>
+    <path d="M 270 50 L 290 50" class="arrow"/>
+
+    <text x="300" y="180" class="text" fill="#2980b9">Biol</text>
+    <text x="300" y="195" class="text" fill="#2980b9" font-size="12">(Fertilizante)</text>
+    <path d="M 330 135 L 330 155" class="arrow" stroke="#2980b9"/>
+
+</svg>

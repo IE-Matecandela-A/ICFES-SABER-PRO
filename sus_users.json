@@ -1,0 +1,2069 @@
+[
+  {
+    "en_progreso": {
+      "answers": {
+        "ing_sim_01_icfes-2025-simulacro-ing-p2-09": "A",
+        "ing_sim_01_icfes-2025-simulacro-ing-p4-20": "C",
+        "mat_sim_01_icfes-2025-simulacro-14": "A",
+        "mat_sim_02_icfes-2025-simulacro-29": "A",
+        "mat_sim_02_icfes-2025-simulacro-30": "C",
+        "mat_sim_02_icfes-2025-simulacro-34": "C",
+        "mat_sim_02_icfes-2025-simulacro-35": "B",
+        "mat_sim_03_icfes-2025-simulacro-54": "A",
+        "mat_sim_03_icfes-2025-simulacro-58": "A",
+        "mat_sim_04_icfes-2025-simulacro-mate-p1-17": "B",
+        "mat_sim_06_p36": "B",
+        "mat_sim_06_p46": "C",
+        "nat_sim_01_icfes-2025-simulacro-cien-03": "B",
+        "nat_sim_01_icfes-2025-simulacro-cien-06": "B",
+        "nat_sim_02_icfes-2025-simulacro-cien-13": "C"
+      },
+      "currentIndex": 14,
+      "examMode": "fast-track",
+      "expireTime": 1773276770435,
+      "infractions": 0,
+      "questions": [
+        {
+          "area": "Inglés",
+          "competencia": "Conocimiento gramatical",
+          "componente": "Lingüística",
+          "enunciado": "PART 4\nRead the text and choose the correct word for space 20.\n\nTHE AMAZON RAINFOREST\n\nThe Amazon is the (16) ________ rainforest in the world. It spans across nine countries in South America and contains millions of species of plants and animals. Many tourists (17) ________ it every year to see its incredible biodiversity. Unfortunately, the Amazon is (18) ________ destroyed by illegal deforestation and logging. Environmentalists warn that we must act fast. If we don't do something soon, the forest will disappear (19) ________ forever. It is our responsibility to protect it (20) ________ it is too late.",
+          "id": "ing_sim_01_icfes-2025-simulacro-ing-p4-20",
+          "justificacion": "El texto pide proteger el Amazonas en relación con el tiempo. Lógicamente, la acción de salvar algo debe ocurrir 'antes' de que se arruine. La frase idiomática 'before it is too late' (antes de que sea demasiado tarde) encaja perfectamente con el sentido de urgencia del párrafo.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "after"
+            },
+            {
+              "id": "B",
+              "texto": "before"
+            },
+            {
+              "id": "C",
+              "texto": "while"
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Ciencias Naturales",
+          "competencia": "Uso comprensivo del conocimiento científico",
+          "componente": "Entorno físico",
+          "enunciado": "Un salto bungee consiste en lanzarse de un puente atado a una cuerda elástica. Cuando el saltador llega al punto más bajo de su trayectoria, permanece un instante quieto antes de rebotar. En ese punto exacto, ¿en qué se ha transformado principalmente la energía potencial gravitacional inicial?",
+          "id": "nat_sim_01_icfes-2025-simulacro-cien-06",
+          "imagen": "img/preguntas/salto_bungee.png",
+          "justificacion": "En el punto más bajo del salto, la velocidad del saltador es momentáneamente cero, por lo que su energía cinética es cero. Además, su altura es mínima (menor energía potencial gravitacional). Toda la energía mecánica del sistema se ha almacenado en la deformación (estiramiento) de la cuerda, convirtiéndose en energía potencial elástica.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Toda su energía inicial se ha transformado en energía cinética."
+            },
+            {
+              "id": "B",
+              "texto": "En energía potencial elástica de la cuerda."
+            },
+            {
+              "id": "C",
+              "texto": "En energía potencial gravitacional y energía cinética."
+            },
+            {
+              "id": "D",
+              "texto": "En energía térmica absorbida exclusivamente por el aire."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Argumentación",
+          "componente": "Aleatorio",
+          "enunciado": "Un maestro afirma: 'Si un estudiante aprueba Lenguaje, es casi seguro que apruebe Matemáticas'. Basado en los datos de la gráfica, ¿tiene razón el maestro?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": "#6366f1",
+                  "borderColor": "#6366f1",
+                  "borderRadius": 6,
+                  "borderWidth": 0,
+                  "data": [
+                    90,
+                    20
+                  ],
+                  "label": "Aprobó Matemáticas"
+                },
+                {
+                  "backgroundColor": "#10b981",
+                  "borderColor": "#10b981",
+                  "borderRadius": 6,
+                  "borderWidth": 0,
+                  "data": [
+                    10,
+                    80
+                  ],
+                  "label": "Reprobó Matemáticas"
+                }
+              ],
+              "labels": [
+                "Aprobó Lenguaje",
+                "Reprobó Lenguaje"
+              ]
+            },
+            "tipo": "bar",
+            "titulo": "Aprobación cruzada (Lenguaje vs Matemáticas)"
+          },
+          "id": "mat_sim_03_icfes-2025-simulacro-58",
+          "justificacion": "Las tablas o gráficas de contingencia permiten analizar la probabilidad condicional. Nos interesa saber qué pasa con Matemáticas dado el hecho de que ya aprobaron Lenguaje.\n\nMirando la categoría 'Aprobó Lenguaje', observamos una desproporción fuerte: 90 aprobaron Matemáticas y solo 10 perdieron. Esto arroja una altísima probabilidad (9 de cada 10), por lo que usar expresiones como 'es casi seguro' es estadísticamente coherente y fundamentado.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Sí, porque la alta dependencia estadística (90%) entre ambas materias respalda la afirmación."
+            },
+            {
+              "id": "B",
+              "texto": "No, porque siempre hay una probabilidad del 50% de perder una materia sin importar la otra."
+            },
+            {
+              "id": "C",
+              "texto": "Sí, pero solo porque Lenguaje y Matemáticas siempre se evalúan el mismo día."
+            },
+            {
+              "id": "D",
+              "texto": "No, porque el 10% que reprueba invalida cualquier conclusión general."
+            }
+          ],
+          "respuestaCorrecta": "A",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Interpretación y representación",
+          "componente": "Numérico - Variacional",
+          "enunciado": "La gráfica representa la relación entre el número de trabajadores en una obra y los días que tardan en terminarla. ¿Qué tipo de relación se observa entre estas dos variables?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": "#6366f133",
+                  "borderColor": "#6366f1",
+                  "data": [
+                    12,
+                    6,
+                    4,
+                    3
+                  ],
+                  "label": "Días",
+                  "pointHoverRadius": 7,
+                  "pointRadius": 5,
+                  "tension": 0.3
+                }
+              ],
+              "labels": [
+                "2",
+                "4",
+                "6",
+                "8"
+              ]
+            },
+            "tipo": "line",
+            "titulo": "Trabajadores vs Tiempo"
+          },
+          "id": "mat_sim_02_icfes-2025-simulacro-35",
+          "justificacion": "Al observar la gráfica proporcionada, se puede deducir directamente que 'Proporcionalidad inversa' es la opción que refleja la información visualizada de manera precisa.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Proporcionalidad directa"
+            },
+            {
+              "id": "B",
+              "texto": "Proporcionalidad inversa"
+            },
+            {
+              "id": "C",
+              "texto": "Relación constante"
+            },
+            {
+              "id": "D",
+              "texto": "Crecimiento exponencial"
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Aleatorio",
+          "componente": "Aleatorio",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": "#6366f133",
+                  "borderColor": "#6366f1",
+                  "data": [
+                    10,
+                    20,
+                    30
+                  ],
+                  "pointHoverRadius": 7,
+                  "pointRadius": 5,
+                  "tension": 0.3
+                }
+              ],
+              "labels": [
+                "20",
+                "25",
+                "30"
+              ]
+            },
+            "tipo": "line",
+            "titulo": "Helados vs Temperatura"
+          },
+          "id": "mat_sim_01_icfes-2025-simulacro-14",
+          "justificacion": "Para este ejercicio de probabilidad/estadística, la respuesta es 'Positiva'. Esto se deduce analizando los datos proporcionados y calculando la frecuencia o probabilidad de los eventos descritos.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Positiva"
+            },
+            {
+              "id": "B",
+              "texto": "Negativa"
+            },
+            {
+              "id": "C",
+              "texto": "Nula"
+            },
+            {
+              "id": "D",
+              "texto": "Inversa"
+            }
+          ],
+          "respuestaCorrecta": "A",
+          "texto": "La gráfica muestra las ventas de helados por temperatura. ¿Qué correlación existe?",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Ciencias Naturales",
+          "competencia": "Explicación de fenómenos",
+          "componente": "Entorno físico",
+          "enunciado": "Si ambas ondas representan el sonido de una guitarra acústica, ¿cuál es la diferencia auditiva entre la Onda A y la Onda B?",
+          "id": "nat_sim_02_icfes-2025-simulacro-cien-13",
+          "imagen": "img/nat_02/q13.png",
+          "justificacion": "Las características de una onda sonora se traducen directamente a lo que percibimos. La longitud de onda o frecuencia determina el tono (agudo o grave). Como ambas tienen la misma longitud (ancho), tienen el mismo tono.\n\nLa amplitud (altura de la onda en el eje Y) es la que determina la energía transportada y, auditivamente, la intensidad o volumen acústico. Una mayor amplitud en la Onda A significa que es un sonido mucho más fuerte (mayor decibelaje).",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "La onda A es un sonido más agudo que la onda B."
+            },
+            {
+              "id": "B",
+              "texto": "La onda A es un sonido más grave que la onda B."
+            },
+            {
+              "id": "C",
+              "texto": "La onda A suena con un volumen (intensidad) mucho más fuerte que la onda B."
+            },
+            {
+              "id": "D",
+              "texto": "La onda B viaja a mayor velocidad por el aire que la onda A."
+            }
+          ],
+          "respuestaCorrecta": "C",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Formulación y ejecución",
+          "componente": "Geométrico - Métrico",
+          "enunciado": "Una persona construyó una rampa, como se muestra en la figura, pero se necesita un refuerzo para evitar que esta se parta. Para esto, a dos metros del muro, se va a construir una columna que fortalezca la estructura.\n\n<div style='text-align:center; margin:16px 0;'><img src='img/preguntas/mat6_q36_rampa.svg' alt='Rampa de 4m de base y 3m de altura con columna interior h a 2m' style='max-width:350px; height:auto; border:1px solid #ddd;'></div>\n\n¿Cuál de los siguientes procedimientos permite calcular la altura h que debe tener la columna?",
+          "id": "mat_sim_06_p36",
+          "justificacion": "Aplicando el teorema de Thales (semejanza de triángulos), la razón entre la base mayor y la base menor es igual a la razón entre sus alturas respectivas. Esto es: `4m / 2m = 3m / h`. Queremos despejar 'h'.<br><br>Al calcular la proporción del Paso 1 en la opción C obtenemos `4 / 2 = 2`. Luego la ecuación se simplifica a `2 = 3 / h`. Pasando 'h' a multiplicar y el '2' a dividir, queda `h = 3 / 2 = 1,5`. Este es el procedimiento que plantea correctamente las reglas de proporcionalidad.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "<b>Paso 1.</b> Dividir 2 m entre 4 m, obteniendo 0,5.<br><b>Paso 2.</b> Dividir 3 m entre el valor calculado en el paso 1."
+            },
+            {
+              "id": "B",
+              "texto": "<b>Paso 1.</b> Dividir 4 m entre 2 m, obteniendo 2.<br><b>Paso 2.</b> Multiplicar 3 m por el valor calculado en el paso 1."
+            },
+            {
+              "id": "C",
+              "texto": "<b>Paso 1.</b> Dividir 4 m entre 2 m, obteniendo 2.<br><b>Paso 2.</b> Dividir 3 m entre el valor calculado en el paso 1."
+            },
+            {
+              "id": "D",
+              "texto": "<b>Paso 1.</b> Dividir 2 m entre 4 m, obteniendo 0,5.<br><b>Paso 2.</b> Multiplicar 3 m por el valor calculado en el paso 1."
+            }
+          ],
+          "respuestaCorrecta": "C",
+          "tipo": "standard"
+        },
+        {
+          "area": "Ciencias Naturales",
+          "competencia": "Explicación de fenómenos",
+          "componente": "Ciencia, tecnología y sociedad",
+          "enunciado": "Los estudiantes de un colegio notan que cerca de un río hay un vertedero de pilas usadas y temen que los metales pesados contaminen el agua. Proponen que a futuro se deberían separar las pilas del resto de los desechos en contenedores completamente aislados. Con base en esto, se puede afirmar que la propuesta de los estudiantes es:",
+          "id": "nat_sim_01_icfes-2025-simulacro-cien-03",
+          "justificacion": "Las pilas contienen metales pesados tóxicos (plomo, mercurio, cadmio) que pueden filtrarse en el suelo y cuerpos de agua si se desechan con la basura común. Separarlas en contenedores aislados es la medida ecológica correcta (mitigación de impacto ambiental CTS) para evitar la lixiviación de estos metales al río.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Inapropiada, porque es mejor desarmar las pilas y luego desecharlas."
+            },
+            {
+              "id": "B",
+              "texto": "Apropiada, porque se evitaría la presencia de metales pesados en el agua."
+            },
+            {
+              "id": "C",
+              "texto": "Apropiada, porque luego se podrían reutilizar las pilas desechadas en otros aparatos."
+            },
+            {
+              "id": "D",
+              "texto": "Inapropiada, porque es mejor quemarlas ya que no entrarían en contacto con el agua."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Argumentación",
+          "componente": "Aleatorio",
+          "enunciado": "Un candidato a la gobernación de un departamento quiere estimar el porcentaje de la población que votará por él. Para ello, contrata una firma encuestadora que realizará 1.000 llamadas telefónicas, en las que se pregunta por la preferencia de las personas a la hora de votar en las elecciones para gobernador. Para realizar la encuesta, la firma escoge aleatoriamente un municipio del departamento y llama a 1.000 personas de este lugar.\n\n¿Por qué el resultado de la encuesta puede diferir mucho de la realidad?",
+          "id": "mat_sim_06_p46",
+          "justificacion": "Para que una encuesta sea estadísticamente representativa y confiable ante un panorama general (todo el departamento), la muestra debe recoger a individuos diversos de todas las regiones del departamento y en proporción adecuada, seleccionados preferiblemente al azar. Al escoger únicamente a los pobladores de _un solo municipio_, las respuestas tendrán un evidente sesgo geográfico debido a características, intereses o apoyos locales particulares de dicho poblado que no reflejan el parecer de los demás habitantes del departamento.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Porque la única manera de obtener resultados precisos es encuestar a toda la población del departamento."
+            },
+            {
+              "id": "B",
+              "texto": "Porque la encuesta solo representará la opinión de las personas del departamento, si el municipio escogido es el más grande."
+            },
+            {
+              "id": "C",
+              "texto": "Porque de esta manera solo están tomándose en cuenta las opiniones de la población de un municipio del departamento."
+            },
+            {
+              "id": "D",
+              "texto": "Porque la muestra es muy grande, lo cual permite que existan grandes diferencias entre las respuestas de las personas."
+            }
+          ],
+          "respuestaCorrecta": "C",
+          "tipo": "standard"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Argumentación",
+          "componente": "Numérico - Variacional",
+          "enunciado": "Un agricultor prueba el uso de un nuevo fertilizante. Mide las dosis agregadas a lo largo de varias semanas contra el rendimiento de las matas y traza una gráfica de dispersión. Al observar la gráfica (curva que sube y luego decae), el cultivador afirma feliz: 'La tendencia confirma que si sigo aplicando fertilizante de forma indefinida, los kilos de tomates cosechados nunca dejarán de crecer'. ¿Es correcta la deducción basada en el gráfico?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": "#6366f133",
+                  "borderColor": "#6366f1",
+                  "data": [
+                    20,
+                    50,
+                    80,
+                    100,
+                    110,
+                    80,
+                    40
+                  ],
+                  "label": "Tomates Cosechados",
+                  "pointHoverRadius": 7,
+                  "pointRadius": 5,
+                  "tension": 0.3
+                }
+              ],
+              "labels": [
+                "10kg",
+                "20kg",
+                "30kg",
+                "40kg",
+                "50kg",
+                "60kg",
+                "70kg"
+              ]
+            },
+            "tipo": "line",
+            "titulo": "Dosis de Fertilizante vs Rendimiento"
+          },
+          "id": "mat_sim_04_icfes-2025-simulacro-mate-p1-17",
+          "justificacion": "La lectura global de la gráfica evidencia un comportamiento parabólico. Señala claramente que a partir del pico productivo máximo (ubicado en el punto de los 50 kg de abono), la inserción adicional de fertilizante no favorece a la planta sino que es perjudicial o tóxica, haciendo que la curva inicie un descenso en caída. La proyección al infinito del agricultor falla la validación visual.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Sí, porque el primer segmento del experimento presenta una pendiente matemática claramente ascendente."
+            },
+            {
+              "id": "B",
+              "texto": "No, porque la gráfica muestra una cóncava donde, al superar la cantidad óptima (pico), el rendimiento por planta empieza a caer dramáticamente."
+            },
+            {
+              "id": "C",
+              "texto": "Sí, porque teóricamente todo nutriente agregado a una planta potenciará siempre su capacidad fotosintética."
+            },
+            {
+              "id": "D",
+              "texto": "No, porque faltaron tomar datos relacionados con factores externos como el clima y el riego diario de la tierra."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Inglés",
+          "competencia": "Conocimiento pragmático",
+          "componente": "Pragmática",
+          "enunciado": "PART 2\nWhere can you see this notice?",
+          "id": "ing_sim_01_icfes-2025-simulacro-ing-p2-09",
+          "imagen": "img/preguntas/ing1_sign_q09.svg",
+          "justificacion": "El aviso advierte sobre aguas profundas ('Deep water') y prohíbe nadar más allá de cierto punto. Este tipo de advertencias de seguridad acuática son propias de zonas de baño al aire libre, como una playa ('At a beach').",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "At a beach"
+            },
+            {
+              "id": "B",
+              "texto": "In a toy store"
+            },
+            {
+              "id": "C",
+              "texto": "In a pharmacy"
+            }
+          ],
+          "respuestaCorrecta": "A",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Formulación y ejecución",
+          "componente": "Aleatorio",
+          "enunciado": "Las calificaciones de un estudiante en 4 exámenes fueron: 3.0, 3.5, 4.0 y 2.5. Si necesita un promedio exacto de 3.5 en 5 exámenes para eximir la materia, ¿qué nota debe sacar en el último examen?",
+          "id": "mat_sim_02_icfes-2025-simulacro-34",
+          "justificacion": "Para este ejercicio de probabilidad/estadística, la respuesta es '4.5'. Esto se deduce analizando los datos proporcionados y calculando la frecuencia o probabilidad de los eventos descritos.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "3.5"
+            },
+            {
+              "id": "B",
+              "texto": "4.0"
+            },
+            {
+              "id": "C",
+              "texto": "4.5"
+            },
+            {
+              "id": "D",
+              "texto": "5.0"
+            }
+          ],
+          "respuestaCorrecta": "C",
+          "tipo": "standard"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Argumentación",
+          "componente": "Numérico - Variacional",
+          "enunciado": "Una tienda ofrece una promoción: 'Compre 3 y pague 2'. Un cliente afirma que esto equivale a un descuento del 33.3% sobre el total de la compra. ¿Tiene razón el cliente?",
+          "id": "mat_sim_02_icfes-2025-simulacro-29",
+          "justificacion": "La opción correcta es la A: 'Sí, porque de 3 artículos, 1 es gratis, lo que representa exactamente un tercio del costo total.'. Analizando sistemáticamente las condiciones y premisas dadas en el problema, esta es la única alternativa lógicamente válida y que satisface todas las restricciones operativas indicadas.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Sí, porque de 3 artículos, 1 es gratis, lo que representa exactamente un tercio del costo total."
+            },
+            {
+              "id": "B",
+              "texto": "No, porque se está pagando el 66.6% del costo, lo que significa un descuento del 66.6%."
+            },
+            {
+              "id": "C",
+              "texto": "Sí, porque el descuento se divide entre los 2 artículos que se están pagando realmente."
+            },
+            {
+              "id": "D",
+              "texto": "No, porque el descuento solo aplica si los tres artículos tienen precios diferentes."
+            }
+          ],
+          "respuestaCorrecta": "A",
+          "tipo": "standard"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Interpretación y representación",
+          "componente": "Aleatorio",
+          "enunciado": "El diagrama circular muestra los resultados de una encuesta a 200 personas sobre su bebida preferida. ¿Cuántas personas prefieren el té?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": [
+                    "#6366f1",
+                    "#10b981",
+                    "#f59e0b",
+                    "#ef4444"
+                  ],
+                  "borderColor": "#1e1b4b",
+                  "borderWidth": 2,
+                  "data": [
+                    45,
+                    30,
+                    15,
+                    10
+                  ]
+                }
+              ],
+              "labels": [
+                "Café",
+                "Té",
+                "Jugo",
+                "Agua"
+              ]
+            },
+            "tipo": "pie",
+            "titulo": "Bebida preferida"
+          },
+          "id": "mat_sim_02_icfes-2025-simulacro-30",
+          "justificacion": "Para este ejercicio de probabilidad/estadística, la respuesta es '60 personas'. Esto se deduce analizando los datos proporcionados y calculando la frecuencia o probabilidad de los eventos descritos.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "30 personas"
+            },
+            {
+              "id": "B",
+              "texto": "40 personas"
+            },
+            {
+              "id": "C",
+              "texto": "50 personas"
+            },
+            {
+              "id": "D",
+              "texto": "60 personas"
+            }
+          ],
+          "respuestaCorrecta": "D",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Interpretación y representación",
+          "componente": "Numérico - Variacional",
+          "enunciado": "De acuerdo con el modelo gráfico, ¿en qué momentos del día un barco muy pesado tiene menor riesgo de encallar por la profundidad del agua?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": "#6366f133",
+                  "borderColor": "#6366f1",
+                  "data": [
+                    0,
+                    10,
+                    0,
+                    10,
+                    0
+                  ],
+                  "label": "Profundidad",
+                  "pointHoverRadius": 7,
+                  "pointRadius": 5,
+                  "tension": 0.3
+                }
+              ],
+              "labels": [
+                "0h",
+                "6h",
+                "12h",
+                "18h",
+                "24h"
+              ]
+            },
+            "tipo": "line",
+            "titulo": "Nivel de marea (Modelo Seno)"
+          },
+          "id": "mat_sim_03_icfes-2025-simulacro-54",
+          "justificacion": "Para que un barco pesado navegue sin tocar fondo (encallar), el agua debe tener la mayor profundidad posible, lo que corresponde a los picos más altos (máximos) de la función mostrada en la gráfica.\n\nAl examinar la curva oscilatoria, el eje Y (profundidad) alcanza sus valores máximos de 10 metros exactamente en las marcas horarias de las 6:00 y las 18:00 del eje X. En esos puntos el riesgo es el mínimo.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "A las 0 y a las 12 horas."
+            },
+            {
+              "id": "B",
+              "texto": "A las 6 y a las 18 horas."
+            },
+            {
+              "id": "C",
+              "texto": "A las 12 y a las 24 horas."
+            },
+            {
+              "id": "D",
+              "texto": "En cualquier momento, el nivel es constante."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        }
+      ],
+      "timeRecords": {
+        "ing_sim_01_icfes-2025-simulacro-ing-p2-09": 65,
+        "ing_sim_01_icfes-2025-simulacro-ing-p4-20": 309,
+        "mat_sim_01_icfes-2025-simulacro-14": 27,
+        "mat_sim_02_icfes-2025-simulacro-29": 41,
+        "mat_sim_02_icfes-2025-simulacro-30": 41,
+        "mat_sim_02_icfes-2025-simulacro-34": 39,
+        "mat_sim_02_icfes-2025-simulacro-35": 24,
+        "mat_sim_03_icfes-2025-simulacro-54": 130,
+        "mat_sim_03_icfes-2025-simulacro-58": 22,
+        "mat_sim_04_icfes-2025-simulacro-mate-p1-17": 27,
+        "mat_sim_06_p36": 49,
+        "mat_sim_06_p46": 21,
+        "nat_sim_01_icfes-2025-simulacro-cien-03": 26,
+        "nat_sim_01_icfes-2025-simulacro-cien-06": 27,
+        "nat_sim_02_icfes-2025-simulacro-cien-13": 23
+      }
+    },
+    "flashcardRanking": {
+      "lastUpdated": 1773270114526,
+      "name": "Amilcar Josué herrera Rodríguez",
+      "points": 1520,
+      "school": "IE matecande"
+    },
+    "flashcardRanking_v2": {
+      "lastUpdated": 1773280644034,
+      "name": "Amilcar Josué herrera Rodríguez",
+      "points": 80,
+      "school": "IE MATECANDELA"
+    },
+    "gamification": {
+      "badges": [
+        "first_exam",
+        "score_300",
+        "score_400",
+        "streak_3",
+        "level_10",
+        "perfect_exam",
+        "questions_100"
+      ],
+      "lastStudyDate": "2026-03-11",
+      "lastUpdated": 1773280705451,
+      "streakDays": 3,
+      "weekStart": 1773032400000,
+      "weeklyXP": 3801,
+      "xp": 3811
+    },
+    "history": {
+      "icfes-2025-simulacro-ing-new-01": 2,
+      "icfes-2025-simulacro-ing-new-03": 1,
+      "icfes-2025-simulacro-ing-new-04": 1,
+      "icfes-2025-simulacro-ing-new-09": 1,
+      "icfes-2025-simulacro-ing-new-10": 1,
+      "icfes-2025-simulacro-ing-new-20": 2,
+      "icfes-2025-simulacro-ing-new-22": 1,
+      "icfes-2025-simulacro-ing-new-23": 1,
+      "icfes-2025-simulacro-ing-new-28": 1,
+      "icfes-2025-simulacro-ing-new-30": 1,
+      "icfes-2025-simulacro-lectura-13": 1,
+      "icfes-2025-simulacro-lectura-15": 1,
+      "icfes-2025-simulacro-lectura-18": 1,
+      "icfes-2025-simulacro-lectura-19": 1,
+      "icfes-2025-simulacro-lectura-21": 1,
+      "icfes-2025-simulacro-lectura-29": 1,
+      "icfes-2025-simulacro-lectura-30": 1,
+      "icfes-2025-simulacro-soc-31": 1,
+      "icfes-2025-simulacro-soc-32": 1,
+      "icfes-2025-simulacro-soc-34": 1,
+      "icfes-2025-simulacro-soc-35": 1,
+      "icfes-2025-simulacro-soc-37": 1,
+      "icfes-2025-simulacro-soc-38": 1,
+      "icfes-2025-simulacro-soc-39": 1,
+      "icfes-2025-simulacro-soc-40": 1,
+      "icfes-2025-simulacro-soc-41": 1,
+      "icfes-2025-simulacro-soc-42": 1,
+      "icfes-2025-simulacro-soc-43": 1,
+      "icfes-2025-simulacro-soc-44": 1,
+      "icfes-2025-simulacro-soc-45": 2,
+      "icfes-2025-simulacro-soc-46": 1,
+      "icfes-2025-simulacro-soc-47": 1,
+      "icfes-2025-simulacro-soc-49": 1,
+      "icfes-2025-simulacro-soc-50": 1,
+      "icfes-2025-simulacro-soc-51": 1,
+      "icfes-2025-simulacro-soc-53": 1,
+      "icfes-2025-simulacro-soc-54": 1,
+      "icfes-2025-simulacro-soc-55": 1,
+      "icfes-2025-simulacro-soc-58": 2,
+      "icfes-2025-simulacro-soc-59": 1,
+      "icfes-2025-simulacro-sociales-01": 1,
+      "icfes-2025-simulacro-sociales-02": 2,
+      "icfes-2025-simulacro-sociales-03": 1,
+      "icfes-2025-simulacro-sociales-04": 1,
+      "icfes-2025-simulacro-sociales-05": 1,
+      "icfes-2025-simulacro-sociales-06": 1,
+      "icfes-2025-simulacro-sociales-08": 1,
+      "icfes-2025-simulacro-sociales-09": 1,
+      "icfes-2025-simulacro-sociales-10": 1,
+      "icfes-2025-simulacro-sociales-11": 1,
+      "icfes-2025-simulacro-sociales-12": 1,
+      "icfes-2025-simulacro-sociales-14": 1,
+      "icfes-2025-simulacro-sociales-15": 1,
+      "icfes-2025-simulacro-sociales-16": 1,
+      "icfes-2025-simulacro-sociales-18": 1,
+      "icfes-2025-simulacro-sociales-19": 1,
+      "icfes-2025-simulacro-sociales-21": 1,
+      "icfes-2025-simulacro-sociales-23": 1,
+      "icfes-2025-simulacro-sociales-25": 2,
+      "icfes-2025-simulacro-sociales-26": 1,
+      "icfes-2025-simulacro-sociales-27": 1,
+      "icfes-2025-simulacro-sociales-28": 1,
+      "icfes-2025-simulacro-sociales-29": 1,
+      "icfes-2025-simulacro-sociales-30": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-03": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-05": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-06": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-07": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-09": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-13": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-15": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p4-20": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p5-23": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-29": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-30": 1,
+      "mat_1": 1,
+      "mat_sim_01_icfes-2025-simulacro-01": 1,
+      "mat_sim_01_icfes-2025-simulacro-02": 2,
+      "mat_sim_01_icfes-2025-simulacro-04": 1,
+      "mat_sim_01_icfes-2025-simulacro-05": 1,
+      "mat_sim_01_icfes-2025-simulacro-06": 1,
+      "mat_sim_01_icfes-2025-simulacro-07": 1,
+      "mat_sim_01_icfes-2025-simulacro-08": 1,
+      "mat_sim_01_icfes-2025-simulacro-09": 1,
+      "mat_sim_01_icfes-2025-simulacro-12": 1,
+      "mat_sim_01_icfes-2025-simulacro-13": 2,
+      "mat_sim_01_icfes-2025-simulacro-14": 1,
+      "mat_sim_01_icfes-2025-simulacro-15": 1,
+      "mat_sim_01_icfes-2025-simulacro-18": 1,
+      "mat_sim_01_icfes-2025-simulacro-19": 1,
+      "mat_sim_01_icfes-2025-simulacro-20": 1,
+      "mat_sim_02_icfes-2025-simulacro-21": 1,
+      "mat_sim_02_icfes-2025-simulacro-22": 1,
+      "mat_sim_02_icfes-2025-simulacro-23": 2,
+      "mat_sim_02_icfes-2025-simulacro-24": 1,
+      "mat_sim_02_icfes-2025-simulacro-25": 1,
+      "mat_sim_02_icfes-2025-simulacro-27": 1,
+      "mat_sim_02_icfes-2025-simulacro-28": 1,
+      "mat_sim_02_icfes-2025-simulacro-29": 2,
+      "mat_sim_02_icfes-2025-simulacro-30": 2,
+      "mat_sim_02_icfes-2025-simulacro-31": 1,
+      "mat_sim_02_icfes-2025-simulacro-32": 1,
+      "mat_sim_02_icfes-2025-simulacro-33": 1,
+      "mat_sim_02_icfes-2025-simulacro-34": 1,
+      "mat_sim_02_icfes-2025-simulacro-35": 2,
+      "mat_sim_02_icfes-2025-simulacro-37": 1,
+      "mat_sim_02_icfes-2025-simulacro-38": 1,
+      "mat_sim_03_icfes-2025-simulacro-41": 1,
+      "mat_sim_03_icfes-2025-simulacro-42": 2,
+      "mat_sim_03_icfes-2025-simulacro-44": 1,
+      "mat_sim_03_icfes-2025-simulacro-48": 2,
+      "mat_sim_03_icfes-2025-simulacro-49": 1,
+      "mat_sim_03_icfes-2025-simulacro-50": 1,
+      "mat_sim_03_icfes-2025-simulacro-54": 1,
+      "mat_sim_03_icfes-2025-simulacro-55": 1,
+      "mat_sim_03_icfes-2025-simulacro-58": 2,
+      "mat_sim_03_icfes-2025-simulacro-59": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-01": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-02": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-03": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-04": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-05": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-07": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-08": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-11": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-13": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-14": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-16": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-17": 2,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-20": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-102": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-103": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-105": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-106": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-107": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-114": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-115": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-116": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-117": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-120": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-121": 2,
+      "mat_sim_06_p16": 1,
+      "mat_sim_06_p17": 2,
+      "mat_sim_06_p18": 1,
+      "mat_sim_06_p23": 1,
+      "mat_sim_06_p24": 1,
+      "mat_sim_06_p25": 1,
+      "mat_sim_06_p29": 2,
+      "mat_sim_06_p31": 2,
+      "mat_sim_06_p32": 1,
+      "mat_sim_06_p33": 1,
+      "mat_sim_06_p35": 1,
+      "mat_sim_06_p36": 2,
+      "mat_sim_06_p40": 1,
+      "mat_sim_06_p41": 2,
+      "mat_sim_06_p42": 2,
+      "mat_sim_06_p43": 1,
+      "mat_sim_06_p46": 2,
+      "mat_sim_06_p47": 2,
+      "mat_sim_06_p48": 2,
+      "mat_sim_06_p49": 1,
+      "mat_sim_06_p50": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-01": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-02": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-03": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-05": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-06": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-08": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-10": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-11": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-12": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-18": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-19": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-20": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-21": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-23": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-24": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-25": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-27": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-28": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-30": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-03": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-04": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-05": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-08": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-09": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-10": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-11": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-12": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-13": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-16": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-17": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-18": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-19": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-20": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-21": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-22": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-24": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-27": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-29": 2
+    },
+    "messages": {
+      "-OnUYAY5r13Q52j8c2g7": {
+        "date": "2026-03-12T00:57:46.823Z",
+        "from": "Amilcar Josué herrera Rodríguez (espinozamarimar1993@gmail.com)",
+        "read": true,
+        "senderId": "ZXNwaW5vemFtYXJpbWFyMTk5M0BnbWFpbC5jb20",
+        "text": "Hola profe buenos buenos noches una pregunta"
+      },
+      "-OnU_3GogtQ1mLzzwJ3z": {
+        "date": "2026-03-12T01:06:01.014Z",
+        "from": "Master (master@saberpro.com)",
+        "read": true,
+        "senderId": "master",
+        "text": "Si cuenteme"
+      },
+      "-OnUbqS4GxaivUbcikWx": {
+        "date": "2026-03-12T01:18:11.281Z",
+        "from": "Amilcar Josué herrera Rodríguez (espinozamarimar1993@gmail.com)",
+        "read": true,
+        "senderId": "ZXNwaW5vemFtYXJpbWFyMTk5M0BnbWFpbC5jb20",
+        "text": "Lo qué pasa es que en el juego de carta no me quiere correr la pantalla para coleccionar la pregunta pero no es el celular"
+      },
+      "-OnUfS5CVBhdmiZF0xzJ": {
+        "date": "2026-03-12T01:33:55.332Z",
+        "from": "Master (master@saberpro.com)",
+        "read": true,
+        "senderId": "master",
+        "text": "Revisa de nuevo , ya lo ajuste"
+      },
+      "-OnUjUyxf6n50_ef_wpQ": {
+        "date": "2026-03-12T01:51:36.520Z",
+        "from": "Amilcar Josué herrera Rodríguez (espinozamarimar1993@gmail.com)",
+        "read": true,
+        "senderId": "ZXNwaW5vemFtYXJpbWFyMTk5M0BnbWFpbC5jb20",
+        "text": "No profe todavía no agarra"
+      }
+    },
+    "profile": {
+      "area": "",
+      "email": "espinozamarimar1993@gmail.com",
+      "grade": "10",
+      "id": "ZXNwaW5vemFtYXJpbWFyMTk5M0BnbWFpbC5jb20",
+      "name": "Amilcar Josué herrera Rodríguez",
+      "password": "123456",
+      "role": "estudiante",
+      "school": "IE MATECANDELA",
+      "sex": "M"
+    },
+    "sessions": {
+      "ses_1773080417865_u7q5l": {
+        "durationSeconds": 745,
+        "sessionId": "ses_1773080417865_u7q5l",
+        "status": "pausada",
+        "timestamp": 1773081179442
+      },
+      "ses_1773115174644_eio2p": {
+        "durationSeconds": 4354,
+        "sessionId": "ses_1773115174644_eio2p",
+        "status": "cerrada",
+        "timestamp": 1773119748870
+      },
+      "ses_1773119880258_kwtac": {
+        "durationSeconds": 43,
+        "sessionId": "ses_1773119880258_kwtac",
+        "status": "pausada",
+        "timestamp": 1773119924099
+      },
+      "ses_1773261120761_p4rqm": {
+        "durationSeconds": 918,
+        "sessionId": "ses_1773261120761_p4rqm",
+        "status": "pausada",
+        "timestamp": 1773263274610
+      },
+      "ses_1773263300138_m6nuq": {
+        "durationSeconds": 7359,
+        "sessionId": "ses_1773263300138_m6nuq",
+        "status": "activa",
+        "timestamp": 1773270776066
+      },
+      "ses_1773271340253_1wc6t": {
+        "durationSeconds": 82,
+        "sessionId": "ses_1773271340253_1wc6t",
+        "status": "pausada",
+        "timestamp": 1773271425778
+      },
+      "ses_1773271443079_t26re": {
+        "durationSeconds": 507,
+        "sessionId": "ses_1773271443079_t26re",
+        "status": "pausada",
+        "timestamp": 1773273829029
+      },
+      "ses_1773274022776_usfg1": {
+        "durationSeconds": 3034,
+        "sessionId": "ses_1773274022776_usfg1",
+        "status": "cerrada",
+        "timestamp": 1773277178827
+      },
+      "ses_1773277260932_u3vv5": {
+        "durationSeconds": 162,
+        "sessionId": "ses_1773277260932_u3vv5",
+        "status": "pausada",
+        "timestamp": 1773277428628
+      },
+      "ses_1773278150351_t8n15": {
+        "durationSeconds": 652,
+        "sessionId": "ses_1773278150351_t8n15",
+        "status": "pausada",
+        "timestamp": 1773280728980
+      }
+    }
+  },
+  {
+    "en_progreso": {
+      "answers": {
+        "icfes-2025-simulacro-ing-new-29": "B",
+        "icfes-2025-simulacro-lectura-16": "B",
+        "icfes-2025-simulacro-lectura-19": "B",
+        "icfes-2025-simulacro-sociales-06": "B",
+        "icfes-2025-simulacro-sociales-12": "B",
+        "icfes-2025-simulacro-sociales-24": "B",
+        "ing_sim_01_icfes-2025-simulacro-ing-p2-08": "B",
+        "ing_sim_01_icfes-2025-simulacro-ing-p3-14": "B",
+        "ing_sim_01_icfes-2025-simulacro-ing-p5-21": "B",
+        "ing_sim_01_icfes-2025-simulacro-ing-p5-23": "B",
+        "mat_sim_01_icfes-2025-simulacro-04": "D",
+        "mat_sim_04_icfes-2025-simulacro-mate-p1-04": "B",
+        "mat_sim_04_icfes-2025-simulacro-mate-p1-07": "B",
+        "mat_sim_06_p50": "C",
+        "nat_sim_01_icfes-2025-simulacro-cien-06": "B"
+      },
+      "currentIndex": 14,
+      "examMode": "fast-track",
+      "expireTime": 1773277402598,
+      "infractions": 0,
+      "questions": [
+        {
+          "area": "Matemáticas",
+          "competencia": "Interpretación y representación",
+          "componente": "Aleatorio",
+          "enunciado": "Una empresa realizó una encuesta a 200 usuarios sobre su medio de transporte preferido, segmentándolos por edades (Jóvenes, Adultos, Mayores) en una tabla. Posteriormente, se elaboró el diagrama circular adjunto que resume el porcentaje total de preferencia de los transportes. ¿Qué información es posible deducir de la tabla original, pero NO del diagrama circular?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": [
+                    "#6366f1",
+                    "#10b981",
+                    "#f59e0b"
+                  ],
+                  "borderColor": "#1e1b4b",
+                  "borderWidth": 2,
+                  "data": [
+                    40,
+                    35,
+                    25
+                  ]
+                }
+              ],
+              "labels": [
+                "Bus 40%",
+                "Metro 35%",
+                "Taxi 25%"
+              ]
+            },
+            "tipo": "pie",
+            "titulo": "Preferencia General de Transporte"
+          },
+          "id": "mat_sim_04_icfes-2025-simulacro-mate-p1-07",
+          "justificacion": "El diagrama circular de la imagen únicamente consolida los porcentajes totales por tipo de vehículo (Bus, Metro, Taxi). Las variables cruzadas, como el rango de edad exacto (Jóvenes) asociado a un transporte específico, se agrupan en el gráfico perdiendo esa granularidad, la cual solo puede ser consultada en la tabla matricial de origen.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "El porcentaje total de personas que prefieren movilizarse en Bus."
+            },
+            {
+              "id": "B",
+              "texto": "La cantidad espec��fica de usuarios Jóvenes que prefieren usar el Taxi."
+            },
+            {
+              "id": "C",
+              "texto": "El medio de transporte menos utilizado a nivel general."
+            },
+            {
+              "id": "D",
+              "texto": "Cuáles son todos los tipos de transporte evaluados en la encuesta."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Sociales y Ciudadanas",
+          "competencia": "Interpretación y análisis de perspectivas",
+          "componente": "Historia y las culturas",
+          "enunciado": "La caricatura muestra a dos superpotencias de la Guerra Fría dividiéndose el mundo como si fuera un pastel, frente a la mirada de los países en desarrollo. ¿Qué crítica central hace el autor sobre el sistema internacional de esa época?",
+          "grafica": {
+            "datos": {
+              "descripcion": "EE.UU y URSS cortando el globo terráqueo como pastel, mientras otros países miran de abajo."
+            },
+            "tipo": "texto_discontinuo",
+            "titulo": "Caricatura: Reparto Bipolar"
+          },
+          "id": "icfes-2025-simulacro-sociales-06",
+          "imagen": "img/caricatura_reparto_bipolar.png",
+          "justificacion": "Durante la Guerra Fría (1947-1991), el mundo se dividió en dos bloques hegemónicos. El análisis de esta perspectiva gráfica evidencia una crítica al neocolonialismo e imperialismo: las superpotencias no respetaban la autonomía de los países del 'Tercer Mundo', sino que intervenían política, económica y militarmente (cortaban el pastel) para expandir sus zonas de influencia geoestratégica, dejando a estas naciones marginadas.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Que el comunismo y el capitalismo lograron un acuerdo pacífico para ayudar a los países pobres."
+            },
+            {
+              "id": "B",
+              "texto": "Que el mundo bipolar sometió la soberanía y los recursos de las naciones más débiles a los intereses de Estados Unidos y la Unión Soviética."
+            },
+            {
+              "id": "C",
+              "texto": "Que los países del Tercer Mundo eran los verdaderos dueños del poder económico global."
+            },
+            {
+              "id": "D",
+              "texto": "Que la carrera espacial fue un desperdicio de dinero en lugar de acabar con el hambre mundial."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Lectura Crítica",
+          "competencia": "Identificar contenidos locales",
+          "componente": "Semántico",
+          "enunciado": "TEXTO 7 (Texto Discontinuo)\n[Caricatura de una sola viñeta: Se observa un majestuoso oso polar subido sobre un diminuto cubo de hielo flotando en medio del vasto océano. El oso tiene un cartel en las manos que dice: \"¿Alguien me da asilo?\". Al fondo se ven grandes chimeneas humeantes sobre la línea del continente.]\n\n¿Qué representa el diminuto cubo de hielo en el contexto de la caricatura?",
+          "grafica": {
+            "datos": {
+              "descripcion": "Oso polar sobre cubo de hielo menguante pidiendo asilo, con fábricas humeantes al fondo."
+            },
+            "tipo": "texto_discontinuo",
+            "titulo": "Caricatura: El Oso y el Hielo"
+          },
+          "id": "icfes-2025-simulacro-lectura-19",
+          "justificacion": "En el nivel de lectura local de la imagen, el elemento visual del oso gigante luchando por sostenerse en un pedazo de hielo que se derrite (mientras hay fábricas detrás) es la representación icónica directa del deshielo de los polos causado por el calentamiento global, es decir, la pérdida de su hábitat natural.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Un refresco o bebida helada que el oso polar está consumiendo."
+            },
+            {
+              "id": "B",
+              "texto": "La disminución progresiva y crítica del hábitat natural de la especie."
+            },
+            {
+              "id": "C",
+              "texto": "Un barco moderno en el que el oso viaja hacia el continente para migrar."
+            },
+            {
+              "id": "D",
+              "texto": "El origen mítico del polo norte que ya no existe."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Inglés",
+          "competencia": "Comprensión lectora literal",
+          "componente": "Pragmática",
+          "enunciado": "PART 5\nRead the text and answer the questions.\n\n[Text: A DAY IN THE LIFE OF AN ASTRONAUT - Thomas lives on the ISS, sleeps in a bag on the wall, eats dried food with warm water, works doing experiments, and exercises for two hours.]\n\nWhat must Thomas do to his food before he can eat it?",
+          "id": "ing_sim_01_icfes-2025-simulacro-ing-p5-23",
+          "justificacion": "El texto explica el proceso de preparación de la comida con la siguiente oración literal: 'We have to add warm water to it before eating'. La opción B repite exactamente esta instrucción.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "He must cook it on a stove."
+            },
+            {
+              "id": "B",
+              "texto": "He must add warm water to it."
+            },
+            {
+              "id": "C",
+              "texto": "He must take it out of a refrigerator."
+            },
+            {
+              "id": "D",
+              "texto": "He must put it in the microwave."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Formulación y ejecución",
+          "componente": "Aleatorio",
+          "enunciado": "En una encuesta sobre la intención de voto para la elección de presidente en un país, se registraron los resultados que se observan en la tabla y en la gráfica.\n\n<table border='1' cellpadding='5' cellspacing='0' style='margin:16px auto; text-align:center; border-collapse:collapse; background:white; font-size:14px;'><tr><th>Candidato</th><th>Votos</th></tr><tr><td>E</td><td>2.000</td></tr><tr><td>F</td><td>5.000</td></tr><tr><td>G</td><td>4.500</td></tr><tr><td>H</td><td>7.000</td></tr><tr><td>I</td><td>3.400</td></tr></table>\n\n<div style='text-align:center; padding: 10px;'><img src='img/preguntas/mat6_q50.svg' alt='Gráfica de Votos' style='max-width:300px; height:auto; border:1px solid #ddd;'></div>\n\nDe acuerdo con lo anterior, ¿cuál de las siguientes afirmaciones es falsa?",
+          "id": "mat_sim_06_p50",
+          "justificacion": "Las afirmaciones A, B, y D son ciertas. Pero la afirmación en la opción C es completamente FALSA. La gráfica presenta visualmente las porciones o cuotas de representación proporcional de cada candidato, pero al carecer de etiquetas numéricas o porcentajes, **no permite reconstruir ni obtener** las cifras exactas y valores absolutos de votos (2.000, 5.000, 4.500, etc.) presentes en la tabla original.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Con la información de la tabla se obtienen los datos de la gráfica."
+            },
+            {
+              "id": "B",
+              "texto": "Con la información de la gráfica se obtiene cuál es el candidato con mayor intención de voto."
+            },
+            {
+              "id": "C",
+              "texto": "Con la información de la gráfica se obtienen los datos de la tabla."
+            },
+            {
+              "id": "D",
+              "texto": "Con la información de la tabla se obtiene la proporción entre los votos por un candidato y el total."
+            }
+          ],
+          "respuestaCorrecta": "C",
+          "tipo": "standard"
+        },
+        {
+          "area": "Inglés",
+          "competencia": "Conocimiento pragmático",
+          "componente": "Pragmática",
+          "enunciado": "PART 2\nWhere can you see this notice?",
+          "id": "ing_sim_01_icfes-2025-simulacro-ing-p2-08",
+          "imagen": "img/preguntas/ing1_sign_q08.svg",
+          "justificacion": "La prohibición 'Do not feed the animals' (No alimente a los animales) se encuentra lógicamente en lugares donde hay animales en cautiverio siendo exhibidos al público, es decir, en un zoológico ('At a zoo').",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "At a bank"
+            },
+            {
+              "id": "B",
+              "texto": "At a zoo"
+            },
+            {
+              "id": "C",
+              "texto": "In a cinema"
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Inglés",
+          "competencia": "Competencia comunicativa",
+          "componente": "Sociolingüística",
+          "enunciado": "PART 3\nComplete the conversation.\n\nTourist: \"Excuse me, how long does it take to get to the airport by bus?\"\nAgent: \"_________________________\"",
+          "id": "ing_sim_01_icfes-2025-simulacro-ing-p3-14",
+          "justificacion": "La pregunta 'How long does it take...?' se refiere específicamente a la duración de tiempo que toma realizar una acción (el viaje). La única opción que responde con un periodo de tiempo es 'Around 45 minutes' (Alrededor de 45 minutos).",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "About 20 kilometers."
+            },
+            {
+              "id": "B",
+              "texto": "Around 45 minutes."
+            },
+            {
+              "id": "C",
+              "texto": "It costs 5 dollars."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Sociales y Ciudadanas",
+          "competencia": "Interpretación y análisis de perspectivas",
+          "componente": "El poder, la economía y las organizaciones sociales",
+          "enunciado": "La gráfica lineal superpone los precios de los arrendamientos en centros históricos (Gentrification) versus el porcentaje de población nativa originaria residente en la zona. Las líneas forman una 'X'. Un promotor inmobiliario y un líder barrial discuten esta gráfica. ¿Cuál es la postura esperable del líder barrial frente al fenómeno de gentrificación?",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": "#6366f133",
+                  "borderColor": "#6366f1",
+                  "data": [
+                    100,
+                    150,
+                    300,
+                    500
+                  ],
+                  "label": "Precio Arriendo",
+                  "pointHoverRadius": 7,
+                  "pointRadius": 5,
+                  "tension": 0.3
+                },
+                {
+                  "backgroundColor": "#10b98133",
+                  "borderColor": "#10b981",
+                  "data": [
+                    1000,
+                    800,
+                    400,
+                    100
+                  ],
+                  "label": "Población Nativa",
+                  "pointHoverRadius": 7,
+                  "pointRadius": 5,
+                  "tension": 0.3
+                }
+              ],
+              "labels": [
+                "2010",
+                "2015",
+                "2020",
+                "2025"
+              ]
+            },
+            "tipo": "line",
+            "titulo": "Gentrificación: Arriendos vs Población Nativa"
+          },
+          "id": "icfes-2025-simulacro-sociales-24",
+          "justificacion": "El análisis de posiciones frente a problemas urbanos es esencial en sociales. La 'gentrificación' ocurre cuando barrios tradicionales son renovados y comercializados para sectores pudientes o turismo (Airbnb, cafés costosos). La perspectiva del habitante originario es de protesta o luto social, pues aunque el barrio embellece, él ya no puede pagar los arriendos, el pan, ni los servicios, sufriendo un 'desplazamiento invisible' hacia periferias empobrecidas.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Celebrar el fenómeno, ya que la llegada de turistas encarece el valor del terreno que ellos ya no habitan."
+            },
+            {
+              "id": "B",
+              "texto": "Denunciar que la renovación urbana, al atraer capitales altos, encarece el costo de vida forzando el desplazamiento económico de los habitantes tradicionales."
+            },
+            {
+              "id": "C",
+              "texto": "Apoyar al promotor, pues la construcción de hoteles de lujo asegura el mantenimiento arquitectónico para las clases bajas."
+            },
+            {
+              "id": "D",
+              "texto": "Cuestionar la gráfica asegurando que los arrendamientos no tienen relación alguna con la vida comunitaria."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Formulación y ejecución",
+          "componente": "Geométrico - Métrico",
+          "enunciado": "Para pintar la fachada de un edificio, un pintor apoya una escalera de 6 metros de longitud, formando un ángulo de 60° con la superficie del suelo, como ilustra el esquema. ¿Cuál es la altura H, en metros, que alcanza la escalera sobre el edificio? (Considere sen(60°) = √3/2 y cos(60°) = 1/2).",
+          "id": "mat_sim_04_icfes-2025-simulacro-mate-p1-04",
+          "imagen": "img/preguntas/escalera_edificio_60.svg",
+          "justificacion": "La escalera forma la hipotenusa de un triángulo rectángulo. La altura H es el cateto opuesto al ángulo de 60°. Usando la razón trigonométrica seno: sen(60°) = Opuesto / Hipotenusa. Despejando: H = 6 × sen(60°) = 6 × (√3/2) = 3√3 metros.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "3 m"
+            },
+            {
+              "id": "B",
+              "texto": "3√3 m"
+            },
+            {
+              "id": "C",
+              "texto": "12 m"
+            },
+            {
+              "id": "D",
+              "texto": "12√3 m"
+            }
+          ],
+          "respuestaCorrecta": "B"
+        },
+        {
+          "area": "Ciencias Naturales",
+          "competencia": "Uso comprensivo del conocimiento científico",
+          "componente": "Entorno físico",
+          "enunciado": "Un salto bungee consiste en lanzarse de un puente atado a una cuerda elástica. Cuando el saltador llega al punto más bajo de su trayectoria, permanece un instante quieto antes de rebotar. En ese punto exacto, ¿en qué se ha transformado principalmente la energía potencial gravitacional inicial?",
+          "id": "nat_sim_01_icfes-2025-simulacro-cien-06",
+          "imagen": "img/preguntas/salto_bungee.png",
+          "justificacion": "En el punto más bajo del salto, la velocidad del saltador es momentáneamente cero, por lo que su energía cinética es cero. Además, su altura es mínima (menor energía potencial gravitacional). Toda la energía mecánica del sistema se ha almacenado en la deformación (estiramiento) de la cuerda, convirtiéndose en energía potencial elástica.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Toda su energía inicial se ha transformado en energía cinética."
+            },
+            {
+              "id": "B",
+              "texto": "En energía potencial elástica de la cuerda."
+            },
+            {
+              "id": "C",
+              "texto": "En energía potencial gravitacional y energía cinética."
+            },
+            {
+              "id": "D",
+              "texto": "En energía térmica absorbida exclusivamente por el aire."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Matemáticas",
+          "competencia": "Argumentación",
+          "componente": "Aleatorio",
+          "grafica": {
+            "datos": {
+              "datasets": [
+                {
+                  "backgroundColor": [
+                    "#6366f1",
+                    "#10b981",
+                    "#f59e0b"
+                  ],
+                  "borderColor": "#1e1b4b",
+                  "borderWidth": 2,
+                  "data": [
+                    50,
+                    30,
+                    20
+                  ]
+                }
+              ],
+              "labels": [
+                "Azul",
+                "Rojo",
+                "Verde"
+              ]
+            },
+            "tipo": "pie",
+            "titulo": "Preferencias de color"
+          },
+          "id": "mat_sim_01_icfes-2025-simulacro-04",
+          "justificacion": "Para este ejercicio de probabilidad/estadística, la respuesta es 'Sí, porque es el sector más grande.'. Esto se deduce analizando los datos proporcionados y calculando la frecuencia o probabilidad de los eventos descritos.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Sí, porque es el sector más grande."
+            },
+            {
+              "id": "B",
+              "texto": "No, porque el rojo es mayor."
+            },
+            {
+              "id": "C",
+              "texto": "No, porque azul y verde empatan."
+            },
+            {
+              "id": "D",
+              "texto": "Sí, porque representa el 50%."
+            }
+          ],
+          "respuestaCorrecta": "A",
+          "texto": "Un estudiante afirma que la mayoría de los estudiantes prefieren el color azul según la gráfica. ¿Es correcta su afirmación basándose en los datos?",
+          "tipo": "grafica"
+        },
+        {
+          "area": "Lectura Crítica",
+          "competencia": "Articular partes para sentido global",
+          "componente": "Sintáctico",
+          "enunciado": "TEXTO 6\n«Muchos años después, frente al pelotón de fusilamiento, el coronel Aureliano Buendía había de recordar aquella tarde remota en que su padre lo llevó a conocer el hielo. Macondo era entonces una aldea de veinte casas de barro y cañabrava construidas a la orilla de un río de aguas diáfanas que se precipitaban por un lecho de piedras pulidas, blancas y enormes como huevos prehistóricos.» (Cien años de soledad, Gabriel García Márquez)\n\n¿Cómo está estructurado el manejo del tiempo en la primera oración del fragmento?",
+          "id": "icfes-2025-simulacro-lectura-16",
+          "justificacion": "La estructura 'Muchos años después [futuro]... había de recordar [acción hacia atrás] aquella tarde remota [pasado]' es el ejemplo clásico de prolepsis narrativa cruzada con analepsis. El narrador nos ubica en el futuro (el paredón) para que el personaje, desde allí, recuerde su pasado (el hielo), quebrando la linealidad del tiempo.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Narra de manera lineal y cronológica desde la infancia del protagonista hasta su muerte."
+            },
+            {
+              "id": "B",
+              "texto": "Se sitúa en un punto del futuro para desde allí evocar un evento originario del pasado."
+            },
+            {
+              "id": "C",
+              "texto": "Describe el presente en el pueblo de Macondo mientras ignora el futuro del coronel."
+            },
+            {
+              "id": "D",
+              "texto": "Realiza una proyección desde el pasado directamente hacia el fin del mundo."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Inglés",
+          "competencia": "Comprensión lectora literal/inferencial",
+          "componente": "Pragmática",
+          "enunciado": "PART 6\nRead the text and answer the questions.\n\n[Text: THE FUTURE OF WORK - Details how AI replaces routine tasks, but creates new jobs. Emphasizes that adaptability and continuous learning are key. Highlights soft skills like creativity and emotional intelligence as areas where humans outperform machines.]\n\nAccording to the text, what is a common fear about the rise of artificial intelligence (AI)?",
+          "id": "icfes-2025-simulacro-ing-new-29",
+          "justificacion": "El texto expone directamente el miedo de una parte de la sociedad en la oración: 'While some fear this will lead to massive unemployment...' (Mientras algunos temen que esto llevará a un desempleo masivo). La opción B parafrasea de forma exacta este temor colectivo descrito en el artículo.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "That people will have to work longer hours."
+            },
+            {
+              "id": "B",
+              "texto": "That it will cause massive unemployment."
+            },
+            {
+              "id": "C",
+              "texto": "That machines will demand higher salaries."
+            },
+            {
+              "id": "D",
+              "texto": "That learning new skills will be impossible."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Inglés",
+          "competencia": "Comprensión lectora literal",
+          "componente": "Pragmática",
+          "enunciado": "PART 5\nRead the text and answer the questions.\n\nA DAY IN THE LIFE OF AN ASTRONAUT\nMy name is Thomas, and I am an astronaut living on the International Space Station (ISS). Life up here is very different from Earth. I usually wake up at 6:00 AM. Because there is zero gravity, I don't sleep in a normal bed; I sleep in a sleeping bag attached to the wall so I don't float away! \nAfter I wake up, I eat breakfast. Our food is completely dried and sealed in plastic bags. We have to add warm water to it before eating. At 8:00 AM, my workday begins. I spend most of my day doing scientific experiments and checking the station's computers. Exercise is very important in space to keep our muscles strong, so I run on a special treadmill for exactly two hours every afternoon. Finally, I go to sleep at 10:00 PM, ready for another day among the stars.\n\nWhat time does Thomas begin his workday?",
+          "id": "ing_sim_01_icfes-2025-simulacro-ing-p5-21",
+          "justificacion": "La Parte 5 evalúa comprensión lectora a nivel literal. El texto menciona explícitamente la hora de inicio de su trabajo: 'At 8:00 AM, my workday begins'. Las 6:00 AM es la hora a la que despierta, y las 10:00 PM cuando se va a dormir.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "At 6:00 AM"
+            },
+            {
+              "id": "B",
+              "texto": "At 8:00 AM"
+            },
+            {
+              "id": "C",
+              "texto": "At 10:00 PM"
+            },
+            {
+              "id": "D",
+              "texto": "In the afternoon"
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "standard"
+        },
+        {
+          "area": "Sociales y Ciudadanas",
+          "competencia": "Pensamiento sistémico y reflexión ciudadana",
+          "componente": "El espacio, el territorio, el ambiente y la población",
+          "enunciado": "El mapa de Colombia ilustra las zonas de mayor producción de coca. Estas áreas coinciden geográficamente con la ausencia de infraestructura vial, bajos niveles de salud y educación. Desde una visión sistémica, ¿qué demuestra esta superposición de datos territoriales?",
+          "grafica": {
+            "datos": {
+              "descripcion": "Mapa donde los puntos rojos de coca se superponen exactamente con los niveles más oscuros de pobreza y abandono."
+            },
+            "tipo": "map",
+            "titulo": "Cultivos Ilícitos vs Pobreza Multidimensional"
+          },
+          "id": "icfes-2025-simulacro-sociales-12",
+          "imagen": "img/mapa_cultivos_pobreza.png",
+          "justificacion": "El pensamiento sistémico conecta variables. La superposición geográfica no es casualidad: la ausencia de vías terciarias impide a los campesinos sacar productos legales a un precio competitivo. El abandono estatal convierte a la economía ilegal (la pasta base es fácil de transportar y se paga in situ) en una estrategia de supervivencia económica frente a la pobreza estructural, alimentada además por la coerción de grupos armados.",
+          "opciones": [
+            {
+              "id": "A",
+              "texto": "Que los cultivos ilícitos enriquecen rápidamente a los departamentos donde se siembran."
+            },
+            {
+              "id": "B",
+              "texto": "Que el problema de las drogas tiene una raíz estructural vinculada al abandono estatal y la pobreza rural."
+            },
+            {
+              "id": "C",
+              "texto": "Que la geografía montañosa es la única causa de la ilegalidad en Colombia."
+            },
+            {
+              "id": "D",
+              "texto": "Que el gobierno invierte todos sus recursos exclusivamente en las zonas cocaleras."
+            }
+          ],
+          "respuestaCorrecta": "B",
+          "tipo": "grafica"
+        }
+      ],
+      "timeRecords": {
+        "icfes-2025-simulacro-ing-new-29": 16,
+        "icfes-2025-simulacro-lectura-16": 17,
+        "icfes-2025-simulacro-lectura-19": 25,
+        "icfes-2025-simulacro-sociales-06": 12,
+        "icfes-2025-simulacro-sociales-12": 9,
+        "icfes-2025-simulacro-sociales-24": 21,
+        "ing_sim_01_icfes-2025-simulacro-ing-p2-08": 4,
+        "ing_sim_01_icfes-2025-simulacro-ing-p3-14": 7,
+        "ing_sim_01_icfes-2025-simulacro-ing-p5-21": 4,
+        "ing_sim_01_icfes-2025-simulacro-ing-p5-23": 8,
+        "mat_sim_01_icfes-2025-simulacro-04": 15,
+        "mat_sim_04_icfes-2025-simulacro-mate-p1-04": 9,
+        "mat_sim_04_icfes-2025-simulacro-mate-p1-07": 15,
+        "mat_sim_06_p50": 23,
+        "nat_sim_01_icfes-2025-simulacro-cien-06": 11
+      }
+    },
+    "flashcardRanking": {
+      "lastUpdated": 1773263333796,
+      "name": "Jesús Daniel Mendéz Gomez",
+      "points": 2050,
+      "school": "IE Matecandela"
+    },
+    "flashcardRanking_v2": {
+      "lastUpdated": 1773281059440,
+      "name": "Jesús Daniel Mendéz Gomez",
+      "points": 1150,
+      "school": "IE Matecandela"
+    },
+    "gamification": {
+      "badges": [
+        "first_exam",
+        "score_300",
+        "questions_100",
+        "level_10",
+        "streak_3",
+        "score_400"
+      ],
+      "lastStudyDate": "2026-03-11",
+      "lastUpdated": 1773281059296,
+      "level": 9,
+      "streakDays": 3,
+      "weekStart": 1773032400000,
+      "weeklyXP": 135,
+      "xp": 135
+    },
+    "history": {
+      "icfes-2025-simulacro-ing-new-01": 3,
+      "icfes-2025-simulacro-ing-new-02": 2,
+      "icfes-2025-simulacro-ing-new-03": 2,
+      "icfes-2025-simulacro-ing-new-04": 2,
+      "icfes-2025-simulacro-ing-new-05": 2,
+      "icfes-2025-simulacro-ing-new-06": 2,
+      "icfes-2025-simulacro-ing-new-07": 2,
+      "icfes-2025-simulacro-ing-new-08": 2,
+      "icfes-2025-simulacro-ing-new-09": 2,
+      "icfes-2025-simulacro-ing-new-10": 2,
+      "icfes-2025-simulacro-ing-new-11": 2,
+      "icfes-2025-simulacro-ing-new-12": 2,
+      "icfes-2025-simulacro-ing-new-13": 3,
+      "icfes-2025-simulacro-ing-new-14": 2,
+      "icfes-2025-simulacro-ing-new-15": 2,
+      "icfes-2025-simulacro-ing-new-16": 2,
+      "icfes-2025-simulacro-ing-new-17": 2,
+      "icfes-2025-simulacro-ing-new-18": 3,
+      "icfes-2025-simulacro-ing-new-19": 2,
+      "icfes-2025-simulacro-ing-new-20": 2,
+      "icfes-2025-simulacro-ing-new-21": 2,
+      "icfes-2025-simulacro-ing-new-22": 2,
+      "icfes-2025-simulacro-ing-new-23": 2,
+      "icfes-2025-simulacro-ing-new-24": 2,
+      "icfes-2025-simulacro-ing-new-25": 2,
+      "icfes-2025-simulacro-ing-new-26": 3,
+      "icfes-2025-simulacro-ing-new-27": 2,
+      "icfes-2025-simulacro-ing-new-28": 2,
+      "icfes-2025-simulacro-ing-new-29": 3,
+      "icfes-2025-simulacro-ing-new-30": 2,
+      "icfes-2025-simulacro-lectura-01": 2,
+      "icfes-2025-simulacro-lectura-02": 1,
+      "icfes-2025-simulacro-lectura-03": 1,
+      "icfes-2025-simulacro-lectura-04": 1,
+      "icfes-2025-simulacro-lectura-05": 1,
+      "icfes-2025-simulacro-lectura-06": 1,
+      "icfes-2025-simulacro-lectura-07": 1,
+      "icfes-2025-simulacro-lectura-08": 1,
+      "icfes-2025-simulacro-lectura-09": 1,
+      "icfes-2025-simulacro-lectura-10": 3,
+      "icfes-2025-simulacro-lectura-11": 1,
+      "icfes-2025-simulacro-lectura-12": 4,
+      "icfes-2025-simulacro-lectura-13": 1,
+      "icfes-2025-simulacro-lectura-14": 1,
+      "icfes-2025-simulacro-lectura-15": 2,
+      "icfes-2025-simulacro-lectura-16": 3,
+      "icfes-2025-simulacro-lectura-17": 1,
+      "icfes-2025-simulacro-lectura-18": 1,
+      "icfes-2025-simulacro-lectura-19": 2,
+      "icfes-2025-simulacro-lectura-20": 1,
+      "icfes-2025-simulacro-lectura-21": 2,
+      "icfes-2025-simulacro-lectura-22": 2,
+      "icfes-2025-simulacro-lectura-23": 1,
+      "icfes-2025-simulacro-lectura-24": 2,
+      "icfes-2025-simulacro-lectura-25": 1,
+      "icfes-2025-simulacro-lectura-26": 2,
+      "icfes-2025-simulacro-lectura-27": 1,
+      "icfes-2025-simulacro-lectura-28": 2,
+      "icfes-2025-simulacro-lectura-29": 1,
+      "icfes-2025-simulacro-lectura-30": 1,
+      "icfes-2025-simulacro-soc-31": 1,
+      "icfes-2025-simulacro-soc-32": 1,
+      "icfes-2025-simulacro-soc-33": 1,
+      "icfes-2025-simulacro-soc-34": 1,
+      "icfes-2025-simulacro-soc-35": 1,
+      "icfes-2025-simulacro-soc-36": 1,
+      "icfes-2025-simulacro-soc-37": 1,
+      "icfes-2025-simulacro-soc-38": 1,
+      "icfes-2025-simulacro-soc-39": 1,
+      "icfes-2025-simulacro-soc-40": 2,
+      "icfes-2025-simulacro-soc-41": 1,
+      "icfes-2025-simulacro-soc-42": 1,
+      "icfes-2025-simulacro-soc-43": 1,
+      "icfes-2025-simulacro-soc-44": 1,
+      "icfes-2025-simulacro-soc-45": 2,
+      "icfes-2025-simulacro-soc-46": 1,
+      "icfes-2025-simulacro-soc-47": 1,
+      "icfes-2025-simulacro-soc-48": 1,
+      "icfes-2025-simulacro-soc-49": 1,
+      "icfes-2025-simulacro-soc-50": 1,
+      "icfes-2025-simulacro-soc-51": 1,
+      "icfes-2025-simulacro-soc-52": 1,
+      "icfes-2025-simulacro-soc-53": 1,
+      "icfes-2025-simulacro-soc-54": 1,
+      "icfes-2025-simulacro-soc-55": 1,
+      "icfes-2025-simulacro-soc-56": 2,
+      "icfes-2025-simulacro-soc-57": 1,
+      "icfes-2025-simulacro-soc-58": 1,
+      "icfes-2025-simulacro-soc-59": 1,
+      "icfes-2025-simulacro-soc-60": 2,
+      "icfes-2025-simulacro-sociales-01": 1,
+      "icfes-2025-simulacro-sociales-02": 2,
+      "icfes-2025-simulacro-sociales-03": 1,
+      "icfes-2025-simulacro-sociales-04": 1,
+      "icfes-2025-simulacro-sociales-05": 2,
+      "icfes-2025-simulacro-sociales-06": 2,
+      "icfes-2025-simulacro-sociales-07": 1,
+      "icfes-2025-simulacro-sociales-08": 1,
+      "icfes-2025-simulacro-sociales-09": 1,
+      "icfes-2025-simulacro-sociales-10": 1,
+      "icfes-2025-simulacro-sociales-11": 1,
+      "icfes-2025-simulacro-sociales-12": 3,
+      "icfes-2025-simulacro-sociales-13": 2,
+      "icfes-2025-simulacro-sociales-14": 1,
+      "icfes-2025-simulacro-sociales-15": 2,
+      "icfes-2025-simulacro-sociales-16": 1,
+      "icfes-2025-simulacro-sociales-17": 1,
+      "icfes-2025-simulacro-sociales-18": 1,
+      "icfes-2025-simulacro-sociales-19": 2,
+      "icfes-2025-simulacro-sociales-20": 1,
+      "icfes-2025-simulacro-sociales-21": 1,
+      "icfes-2025-simulacro-sociales-22": 2,
+      "icfes-2025-simulacro-sociales-23": 1,
+      "icfes-2025-simulacro-sociales-24": 2,
+      "icfes-2025-simulacro-sociales-25": 1,
+      "icfes-2025-simulacro-sociales-26": 2,
+      "icfes-2025-simulacro-sociales-27": 1,
+      "icfes-2025-simulacro-sociales-28": 2,
+      "icfes-2025-simulacro-sociales-29": 2,
+      "icfes-2025-simulacro-sociales-30": 1,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-01": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-02": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-03": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-04": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p1-05": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-06": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-07": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-08": 3,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-09": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p2-10": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-11": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-12": 3,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-13": 3,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-14": 4,
+      "ing_sim_01_icfes-2025-simulacro-ing-p3-15": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p4-16": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p4-17": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p4-18": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p4-19": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p4-20": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p5-21": 3,
+      "ing_sim_01_icfes-2025-simulacro-ing-p5-22": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p5-23": 3,
+      "ing_sim_01_icfes-2025-simulacro-ing-p5-24": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p5-25": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-26": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-27": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-28": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-29": 2,
+      "ing_sim_01_icfes-2025-simulacro-ing-p6-30": 2,
+      "mat_1": 1,
+      "mat_2": 1,
+      "mat_sim_01_icfes-2025-simulacro-01": 3,
+      "mat_sim_01_icfes-2025-simulacro-02": 1,
+      "mat_sim_01_icfes-2025-simulacro-04": 2,
+      "mat_sim_01_icfes-2025-simulacro-05": 1,
+      "mat_sim_01_icfes-2025-simulacro-06": 1,
+      "mat_sim_01_icfes-2025-simulacro-07": 2,
+      "mat_sim_01_icfes-2025-simulacro-08": 2,
+      "mat_sim_01_icfes-2025-simulacro-09": 1,
+      "mat_sim_01_icfes-2025-simulacro-10": 1,
+      "mat_sim_01_icfes-2025-simulacro-13": 1,
+      "mat_sim_01_icfes-2025-simulacro-14": 1,
+      "mat_sim_01_icfes-2025-simulacro-15": 2,
+      "mat_sim_01_icfes-2025-simulacro-16": 2,
+      "mat_sim_01_icfes-2025-simulacro-17": 1,
+      "mat_sim_01_icfes-2025-simulacro-18": 3,
+      "mat_sim_01_icfes-2025-simulacro-19": 2,
+      "mat_sim_02_icfes-2025-simulacro-21": 1,
+      "mat_sim_02_icfes-2025-simulacro-22": 1,
+      "mat_sim_02_icfes-2025-simulacro-23": 1,
+      "mat_sim_02_icfes-2025-simulacro-24": 1,
+      "mat_sim_02_icfes-2025-simulacro-25": 1,
+      "mat_sim_02_icfes-2025-simulacro-26": 1,
+      "mat_sim_02_icfes-2025-simulacro-27": 1,
+      "mat_sim_02_icfes-2025-simulacro-28": 1,
+      "mat_sim_02_icfes-2025-simulacro-29": 2,
+      "mat_sim_02_icfes-2025-simulacro-30": 1,
+      "mat_sim_02_icfes-2025-simulacro-31": 1,
+      "mat_sim_02_icfes-2025-simulacro-32": 1,
+      "mat_sim_02_icfes-2025-simulacro-34": 2,
+      "mat_sim_02_icfes-2025-simulacro-35": 1,
+      "mat_sim_02_icfes-2025-simulacro-36": 1,
+      "mat_sim_02_icfes-2025-simulacro-37": 1,
+      "mat_sim_02_icfes-2025-simulacro-38": 1,
+      "mat_sim_02_icfes-2025-simulacro-39": 1,
+      "mat_sim_02_icfes-2025-simulacro-40": 1,
+      "mat_sim_03_icfes-2025-simulacro-41": 1,
+      "mat_sim_03_icfes-2025-simulacro-43": 1,
+      "mat_sim_03_icfes-2025-simulacro-44": 1,
+      "mat_sim_03_icfes-2025-simulacro-45": 1,
+      "mat_sim_03_icfes-2025-simulacro-46": 1,
+      "mat_sim_03_icfes-2025-simulacro-47": 1,
+      "mat_sim_03_icfes-2025-simulacro-48": 1,
+      "mat_sim_03_icfes-2025-simulacro-49": 1,
+      "mat_sim_03_icfes-2025-simulacro-50": 1,
+      "mat_sim_03_icfes-2025-simulacro-51": 1,
+      "mat_sim_03_icfes-2025-simulacro-52": 1,
+      "mat_sim_03_icfes-2025-simulacro-53": 1,
+      "mat_sim_03_icfes-2025-simulacro-55": 1,
+      "mat_sim_03_icfes-2025-simulacro-57": 1,
+      "mat_sim_03_icfes-2025-simulacro-59": 3,
+      "mat_sim_03_icfes-2025-simulacro-60": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-01": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-02": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-03": 2,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-04": 3,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-06": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-07": 2,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-08": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-09": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-10": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-11": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-12": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-13": 2,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-14": 1,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-15": 2,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-16": 4,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-19": 3,
+      "mat_sim_04_icfes-2025-simulacro-mate-p1-20": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-102": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-103": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-104": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-108": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-109": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-111": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-112": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-114": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-115": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-116": 2,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-117": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-118": 1,
+      "mat_sim_05_icfes-2025-simulacro-mate-p1-120": 1,
+      "mat_sim_06_p15": 1,
+      "mat_sim_06_p16": 2,
+      "mat_sim_06_p17": 1,
+      "mat_sim_06_p21": 1,
+      "mat_sim_06_p23": 1,
+      "mat_sim_06_p24": 1,
+      "mat_sim_06_p25": 2,
+      "mat_sim_06_p29": 1,
+      "mat_sim_06_p30": 2,
+      "mat_sim_06_p31": 2,
+      "mat_sim_06_p32": 1,
+      "mat_sim_06_p33": 1,
+      "mat_sim_06_p34": 1,
+      "mat_sim_06_p35": 2,
+      "mat_sim_06_p36": 1,
+      "mat_sim_06_p40": 1,
+      "mat_sim_06_p41": 1,
+      "mat_sim_06_p42": 1,
+      "mat_sim_06_p43": 1,
+      "mat_sim_06_p46": 1,
+      "mat_sim_06_p47": 1,
+      "mat_sim_06_p48": 1,
+      "mat_sim_06_p50": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-01": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-02": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-03": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-04": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-05": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-06": 3,
+      "nat_sim_01_icfes-2025-simulacro-cien-07": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-08": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-09": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-10": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-11": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-12": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-13": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-14": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-15": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-16": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-17": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-18": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-19": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-20": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-21": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-22": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-23": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-24": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-25": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-26": 1,
+      "nat_sim_01_icfes-2025-simulacro-cien-27": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-28": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-29": 2,
+      "nat_sim_01_icfes-2025-simulacro-cien-30": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-01": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-02": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-03": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-04": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-05": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-06": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-07": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-08": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-09": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-10": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-11": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-12": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-13": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-14": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-15": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-16": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-17": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-18": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-19": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-20": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-21": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-22": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-23": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-24": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-25": 1,
+      "nat_sim_02_icfes-2025-simulacro-cien-26": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-27": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-28": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-29": 2,
+      "nat_sim_02_icfes-2025-simulacro-cien-30": 2
+    },
+    "messages": {
+      "-OnE0ZcO1P1SNX9G7-e9": {
+        "date": "2026-03-08T19:57:00.828Z",
+        "from": "Edgar Acevedo Aguilar",
+        "read": true,
+        "senderId": "ZWRnYXJAZ21haWwuY29t",
+        "text": "BUENAS TARDES , SU NOTA DEPENDE DEL TIEMPO Y DE LAS PREGUNTAS TRABAJADAS , RECORDAR QUE TENGO ACCESO A TODO SUS HISTORIAL EN LA PLATAFORMA DESDE CUANTAS PREGUNTAS TRABAJA HASTA CUANTO TIEMPO DEDICA POR SESION"
+      },
+      "-OnToN33DCa6aDhhsYSe": {
+        "date": "2026-03-11T21:33:17.248Z",
+        "from": "Jesús Daniel Mendéz Gomez (jesusdanielmendezgomez@gmail.com)",
+        "read": true,
+        "senderId": "amVzdXNkYW5pZWxtZW5kZXpnb21lekBnbWFpbC5jb20",
+        "text": "uy profesor me reinicio mis puntos del flashcard, Malo"
+      },
+      "-OnToW2J79ml0ton5ZoA": {
+        "date": "2026-03-11T21:33:54.063Z",
+        "from": "Jesús Daniel Mendéz Gomez (jesusdanielmendezgomez@gmail.com)",
+        "read": true,
+        "senderId": "amVzdXNkYW5pZWxtZW5kZXpnb21lekBnbWFpbC5jb20",
+        "text": "y en la zona de juegos hay partes de textos que no salen, como por ejemplo preguntas en algunos juegos"
+      }
+    },
+    "profile": {
+      "area": "",
+      "email": "jesusdanielmendezgomez@gmail.com",
+      "grade": "10",
+      "id": "amVzdXNkYW5pZWxtZW5kZXpnb21lekBnbWFpbC5jb20",
+      "name": "Jesús Daniel Mendéz Gomez",
+      "password": "3203305947",
+      "role": "estudiante",
+      "school": "IE MATECANDELA",
+      "sex": "M"
+    },
+    "sessions": {
+      "ses_1772918361237_5ffi2": {
+        "durationSeconds": 5429,
+        "sessionId": "ses_1772918361237_5ffi2",
+        "status": "cerrada",
+        "timestamp": 1772924287537
+      },
+      "ses_1772919855418_gfqf3": {
+        "durationSeconds": 0,
+        "sessionId": "ses_1772919855418_gfqf3",
+        "status": "pausada",
+        "timestamp": 1772919860627
+      },
+      "ses_1772924296954_66e3m": {
+        "durationSeconds": 43,
+        "sessionId": "ses_1772924296954_66e3m",
+        "status": "abandonada",
+        "timestamp": 1772924344808
+      },
+      "ses_1772934922571_v2l96": {
+        "durationSeconds": 62,
+        "sessionId": "ses_1772934922571_v2l96",
+        "status": "abandonada",
+        "timestamp": 1772934986169
+      },
+      "ses_1773090384604_ldm9l": {
+        "durationSeconds": 2657,
+        "sessionId": "ses_1773090384604_ldm9l",
+        "status": "abandonada",
+        "timestamp": 1773093215883
+      },
+      "ses_1773094169085_dusdy": {
+        "durationSeconds": 37,
+        "sessionId": "ses_1773094169085_dusdy",
+        "status": "pausada",
+        "timestamp": 1773094359688
+      },
+      "ses_1773112619146_gkzfp": {
+        "durationSeconds": 66,
+        "sessionId": "ses_1773112619146_gkzfp",
+        "status": "abandonada",
+        "timestamp": 1773112685823
+      },
+      "ses_1773133346912_s7zdt": {
+        "durationSeconds": 39,
+        "sessionId": "ses_1773133346912_s7zdt",
+        "status": "pausada",
+        "timestamp": 1773133386799
+      },
+      "ses_1773186575903_vrfs0": {
+        "durationSeconds": 7411,
+        "sessionId": "ses_1773186575903_vrfs0",
+        "status": "abandonada",
+        "timestamp": 1773194091255
+      },
+      "ses_1773194946000_x4tbo": {
+        "durationSeconds": 36,
+        "sessionId": "ses_1773194946000_x4tbo",
+        "status": "abandonada",
+        "timestamp": 1773194985901
+      },
+      "ses_1773196252250_fsk56": {
+        "durationSeconds": 63,
+        "sessionId": "ses_1773196252250_fsk56",
+        "status": "pausada",
+        "timestamp": 1773196316736
+      },
+      "ses_1773197851182_0z51y": {
+        "durationSeconds": 1390,
+        "sessionId": "ses_1773197851182_0z51y",
+        "status": "abandonada",
+        "timestamp": 1773199256580
+      },
+      "ses_1773254073311_bvqug": {
+        "durationSeconds": 89,
+        "sessionId": "ses_1773254073311_bvqug",
+        "status": "pausada",
+        "timestamp": 1773254222791
+      },
+      "ses_1773254565925_zjw07": {
+        "durationSeconds": 1600,
+        "sessionId": "ses_1773254565925_zjw07",
+        "status": "abandonada",
+        "timestamp": 1773256180128
+      },
+      "ses_1773258666255_ykpkt": {
+        "durationSeconds": 14,
+        "sessionId": "ses_1773258666255_ykpkt",
+        "status": "pausada",
+        "timestamp": 1773258680396
+      },
+      "ses_1773259983262_3fwiz": {
+        "durationSeconds": 21,
+        "sessionId": "ses_1773259983262_3fwiz",
+        "status": "abandonada",
+        "timestamp": 1773260004921
+      },
+      "ses_1773262037298_i6t0b": {
+        "durationSeconds": 28,
+        "sessionId": "ses_1773262037298_i6t0b",
+        "status": "pausada",
+        "timestamp": 1773262065819
+      },
+      "ses_1773262728612_g2mdq": {
+        "durationSeconds": 1258,
+        "sessionId": "ses_1773262728612_g2mdq",
+        "status": "abandonada",
+        "timestamp": 1773263996295
+      },
+      "ses_1773264492426_6tl3u": {
+        "durationSeconds": 10723,
+        "sessionId": "ses_1773264492426_6tl3u",
+        "status": "abandonada",
+        "timestamp": 1773276014134
+      },
+      "ses_1773276464377_mi4gj": {
+        "durationSeconds": 901,
+        "sessionId": "ses_1773276464377_mi4gj",
+        "status": "abandonada",
+        "timestamp": 1773277375976
+      },
+      "ses_1773280117061_1sxxn": {
+        "durationSeconds": 921,
+        "sessionId": "ses_1773280117061_1sxxn",
+        "status": "activa",
+        "timestamp": 1773281077265
+      }
+    }
+  }
+]
