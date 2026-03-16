@@ -113,8 +113,12 @@ const StudyModules = {
         
         container.innerHTML = '';
 
-        if (moduleId === 'mat_mod_1' || moduleId === 'mat_mod_3') {
-            const renderFnName = moduleId === 'mat_mod_1' ? 'renderMathModule1' : 'renderMathModule3';
+        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3'].includes(moduleId)) {
+            const renderFnName = {
+                'mat_mod_1': 'renderMathModule1',
+                'mat_mod_2': 'renderMathModule2',
+                'mat_mod_3': 'renderMathModule3'
+            }[moduleId];
             console.log(`StudyModules: Iniciando Módulo React ${moduleId}...`);
             console.log(`StudyModules: window.${renderFnName} disponible?`, typeof window[renderFnName]);
             
