@@ -104,6 +104,10 @@ const StudyModules = {
         const module = subject.modules.find(m => m.id === moduleId);
         if (!module) return;
 
+        // Registrar este módulo como el activo actual para evitar colisiones de re-renders tardíos
+        this.activeModuleId = moduleId;
+        let attempts = 0;
+
         const containerId = 'module-content-root';
         const container = document.getElementById(containerId);
         const headerTitle = document.getElementById('module-content-header-title');
@@ -130,22 +134,37 @@ const StudyModules = {
                 'mat_mod_2': 'renderMathModule2',
                 'mat_mod_3': 'renderMathModule3'
             }[moduleId];
-            console.log(`StudyModules: Iniciando Módulo React ${moduleId}...`);
-            console.log(`StudyModules: window.${renderFnName} disponible?`, typeof window[renderFnName]);
+            
+            console.log(`StudyModules: Solicitando render para ${moduleId} (${renderFnName})...`);
             
             const tryRender = () => {
+                // Cancelar si el usuario ya cambió a otro módulo mientras esperábamos
+                if (this.activeModuleId !== moduleId) {
+                    console.log(`StudyModules: Render cancelado para ${moduleId} (el usuario cambió de tema).`);
+                    return;
+                }
+
                 if (window[renderFnName]) {
-                    console.log(`StudyModules: Ejecutando ${renderFnName}...`);
+                    console.log(`StudyModules: Ejecutando ${renderFnName} para ${moduleId}...`);
                     window[renderFnName](containerId);
                 } else {
-                    console.warn(`StudyModules: Esperando a Babel/React para ${moduleId}... Intentos: `, (this.attempts || 0) + 1);
-                    this.attempts = (this.attempts || 0) + 1;
-                    if (this.attempts > 10) {
-                        container.innerHTML = `<div class="p-10 text-center" style="color: var(--color-text)"><h2 class="text-xl font-bold" style="color: #f87171">Error: No se pudo cargar el módulo</h2><p style="color: var(--color-text-muted)">Por favor actualiza la página e intenta de nuevo</p></div>`;
+                    console.warn(`StudyModules: Esperando a Babel/JS para ${moduleId}... Intento ${attempts + 1}`);
+                    attempts++;
+                    if (attempts > 15) {
+                        container.innerHTML = `
+                            <div class="p-10 text-center">
+                                <h2 class="text-xl font-bold" style="color: #f87171">Error: El módulo no respondió</h2>
+                                <p style="color: var(--color-text-muted)">Intenta actualizar la página (F5)</p>
+                            </div>`;
                         return;
                     }
-                    container.innerHTML = `<div class="p-10 text-center" style="color: var(--color-text)"><span class="material-icons-round text-5xl rotate-anim mb-4">sync</span><h2 class="text-xl font-bold">Cargando Módulo Inteligente...</h2></div>`;
-                    setTimeout(tryRender, 500);
+                    container.innerHTML = `
+                        <div class="p-10 text-center flex flex-col items-center gap-4">
+                            <div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                            <h2 class="text-xl font-bold" style="color: var(--color-text)">Cargando Módulo Inteligente...</h2>
+                            <p class="text-sm opacity-50">Preparando componentes...</p>
+                        </div>`;
+                    setTimeout(tryRender, 600);
                 }
             };
             tryRender();
