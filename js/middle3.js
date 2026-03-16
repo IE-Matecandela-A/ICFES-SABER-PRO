@@ -1,14 +1,3 @@
-(function() {
-    const { React, ReactDOM, LucideReact } = window;
-    const { useState, useEffect, useMemo } = React;
-    const { 
-        Brain, ArrowRight, ArrowDown, RefreshCw, Award, Search, Scale, 
-        ShieldCheck, XCircle, CheckCircle, AlertTriangle, Lightbulb, 
-        MessageSquare, TrendingUp, EyeOff, BookOpen, Calculator,
-        Shapes, Sigma, Percent, Dices
-    } = LucideReact || {};
-
-    function ModuloArgumentacion() {
   const [activeTab, setActiveTab] = useState('introduccion');
   
   // Quiz State
@@ -959,13 +948,3 @@
       </div>
     </div>
   );
-    }
-
-    window.renderMathModule3 = (containerId) => {
-        const container = document.getElementById(containerId);
-        if (container) {
-            const root = ReactDOM.createRoot(container);
-            root.render(React.createElement(ModuloArgumentacion));
-        }
-    };
-})();
