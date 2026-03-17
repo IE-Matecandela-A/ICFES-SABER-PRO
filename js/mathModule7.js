@@ -1,26 +1,13 @@
 (function() {
     const { useState, useEffect, useRef } = React;
 
-    // Adaptador de Iconos Lucide a Material Icons
-    const Icon = ({ name, className = "" }) => {
-        const mapping = {
-            'Activity': 'insights',
-            'TrendingUp': 'trending_up',
-            'GitMerge': 'call_split',
-            'MinusSquare': 'remove_circle_outline',
-            'CheckCircle': 'check_circle',
-            'ArrowRight': 'arrow_forward',
-            'Lightbulb': 'lightbulb',
-            'Award': 'workspace_premium',
-            'RefreshCw': 'refresh',
-            'BookOpen': 'menu_book',
-            'Calculator': 'calculate',
-            'Target': 'track_changes',
-            'Infinity': 'all_inclusive'
-        };
-        const iconName = mapping[name] || 'help_outline';
-        return <span className={`material-icons-round ${className}`} style={{ fontSize: 'inherit' }}>{iconName}</span>;
-    };
+    // Adaptador de Iconos Estándar
+    const Icon = ({ name, className = "", style = {} }) => (
+        React.createElement("span", { 
+            className: `material-icons-round ${className}`, 
+            style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } 
+        }, name)
+    );
 
     function ModuloAlgebra() {
         const [activeTab, setActiveTab] = useState('introduccion');
@@ -160,7 +147,7 @@
                 titulo: "Regla de Inversión",
                 situacion: "-3x > 12. ¿Rango?",
                 analisis: "Dividir por negativo INVIERTE el signo.",
-                calculo: <div className="text-xs font-mono">x < 12 / -3 <br/> x < -4</div>,
+                calculo: <div className="text-xs font-mono">x {"<"} 12 / -3 <br/> x {"<"} -4</div>,
                 resultado: "x < -4"
             },
             {
@@ -426,7 +413,7 @@
                                         </div>
                                         <div className="bg-green-50 rounded-2xl p-6 border border-green-100">
                                             <h4 className="font-black mb-2 text-green-800">Desigualdades</h4>
-                                            <p className="text-sm">¡Regla de Oro! Si divides por negativo, el signo (< o >) gira al revés.</p>
+                                            <p className="text-sm">¡Regla de Oro! Si divides por negativo, el signo ({"<"} o {">"}) gira al revés.</p>
                                         </div>
                                     </div>
                                     <div className="mt-8">
@@ -508,25 +495,20 @@
         );
     }
 
-    // Registro global con gestión de raíces para React 18
+    // Registro global con gestión de raíces para React 18 (Estándar Profe Chiguiro)
     window.renderMathModule7 = (containerId) => {
         console.log(`Renderizando Módulo 7 en: ${containerId}`);
         const container = document.getElementById(containerId);
         if (!container) return;
         
-        // Limpiamos root previo si existe para evitar conflictos de React 18
         if (window._reactRoots && window._reactRoots[containerId]) {
-            try {
-                window._reactRoots[containerId].unmount();
-                console.log("Root previo de Módulo 7 desmontado con éxito.");
-            } catch (e) {
-                console.warn("Error al desmontar root previo:", e);
-            }
+            const root = window._reactRoots[containerId];
+            root.render(<ModuloAlgebra />);
+        } else {
+            const root = ReactDOM.createRoot(container);
+            if (!window._reactRoots) window._reactRoots = {};
+            window._reactRoots[containerId] = root;
+            root.render(<ModuloAlgebra />);
         }
-
-        const root = ReactDOM.createRoot(container);
-        root.render(<ModuloAlgebra />);
-        window._reactRoots = window._reactRoots || {};
-        window._reactRoots[containerId] = root;
     };
 })();

@@ -1,35 +1,17 @@
 (function() {
-    /**
-     * ICFES Guide Module
-     * Interactive guide about the ICFES Saber 11 exam.
-     */
-    const IcfesGuideModule = {
-        render() {
-            const containerId = 'icfes-guide-root';
-            const container = document.getElementById(containerId);
-            if (!container) return;
+    const { useState, useEffect } = React;
 
-            // Clean up previous root if exists
-            if (window._reactRoots && window._reactRoots[containerId]) {
-                window._reactRoots[containerId].unmount();
-                delete window._reactRoots[containerId];
-            }
+    // Adaptador de Iconos Estándar (Estándar Profe Chiguiro)
+    const Icon = ({ name, className = "", style = {} }) => (
+        React.createElement("span", { 
+            className: `material-icons-round ${className}`, 
+            style: { fontSize: 'inherit', verticalAlign: 'middle', ...style } 
+        }, name)
+    );
 
-            const root = ReactDOM.createRoot(container);
-            window._reactRoots = window._reactRoots || {};
-            window._reactRoots[containerId] = root;
-
-            root.render(<IcfesGuideComponent />);
-        },
-
-        init() {
-            console.log("IcfesGuideModule initialized");
-        }
-    };
-
-    // Component adapted from INFORMACION ICFES.txt
+    // Componente adapted from INFORMACION ICFES.txt
     function IcfesGuideComponent() {
-        const [selectedTopic, setSelectedTopic] = React.useState(null);
+        const [selectedTopic, setSelectedTopic] = useState(null);
 
         const icfesInfo = [
             {
@@ -220,5 +202,20 @@
         );
     }
 
-    window.IcfesGuideModule = IcfesGuideModule;
+    // Registro global con gestión de raíces (Estándar Profe Chiguiro)
+    window.renderIcfesGuide = (containerId) => {
+        console.log(`Renderizando Guía ICFES en: ${containerId}`);
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        if (window._reactRoots && window._reactRoots[containerId]) {
+            const root = window._reactRoots[containerId];
+            root.render(<IcfesGuideComponent />);
+        } else {
+            const root = ReactDOM.createRoot(container);
+            if (!window._reactRoots) window._reactRoots = {};
+            window._reactRoots[containerId] = root;
+            root.render(<IcfesGuideComponent />);
+        }
+    };
 })();

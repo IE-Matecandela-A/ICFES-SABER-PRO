@@ -195,8 +195,8 @@ var Router = {
             if (view === 'icfes-guide') {
                 let icfesAttempts = 0;
                 const tryIcfesRender = () => {
-                    if (typeof IcfesGuideModule !== 'undefined') {
-                        IcfesGuideModule.render();
+                    if (typeof window.renderIcfesGuide === 'function') {
+                        window.renderIcfesGuide('icfes-guide-root');
                     } else {
                         icfesAttempts++;
                         if (icfesAttempts < 20) setTimeout(tryIcfesRender, 500);
