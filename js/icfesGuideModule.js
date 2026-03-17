@@ -5,18 +5,19 @@
      */
     const IcfesGuideModule = {
         render() {
-            const container = document.getElementById('view-icfes-guide');
+            const containerId = 'icfes-guide-root';
+            const container = document.getElementById(containerId);
             if (!container) return;
 
             // Clean up previous root if exists
-            if (window._reactRoots && window._reactRoots['icfes-guide']) {
-                window._reactRoots['icfes-guide'].unmount();
-                delete window._reactRoots['icfes-guide'];
+            if (window._reactRoots && window._reactRoots[containerId]) {
+                window._reactRoots[containerId].unmount();
+                delete window._reactRoots[containerId];
             }
 
             const root = ReactDOM.createRoot(container);
             window._reactRoots = window._reactRoots || {};
-            window._reactRoots['icfes-guide'] = root;
+            window._reactRoots[containerId] = root;
 
             root.render(<IcfesGuideComponent />);
         },

@@ -192,7 +192,18 @@ var Router = {
             if (view === 'games' && typeof GamesModule !== 'undefined') GamesModule.init();
             if (view === 'arcade-games' && typeof ArcadeGamesModule !== 'undefined') ArcadeGamesModule.init();
             if (view === 'duels' && typeof DuelModule !== 'undefined') DuelModule.init();
-            if (view === 'icfes-guide' && typeof IcfesGuideModule !== 'undefined') IcfesGuideModule.render();
+            if (view === 'icfes-guide') {
+                let icfesAttempts = 0;
+                const tryIcfesRender = () => {
+                    if (typeof IcfesGuideModule !== 'undefined') {
+                        IcfesGuideModule.render();
+                    } else {
+                        icfesAttempts++;
+                        if (icfesAttempts < 20) setTimeout(tryIcfesRender, 500);
+                    }
+                };
+                tryIcfesRender();
+            }
 
             // Safe check for VirtualTeacherModule since it's defined with `const` later in the file
             if (window.VirtualTeacherModule) {
