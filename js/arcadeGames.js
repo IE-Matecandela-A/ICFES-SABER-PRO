@@ -347,7 +347,7 @@ const ArcadeGamesModule = {
                 else if(act==='left') this.st.player.lane = Math.max(0, this.st.player.lane - 1);
                 else if(act==='right') this.st.player.lane = Math.min(2, this.st.player.lane + 1);
             } else if(this.gameId === 'numeric_defender') {
-                if(this.st.isTransitioning) return;
+                if(this.st.isTrans) return;
                 if(act==='left') this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
                 else if(act==='right') this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4;
                 else if(act==='up') this.st.rotationIndex = (this.st.rotationIndex + 1) % 4;
@@ -422,7 +422,7 @@ const ArcadeGamesModule = {
                 else if (e.key === 'ArrowRight' || e.key === 'd') this.st.player.targetX = Math.min(1000, this.st.player.targetX + step);
                 else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); this.fireShoot(); }
             } else if(this.gameId === 'numeric_defender') {
-                if(this.st.isTransitioning) return;
+                if(this.st.isTrans) return;
                 if (e.key === 'ArrowLeft' || e.key === 'a') { this.st.rotationIndex = (this.st.rotationIndex + 1) % 4; ArcadeGamesModule.AudioSys.play('rotate');}
                 else if (e.key === 'ArrowRight' || e.key === 'd') { this.st.rotationIndex = (this.st.rotationIndex - 1 + 4) % 4; ArcadeGamesModule.AudioSys.play('rotate');}
             }
@@ -436,60 +436,127 @@ const ArcadeGamesModule = {
             document.getElementById('arcade-start-btn').className = `w-full py-3 md:py-4 text-slate-900 text-lg md:text-xl font-black rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-2 md:gap-3 ${gameId === 'neon_dash' ? 'bg-cyan-500 hover:bg-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.4)]' : gameId === 'atomic_catcher' ? 'bg-emerald-500 hover:bg-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]' : 'bg-blue-500 hover:bg-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.4)]'}`;
             
             if (gameId === 'neon_dash') {
+                const screenStart = document.getElementById('arcade-screen-start');
+                screenStart.classList.remove('overflow-y-auto');
+                screenStart.classList.add('overflow-hidden');
+
                 document.getElementById('arcade-start-icon').setAttribute('data-lucide', 'zap');
-                document.getElementById('arcade-start-icon').className = 'w-16 h-16 md:w-24 md:h-24 text-cyan-400 mx-auto animate-pulse';
-                document.getElementById('arcade-start-glow').className = 'absolute inset-0 bg-cyan-400 blur-3xl opacity-30 rounded-full';
+                document.getElementById('arcade-start-icon').className = 'w-10 h-10 md:w-14 md:h-14 text-cyan-400 mx-auto animate-pulse mb-1';
+                document.getElementById('arcade-start-glow').className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-cyan-400 blur-[60px] opacity-15 rounded-full pointer-events-none';
+                
                 document.getElementById('arcade-start-title').innerText = 'NEON DASH';
-                document.getElementById('arcade-start-title').className = 'text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight italic drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]';
+                document.getElementById('arcade-start-title').className = 'text-3xl md:text-5xl font-black text-white tracking-tighter italic drop-shadow-[0_0_15px_rgba(6,182,212,0.5)] mb-0';
+                
                 document.getElementById('arcade-start-subtitle').innerText = 'RESCATE ICFES';
-                document.getElementById('arcade-start-subtitle').className = 'text-base md:text-xl text-cyan-400 font-bold tracking-[0.3em] mt-1 md:mt-2';
+                document.getElementById('arcade-start-subtitle').className = 'text-xs md:text-base text-cyan-400 font-black tracking-[0.3em] uppercase mb-1.5';
+                
                 document.getElementById('arcade-start-desc').innerText = 'Esquiva obstáculos, recolecta datos y resuelve matemáticas.';
+                document.getElementById('arcade-start-desc').className = 'text-slate-400 font-medium text-[10px] md:text-xs max-w-sm mx-auto mb-2';
+                
                 document.getElementById('arcade-start-rules').classList.add('hidden');
-                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">↑ W</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">↓ S</span><span class="text-cyan-400 font-bold px-2 py-1 w-full sm:w-auto">O Usa botones</span>';
+                
+                document.getElementById('arcade-start-controls').className = 'bg-black/80 p-2 rounded-xl border border-slate-800 flex flex-wrap justify-center items-center gap-2 max-w-sm mx-auto mb-2';
+                document.getElementById('arcade-start-controls').innerHTML = `
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-200 font-mono text-[9px]">↑ W</span>
+                        <span class="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-200 font-mono text-[9px]">↓ S</span>
+                    </div>
+                    <span class="text-cyan-400 font-mono text-[9px] uppercase tracking-widest font-bold">O usa botones</span>
+                `;
+                
                 document.getElementById('arcade-start-btn-text').innerText = 'JUGAR AHORA';
+                document.getElementById('arcade-start-btn').className = 'w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-900 text-lg font-black rounded-xl transition-all hover:scale-[1.01] flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(6,182,212,0.4)]';
                 
                 const border = document.getElementById('arcade-game-border');
                 border.style.borderColor = '#06b6d4';
                 border.style.boxShadow = '0 0 50px rgba(6,182,212,0.3)';
                 border.className = border.className.replace(/bg-\S+/, 'bg-black');
+
+                document.querySelector('#arcade-screen-start > div').classList.replace('pb-4', 'pb-0');
             } 
             else if (gameId === 'atomic_catcher') {
+                const screenStart = document.getElementById('arcade-screen-start');
+                screenStart.classList.remove('overflow-y-auto');
+                screenStart.classList.add('overflow-hidden');
+
                 document.getElementById('arcade-start-icon').setAttribute('data-lucide', 'target');
-                document.getElementById('arcade-start-icon').className = 'w-16 h-16 md:w-24 md:h-24 text-emerald-400 mx-auto animate-pulse';
-                document.getElementById('arcade-start-glow').className = 'absolute inset-0 bg-emerald-400 blur-3xl opacity-30 rounded-full';
+                document.getElementById('arcade-start-icon').className = 'w-10 h-10 md:w-14 md:h-14 text-emerald-400 mx-auto animate-pulse mb-1';
+                document.getElementById('arcade-start-glow').className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-emerald-400 blur-[80px] opacity-15 rounded-full pointer-events-none';
+                
                 document.getElementById('arcade-start-title').innerText = 'CAÑÓN QUÍMICO';
-                document.getElementById('arcade-start-title').className = 'text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight italic drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]';
+                document.getElementById('arcade-start-title').className = 'text-3xl md:text-5xl font-black text-white tracking-tighter italic drop-shadow-[0_0_15px_rgba(16,185,129,0.5)] mb-0';
+                
                 document.getElementById('arcade-start-subtitle').innerText = 'SHOOTER ICFES';
-                document.getElementById('arcade-start-subtitle').className = 'text-base md:text-xl text-emerald-400 font-bold tracking-[0.3em] mt-1 md:mt-2';
-                document.getElementById('arcade-start-desc').innerText = 'Controla el cañón de plasma. Dispara al isótopo correcto.';
+                document.getElementById('arcade-start-subtitle').className = 'text-xs md:text-base text-emerald-400 font-black tracking-[0.3em] uppercase mb-1.5';
+                
+                document.getElementById('arcade-start-desc').innerText = 'Controla el cañón de plasma. Destruye los isótopos correctos.';
+                document.getElementById('arcade-start-desc').className = 'text-slate-400 font-medium text-[10px] md:text-xs max-w-sm mx-auto mb-2';
+                
+                document.getElementById('arcade-start-rules').className = 'bg-slate-950/40 p-2 rounded-xl border border-slate-800 text-left text-[10px] md:text-xs text-slate-300 max-w-sm mx-auto mb-2';
                 document.getElementById('arcade-start-rules').classList.remove('hidden');
-                document.getElementById('arcade-start-rules-list').innerHTML = '<li><strong class="text-emerald-400">Aprende jugando:</strong> El símbolo correcto siempre estará en la pregunta (Ej: ORO (Au)).</li><li><strong class="text-emerald-400">Dificultad progresiva:</strong> A medida que avances, los símbolos se moverán en zigzag, saldrán escudos y todo será más caótico.</li><li><strong class="text-emerald-400">Bullet Time:</strong> Tienes 5 segundos en cámara lenta para apuntar con cuidado.</li>';
-                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">← Mover →</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">ESPACIO: Disparar</span><span class="text-emerald-400 font-bold px-2 py-1 w-full sm:w-auto text-center">O toca pantalla</span>';
+                document.getElementById('arcade-start-rules-list').innerHTML = `
+                    <li class="flex gap-2 mb-1"><span class="text-emerald-400 font-bold">•</span> <div><strong class="text-emerald-400 uppercase text-[8px]">Datos:</strong> El símbolo correcto aparece en la pregunta.</div></li>
+                    <li class="flex gap-2 mb-1"><span class="text-emerald-400 font-bold">•</span> <div><strong class="text-emerald-400 uppercase text-[8px]">Gameplay:</strong> La velocidad aumenta y hay zigzag.</div></li>
+                    <li class="flex gap-2"><span class="text-emerald-400 font-bold">•</span> <div><strong class="text-emerald-400 uppercase text-[8px]">Bullet Time:</strong> 5s de cámara lenta automáticos.</div></li>
+                `;
+                
+                document.getElementById('arcade-start-controls').className = 'bg-black/80 p-2 rounded-xl border border-slate-800 flex flex-wrap justify-center items-center gap-2 max-w-sm mx-auto mb-2';
+                document.getElementById('arcade-start-controls').innerHTML = `
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-200 font-mono text-[9px]">← Mover →</span>
+                        <span class="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-200 font-mono text-[9px]">ESPACIO</span>
+                    </div>
+                    <span class="text-emerald-400 font-mono text-[9px] uppercase tracking-widest font-bold">O toca pantalla</span>
+                `;
+                
                 document.getElementById('arcade-start-btn-text').innerText = 'INICIAR DEFENSA';
+                document.getElementById('arcade-start-btn').className = 'w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-900 text-lg font-black rounded-xl transition-all hover:scale-[1.01] flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(16,185,129,0.4)]';
                 
                 const border = document.getElementById('arcade-game-border');
                 border.style.borderColor = '#10b981';
                 border.style.boxShadow = '0 0 50px rgba(16,185,129,0.3)';
                 border.className = border.className.replace(/bg-\S+/, 'bg-slate-950');
+
+                document.querySelector('#arcade-screen-start > div').classList.replace('pb-4', 'pb-0');
             }
             else if (gameId === 'numeric_defender') {
-                document.getElementById('arcade-start-icon').setAttribute('data-lucide', 'shield-alert');
-                document.getElementById('arcade-start-icon').className = 'w-16 h-16 md:w-24 md:h-24 text-blue-400 mx-auto animate-pulse';
-                document.getElementById('arcade-start-glow').className = 'absolute inset-0 bg-blue-400 blur-3xl opacity-30 rounded-full';
-                document.getElementById('arcade-start-title').innerText = 'DEFENSOR NUMÉRICO';
-                document.getElementById('arcade-start-title').className = 'text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight italic drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]';
-                document.getElementById('arcade-start-subtitle').innerText = 'ÁLGEBRA Y DATOS ICFES';
-                document.getElementById('arcade-start-subtitle').className = 'text-base md:text-xl text-blue-400 font-bold tracking-[0.3em] mt-1 md:mt-2';
-                document.getElementById('arcade-start-desc').innerText = 'Eres el núcleo. Gira tus 4 escudos para interceptar las anomalías usando la equivalencia matemática correcta.';
-                document.getElementById('arcade-start-rules').classList.remove('hidden');
-                document.getElementById('arcade-start-rules-list').innerHTML = '<li><strong class="text-blue-400">Aprendizaje rápido:</strong> Relaciona porcentajes, decimales, fracciones y ecuaciones al instante.</li><li><strong class="text-blue-400">Ayudas visuales:</strong> En el primer nivel el escudo correcto brilla en verde.</li><li><strong class="text-blue-400">Bullet Time:</strong> Tienes 10 segundos en cámara lenta cuando sale un nuevo virus.</li>';
-                document.getElementById('arcade-start-controls').innerHTML = '<span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">← Flecha Izq</span><span class="text-white border border-slate-700 bg-slate-900 px-2 py-1 rounded shadow-inner">Flecha Der →</span><span class="text-blue-400 font-bold px-2 py-1 w-full sm:w-auto">O toca lados</span>';
-                document.getElementById('arcade-start-btn-text').innerText = 'ACTIVAR ESCUDOS';
+                const screenStart = document.getElementById('arcade-screen-start');
+                screenStart.classList.remove('overflow-y-auto');
+                screenStart.classList.add('overflow-hidden');
+
+                document.getElementById('arcade-start-icon').className = 'hidden'; 
+                document.getElementById('arcade-start-glow').className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600 blur-[80px] opacity-15 rounded-full pointer-events-none';
                 
-                const border = document.getElementById('arcade-game-border');
-                border.style.borderColor = '#3b82f6';
-                border.style.boxShadow = '0 0 50px rgba(59,130,246,0.3)';
-                border.className = border.className.replace(/bg-\S+/, 'bg-slate-950');
+                document.getElementById('arcade-start-title').innerHTML = '<span class="block leading-none">DEFENSOR</span><span class="block leading-none">NUMÉRICO</span>';
+                document.getElementById('arcade-start-title').className = 'text-3xl md:text-5xl font-black text-white tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.6)] mb-0';
+                
+                document.getElementById('arcade-start-subtitle').innerText = 'ÁLGEBRA Y DATOS ICFES';
+                document.getElementById('arcade-start-subtitle').className = 'text-xs md:text-base text-blue-400 font-black tracking-[0.3em] uppercase mb-1.5';
+                
+                document.getElementById('arcade-start-desc').innerText = 'Intercepta las anomalías usando la equivalencia correcta.';
+                document.getElementById('arcade-start-desc').className = 'text-slate-400 font-medium text-[10px] md:text-xs max-w-sm mx-auto mb-2';
+                
+                document.getElementById('arcade-start-rules').className = 'bg-slate-950/40 p-2 rounded-xl border border-slate-800 text-left text-[10px] md:text-xs text-slate-300 max-w-sm mx-auto mb-2';
+                document.getElementById('arcade-start-rules-list').innerHTML = `
+                    <li class="flex gap-2 mb-1"><span class="text-blue-400 font-bold">•</span> <div><strong class="text-blue-400 uppercase text-[8px]">Relación:</strong> Porcentajes, fracciones y ecuaciones.</div></li>
+                    <li class="flex gap-2 mb-1"><span class="text-blue-400 font-bold">•</span> <div><strong class="text-blue-400 uppercase text-[8px]">Ayuda:</strong> El escudo correcto brilla en verde en Nivel 1.</div></li>
+                    <li class="flex gap-2"><span class="text-blue-400 font-bold">•</span> <div><strong class="text-blue-400 uppercase text-[8px]">Bullet Time:</strong> 10s de cámara lenta automáticos.</div></li>
+                `;
+                
+                document.getElementById('arcade-start-controls').className = 'bg-black/80 p-2 rounded-xl border border-slate-800 flex flex-wrap justify-center items-center gap-2 max-w-sm mx-auto mb-2';
+                document.getElementById('arcade-start-controls').innerHTML = `
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-200 font-mono text-[9px]">← Flecha Izq</span>
+                        <span class="px-2 py-1 bg-slate-900 border border-slate-700 rounded text-slate-200 font-mono text-[9px]">Flecha Der →</span>
+                    </div>
+                    <span class="text-blue-400 font-mono text-[9px] uppercase tracking-widest font-bold">O toca lados</span>
+                `;
+                
+                document.getElementById('arcade-start-btn-text').innerText = 'ACTIVAR ESCUDOS';
+                document.getElementById('arcade-start-btn').className = 'w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-slate-900 text-lg font-black rounded-xl transition-all hover:scale-[1.01] flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(37,99,235,0.4)]';
+                
+                // Asegurar que el contenedor interno no tenga pb-4 excesivo que cause scroll
+                document.querySelector('#arcade-screen-start > div').classList.replace('pb-4', 'pb-0');
             }
             
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -551,7 +618,7 @@ Object.assign(ArcadeGamesModule.Engine, {
             this.showAnnounce(ArcadeGamesModule.THEMES_CHEMISTRY[0].name, "SISTEMA ACTUALIZADO");
         } else {
             this.st = { 
-                rotIdx: 0, dispAng: 0, internalScore: 0, level: 0, lastLevel: 0, frames: 0, 
+                rotationIndex: 0, dispAng: 0, internalScore: 0, level: 0, lastLevel: 0, frames: 0, 
                 enemy: null, parts: [], qs: [...ArcadeGamesModule.QUESTIONS_DEFENDER].sort(() => Math.random() - 0.5), 
                 cq: null, opts: [], isTrans: true, eSpeed: 2.5, bulletTimeTimer: 0, 
                 isPlaying: true, isPaused: false, lives: 3, isGameOverTriggered: false 
@@ -931,7 +998,7 @@ Object.assign(ArcadeGamesModule.Engine, {
         this.st.cq = q.q;
         let sp = Math.floor(Math.random()*4);
         this.st.opts = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false},{t:q.f3,c:false}].sort(()=>Math.random()-0.5);
-        this.st.enemy = { posIdx: sp, dist: Math.max(cv.width, cv.height)*0.45, speed: this.st.eSpeed };
+        this.st.enemy = { posIdx: sp, dist: Math.max(this.canvas.width, this.canvas.height)*0.45, speed: this.st.eSpeed };
         this.st.bulletTimeTimer = 600; 
     }
 });
