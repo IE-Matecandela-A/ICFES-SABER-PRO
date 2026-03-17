@@ -128,11 +128,13 @@ const StudyModules = {
 
         container.innerHTML = '';
 
-        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3'].includes(moduleId)) {
+        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3', 'mat_mod_4', 'mat_mod_5'].includes(moduleId)) {
             const renderFnName = {
                 'mat_mod_1': 'renderMathModule1',
                 'mat_mod_2': 'renderMathModule2',
-                'mat_mod_3': 'renderMathModule3'
+                'mat_mod_3': 'renderMathModule3',
+                'mat_mod_4': 'renderMathModule4',
+                'mat_mod_5': 'renderMathModule5'
             }[moduleId];
             
             console.log(`StudyModules: Solicitando render para ${moduleId} (${renderFnName})...`);
