@@ -192,6 +192,7 @@ var Router = {
             if (view === 'games' && typeof GamesModule !== 'undefined') GamesModule.init();
             if (view === 'arcade-games' && typeof ArcadeGamesModule !== 'undefined') ArcadeGamesModule.init();
             if (view === 'duels' && typeof DuelModule !== 'undefined') DuelModule.init();
+            if (view === 'icfes-guide' && typeof IcfesGuideModule !== 'undefined') IcfesGuideModule.render();
 
             // Safe check for VirtualTeacherModule since it's defined with `const` later in the file
             if (window.VirtualTeacherModule) {
@@ -10200,6 +10201,9 @@ window.DuelModule = DuelModule;
 
 document.addEventListener('DOMContentLoaded', () => {
     // Register Duel View in Router if Router exists
+    if (typeof StudyModules !== 'undefined') {
+        StudyModules.init();
+    }
     if (typeof Router !== 'undefined' && Router.views) {
         // This is handled by Router.go switch/init usually
     }

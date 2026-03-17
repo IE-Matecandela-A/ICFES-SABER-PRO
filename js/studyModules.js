@@ -17,30 +17,164 @@ const StudyModules = {
                     id: 'mat_mod_1',
                     title: 'Módulo 1: Interpretación y representación',
                     description: 'Comprende y transforma información en diferentes formatos.',
-                    content: '<div class="p-10 text-center"><span class="material-icons-round text-5xl opacity-20 mb-4" style="color: var(--color-text)">construction</span><h2 class="text-2xl font-bold" style="color: var(--color-text)">Contenido en Construcción</h2><p style="color: var(--color-text-muted)">Estamos preparando el mejor material para ti.</p></div>'
+                    icon: 'insights',
+                    content: ''
                 },
                 {
                     id: 'mat_mod_2',
                     title: 'Módulo 2: Formulación y ejecución',
                     description: 'Plantea y ejecuta estrategias para resolver problemas.',
-                    content: '<div class="p-10 text-center"><span class="material-icons-round text-5xl opacity-20 mb-4" style="color: var(--color-text)">construction</span><h2 class="text-2xl font-bold" style="color: var(--color-text)">Contenido en Construcción</h2><p style="color: var(--color-text-muted)">Estamos preparando el mejor material para ti.</p></div>'
+                    icon: 'architecture',
+                    content: ''
                 },
                 {
                     id: 'mat_mod_3',
                     title: 'Módulo 3: Argumentación',
                     description: 'Valida o refuta conclusiones basadas en evidencias matemáticas.',
-                    content: '<div class="p-10 text-center"><span class="material-icons-round text-5xl opacity-20 mb-4" style="color: var(--color-text)">construction</span><h2 class="text-2xl font-bold" style="color: var(--color-text)">Contenido en Construcción</h2><p style="color: var(--color-text-muted)">Estamos preparando el mejor material para ti.</p></div>'
+                    icon: 'fact_check',
+                    content: ''
+                },
+                {
+                    id: 'mat_mod_4',
+                    title: 'Módulo 4: Razonamiento Cuantitativo',
+                    description: 'Aplica matemáticas a situaciones financieras y de la vida real.',
+                    icon: 'trending_up',
+                    content: ''
+                },
+                {
+                    id: 'mat_mod_5',
+                    title: 'Módulo 5: Pensamiento Geométrico',
+                    description: 'Domina el espacio, áreas, volúmenes y el Teorema de Pitágoras.',
+                    icon: 'change_history',
+                    content: ''
+                },
+                {
+                    id: 'mat_mod_6',
+                    title: 'Módulo 6: Estadística y Probabilidad',
+                    description: 'Analiza datos, promedios y leyes de probabilidad.',
+                    icon: 'query_stats',
+                    content: ''
+                },
+                {
+                    id: 'mat_mod_7',
+                    title: 'Módulo 7: Álgebra y Funciones',
+                    description: 'Domina ecuaciones, parábolas y modelamiento matemático.',
+                    icon: 'functions',
+                    content: ''
                 }
             ]
         },
-        'lectura_critica': { name: 'Lectura Crítica', color: '#f43f5e', modules: [] },
-        'sociales': { name: 'Sociales', color: '#fbbf24', modules: [] },
-        'naturales': { name: 'C. Naturales', color: '#10b981', modules: [] },
-        'ingles': { name: 'Inglés', color: '#0ea5e9', modules: [] }
+        'lectura_critica': { name: 'Lectura Crítica', color: '#f43f5e', icon: 'auto_stories', modules: [] },
+        'sociales': { name: 'Sociales', color: '#fbbf24', icon: 'public', modules: [] },
+        'naturales': { name: 'C. Naturales', color: '#10b981', icon: 'biotech', modules: [] },
+        'ingles': { name: 'Inglés', color: '#0ea5e9', icon: 'translate', modules: [] }
     },
 
     init() {
         console.log("StudyModules initialized");
+        // Inyectar estilos necesarios para el Learning Path
+        this.injectStyles();
+    },
+
+    injectStyles() {
+        if (document.getElementById('study-modules-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'study-modules-styles';
+        style.textContent = `
+            .learning-path-container {
+                position: relative;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .learning-path-line {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background: linear-gradient(to bottom, transparent, var(--path-color, #4f46e5) 10%, var(--path-color, #4f46e5) 90%, transparent);
+                opacity: 0.2;
+                transform: translateX(-50%);
+                z-index: 0;
+            }
+            .module-card-premium {
+                background: rgba(30, 41, 59, 0.4);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 24px;
+                padding: 24px;
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                overflow: hidden;
+            }
+            .module-card-premium::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, var(--path-color) 0%, transparent 100%);
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                z-index: -1;
+            }
+            .module-card-premium:hover {
+                transform: translateY(-5px) scale(1.02);
+                border-color: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(var(--path-color-rgb), 0.2);
+            }
+            .module-card-premium:hover::before {
+                opacity: 0.05;
+            }
+            .module-icon-box {
+                width: 64px;
+                height: 64px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                transition: all 0.4s ease;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            }
+            .module-card-premium:hover .module-icon-box {
+                transform: rotate(-5deg) scale(1.1);
+            }
+            .module-number-badge {
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                width: 28px;
+                height: 28px;
+                background: var(--path-color);
+                color: white;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 900;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            }
+            .module-tag {
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 700;
+                padding: 4px 10px;
+                border-radius: 20px;
+                background: rgba(255,255,255,0.05);
+                color: var(--path-color);
+                border: 1px solid rgba(255,255,255,0.1);
+                margin-top: 8px;
+                display: inline-block;
+            }
+        `;
+        document.head.appendChild(style);
     },
 
     openSubject(subjectId) {
@@ -69,34 +203,61 @@ const StudyModules = {
         const modulesList = document.getElementById('subject-modules-list');
         const titleHeader = document.getElementById('subject-details-title');
 
-        titleHeader.textContent = `Módulos: ${data.name}`;
+        // Configurar variables CSS para el tema
+        document.documentElement.style.setProperty('--path-color', data.color);
+        // Helper para convertir hex a rgb si es necesario
+        
+        titleHeader.textContent = `Academia: ${data.name}`;
         titleHeader.style.color = data.color;
 
         heroContainer.innerHTML = `
-            <div class="config-hero-icon" style="background: ${data.color}20; color: ${data.color};">
-                <span class="material-icons-round">${data.icon || 'book'}</span>
-            </div>
-            <h1 class="config-title">${data.name}</h1>
-            <p class="config-subtitle">${data.description || 'Domina los temas clave evaluados por el ICFES.'}</p>
-        `;
-
-        modulesList.innerHTML = data.modules.map((mod, index) => `
-            <div onclick="StudyModules.openModule(\'${subjectId}\', \'${mod.id}\')" 
-                 class="relative p-6 rounded-2xl cursor-pointer group transition-all"
-                 style="background: var(--color-surface-2); border: 1px solid var(--color-border);">
-                <div class="flex items-center gap-6">
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white shadow-lg"
-                         style="background: ${data.color};">
-                        ${index + 1}
+            <div class="relative py-10 px-6 mt-4">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent opacity-10"></div>
+                <div class="relative z-10 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-3xl flex items-center justify-center mb-6" 
+                         style="background: linear-gradient(135deg, ${data.color}40, ${data.color}10); border: 1px solid ${data.color}30; color: ${data.color}; box-shadow: 0 20px 40px -10px ${data.color}20;">
+                        <span class="material-icons-round" style="font-size: 42px;">${data.icon || 'book'}</span>
                     </div>
-                    <div class="flex-1">
-                        <h4 class="text-xl font-bold mb-1 transition-colors" style="color: var(--color-text)">${mod.title}</h4>
-                        <p class="text-sm line-clamp-1" style="color: var(--color-text-muted)">${mod.description}</p>
-                    </div>
-                    <span class="material-icons-round opacity-30 group-hover:opacity-100 transition-colors" style="color: var(--color-text)">chevron_right</span>
+                    <h1 class="text-4xl font-black tracking-tight text-white mb-3" style="text-shadow: 0 2px 10px rgba(0,0,0,0.5)">${data.name}</h1>
+                    <p class="max-w-xl text-lg opacity-70 leading-relaxed" style="color: var(--color-text-muted)">
+                        ${data.description || 'Domina cada competencia con nuestra ruta de aprendizaje estructurada.'}
+                    </p>
                 </div>
             </div>
-        `).join('');
+        `;
+
+        modulesList.className = "learning-path-container max-w-4xl mx-auto px-4 mt-12 pb-24 grid gap-8";
+        modulesList.innerHTML = `
+            <div class="learning-path-line" style="--path-color: ${data.color}"></div>
+            ${data.modules.map((mod, index) => `
+                <div onclick="StudyModules.openModule(\'${subjectId}\', \'${mod.id}\')" 
+                     class="module-card-premium group"
+                     style="--path-color: ${data.color}; --path-color-rgb: 99, 102, 241;">
+                    
+                    <div class="module-number-badge">${index + 1}</div>
+                    
+                    <div class="module-icon-box" style="background: linear-gradient(135deg, ${data.color}20, ${data.color}40); color: ${data.color}; border: 1px solid ${data.color}30;">
+                        <span class="material-icons-round">${mod.icon || 'star'}</span>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <h4 class="text-xl font-extrabold text-white group-hover:text-[${data.color}] transition-colors">${mod.title}</h4>
+                        </div>
+                        <p class="text-sm opacity-60 leading-snug max-w-xl" style="color: var(--color-text-muted)">${mod.description}</p>
+                        <div class="flex gap-2">
+                            <span class="module-tag">📚 TEORÍA</span>
+                            <span class="module-tag">🎯 PRÁCTICA</span>
+                            <span class="module-tag">🧠 ESTRATEGIA</span>
+                        </div>
+                    </div>
+                    
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center opacity-20 group-hover:opacity-100 group-hover:bg-white/10 transition-all">
+                        <span class="material-icons-round text-white">chevron_right</span>
+                    </div>
+                </div>
+            `).join('')}
+        `;
     },
 
     openModule(subjectId, moduleId) {
@@ -128,13 +289,15 @@ const StudyModules = {
 
         container.innerHTML = '';
 
-        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3', 'mat_mod_4', 'mat_mod_5'].includes(moduleId)) {
+        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3', 'mat_mod_4', 'mat_mod_5', 'mat_mod_6', 'mat_mod_7'].includes(moduleId)) {
             const renderFnName = {
                 'mat_mod_1': 'renderMathModule1',
                 'mat_mod_2': 'renderMathModule2',
                 'mat_mod_3': 'renderMathModule3',
                 'mat_mod_4': 'renderMathModule4',
-                'mat_mod_5': 'renderMathModule5'
+                'mat_mod_5': 'renderMathModule5',
+                'mat_mod_6': 'renderMathModule6',
+                'mat_mod_7': 'renderMathModule7'
             }[moduleId];
             
             console.log(`StudyModules: Solicitando render para ${moduleId} (${renderFnName})...`);
