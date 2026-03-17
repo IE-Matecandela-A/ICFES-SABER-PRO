@@ -1,5 +1,5 @@
 (function() {
-    console.log("mathModule2.js: Iniciando carga...");
+    console.log("mathModule2.js: Iniciando carga completa...");
     const React = window.React;
     const { useState, useEffect, useMemo, useCallback } = React;
 
@@ -294,12 +294,118 @@
             </div>
           )}
 
-          {/* SECCIÓN: TEORÍA */}
+          {/* SECCIÓN: TEORÍA Y ESTRATEGIAS */}
           {activeTab === 'teoria' && (
-            <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-10 text-center py-20">
-              <Shapes className="w-20 h-20 text-indigo-200 mx-auto mb-6" />
-              <h2 className="text-3xl font-bold text-slate-800">Modelos y Estrategias</h2>
-              <p className="text-slate-500 max-w-md mx-auto">Esta sección contiene la teoría detallada sobre cómo formular modelos matemáticos para resolver problemas complejos.</p>
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-10">
+              
+              <div className="grid md:grid-cols-3 gap-6">
+                {[
+                  { icon: Brain, title: '1. Modelar', desc: 'Traducir el problema cotidiano a un formato matemático (ecuación, figura, gráfico).', color: 'text-violet-600', bg: 'bg-violet-100', border: 'border-violet-100' },
+                  { icon: Shapes, title: '2. Diseñar Plan', desc: 'Seleccionar las fórmulas o pasos correctos. ¿Qué operaciones necesito hacer primero?', color: 'text-amber-600', bg: 'bg-amber-100', border: 'border-amber-100' },
+                  { icon: Calculator, title: '3. Ejecutar', desc: 'Realizar los cálculos sin errores aritméticos, mostrando el despeje paso a paso.', color: 'text-indigo-600', bg: 'bg-indigo-100', border: 'border-indigo-100' }
+                ].map((item, i) => (
+                  <div key={i} className="bg-white/80 backdrop-blur-xl border border-white rounded-2xl p-6 shadow-sm hover:-translate-y-1 transition-all">
+                    <div className={`w-14 h-14 ${item.bg} ${item.color} rounded-xl flex items-center justify-center mb-5 shadow-sm border ${item.border}`}>
+                      <item.icon className="w-7 h-7" />
+                    </div>
+                    <h3 className="text-xl font-extrabold mb-3 text-slate-800">{item.title}</h3>
+                    <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-white rounded-3xl p-6 md:p-10 border border-slate-100 shadow-xl">
+                <div className="text-center mb-10">
+                  <h2 className="text-3xl font-extrabold text-slate-800">Manual de Estrategias y Ejecución</h2>
+                  <div className="w-20 h-1.5 bg-gradient-to-r from-indigo-400 to-violet-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div className="space-y-12">
+                  <div className="bg-slate-50/50 p-6 md:p-8 rounded-2xl border border-slate-100">
+                    <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                      <div className="p-2 bg-indigo-100 rounded-lg"><Sigma className="w-5 h-5 text-indigo-600" /></div>
+                      1. Traducción Algebraica
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                         <div className="bg-violet-50 p-5 rounded-xl border border-violet-100 flex flex-col">
+                            <h5 className="font-bold text-violet-700 flex items-center gap-2 mb-3"><Brain className="w-4 h-4"/> 1. Modelar</h5>
+                            <p className="text-xs text-slate-600 mb-3">Convertimos el texto a una ecuación: 44k = 30k + 2k*g</p>
+                         </div>
+                         <div className="bg-amber-50 p-5 rounded-xl border border-amber-100 flex flex-col">
+                            <h5 className="font-bold text-amber-700 flex items-center gap-2 mb-3"><Shapes className="w-4 h-4"/> 2. Diseñar Plan</h5>
+                            <p className="text-xs text-slate-600 mb-3">Pasar el 30.000 a restar y el 2.000 a dividir.</p>
+                         </div>
+                         <div className="bg-indigo-50 p-5 rounded-xl border border-indigo-100 flex flex-col">
+                            <h5 className="font-bold text-indigo-700 flex items-center gap-2 mb-3"><Calculator className="w-4 h-4"/> 3. Ejecutar</h5>
+                            <p className="text-xs text-slate-600">14.000 / 2.000 = 7 gigas extra.</p>
+                         </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50/50 p-6 md:p-8 rounded-2xl border border-slate-100">
+                    <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                      <div className="p-2 bg-violet-100 rounded-lg"><Shapes className="w-5 h-5 text-violet-600" /></div>
+                      2. Modelado Geométrico
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                         <div className="bg-violet-50 p-5 rounded-xl border border-violet-100 flex flex-col">
+                            <h5 className="font-bold text-violet-700 flex items-center gap-2 mb-3"><Brain className="w-4 h-4"/> 1. Modelar</h5>
+                            <p className="text-xs text-slate-600">Terreno - Piscina = Área Pasto.</p>
+                         </div>
+                         <div className="bg-amber-50 p-5 rounded-xl border border-amber-100 flex flex-col">
+                            <h5 className="font-bold text-amber-700 flex items-center gap-2 mb-3"><Shapes className="w-4 h-4"/> 2. Diseñar Plan</h5>
+                            <p className="text-xs text-slate-600">Multiplicar B*H de ambos y restar.</p>
+                         </div>
+                         <div className="bg-indigo-50 p-5 rounded-xl border border-indigo-100 flex flex-col">
+                            <h5 className="font-bold text-indigo-700 flex items-center gap-2 mb-3"><Calculator className="w-4 h-4"/> 3. Ejecutar</h5>
+                            <p className="text-xs text-slate-600">80 - 9 = 71 m².</p>
+                         </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50/50 p-6 md:p-8 rounded-2xl border border-slate-100">
+                    <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                      <div className="p-2 bg-amber-100 rounded-lg"><Scale className="w-5 h-5 text-amber-600" /></div>
+                      3. Proporcionalidad
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                         <div className="bg-violet-50 p-5 rounded-xl border border-violet-100 flex flex-col">
+                            <h5 className="font-bold text-violet-700 flex items-center gap-2 mb-3"><Brain className="w-4 h-4"/> 1. Modelar</h5>
+                            <p className="text-xs text-slate-600">A más horas, más cajas. Proporción directa.</p>
+                         </div>
+                         <div className="bg-amber-50 p-5 rounded-xl border border-amber-100 flex flex-col">
+                            <h5 className="font-bold text-amber-700 flex items-center gap-2 mb-3"><Shapes className="w-4 h-4"/> 2. Diseñar Plan</h5>
+                            <p className="text-xs text-slate-600">Reducción a la unidad: 120/3 = 40.</p>
+                         </div>
+                         <div className="bg-indigo-50 p-5 rounded-xl border border-indigo-100 flex flex-col">
+                            <h5 className="font-bold text-indigo-700 flex items-center gap-2 mb-3"><Calculator className="w-4 h-4"/> 3. Ejecutar</h5>
+                            <p className="text-xs text-slate-600">40 * 8 = 320 cajas en total.</p>
+                         </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-50/50 p-6 md:p-8 rounded-2xl border border-slate-100">
+                    <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                      <div className="p-2 bg-rose-100 rounded-lg"><Dices className="w-5 h-5 text-rose-600" /></div>
+                      4. Probabilidad
+                    </h3>
+                    <div className="grid md:grid-cols-3 gap-6">
+                         <div className="bg-violet-50 p-5 rounded-xl border border-violet-100 flex flex-col">
+                            <h5 className="font-bold text-violet-700 flex items-center gap-2 mb-3"><Brain className="w-4 h-4"/> 1. Modelar</h5>
+                            <p className="text-xs text-slate-600">P = Favorables / Totales.</p>
+                         </div>
+                         <div className="bg-amber-50 p-5 rounded-xl border border-amber-100 flex flex-col">
+                            <h5 className="font-bold text-amber-700 flex items-center gap-2 mb-3"><Shapes className="w-4 h-4"/> 2. Diseñar Plan</h5>
+                            <p className="text-xs text-slate-600">Contar opciones que SIRVEN y opciones TOTALES.</p>
+                         </div>
+                         <div className="bg-indigo-50 p-5 rounded-xl border border-indigo-100 flex flex-col">
+                            <h5 className="font-bold text-indigo-700 flex items-center gap-2 mb-3"><Calculator className="w-4 h-4"/> 3. Ejecutar</h5>
+                            <p className="text-xs text-slate-600">3/6 = 1/2 = 0.5 (50%).</p>
+                         </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -308,6 +414,8 @@
             <div className="animate-in fade-in zoom-in-95 duration-500 max-w-3xl mx-auto">
               {!showResults ? (
                 <div className="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(79,70,229,0.15)] border border-slate-100 p-8 md:p-12 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-50 rounded-full blur-3xl -z-10 transform translate-x-1/2 -translate-y-1/2"></div>
+
                   <div className="mb-8 flex justify-between items-end">
                     <div>
                       <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2">
