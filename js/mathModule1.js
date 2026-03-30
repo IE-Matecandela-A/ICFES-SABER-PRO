@@ -639,8 +639,8 @@
 
   // Main render
   return (
-    React.createElement("div", { className: "min-h-screen bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-slate-200 font-sans text-slate-800 p-4 md:p-8 flex items-center justify-center" },
-      React.createElement("div", { className: "max-w-5xl w-full mx-auto bg-white/70 backdrop-blur-2xl rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden border border-white" },
+    React.createElement("div", { className: "w-full min-h-[calc(100vh-76px)] bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-slate-100 via-slate-50 to-slate-200 font-sans text-slate-800 p-2 md:p-6 flex flex-col" },
+      React.createElement("div", { className: "max-w-[1600px] w-full flex-grow mx-auto bg-white/70 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden border-0 sm:border border-white flex flex-col" },
         // Header
         React.createElement("header", { className: "relative bg-slate-900 p-8 md:p-12 overflow-hidden" },
           React.createElement("div", { className: "absolute -top-32 -right-32 w-[30rem] h-[30rem] bg-emerald-500/20 blur-[100px] rounded-full pointer-events-none" }),

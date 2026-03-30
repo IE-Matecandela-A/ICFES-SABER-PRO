@@ -215,8 +215,12 @@ var Router = {
         const authBar = document.getElementById('user-auth-container');
         if (authBar) authBar.style.display = (view === 'home') ? '' : 'none';
 
+        const topNavBar = document.getElementById('top-navbar-main');
+
         // Handle scrolling exclusively for home
         if (view === 'home') {
+            document.body.classList.remove('sidebar-hidden');
+            if (topNavBar) topNavBar.style.display = 'flex';
             document.documentElement.style.overflow = 'hidden';
             document.documentElement.style.height = '100vh';
             document.body.style.overflow = 'hidden';
@@ -225,7 +229,21 @@ var Router = {
                 viewEl.style.height = '100vh';
                 viewEl.style.overflowY = 'auto';
             }
+        } else if (view === 'arcade-games') {
+            document.body.classList.add('sidebar-hidden');
+            if (topNavBar) topNavBar.style.display = 'none';
+            // === ARCADE GAMES: pantalla completa, sin scroll en la vista raíz ===
+            document.documentElement.style.overflow = 'hidden';
+            document.documentElement.style.height = '100dvh';
+            document.body.style.overflow = 'hidden';
+            document.body.style.height = '100dvh';
+            if (viewEl) {
+                viewEl.style.height = '100dvh';
+                viewEl.style.overflow = 'hidden';
+            }
         } else {
+            document.body.classList.add('sidebar-hidden');
+            if (topNavBar) topNavBar.style.display = 'none';
             document.documentElement.style.overflow = 'auto';
             document.documentElement.style.height = 'auto';
             document.body.style.overflow = 'auto'; // Re-enable vertical scroll
@@ -7735,15 +7753,20 @@ window.updateUserUI = function () {
             const badgesRow = badgesHtml ? `<div style="display:flex; flex-wrap:wrap; gap:2px; margin-top:2px;">${badgesHtml}</div>` : '';
 
             levelHtml = `
-                <div id="gamification-status" style="background: rgba(var(--color-primary-rgb), 0.05); padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(124, 58, 237, 0.1); min-width: 120px; display: flex; flex-direction: column; justify-content: center;">
-                    <div style="font-size: 0.6rem; font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: 4px; line-height: 1; margin-bottom: 2px;">
-                        <span class="material-icons-round" style="font-size: 10px; color: #f59e0b;">stars</span> 
-                        Lvl ${level.level} (<span style="color:#f59e0b;">${GamificationModule.currentXP} XP</span>) ${streak > 0 ? `<span title="${streak} días de racha" style="color:#ef4444; font-size:0.65rem;">🔥${streak}</span>` : ''}
+                <div id="gamification-status" class="flex flex-col justify-center px-4 py-1.5 rounded-full bg-slate-800/60 border border-slate-700/50 shadow-inner min-w-[150px]">
+                    <div class="flex items-center justify-between gap-3 text-xs font-bold mb-1.5">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-icons-round text-[14px] text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)]">stars</span>
+                            <span class="text-slate-200">Lvl ${level.level}</span>
+                            <span class="text-slate-500 font-normal ml-0.5">(${GamificationModule.currentXP} XP)</span>
+                        </div>
+                        ${streak > 0 ? `<div class="flex items-center gap-0.5 text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded text-[10px] font-black border border-rose-500/20"><span class="material-icons-round text-[12px] text-rose-500">local_fire_department</span>${streak}</div>` : ''}
                     </div>
-                    <div style="width: 100%; height: 3px; background: rgba(0,0,0,0.06); border-radius: 2px; overflow: hidden;">
-                        <div style="width: ${progress}%; height: 100%; background: linear-gradient(90deg, var(--color-primary) 0%, #8b5cf6 100%);"></div>
+                    <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden shadow-inner flex">
+                        <div class="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full relative" style="width: ${progress}%">
+                            <div class="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-[2px]"></div>
+                        </div>
                     </div>
-                    ${badgesRow}
                 </div>
             `;
         }
@@ -7751,36 +7774,33 @@ window.updateUserUI = function () {
         const unreadCount = AuthModule.messages ? AuthModule.messages.filter(m => !m.read).length : 0;
 
         container.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 8px; width: 100%; height: 40px;">
+            <div class="flex items-center gap-4 h-full justify-end">
                 <!-- Gamification -->
                 ${levelHtml}
 
                 <!-- Clock -->
-                <div id="session-clock-display" style="display: flex; align-items: center; gap: 4px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.1); padding: 4px 8px; border-radius: 20px; font-family: monospace; font-size: 0.8rem; font-weight: 700; color: #10b981;">
-                    <span class="material-icons-round" style="font-size: 14px;">play_circle</span>
-                    <span id="session-time">00:00</span>
+                <div id="session-clock-display" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[inset_0_0_10px_rgba(16,185,129,0.05)]">
+                    <span class="material-icons-round text-[16px] drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]">timer</span>
+                    <span id="session-time" class="font-mono text-sm font-bold tracking-wider">00:00</span>
                 </div>
                 
-                <!-- Profile -->
-                <div id="user-profile-banner" style="display: flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.5); padding: 2px 8px 2px 2px; border-radius: 20px; border: 1px solid rgba(124, 58, 237, 0.1);">
-                    <div style="width: 26px; height: 26px; border-radius: 50%; overflow: hidden; border: 1.5px solid white; position: relative;">
-                        <img src="img/student_hero.png" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-                        ${typeof DuelModule !== 'undefined' && DuelModule.stats.rating >= 2000 ? '<span style="position:absolute; top:-5px; right:-5px; font-size:10px;">👑</span>' : ''}
-                    </div>
-                    <div style="font-weight: 700; color: #1e3a8a; font-size: 0.75rem; white-space: nowrap;">
-                        Hola, ${formattedName} ${typeof DuelModule !== 'undefined' && DuelModule.stats.rating >= 2000 ? '👑' : ''}
-                    </div>
-                </div>
+                <div class="w-[1px] h-6 bg-slate-700 mx-1 hidden sm:block"></div>
 
                 <!-- Messages -->
-                <div id="student-messages-container" style="position: relative; display: flex; align-items: center;">
-                    ${AuthModule.getBellIconWithCount(unreadCount)}
+                <div id="student-messages-container" class="relative flex items-center justify-center w-9 h-9 rounded-full hover:bg-slate-800 border border-transparent hover:border-slate-700 transition-colors cursor-pointer text-slate-400 hover:text-white">
+                    ${AuthModule.getBellIconWithCount ? AuthModule.getBellIconWithCount(unreadCount) : '<span class="material-icons-round text-[20px]">notifications</span>'}
                 </div>
 
-                <!-- Logout -->
-                <button onclick="AuthModule.logout()" class="btn glass-hover" title="Cerrar Sesión" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(239, 68, 68, 0.1); background: rgba(255, 255, 255, 0.5); display: flex; align-items: center; justify-content: center; color: #ef4444; padding: 0;">
-                    <span class="material-icons-round" style="font-size: 1rem;">logout</span>
-                </button>
+                <!-- Profile -->
+                <div id="user-profile-banner" class="flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/80 cursor-pointer hover:bg-slate-700 transition-all shadow-lg hover:shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+                    <div class="w-8 h-8 rounded-full overflow-hidden border-[1.5px] border-indigo-500 relative shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.3)]">
+                        <img src="img/student_hero.png" alt="Avatar" class="w-full h-full object-cover">
+                        ${typeof DuelModule !== 'undefined' && DuelModule.stats && DuelModule.stats.rating >= 2000 ? '<span class="absolute -top-1 -right-1 text-[10px] drop-shadow-md">👑</span>' : ''}
+                    </div>
+                    <div class="font-bold text-slate-200 text-sm whitespace-nowrap tracking-tight">
+                        ${formattedName}
+                    </div>
+                </div>
             </div>
         `;
 
@@ -9330,14 +9350,21 @@ const DuelModule = {
             const icon = isWin ? 'trending_up' : 'trending_down';
 
             return `
-                <div class="glass" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; border-left: 4px solid ${color};">
+                <div class="glass" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; border-left: 4px solid ${color}; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='var(--glass-bg)'">
                     <div style="flex: 1;">
                         <div style="font-weight: 700; color: var(--color-text); font-size: 0.9rem;">${isWin ? 'Victoria' : 'Derrota'} contra ${h.opponentName}</div>
                         <div style="font-size: 0.7rem; color: var(--color-text-muted);">${date}</div>
                     </div>
                     <div style="text-align: right; display: flex; align-items: center; gap: 8px;">
                         <span style="font-weight: 800; color: ${color}; font-size: 1rem;">${isWin ? '+' : ''}${h.eloChange}</span>
-                        <span class="material-icons-round" style="color: ${color}; font-size: 1.2rem;">${icon}</span>
+                        <span class="material-icons-round" style="color: ${color}; font-size: 1.2rem; margin-right: 8px;">${icon}</span>
+                        <button onclick="DuelModule.challengeUser('${h.opponentId}')" 
+                                style="background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; cursor: pointer; color: #818cf8; padding: 6px; display: flex; align-items: center; transition: all 0.2s;" 
+                                title="¡Exigir Revancha!"
+                                onmouseover="this.style.background='rgba(99,102,241,0.3)'; this.style.transform='scale(1.1)'"
+                                onmouseout="this.style.background='rgba(99,102,241,0.15)'; this.style.transform='scale(1)'">
+                            <span class="material-icons-round" style="font-size: 1.1rem;">replay</span>
+                        </button>
                     </div>
                 </div>
             `;
@@ -9366,7 +9393,8 @@ const DuelModule = {
                     rating: data.rating || 1000,
                     wins: data.wins || 0,
                     losses: data.losses || 0,
-                    rank: this._calculateRank(data.rating || 1000)
+                    streak: data.streak || 0,
+                    rank: this._calculateRank(data.rating || 1000).name
                 };
             }
         } catch (e) {
@@ -9375,12 +9403,11 @@ const DuelModule = {
     },
 
     _calculateRank(rating) {
-        if (rating < 1100) return 'Soldado';
-        if (rating < 1300) return 'Guerrero';
-        if (rating < 1500) return 'Veterano';
-        if (rating < 1800) return 'Comandante';
-        if (rating < 2000) return 'General';
-        return 'Rey de la Arena 👑';
+        if (rating < 1100) return { name: 'Bronce 🥉', color: '#cd7f32', border: 'rgba(205, 127, 50, 0.4)' };
+        if (rating < 1300) return { name: 'Plata 🥈', color: '#94a3b8', border: 'rgba(148, 163, 184, 0.4)' };
+        if (rating < 1500) return { name: 'Oro 🥇', color: '#eab308', border: 'rgba(234, 179, 8, 0.4)' };
+        if (rating < 1800) return { name: 'Diamante 💎', color: '#0ea5e9', border: 'rgba(14, 165, 233, 0.4)' };
+        return { name: 'Leyenda 👑', color: '#a855f7', border: 'rgba(168, 85, 247, 0.4)' };
     },
 
     async fetchAllStudents() {
@@ -9397,6 +9424,7 @@ const DuelModule = {
                             name: profile.name || (uid === 'master' ? 'MASTER' : 'Anónimo'),
                             school: profile.school || 'IE MATECANDELA',
                             rating: (u.duels && u.duels.rating) || 1000,
+                            streak: (u.duels && u.duels.streak) || 0,
                             lastActive: (u.gamification && u.gamification.lastUpdated) || 0
                         };
                     });
@@ -9451,37 +9479,67 @@ const DuelModule = {
         const online = filtered.filter(s => (now - s.lastActive) < 300000); // 5 mins
         const offline = filtered.filter(s => (now - s.lastActive) >= 300000);
 
-        if (countEl) countEl.innerText = `${online.length} Chigüiros Conectados`;
+        if (countEl) countEl.innerText = `${online.length} en línea`;
 
-        container.innerHTML = `
-            ${online.map(s => this._renderOpponentCard(s, true)).join('')}
-            ${offline.map(s => this._renderOpponentCard(s, false)).join('')}
-        `;
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="padding: 30px 16px; text-align: center; color: var(--color-text-muted); font-size: 0.85rem;">No se encontraron jugadores.</div>`;
+            return;
+        }
+
+        let html = '';
+
+        // Connected section
+        if (online.length > 0) {
+            html += `<div style="padding: 6px 16px 4px; font-size: 0.7rem; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">🟢 Conectados (${online.length})</div>`;
+            html += online.map(s => this._renderOpponentCard(s, true)).join('');
+        }
+
+        // Disconnected section
+        if (offline.length > 0) {
+            html += `<div style="padding: ${online.length > 0 ? '12px' : '6px'} 16px 4px; font-size: 0.7rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; ${online.length > 0 ? 'border-top: 1px solid rgba(255,255,255,0.05);' : ''}">⚪ Todos (${offline.length})</div>`;
+            html += offline.map(s => this._renderOpponentCard(s, false)).join('');
+        }
+
+        container.innerHTML = html;
     },
 
     _renderOpponentCard(s, isOnline) {
+        const tier = this._calculateRank(s.rating);
+        const statusColor = isOnline ? '#10b981' : '#475569';
+        const avatarColors = ['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316'];
+        const colorIndex = s.name.charCodeAt(0) % avatarColors.length;
+        const avatarBg = avatarColors[colorIndex];
+        
+        const streakHtml = s.streak && s.streak >= 2 
+            ? `<div style="font-size:0.65rem; color:#ef4444; font-weight:800; background:rgba(239,68,68,0.15); padding:2px 6px; border-radius:8px; display:inline-flex; align-items:center; gap:2px;" title="Racha de victorias">🔥 x${s.streak}</div>` 
+            : '';
+
         return `
-            <div class="glass animate-fade-in" style="padding: 16px; border-radius: 16px; border: 1px solid ${isOnline ? 'rgba(16, 185, 129, 0.4)' : 'var(--glass-border)'}; transition: all 0.3s; position: relative;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                    <div style="position: relative;">
-                        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
-                            ${s.name.charAt(0)}
-                        </div>
-                        ${isOnline ? '<div style="position: absolute; -top: 2px; -right: 2px; width: 12px; height: 12px; background: #10b981; border: 2px solid #0f172a; border-radius: 50%; box-shadow: 0 0 10px #10b981;"></div>' : ''}
+            <div style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; border-radius: 0; position:relative;" 
+                 onmouseover="this.style.background='rgba(255,255,255,0.04)'" 
+                 onmouseout="this.style.background='transparent'">
+                <!-- Avatar with tier border -->
+                <div style="position: relative; flex-shrink: 0; padding:2px; border-radius:50%; background: ${tier.border};">
+                    <div style="width: 38px; height: 38px; border-radius: 50%; background: ${avatarBg}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; color: white; text-transform: uppercase;">
+                        ${s.name.charAt(0)}
                     </div>
-                    <div style="flex: 1; min-width: 0;">
-                        <div style="display: flex; align-items: center; gap: 4px;">
-                            <span style="font-weight: 700; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.name}</span>
-                        </div>
-                        <div style="font-size: 0.7rem; color: var(--color-text-muted);">${isOnline ? '🟢 Disponible' : '⚪ Desconectado'}</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-weight: 800; color: #ef4444; font-size: 0.9rem;">${s.rating} 🏆</div>
+                    <div style="position: absolute; bottom: 0; right: 0; width: 12px; height: 12px; border-radius: 50%; background: ${statusColor}; border: 2px solid #0f172a; ${isOnline ? 'box-shadow: 0 0 6px ' + statusColor + ';' : ''}"></div>
+                </div>
+                <!-- Name + Rating -->
+                <div style="flex: 1; min-width: 0;">
+                    <div style="font-weight: 600; font-size: 0.85rem; color: var(--color-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;">${s.name}</div>
+                    <div style="font-size: 0.7rem; color: var(--color-text-muted); display: flex; align-items: center; justify-content: flex-start; gap: 6px; flex-wrap:wrap; margin-top:2px;">
+                        <span style="color: ${tier.color}; font-weight: 800;">${tier.name}</span> <span style="font-weight: 700;">${s.rating}</span>
+                        ${streakHtml}
                     </div>
                 </div>
-                <button onclick="DuelModule.challengeUser('${s.id}')" 
-                    style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid ${isOnline ? '#ef4444' : 'rgba(255,255,255,0.1)'}; background: ${isOnline ? 'rgba(239, 68, 68, 0.1)' : 'rgba(255,255,255,0.05)'}; color: ${isOnline ? '#ef4444' : 'var(--color-text-muted)'}; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
-                    RETAR A DUELO
+                <!-- Challenge button -->
+                <button onclick="event.stopPropagation(); DuelModule.challengeUser('${s.id}')" 
+                    style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; border: none; background: ${isOnline ? 'rgba(99,102,241,0.15)' : 'rgba(255,255,255,0.05)'}; color: ${isOnline ? '#818cf8' : '#64748b'}; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 0;"
+                    onmouseover="this.style.background='${isOnline ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.1)'}'; this.style.transform='scale(1.1)'"
+                    onmouseout="this.style.background='${isOnline ? 'rgba(99,102,241,0.15)' : 'rgba(255,255,255,0.05)'}'; this.style.transform='scale(1)'"
+                    title="Retar a ${s.name}">
+                    <span class="material-icons-round" style="font-size: 18px;">sports_mma</span>
                 </button>
             </div>
         `;
@@ -9552,15 +9610,11 @@ const DuelModule = {
 
             const shuffled = [...pool].sort(() => 0.5 - Math.random());
             challenge.questions = shuffled.slice(0, 5).map(q => {
-                // Use normalizeQuestion to handle different field names (enunciado vs texto vs text)
-                const normalized = (typeof GamesModule !== 'undefined' && GamesModule.normalizeQuestion)
-                    ? GamesModule.normalizeQuestion(q)
-                    : q;
-                
+                // Send original question data as-is (renderBattleQuestion handles all formats)
                 return {
-                    ...normalized,
-                    id: normalized.id || `q_${Math.random().toString(36).substr(2, 9)}`,
-                    subject: normalized.subject || normalized.area || 'Conocimiento General'
+                    ...q,
+                    id: q.id || `q_${Math.random().toString(36).substr(2, 9)}`,
+                    subject: q.subject || q.area || 'Conocimiento General'
                 };
             });
 
@@ -9913,42 +9967,77 @@ const DuelModule = {
         const qContainer = document.getElementById('duel-question-container');
         let rawQ = this.currentBattle.questions[this.currentBattle.currentIndex];
         
-        // Normalize Q
-        let q = typeof GamesModule !== 'undefined' && GamesModule.normalizeQuestion 
-            ? GamesModule.normalizeQuestion(rawQ) 
-            : rawQ;
-            
-        // Fallbacks just in case
-        const enunciado = q.enunciado || q.pregunta || q.texto || 'Sin pregunta';
-        const opciones = Array.isArray(q.opciones) ? q.opciones : [
-            { id: 'A', texto: q.a || q.opcionA || 'Opción A' },
-            { id: 'B', texto: q.b || q.opcionB || 'Opción B' },
-            { id: 'C', texto: q.c || q.opcionC || 'Opción C' },
-            { id: 'D', texto: q.d || q.opcionD || 'Opción D' }
-        ];
-
-        // Prepare Image HTML
-        let imageHtml = '';
-        if (q.imagen) {
-            imageHtml = `<div style="margin-bottom: 20px; text-align: center;"><img src="${q.imagen}" alt="Grafica" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-height: 250px;"></div>`;
+        if (!rawQ) {
+            qContainer.innerHTML = `<div class="glass" style="padding: 40px; text-align: center; color: var(--color-text-muted);">Error: pregunta no disponible.</div>`;
+            return;
         }
 
-        // Prepare Chart/Graph HTML
+        // ===== ROBUST NORMALIZATION (self-contained, no dependency on GamesModule) =====
+        // 1. Extract question text (multiple possible field names)
+        const enunciado = rawQ.enunciado || rawQ.texto || rawQ.pregunta || rawQ.text || rawQ.question || 'Sin pregunta disponible';
+
+        // 2. Extract options (handle all formats)
+        let opciones = [];
+        if (Array.isArray(rawQ.opciones) && rawQ.opciones.length > 0) {
+            // Standard format: [{id: 'A', texto: '...'}, ...]
+            opciones = rawQ.opciones.map(opt => ({
+                id: opt.id || opt.key || 'X',
+                texto: opt.texto || opt.text || opt.label || opt.value || String(opt) || ''
+            }));
+        } else if (Array.isArray(rawQ.options) && rawQ.options.length > 0) {
+            // Alt format: [{id: 'A', text: '...'}, ...]  or just strings
+            opciones = rawQ.options.map((opt, i) => {
+                if (typeof opt === 'string') {
+                    return { id: String.fromCharCode(65 + i), texto: opt };
+                }
+                return {
+                    id: opt.id || opt.key || String.fromCharCode(65 + i),
+                    texto: opt.texto || opt.text || opt.label || String(opt) || ''
+                };
+            });
+        } else {
+            // Fallback: individual fields a, b, c, d or opcionA, opcionB, etc.
+            const labels = ['A', 'B', 'C', 'D'];
+            labels.forEach(l => {
+                const val = rawQ[l.toLowerCase()] || rawQ[`opcion${l}`] || rawQ[`option${l}`] || null;
+                if (val) opciones.push({ id: l, texto: val });
+            });
+        }
+
+        // 3. Safety: filter out empty/corrupted options
+        opciones = opciones.filter(opt => opt.texto && opt.texto.trim() !== '' && opt.texto !== 'undefined');
+
+        // If no valid options, show error
+        if (opciones.length === 0) {
+            opciones = [
+                { id: 'A', texto: 'Opción A' },
+                { id: 'B', texto: 'Opción B' },
+                { id: 'C', texto: 'Opción C' },
+                { id: 'D', texto: 'Opción D' }
+            ];
+        }
+
+        // 4. Prepare Image HTML
+        let imageHtml = '';
+        if (rawQ.imagen) {
+            imageHtml = `<div style="margin-bottom: 20px; text-align: center;"><img src="${rawQ.imagen}" alt="Imagen" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-height: 250px;" onerror="this.style.display='none'"></div>`;
+        }
+
+        // 5. Prepare Chart/Graph HTML
         let chartHtml = '';
-        if (q.grafica && q.grafica.datos) {
+        if (rawQ.grafica && rawQ.grafica.datos) {
             const chartId = `duel-question-chart-${Date.now()}`;
             chartHtml = `
                 <div id="duel-chart-container" style="width: 100%; max-width: 500px; height: 300px; margin-bottom: 24px; position: relative; background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px;">
                     <canvas id="${chartId}"></canvas>
                 </div>
             `;
-            // Render chart after DOM is updated - use requestAnimationFrame + retry
             setTimeout(() => {
                 const canvas = document.getElementById(chartId);
                 const container = document.getElementById('duel-chart-container');
                 if (canvas && container && typeof ExamEngine !== 'undefined' && ExamEngine.renderChart) {
                     try {
-                        ExamEngine.renderChart(q.grafica, 'duel-chart-container', chartId);
+                        ExamEngine.renderChart(rawQ.grafica, 'duel-chart-container', chartId);
                     } catch (e) {
                         console.error('Error rendering chart in duel:', e);
                         container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--color-text-muted);">Gráfica no disponible</div>';
@@ -9957,6 +10046,7 @@ const DuelModule = {
             }, 150);
         }
         
+        // 6. Render the complete question
         qContainer.innerHTML = `
             <div class="glass animate-fade-in" style="width: 100%; padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass-bg); margin-top: 10px;">
                 <div style="font-size: 0.9rem; color: #60a5fa; margin-bottom: 10px; font-weight: 700;">PREGUNTA ${this.currentBattle.currentIndex + 1} DE 5</div>
@@ -9968,8 +10058,10 @@ const DuelModule = {
                 <div style="display: grid; gap: 12px; width: 100%;">
                     ${opciones.map(opt => `
                         <button onclick="DuelModule.submitBattleAnswer('${opt.id}')" 
-                            style="text-align: left; padding: 16px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: var(--color-surface-2); color: var(--color-text); cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; gap: 12px; align-items: center;">
-                            <span style="width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 800;">${opt.id}</span>
+                            style="text-align: left; padding: 16px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: var(--color-surface-2); color: var(--color-text); cursor: pointer; transition: all 0.2s; font-size: 1rem; display: flex; gap: 12px; align-items: center;"
+                            onmouseover="this.style.borderColor='rgba(99,102,241,0.5)'; this.style.background='rgba(99,102,241,0.08)'"
+                            onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'; this.style.background='var(--color-surface-2)'">
+                            <span style="width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">${opt.id}</span>
                             <span>${opt.texto}</span>
                         </button>
                     `).join('')}
@@ -9984,16 +10076,13 @@ const DuelModule = {
 
     submitBattleAnswer(key) {
         let rawQ = this.currentBattle.questions[this.currentBattle.currentIndex];
-        let q = typeof GamesModule !== 'undefined' && GamesModule.normalizeQuestion 
-            ? GamesModule.normalizeQuestion(rawQ) 
-            : rawQ;
             
-        const respuestaCorrecta = q.respuestaCorrecta || q.respuesta_correcta || 'A';
-        const isCorrect = key === respuestaCorrecta;
+        const respuestaCorrecta = rawQ.respuestaCorrecta || rawQ.respuesta_correcta || rawQ.correctAnswer || rawQ.correct || 'A';
+        const isCorrect = key === String(respuestaCorrecta);
         
         if (isCorrect) this.currentBattle.score += 20; // 20 points per correct answer
 
-        this.currentBattle.answers.push({ qId: q.id || 'N/A', key, isCorrect });
+        this.currentBattle.answers.push({ qId: rawQ.id || 'N/A', key, isCorrect });
         this.currentBattle.currentIndex++;
 
         if (this.currentBattle.currentIndex < 5) {
@@ -10073,10 +10162,24 @@ const DuelModule = {
         const arena = document.getElementById('duel-battle-arena');
         if (!arena) return;
 
+        if (iWon && typeof confetti === 'function') {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#10b981', '#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6'],
+                zIndex: 9999
+            });
+        }
+
+        const titleText = me.score > rival.score ? '¡VICTORIA ÉPICA!' : (me.score === rival.score ? '¡EMPATE TÉCNICO!' : 'DERROTA');
+        const iconSign = me.score > rival.score ? '🏆' : (me.score === rival.score ? '🤝' : '💀');
+        const titleColor = me.score > rival.score ? '#10b981' : (me.score === rival.score ? '#f59e0b' : '#ef4444');
+
         arena.innerHTML = `
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                <div style="font-size: 5rem; margin-bottom: 20px;">${iWon ? '🏆' : '💀'}</div>
-                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; color: ${iWon ? '#10b981' : '#ef4444'};">${iWon ? '¡VICTORIA!' : 'DERROTA'}</h1>
+                <div style="font-size: 5rem; margin-bottom: 20px;">${iconSign}</div>
+                <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; color: ${titleColor};">${titleText}</h1>
                 
                 <div style="display: flex; gap: 40px; margin: 40px 0;">
                     <div style="text-align: center;">
@@ -10127,30 +10230,48 @@ const DuelModule = {
     },
 
     async updateElo(opponent, result) {
-        // FLAT 50 POINTS for win, -30 for draw, -50 for loss
         let ratingChange = 0;
         let iWon = false;
         let isDraw = false;
 
+        const myCurrentRating = this.stats.rating || 1000;
+        const oppRating = opponent.rating || 1000;
+        
+        // Dynamic Elo Calc (Underdog Bonus)
+        const diff = oppRating - myCurrentRating;
+        const baseWin = Math.max(20, Math.min(80, 50 + (diff * 0.1)));
+        const baseLoss = Math.max(10, Math.min(60, 40 - (diff * 0.1)));
+
+        let appliedUpdate = 0;
+        
         if (result === 'win') {
-            ratingChange = 50;
+            ratingChange = Math.floor(baseWin);
+            if (this.stats.streak >= 2) ratingChange += 10; // Hot streak bonus
+            
+            this.stats.streak = (this.stats.streak || 0) + 1;
+            appliedUpdate = ratingChange;
             iWon = true;
         } else if (result === 'draw') {
-            ratingChange = -30;
+            ratingChange = 0; // Better no points than losing points on a draw
+            this.stats.streak = 0;
+            appliedUpdate = 0;
             isDraw = true;
         } else {
-            ratingChange = -50;
+            ratingChange = -Math.floor(baseLoss);
+            this.stats.streak = 0;
+            appliedUpdate = ratingChange;
         }
         
-        const isChallenger = this.currentBattle.isChallenger;
+        // Just directly update for self to reflect on screen
+        this.stats.rating += appliedUpdate;
+        if (iWon) this.stats.wins++; else if (!isDraw) this.stats.losses++;
 
+        const isChallenger = this.currentBattle ? this.currentBattle.isChallenger : false;
+
+        // Make update network call
         if (iWon || (isDraw && isChallenger)) {
-            // AUTHORITATIVE CLIENT: I update both
-            const myUpdate = iWon ? 50 : -30;
-            const oppUpdate = iWon ? -50 : -30;
-
-            this.stats.rating += myUpdate;
-            if (iWon) this.stats.wins++; else this.stats.losses++;
+            // AUTHORITATIVE CLIENT updates for both
+            const oppUpdate = iWon ? -Math.floor(baseWin) : 0;
 
             // 1. Update Winner/Challenger (Self)
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels.json`, {
@@ -10159,7 +10280,8 @@ const DuelModule = {
                 body: JSON.stringify({
                     rating: this.stats.rating,
                     wins: this.stats.wins,
-                    losses: this.stats.losses
+                    losses: this.stats.losses,
+                    streak: this.stats.streak
                 })
             });
 
@@ -10170,13 +10292,15 @@ const DuelModule = {
                 
                 const newOppRating = (oppData.rating || 1000) + oppUpdate;
                 const newOppLosses = (oppData.losses || 0) + 1;
+                const newOppStreak = 0; // The opponent lost or drew, streak goes back to 0
 
                 await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         rating: newOppRating,
-                        losses: newOppLosses
+                        losses: newOppLosses,
+                        streak: newOppStreak
                     })
                 });
 
@@ -10187,10 +10311,11 @@ const DuelModule = {
             }
 
             // 4. Record History for Me
-            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, iWon, myUpdate);
+            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, iWon, appliedUpdate);
             
-            if (iWon) NotificationModule.show(`¡Victoria! +50 Rating.`, 'success');
-            else NotificationModule.show(`Empate. Ambos pierden 30 puntos por falta de letalidad.`, 'warning');
+            if (iWon) NotificationModule.show(`¡Victoria! +${appliedUpdate} Rating.`, 'success');
+            else if (isDraw) NotificationModule.show(`¡Empate técnico! Rating sin cambios.`, 'info');
+            else NotificationModule.show(`Derrota. ${appliedUpdate} Rating.`, 'warning');
 
         } else {
             // SUBORDINATE CLIENT: Wait for authoritative update

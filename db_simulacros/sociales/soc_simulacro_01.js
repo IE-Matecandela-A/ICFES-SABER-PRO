@@ -29,13 +29,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "B",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "map",
-            "titulo": "Mapa de Colombia en el siglo XIX",
-            "datos": {
-                "descripcion": "Mapa político que incluye a Colombia y Panamá como un solo territorio."
-            }
-        },
         "imagen": "img/mapa_nueva_granada.png",
         "justificacion": "La separación de Panamá en 1903 fue un fenómeno multicausal. Por un lado, el Istmo sufría un abandono administrativo histórico por parte del gobierno central andino, agravado por la devastación económica de la Guerra de los Mil Días. Por otro lado, el rechazo del Senado colombiano al tratado Herrán-Hay desencadenó la intervención directa de Estados Unidos, que apoyó a los separatistas panameños para asegurar el control y la construcción del Canal de Panamá."
     },
@@ -214,29 +207,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "C",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "bar",
-            "titulo": "Pirámide Poblacional País Desarrollado",
-            "datos": {
-                "labels": [
-                    "0-14 años",
-                    "15-30 años",
-                    "31-60 años",
-                    "60+ años"
-                ],
-                "datasets": [
-                    {
-                        "label": "Población (%)",
-                        "data": [
-                            10,
-                            15,
-                            35,
-                            40
-                        ]
-                    }
-                ]
-            }
-        },
         "imagen": "img/piramide_poblacional.png",
         "justificacion": "[Image of population pyramid]\nUna pirámide poblacional invertida o 'regresiva' (base estrecha, cúspide ancha) indica bajas tasas de natalidad y una alta esperanza de vida (envejecimiento demográfico). A nivel macroeconómico y sistémico, esto significa que hay muy pocos jóvenes ingresando al mercado laboral pagando impuestos, frente a una gran cantidad de ancianos que requieren el pago de pensiones y altos gastos en salud pública, amenazando la sostenibilidad estatal."
     },
@@ -266,13 +236,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "B",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "texto_discontinuo",
-            "titulo": "Caricatura: Reparto Bipolar",
-            "datos": {
-                "descripcion": "EE.UU y URSS cortando el globo terráqueo como pastel, mientras otros países miran de abajo."
-            }
-        },
         "imagen": "img/caricatura_reparto_bipolar.png",
         "justificacion": "Durante la Guerra Fría (1947-1991), el mundo se dividió en dos bloques hegemónicos. El análisis de esta perspectiva gráfica evidencia una crítica al neocolonialismo e imperialismo: las superpotencias no respetaban la autonomía de los países del 'Tercer Mundo', sino que intervenían política, económica y militarmente (cortaban el pastel) para expandir sus zonas de influencia geoestratégica, dejando a estas naciones marginadas."
     },
@@ -550,13 +513,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "B",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "map",
-            "titulo": "Cultivos Ilícitos vs Pobreza Multidimensional",
-            "datos": {
-                "descripcion": "Mapa donde los puntos rojos de coca se superponen exactamente con los niveles más oscuros de pobreza y abandono."
-            }
-        },
         "imagen": "img/mapa_cultivos_pobreza.png",
         "justificacion": "El pensamiento sistémico conecta variables. La superposición geográfica no es casualidad: la ausencia de vías terciarias impide a los campesinos sacar productos legales a un precio competitivo. El abandono estatal convierte a la economía ilegal (la pasta base es fácil de transportar y se paga in situ) en una estrategia de supervivencia económica frente a la pobreza estructural, alimentada además por la coerción de grupos armados."
     },
@@ -855,13 +811,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "B",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "texto_discontinuo",
-            "titulo": "Impacto Reforma Tributaria",
-            "datos": {
-                "descripcion": "Caricatura de una balanza: impuestos sobre pan y leche pesan más en los bolsillos rotos de obreros."
-            }
-        },
         "imagen": "img/caricatura_reforma_tributaria.png",
         "justificacion": "En economía política, un impuesto 'regresivo' (como el IVA generalizado en alimentos) cobra la misma tarifa a todos, sin importar su nivel de ingresos. La perspectiva de los sindicatos advierte que, mientras una persona adinerada gasta un porcentaje mínimo de su sueldo en arroz o huevos, una persona en pobreza gasta casi el 100% de su salario en estos bienes. Gravar la canasta familiar golpea estructuralmente a los más vulnerables."
     },
@@ -987,13 +936,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "C",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "texto_discontinuo",
-            "titulo": "Comparativa de Libros de Historia",
-            "datos": {
-                "descripcion": "Dos visiones de la misma frontera (Río Bravo/Grande), una épica expansionista, otra de luto."
-            }
-        },
         "imagen": "img/frontera_rio_bravo.png",
         "justificacion": "En el análisis de perspectivas históricas, se reconoce que la historia 'oficial' no es un monolito neutral. Las potencias vencedoras justifican sus expansiones bélicas mediante ideologías religiosas o civilizatorias (como el Destino Manifiesto), mientras que las naciones despojadas construyen su memoria nacional sobre el trauma de la invasión. Ambas perspectivas evidencian que la memoria histórica obedece a intereses ideológicos."
     },
@@ -1023,22 +965,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "B",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "geometry",
-            "titulo": "Espiral de Temperaturas Globales",
-            "datos": {
-                "labels": [
-                    "1850 a 2020: Anillos se expanden hacia colores rojos marcando calentamiento"
-                ],
-                "datasets": [
-                    {
-                        "data": [
-                            1
-                        ]
-                    }
-                ]
-            }
-        },
         "imagen": "img/espiral_climatica.png",
         "justificacion": "El pensamiento sistémico evalúa las contradicciones de las políticas ambientales. Aunque proteger bosques (sumideros de carbono) es vital, subsidiar el transporte privado a base de derivados del petróleo (gasolina) fomenta directamente la emisión de Dióxido de Carbono (CO2). Este es el motor principal del calentamiento global antropogénico. La política de mitigación queda anulada por la política económica de subsidios fósiles."
     },
@@ -1229,13 +1155,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "C",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "map",
-            "titulo": "Población Afrocolombiana en el Territorio",
-            "datos": {
-                "descripcion": "Mapa de Colombia con fuerte sombreado demográfico en Chocó, Valle, Cauca, Nariño y Bolívar."
-            }
-        },
         "imagen": "img/mapa_afrocolombiano.png",
         "justificacion": "El mapa étnico actual es herencia directa del sistema esclavista de las haciendas, trapiches y, sobre todo, la minería de oro colonial en el Cauca y Antioquia. Las poblaciones esclavas entraban por Cartagena (Caribe). Sumado a esto, las selvas espesas del Pacífico y los Montes de María sirvieron de refugio para los 'cimarrones' (esclavizados fugitivos) que fundaron Palenques libres, aislados geopolíticamente de la élite andina blanca."
     },
@@ -1313,13 +1232,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "B",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "texto_discontinuo",
-            "titulo": "Propaganda Soviética 1917",
-            "datos": {
-                "descripcion": "Obrero destruyendo al capitalismo/burguesía; foce roja del partido bolchevique."
-            }
-        },
         "imagen": "img/propaganda_sovietica.png",
         "justificacion": "El afiche bolchevique refleja a la perfección la ideología de la perspectiva marxista (comunista). Karl Marx planteó que el motor de la historia es el conflicto estructural (lucha de clases) entre los dueños del capital (burguesía/sombrero de copa) y los explotados (proletariado/obrero del martillo). La Revolución Rusa, liderada por Lenin, utilizó el arte gráfico (agitprop) para convencer a las masas de destruir al capitalismo e instalar la 'dictadura del proletariado' a través de consejos obreros (Sóviets)."
     },
@@ -1397,13 +1309,6 @@ window.NATIVE_EXAM_DATA.push(...[
         ],
         "respuestaCorrecta": "C",
         "tipo": "grafica",
-        "grafica": {
-            "tipo": "map",
-            "titulo": "Flujos Migratorios Sur-Norte",
-            "datos": {
-                "descripcion": "Líneas de flujo densas desde Venezuela, Haití, Honduras cruzando el Tapón del Darién hacia Norteamérica."
-            }
-        },
         "imagen": "img/mapa_migracion.png",
         "justificacion": "El análisis sistémico de la migración requiere entender los conceptos de factores de expulsión (Push factors). Las caravanas de migrantes no realizan el mortal cruce del Darién por decisión turística, sino porque sus lugares de origen colapsaron sistémicamente. Factores como la violencia endémica (maras), persecución política (ausencia de democracia) y la ruina económica hiperinflacionaria aniquilan las condiciones mínimas de habitabilidad, generando un fenómeno forzado de refugiados internacionales."
     }

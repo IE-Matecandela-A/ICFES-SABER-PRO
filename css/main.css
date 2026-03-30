@@ -125,6 +125,19 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Override para la vista Arcade: no scroll, ocupar viewport completo */
+#view-arcade-games {
+    overflow: hidden;
+    height: 100dvh;
+}
+/* El hub interno sí puede hacer scroll */
+#arcade-view-hub {
+    overflow-y: auto;
+    height: 100dvh;
+    -webkit-overflow-scrolling: touch;
+}
+
+
 h1,
 h2,
 h3,
@@ -2344,7 +2357,6 @@ tr:hover td {
 }
 
 /* Sidebar */
-.config-right-col {}
 
 .config-sidebar-sticky {
     position: sticky;

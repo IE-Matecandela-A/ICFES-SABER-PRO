@@ -313,22 +313,54 @@ const StudyModules = {
                     console.log(`StudyModules: Ejecutando ${renderFnName} para ${moduleId}...`);
                     window[renderFnName](containerId);
                 } else {
-                    console.warn(`StudyModules: Esperando a Babel/JS para ${moduleId}... Intento ${attempts + 1}`);
+                    console.warn(`StudyModules: Esperando módulo ${moduleId}... Intento ${attempts + 1}`);
                     attempts++;
                     if (attempts > 15) {
                         container.innerHTML = `
                             <div class="p-10 text-center">
-                                <h2 class="text-xl font-bold" style="color: #f87171">Error: El módulo no respondió</h2>
-                                <p style="color: var(--color-text-muted)">Intenta actualizar la página (F5)</p>
+                                <div style="font-size: 3rem; margin-bottom: 16px;">⚠️</div>
+                                <h2 class="text-xl font-bold" style="color: #f87171">El módulo tardó demasiado en cargar</h2>
+                                <p style="color: var(--color-text-muted); margin-top: 8px; font-size: 0.9rem;">Verifica tu conexión a internet o recarga la página (F5)</p>
+                                <button onclick="window.location.reload()" style="margin-top: 20px; padding: 10px 24px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer;">
+                                    🔄 Recargar Página
+                                </button>
                             </div>`;
                         return;
                     }
-                    container.innerHTML = `
-                        <div class="p-10 text-center flex flex-col items-center gap-4">
-                            <div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                            <h2 class="text-xl font-bold" style="color: var(--color-text)">Cargando Módulo Inteligente...</h2>
-                            <p class="text-sm opacity-50">Preparando componentes...</p>
-                        </div>`;
+                    // Mostrar skeleton loader elegante mientras carga
+                    if (attempts === 1) {
+                        container.innerHTML = `
+                            <div style="padding: 32px; animation: fadeIn 0.3s ease;">
+                                <style>
+                                    @keyframes shimmer {
+                                        0% { background-position: -800px 0; }
+                                        100% { background-position: 800px 0; }
+                                    }
+                                    .sk { 
+                                        background: linear-gradient(90deg, var(--color-surface-2) 25%, var(--color-surface-3, rgba(255,255,255,0.07)) 50%, var(--color-surface-2) 75%);
+                                        background-size: 800px 100%;
+                                        animation: shimmer 1.5s infinite linear;
+                                        border-radius: 12px;
+                                    }
+                                </style>
+                                <!-- Header skeleton -->
+                                <div class="sk" style="height: 56px; width: 65%; margin-bottom: 24px;"></div>
+                                <div class="sk" style="height: 24px; width: 40%; margin-bottom: 40px;"></div>
+                                <!-- Tabs skeleton -->
+                                <div style="display: flex; gap: 12px; margin-bottom: 32px;">
+                                    <div class="sk" style="height: 40px; width: 120px; border-radius: 20px;"></div>
+                                    <div class="sk" style="height: 40px; width: 120px; border-radius: 20px; opacity: 0.6;"></div>
+                                    <div class="sk" style="height: 40px; width: 120px; border-radius: 20px; opacity: 0.4;"></div>
+                                </div>
+                                <!-- Content card skeletons -->
+                                <div style="display: grid; gap: 16px;">
+                                    <div class="sk" style="height: 120px; border-radius: 20px;"></div>
+                                    <div class="sk" style="height: 96px; border-radius: 20px; opacity: 0.7;"></div>
+                                    <div class="sk" style="height: 80px; border-radius: 20px; opacity: 0.5;"></div>
+                                </div>
+                                <p style="text-align: center; color: var(--color-text-muted); font-size: 0.8rem; margin-top: 24px; opacity: 0.6;">Cargando módulo inteligente...</p>
+                            </div>`;
+                    }
                     setTimeout(tryRender, 600);
                 }
             };

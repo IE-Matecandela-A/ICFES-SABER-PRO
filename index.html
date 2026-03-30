@@ -3,14 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>SABER PRO | Simulador ICFES Completo</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <!-- React and Babel for dynamic modules -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React (production build - optimizado para velocidad) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 
     <!-- JSZip -->
@@ -32,48 +31,212 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <link rel="stylesheet" href="css/main.css">
+<style>
+        /* Sidebar layout adjustments */
+        @media (min-width: 768px) {
+            body { padding-left: 260px; }
+            .top-nav-bar { left: 260px !important; width: calc(100% - 260px) !important; }
+            .bottom-nav-bar { left: 260px !important; width: calc(100% - 260px) !important; }
+            /* Custom scrollbar para el sidebar */
+            .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        }
+
+        /* LIGHT MODE Premium Mapping */
+        [data-theme="light"] .bg-slate-950 { background-color: #f8fafc !important; }
+        [data-theme="light"] .text-slate-100, [data-theme="light"] .text-white { color: #0f172a !important; }
+        [data-theme="light"] #sidebar-menu { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+        [data-theme="light"] .text-slate-400 { color: #475569 !important; }
+        [data-theme="light"] .text-slate-200 { color: #1e293b !important; }
+        [data-theme="light"] .text-slate-500 { color: #64748b !important; }
+        [data-theme="light"] .bg-slate-800\/60,
+        [data-theme="light"] .bg-slate-800\/80,
+        [data-theme="light"] .bg-slate-800,
+        [data-theme="light"] .bg-slate-700\/80 { background-color: #ffffff !important; border-color: #cbd5e1 !important; }
+        [data-theme="light"] .hover\:bg-slate-800\/80:hover,
+        [data-theme="light"] .hover\:bg-slate-800:hover, 
+        [data-theme="light"] .hover\:bg-slate-700:hover { background-color: #f1f5f9 !important; }
+        [data-theme="light"] .top-nav-bar { background-color: rgba(255,255,255,0.85) !important; border-color: #e2e8f0 !important; }
+        [data-theme="light"] .bg-slate-900 { background-color: #e2e8f0 !important; }
+        [data-theme="light"] .border-slate-700\/50, 
+        [data-theme="light"] .border-slate-800\/80,
+        [data-theme="light"] .border-slate-700 { border-color: #e2e8f0 !important; }
+        [data-theme="light"] .shadow-inner { box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.06) !important; }
+        [data-theme="light"] h1 span { text-shadow: none !important; }
+        [data-theme="light"] #user-profile-banner img { border-color: #ffffff !important; }
+
+        /* Force React Study Modules to utilize maximum space & remove unused dark borders */
+        #module-content-root > div {
+            min-height: calc(100vh - 76px) !important;
+            padding: 1rem 1.5rem !important;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
+        }
+        #module-content-root > div > div {
+            max-width: 1600px !important;
+            width: 100% !important;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            #module-content-root > div { padding: 0.5rem !important; }
+        }
+
+        /* Ocultar barra lateral dinámica en otras vistas */
+        body.sidebar-hidden {
+            padding-left: 0 !important;
+        }
+        body.sidebar-hidden #sidebar-menu {
+            transform: translateX(-100%) !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        body.sidebar-hidden header {
+            left: 0 !important;
+            width: 100% !important;
+        }
+    </style>
 </head>
 
-<body>
-    <!-- TOP NAVIGATION BAR -->
-    <header class="top-nav-bar">
-        <!-- 🟢 STATUS BADGE - Punto de estado discreto -->
-        <div id="floating-status-badge"
-            style="width: 14px; height: 14px; border-radius: 50%; cursor: pointer; background: #f59e0b; border: 2px solid rgba(0,0,0,0.2); box-shadow: 0 0 8px rgba(245,158,11,0.5); transition: all 0.3s; flex-shrink: 0;"
-            title="Verificando conexión...">
+<body class="bg-slate-950 text-slate-100 antialiased overflow-x-hidden transition-all duration-300" style="padding-left: 260px;">
+
+    <!-- NAVEGACIÓN LATERAL ELEGANTE (SIDEBAR) -->
+    <aside id="sidebar-menu" class="flex flex-col w-[260px] fixed inset-y-0 left-0 bg-[#0f172a] border-r border-slate-700/80 shadow-[10px_0_30px_rgba(0,0,0,0.5)] z-[999] py-6 overflow-y-auto custom-scrollbar transition-all duration-300">
+        <!-- Logo -->
+        <div class="flex items-center justify-center mb-10 px-3 py-2 cursor-pointer group" onclick="Router.go('home')">
+            <div class="flex flex-col items-center leading-[0.85] font-sans font-black transform transition-transform group-hover:scale-105">
+                <span class="text-[36px] tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#c084fc] via-[#d946ef] to-[#ec4899]" style="filter: drop-shadow(0 2px 10px rgba(217,70,239,0.4));">SABER</span>
+                <span class="text-[32px] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]" style="filter: drop-shadow(0 2px 10px rgba(245,158,11,0.4));">PRO</span>
+            </div>
+        </div>
+        
+        <!-- Menu Items -->
+        <nav class="flex-1 space-y-1.5 px-3">
+            <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-2">Principal</h3>
+            
+            <button onclick="Router.go('home')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl hover:bg-slate-800/80 transition-all text-sm font-semibold text-white group relative">
+                <div class="absolute left-0 w-1 h-6 bg-indigo-500 rounded-r-md opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">home</span></div>
+                <span class="text-left">Home</span>
+            </button>
+            <button onclick="Router.go('dashboard')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-cyan-500 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-cyan-400 transition-colors">insert_chart</span></div>
+                <span class="text-left">Analítica</span>
+            </button>
+            
+            <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-8">Cursos / Academia</h3>
+            <button onclick="Router.go('study-modules')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-indigo-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-indigo-400 transition-colors">menu_book</span></div>
+                <span class="text-left">Módulos de Estudio</span>
+            </button>
+            <button onclick="Router.go('flashcards')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-purple-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-purple-400 transition-colors">dynamic_feed</span></div>
+                <span class="text-left">Flashcards</span>
+            </button>
+            <button onclick="Router.go('icfes-guide')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-amber-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-amber-400 transition-colors">assignment</span></div>
+                <span class="text-left">Guía Oficial</span>
+            </button>
+            
+            <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-8">Play / Juegos</h3>
+            <button onclick="Router.go('arcade-games')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-cyan-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-cyan-400 transition-colors">sports_esports</span></div>
+                <span class="text-left">Arcade</span>
+            </button>
+            <button onclick="Router.go('games')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-pink-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-pink-400 transition-colors">extension</span></div>
+                <span class="text-left">Juegos</span>
+            </button>
+            <button onclick="Router.go('duels')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-rose-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-rose-400 transition-colors">security</span></div>
+                <span class="text-left">Arena de Duelos</span>
+            </button>
+            <button onclick="Router.go('global-results')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-yellow-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-yellow-400 transition-colors">emoji_events</span></div>
+                <span class="text-left">Ranking</span>
+            </button>
+        </nav>
+        
+        <div class="mt-auto px-4 w-full pt-8">
+            <div class="h-[1px] bg-slate-800/80 w-full mb-4"></div>
+            <button onclick="Router.go('teacher')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
+                <div class="absolute left-0 w-1 h-6 bg-emerald-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-emerald-400">library_books</span></div>
+                <span class="text-left">Banco de Preguntas</span>
+            </button>
+            <button onclick="Router.go('admin')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium mt-1 group relative">
+                <div class="absolute left-0 w-1 h-6 bg-rose-500 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-rose-400">admin_panel_settings</span></div>
+                <span class="text-left">Control Docente</span>
+            </button>
+            <button onclick="AuthModule && AuthModule.signOut ? AuthModule.signOut() : window.location.reload()" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm font-medium mt-1 group relative">
+                <div class="absolute left-0 w-1 h-6 bg-red-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-red-400">logout</span></div>
+                <span class="text-left">Salir</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- TOP NAVIGATION BAR (Premium Glassmorphism) -->
+    <header id="top-navbar-main" class="fixed top-0 right-0 h-[76px] flex items-center justify-between px-8 z-[50] transition-all duration-300" 
+            style="width: calc(100% - 260px); left: 260px; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        
+        <!-- Left Section of Header -->
+        <div class="flex items-center gap-4">
+            <!-- 🟢 STATUS BADGE -->
+            <div id="floating-status-badge"
+                style="width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: #10b981; box-shadow: 0 0 12px rgba(16,185,129,0.8); transition: all 0.3s;"
+                title="Sistema Operativo">
+            </div>
+            <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50">
+                <span class="material-icons-round text-slate-400 text-sm">dashboard</span>
+                <span class="text-xs font-semibold tracking-wide text-slate-300">HUB CENTRAL</span>
+            </div>
         </div>
 
-        <div id="user-auth-indicator" style="display: flex; align-items: center; gap: 16px;">
-            <!-- Container for dynamically injected auth UI (Login button OR Profile Header) -->
-            <div id="user-auth-container"></div>
-        </div>
+        <!-- Right Section of Header -->
+        <div class="flex items-center gap-6">
+            <div id="user-auth-indicator" style="display: flex; align-items: center;">
+                <!-- Container for dynamically injected auth UI (Login button OR Profile Header) -->
+                <div id="user-auth-container"></div>
+            </div>
 
-        <!-- Theme Toggle Button (Moved inside navbar) -->
-        <button id="theme-toggle-btn" class="btn" onclick="ThemeModule.toggle()"
-            style="padding: 10px; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid var(--color-border); background: var(--color-surface); cursor: pointer;">
-            ☀️
-        </button>
+            <!-- Divider -->
+            <div class="w-[1px] h-6 bg-slate-700/80 hidden sm:block"></div>
+
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle-btn" onclick="ThemeModule.toggle()"
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 hover:scale-105 transition-all shadow-lg">
+                ☀️
+            </button>
+        </div>
     </header>
 
     <div id="view-home" class="view-section relative"
         style="overflow-x: hidden; background-color: var(--color-surface);">
 
-        <!-- Premium Ambient Background -->
-        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-            <!-- Deep space starry effect (subtle) -->
+        <!-- Premium Ambient Background (Clean Minimal) -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
+            <!-- Subtle grid pattern instead of noisy orbs -->
             <div class="absolute inset-0"
-                style="background-image: radial-gradient(circle at center, var(--color-text-muted) 1px, transparent 1px); background-size: 32px 32px; opacity: 0.1;">
+                style="background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 40px 40px;">
             </div>
-
-            <!-- Vibrant Glowing Orbs -->
-            <div class="absolute -top-[10%] -left-[10%] w-[500px] h-[500px] rounded-full mix-blend-screen filter blur-[100px] opacity-40 animate-pulse"
-                style="background: radial-gradient(circle, var(--color-primary-light), transparent 70%); animation-duration: 8s;">
-            </div>
-            <div class="absolute top-[20%] -right-[15%] w-[600px] h-[600px] rounded-full mix-blend-screen filter blur-[120px] opacity-30"
-                style="background: radial-gradient(circle, var(--color-info), transparent 70%); animation: float-slow 10s infinite alternate;">
-            </div>
-            <div class="absolute -bottom-[20%] left-[20%] w-[700px] h-[700px] rounded-full mix-blend-screen filter blur-[130px] opacity-20"
-                style="background: radial-gradient(circle, var(--color-accent), transparent 70%); animation: float 12s infinite alternate-reverse;">
+            
+            <!-- One single, elegant, subtle glow -->
+            <div class="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full filter blur-[120px] opacity-20"
+                style="background: radial-gradient(circle, #6366f1, transparent 70%); pointer-events: none;">
             </div>
         </div>
 
@@ -87,11 +250,10 @@
                 <!-- Left Text Content -->
                 <div class="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start z-20">
                     <div
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 shadow-sm glass border-[var(--color-border)]"
-                        style="background: var(--glass-bg); border: 1px solid var(--glass-border);">
-                        <span class="animate-pulse" style="color: var(--color-primary-light);">✨</span>
-                        <span class="text-sm font-medium tracking-wide uppercase"
-                            style="color: var(--color-primary-light);">Plataforma ICFES Next-Gen</span>
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 shadow-sm glass border-indigo-500/30"
+                        style="background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3);">
+                        <span class="animate-pulse text-indigo-400">✨</span>
+                        <span class="text-sm font-medium tracking-wide uppercase text-indigo-300">Plataforma SABER PRO</span>
                     </div>
 
                     <style>
@@ -107,31 +269,27 @@
                         }
                         
                         [data-theme="dark"] .title-saber {
-                            background: linear-gradient(to right, #d8b4fe, #c084fc, #f472b6, #d8b4fe);
-                            background-size: 200% auto;
+                            background: linear-gradient(to right, #ffffff, #e2e8f0);
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
                             background-clip: text;
-                            filter: drop-shadow(0 0 40px rgba(192, 132, 252, 0.7));
+                            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4));
                             animation: text-shine 4s linear infinite;
                         }
                         [data-theme="light"] .title-saber {
-                            background: linear-gradient(to right, #7e22ce, #a21caf, #be185d);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            background-clip: text;
+                            color: #0f172a;
                         }
                         [data-theme="dark"] .title-pro {
-                            background: linear-gradient(to right, #fb923c, #fbbf24, #fde047, #fb923c);
+                            background: linear-gradient(to right, #6366f1, #06b6d4, #3b82f6, #6366f1);
                             background-size: 200% auto;
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
                             background-clip: text;
-                            filter: drop-shadow(0 0 40px rgba(251, 146, 60, 0.7));
+                            filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.6));
                             animation: text-shine 4s linear infinite;
                         }
                         [data-theme="light"] .title-pro {
-                            background: linear-gradient(to right, #c2410c, #b45309, #a16207);
+                            background: linear-gradient(to right, #4f46e5, #0891b2, #2563eb);
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
                             background-clip: text;
@@ -166,18 +324,11 @@
                         }
                     </style>
                     
-                    <!-- Premium Background Grid -->
-                    <div class="bg-grid-pattern"></div>
-
-                    <div class="relative inline-block mb-6 w-full z-10">
-                        <!-- Ultra glowing background effect for dark mode -->
-                        <div class="absolute top-1/2 left-1/2 hero-glow-bg pointer-events-none rounded-full mix-blend-screen"
-                             style="width: 140%; height: 140%; background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, rgba(249,115,22,0.3) 50%, rgba(0,0,0,0) 70%); filter: blur(60px); animation: hero-glow 6s ease-in-out infinite; z-index: -1;">
-                        </div>
-                        
-                        <h1 class="massive-title font-extrabold tracking-tighter relative">
-                            <span class="block title-saber mb-2">SABER</span>
-                            <span class="block title-pro">PRO</span>
+                    <!-- Premium Background Grid (Removed overlapping grids to keep it clean) -->
+                    <div class="relative inline-block mb-6 w-full z-10 pt-4">
+                        <h1 class="massive-title font-extrabold tracking-tighter relative flex flex-col items-center lg:items-start select-none" style="margin-bottom: 2rem;">
+                            <span class="block uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#c084fc] via-[#d946ef] to-[#ec4899] z-10 leading-[0.85] pb-1" style="filter: drop-shadow(0 0 30px rgba(217,70,239,0.4));">SABER</span>
+                            <span class="block uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#ea580c] z-10 leading-[0.85] pl-6 md:pl-10 font-black" style="filter: drop-shadow(0 0 30px rgba(245,158,11,0.5));">PRO</span>
                         </h1>
                     </div>
 
@@ -189,18 +340,16 @@
                         cronómetro oficial y reportes avanzados en tiempo real.
                     </p>
 
-                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-2">
+                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-4">
                         <button onclick="Router.go('config')"
-                            class="btn btn-lg shadow-lg group relative overflow-hidden transition-all flex items-center justify-center gap-3 px-8"
-                            style="background: var(--color-primary); border: none; border-radius: 12px; color: white;">
+                            class="group relative overflow-hidden transition-all flex items-center justify-center gap-3 px-10 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl text-white shadow-[0_0_30px_-5px_rgba(99,102,241,0.6)] hover:-translate-y-1">
                             <span class="material-icons-round text-xl">play_arrow</span>
                             <span class="font-semibold tracking-wide">Iniciar Simulacro</span>
                         </button>
 
                         <button onclick="ExamEngine.startFastTrack()"
-                            class="btn btn-lg group flex items-center justify-center gap-3 px-8"
-                            style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: var(--color-text);">
-                            <span style="color: var(--color-accent);" class="material-icons-round text-xl">bolt</span>
+                            class="group flex items-center justify-center gap-3 px-10 py-4 bg-transparent border-2 border-slate-700 hover:border-slate-500 rounded-2xl text-slate-300 hover:text-white transition-all hover:-translate-y-1">
+                            <span class="material-icons-round text-xl text-cyan-400">bolt</span>
                             <span class="font-semibold tracking-wide">Reto Rápido</span>
                         </button>
                     </div>
@@ -223,11 +372,9 @@
                 </div>
 
                 <!-- Right 3D/Visual Content (Student Image with Badges) -->
-                <div
-                    class="flex-1 w-full max-w-lg lg:max-w-xl relative mt-16 md:mt-24 lg:mt-0 perspective-1000 mx-auto">
-                    <!-- Glowing background behind image -->
-                    <div class="absolute inset-0 rounded-full filter blur-3xl animate-pulse"
-                        style="background: var(--color-primary); opacity: 0.15;"></div>
+                <div class="flex-1 w-full max-w-lg lg:max-w-xl relative mt-16 md:mt-24 lg:mt-0 perspective-1000 mx-auto">
+                    <!-- Clean minimal shadow behind image instead of huge glowing blob -->
+                    <div class="absolute inset-0 rounded-[32px] bg-indigo-900/20 filter blur-3xl transform scale-90 mt-10"></div>
 
                     <div class="relative z-10 w-full animate-float flex justify-center lg:justify-end">
                         <img src="img/hero_student_laptop.png" alt="Estudiante preparándose para Saber Pro"
@@ -271,163 +418,9 @@
                 </div>
             </div>
 
-            <!-- Bento Grid Section -->
-            <div class="w-full max-w-7xl mx-auto mt-24 mb-6 z-20 px-2 lg:px-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-                    <!-- Card 0: Módulos de Estudio (NEW - HIGHLIGHTED) -->
-                    <div onclick="Router.go('study-modules')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); border: 2px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 40px rgba(99, 102, 241, 0.4); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                        <!-- Animated Glow -->
-                        <div class="absolute -top-24 -right-24 w-48 h-48 bg-white/20 rounded-full blur-3xl animate-pulse"></div>
-                        
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(255,255,255,0.4));">📚</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border border-white/30 bg-white/10 transition-colors group-hover:bg-white/20">
-                                <span class="material-icons-round text-sm text-white">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2 text-white">Módulos de Estudio</h3>
-                            <p class="font-medium text-[11px] leading-relaxed text-indigo-100">Contenido especializado por materia para dominar cada componente del examen.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 1: Dashboard -->
-                    <div onclick="Router.go('dashboard')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(59, 130, 246, 0.4); box-shadow: 0 0 30px rgba(59, 130, 246, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(59,130,246,0.5));">🦉</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-blue-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Mi Progreso</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Analítica avanzada, evolución de puntajes y radar de competencias por área.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 2: Ranking -->
-                    <div onclick="Router.go('global-results')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(250, 204, 21, 0.4); box-shadow: 0 0 30px rgba(250, 204, 21, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(250,204,21,0.5));">🏆</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-yellow-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Ranking Global</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Compite, destaca y revisa la tabla de posiciones general.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: Tips -->
-                    <div onclick="Router.go('tips')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(52, 211, 153, 0.4); box-shadow: 0 0 30px rgba(52, 211, 153, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(52,211,153,0.5));">💡</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-emerald-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Tips Mentales</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Estrategias ICFES, control de ansiedad y tips para subir puntajes.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 8: Guía Oficial ICFES (NEW) -->
-                    <div onclick="Router.go('icfes-guide')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: 2px solid rgba(255, 255, 255, 0.2); box-shadow: 0 0 30px rgba(245, 158, 11, 0.3); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(255,255,255,0.4));">📜</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border border-white/30 bg-white/10 transition-colors group-hover:bg-white/20">
-                                <span class="material-icons-round text-sm text-white">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2 text-white">Guía Oficial ICFES</h3>
-                            <p class="font-medium text-[11px] leading-relaxed text-amber-50">Manual interactivo con estructura del examen, puntajes y reglas oficiales.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Flashcards -->
-                    <div onclick="Router.go('flashcards')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(168, 85, 247, 0.4); box-shadow: 0 0 30px rgba(168, 85, 247, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(168,85,247,0.5));">🃏</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-purple-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Modo Flashcard</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Flashcards inteligentes para memorizar y reforzar conceptos clave.</p>
-                        </div>
-                    </div>
-                    <!-- Card 7: Zona de Juegos Arcade (NEW) -->
-                    <div onclick="Router.go('arcade-games')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(6, 182, 212, 0.4); box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(6,182,212,0.5));">🕹️</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-cyan-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Arcade Matecandela</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">3 mini-juegos retro de alta velocidad para entrenar agilidad mental.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 5: Zona de Juegos -->
-                    <div onclick="Router.go('games')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(236, 72, 153, 0.4); box-shadow: 0 0 30px rgba(236, 72, 153, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(236,72,153,0.5));">🎮</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-pink-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Zona de Juegos</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">6 juegos educativos para entrenar habilidades ICFES de forma divertida.</p>
-                        </div>
-                    </div>
-
-                    <!-- Card 6: Battle Royal Duels -->
-                    <div onclick="Router.go('duels')" class="relative flex flex-col p-6 rounded-[24px] transition-transform hover:-translate-y-1 cursor-pointer group"
-                        style="background: var(--color-surface-2); border: 2px solid rgba(239, 68, 68, 0.4); box-shadow: 0 0 30px rgba(239, 68, 68, 0.15); overflow: hidden;">
-                        <div class="absolute inset-0 bg-gradient-to-br from-red-600/10 to-transparent pointer-events-none"></div>
-                        <div class="flex justify-between items-start mb-6 w-full relative z-10">
-                            <span style="font-size: 2.5rem; filter: drop-shadow(0 4px 10px rgba(239, 68, 68, 0.5));">⚔️</span>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center border transition-colors group-hover:bg-red-500/20"
-                                style="background: var(--glass-bg); border-color: var(--glass-border);">
-                                <span class="material-icons-round text-sm" style="color: var(--color-text-muted);">arrow_outward</span>
-                            </div>
-                        </div>
-                        <div class="relative z-10 mt-auto">
-                            <h3 class="text-xl font-bold mb-2" style="color: var(--color-text);">Arena de Duelos</h3>
-                            <p class="font-medium text-[11px] leading-relaxed" style="color: var(--color-text-muted);">Desafía a otros estudiantes en tiempo real y conviértete en el Rey.</p>
-                        </div>
-                    </div>
-
-                </div>
+            <!-- ELIMINADO: Grid de 9 tarjetas movidas al Sidebar -->
+            <div class="w-full max-w-7xl mx-auto mb-10 z-20 px-2 lg:px-4">
+               <!-- Espacio limpio inferior -->
             </div>
 
             <!-- Features Strip Modernized -->
@@ -460,19 +453,7 @@
                 </div>
             </div>
 
-            <!-- Stealth Footer -->
-            <div class="mt-auto w-full max-w-3xl flex flex-col items-center gap-6 z-20">
-                <div class="w-full h-[1px]"
-                    style="background: linear-gradient(90deg, transparent, var(--color-border), transparent);"></div>
-                <div class="flex gap-4">
-                    <button onclick="Router.go('teacher')" class="btn btn-ghost btn-sm group flex items-center gap-2">
-                        <span class="material-icons-round text-[16px]">menu_book</span> Banco de Preguntas
-                    </button>
-                    <button onclick="Router.go('admin')" class="btn btn-ghost btn-sm group flex items-center gap-2">
-                        <span class="material-icons-round text-[16px]">admin_panel_settings</span> Control Docente
-                    </button>
-                </div>
-            </div>
+
 
         </div>
     </div>
@@ -550,7 +531,7 @@
     </div>
 
     <!-- ============ ARCADE GAMES VIEW (Integrated from arcane.html) ============ -->
-    <div id="view-arcade-games" class="view-section hidden" style="background-color: #020617; min-height: 100vh;">
+    <div id="view-arcade-games" class="view-section hidden" style="background-color: #020617; min-height: 100dvh;">
         <!-- Lucide Icons & Simple Styles specific to Arcade -->
         <script src="https://unpkg.com/lucide@latest"></script>
         <style>
@@ -559,6 +540,39 @@
             @keyframes arcade-zoom-in { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
             .arcade-animate-fade-in { animation: arcade-fade-in 0.3s ease-out forwards; }
             .arcade-animate-zoom-in { animation: arcade-zoom-in 0.3s ease-out forwards; }
+
+            /* === MOBILE GAME FULLSCREEN FIX === */
+            #arcade-view-game {
+                /* En móvil: ocupar todo el viewport dinámico sin desbordarse */
+                height: 100dvh;
+                min-height: 100dvh;
+            }
+            #arcade-game-border {
+                /* El canvas ocupa toda la pantalla en móvil */
+                height: 100dvh !important;
+            }
+            @media (min-width: 640px) {
+                #arcade-view-game {
+                    height: auto;
+                    min-height: 100dvh;
+                }
+                #arcade-game-border {
+                    height: min(80vh, 700px) !important;
+                    min-height: 500px !important;
+                }
+            }
+            /* Prevenir scroll y overflow en la vista de juego */
+            #arcade-view-game {
+                overflow: hidden;
+                position: relative;
+            }
+            /* El canvas siempre llena su contenedor */
+            #arcade-game-canvas {
+                display: block;
+                width: 100% !important;
+                height: 100% !important;
+                touch-action: none;
+            }
         </style>
 
         <!-- VISTA: HUB (MENÚ PRINCIPAL) -->
@@ -666,7 +680,7 @@
         </div>
 
         <!-- CONTENEDOR DE JUEGOS -->
-        <div id="arcade-view-game" class="hidden min-h-screen bg-slate-950 flex flex-col items-center justify-center p-0 sm:p-4">
+        <div id="arcade-view-game" class="hidden bg-slate-950 flex flex-col items-center justify-center p-0 sm:p-4">
             <!-- Aviso de Orientación para Celulares (ahora opcional) -->
             <div id="arcade-orientation-prompt" class="hidden fixed inset-0 z-[100] bg-slate-950/90 flex flex-col items-center justify-center p-8 text-center sm:hidden pointer-events-none">
                 <div class="w-16 h-16 mb-4 text-cyan-500 opacity-60">
@@ -675,8 +689,8 @@
                 <p class="text-slate-400 text-sm">Mejor en horizontal</p>
             </div>
 
-            <div id="arcade-game-border" class="relative w-full h-screen sm:h-[80vh] sm:max-h-[700px] sm:min-h-[500px] max-w-6xl mx-auto bg-black sm:border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden sm:rounded-xl flex items-center justify-center">
-                <canvas id="arcade-game-canvas" class="block w-full h-full"></canvas>
+            <div id="arcade-game-border" class="relative w-full max-w-6xl mx-auto bg-black sm:border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden sm:rounded-xl flex items-center justify-center">
+                <canvas id="arcade-game-canvas" class="block"></canvas>
                 <div class="absolute top-4 left-4 right-4 flex justify-between items-start z-50 pointer-events-none">
                     <div class="flex gap-2 sm:gap-4 items-center pointer-events-auto">
                         <button onclick="ArcadeGamesModule.exitGame()" class="bg-slate-800/80 p-2 rounded-full border border-slate-600 hover:bg-slate-700 text-slate-300 transition-colors"><i data-lucide="chevron-left" class="w-5 h-5 sm:w-6 sm:h-6"></i></button>
@@ -2494,40 +2508,60 @@
                     </div>
                 </div>
 
-                <!-- Battle Royal Ranking -->
-                <div style="margin-bottom: 40px;">
-                    <h2 style="font-size: 1.3rem; color: #ef4444; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
-                        ⚔️ Reyes de la Battle Royal
-                    </h2>
-                    <div id="duel-ranking-container">
-                        <!-- Injected via JS -->
-                    </div>
-                </div>
+                <!-- ===== TWO-COLUMN LAYOUT: Main + Sidebar ===== -->
+                <div style="display: flex; gap: 24px; align-items: flex-start;">
 
-                <!-- Opponents List -->
-                <div style="margin-top: 40px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h2 style="font-size: 1.5rem; font-weight: 800; color: var(--color-text);">Chigüiros Listos para el Combate</h2>
-                        <span id="duel-online-count" style="font-size: 0.85rem; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 12px; border-radius: 20px; font-weight: 700;">Buscando...</span>
-                    </div>
-                    
-                    <div id="duel-opponents-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">
-                        <!-- Injected via JS -->
-                    </div>
-                </div>
+                    <!-- LEFT: Ranking + History -->
+                    <div style="flex: 1; min-width: 0;">
+                        <!-- Battle Royal Ranking -->
+                        <div style="margin-bottom: 40px;">
+                            <h2 style="font-size: 1.3rem; color: #ef4444; margin-bottom: 16px; margin-top: 0; display: flex; align-items: center; gap: 8px;">
+                                ⚔️ Reyes de la Battle Royal
+                            </h2>
+                            <div id="duel-ranking-container">
+                                <!-- Injected via JS -->
+                            </div>
+                        </div>
 
-                <!-- Battle History -->
-                <div style="margin-top: 40px; margin-bottom: 60px;">
-                    <h2 style="font-size: 1.3rem; color: #64748b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        <span class="material-icons-round">history</span> Historial de Batallas
-                    </h2>
-                    <div id="duel-history-list" style="display: flex; flex-direction: column; gap: 12px;">
-                        <!-- Injected via JS -->
-                        <div style="text-align: center; padding: 30px; color: var(--color-text-muted); background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px dashed var(--color-border);">
-                            No hay batallas registradas recientemente.
+                        <!-- Battle History -->
+                        <div style="margin-top: 10px; margin-bottom: 60px;">
+                            <h2 style="font-size: 1.3rem; color: #64748b; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                                <span class="material-icons-round">history</span> Historial de Batallas
+                            </h2>
+                            <div id="duel-history-list" style="display: flex; flex-direction: column; gap: 12px;">
+                                <!-- Injected via JS -->
+                                <div style="text-align: center; padding: 30px; color: var(--color-text-muted); background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px dashed var(--color-border);">
+                                    No hay batallas registradas recientemente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Facebook-style Players Sidebar -->
+                    <div style="width: 300px; flex-shrink: 0; position: sticky; top: 80px; max-height: calc(100vh - 100px); display: flex; flex-direction: column; gap: 0; background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; backdrop-filter: blur(12px);">
+                        <!-- Sidebar Header -->
+                        <div style="padding: 16px 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="font-weight: 800; font-size: 0.95rem; color: var(--color-text); display: flex; align-items: center; gap: 6px;">
+                                    <span class="material-icons-round" style="font-size: 18px; color: #ef4444;">people</span> Jugadores
+                                </span>
+                                <span id="duel-online-count" style="font-size: 0.7rem; background: rgba(16,185,129,0.15); color: #10b981; padding: 3px 8px; border-radius: 12px; font-weight: 700;">0 en línea</span>
+                            </div>
+                            <!-- Search -->
+                            <div style="position: relative;">
+                                <span class="material-icons-round" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); font-size: 18px;">search</span>
+                                <input type="text" id="duel-search-input" placeholder="Buscar jugador..." 
+                                    oninput="DuelModule.renderOpponents(this.value)"
+                                    style="width: 100%; padding: 8px 12px 8px 36px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); color: var(--color-text); outline: none; font-size: 0.82rem; font-family: inherit;">
+                            </div>
+                        </div>
+                        <!-- Players List (scrollable) -->
+                        <div id="duel-opponents-list" style="flex: 1; overflow-y: auto; padding: 8px 0;">
+                            <!-- Injected via JS -->
                         </div>
                     </div>
                 </div>
+                <!-- ===== END TWO-COLUMN ===== -->
             </div>
         </main>
     </div>
@@ -2954,60 +2988,28 @@
     <script src="db_simulacros/ingles/ing_simulacro_02.js"></script>
     <script src="https://unpkg.com/lucide-react@0.263.1/dist/lucide-react.min.js"></script>
     <script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Módulos de estudio pre-transpilados (funcionan offline sin Babel) -->
+    <script src="js/mathModule1.js"></script>
+    <script src="js/mathModule2.js"></script>
+    <script src="js/mathModule3.js"></script>
+    <script src="js/mathModule4.js"></script>
+    <script src="js/mathModule5.js"></script>
+    <script src="js/mathModule6.js"></script>
+    <script src="js/mathModule7.js"></script>
+    <script src="js/icfesGuideModule.js"></script>
     <script>
-        // Asegurar que LucideReact esté disponible para los módulos Babel
-        (function() {
-            console.log("Verificando LucideReact...");
-            if (!window.LucideReact) {
-                console.warn("LucideReact no detectado globalmente, intentando vincular de Lucide o recrear shims...");
-                window.LucideReact = window.lucide || {};
-                
-                // Si aún no está, crear componentes wrapper para los iconos más usados
-                const icons = ['Calculator', 'Shapes', 'CheckCircle', 'Brain', 'ArrowRight', 'ArrowDown', 'RefreshCw', 'Award', 'Sigma', 'Percent', 'Dices', 'Scale', 'Lightbulb', 'AlertTriangle', 'BookOpen', 'EyeOff', 'Search', 'ShieldCheck', 'TrendingUp', 'XCircle', 'MessageSquare'];
-                icons.forEach(function(iconName) {
-                    if (!window.LucideReact[iconName]) {
-                        window.LucideReact[iconName] = function(props) {
-                            return window.React.createElement('i', { 
-                                className: 'lucide lucide-' + iconName.toLowerCase() + ' ' + (props.className || ''),
-                                ...props 
-                            });
-                        };
-                    }
-                });
-            }
-        })();
-    </script>
-    <script type="text/babel" data-presets="env,react">
-        console.log("Babel Inline: Motor de transformación activo.");
-        window.babelActive = true;
-    </script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule1.js" onerror="console.error('ERROR: No se pudo cargar mathModule1.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule2.js" onerror="console.error('ERROR: No se pudo cargar mathModule2.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule3.js" onerror="console.error('ERROR: No se pudo cargar mathModule3.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule4.js" onerror="console.error('ERROR: No se pudo cargar mathModule4.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule5.js" onerror="console.error('ERROR: No se pudo cargar mathModule5.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule6.js" onerror="console.error('ERROR: No se pudo cargar mathModule6.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/mathModule7.js" onerror="console.error('ERROR: No se pudo cargar mathModule7.js');"></script>
-    <script type="text/babel" data-presets="env,react" src="js/icfesGuideModule.js" onerror="console.error('ERROR: No se pudo cargar icfesGuideModule.js');"></script>
-    <script>
-        // Verificar carga
+        // Verificar carga de módulos
         setTimeout(() => {
-            console.log("=== VERIFICACIÓN ===");
-            console.log("window.renderMathModule1 existe?:", typeof window.renderMathModule1);
-            console.log("window.renderMathModule2 existe?:", typeof window.renderMathModule2);
-            console.log("window.renderMathModule3 existe?:", typeof window.renderMathModule3);
-            console.log("window.renderMathModule4 existe?:", typeof window.renderMathModule4);
-            console.log("window.renderMathModule5 existe?:", typeof window.renderMathModule5);
-            console.log("window.renderMathModule6 existe?:", typeof window.renderMathModule6);
-            console.log("window.renderMathModule7 existe?:", typeof window.renderMathModule7);
-            console.log("window.renderIcfesGuide existe?:", typeof window.renderIcfesGuide);
-            console.log("window.React existe?:", typeof window.React);
-            console.log("window.ReactDOM existe?:", typeof window.ReactDOM);
-        }, 2000);
+            console.log("=== VERIFICACIÓN DE MÓDULOS ===");
+            ['renderMathModule1','renderMathModule2','renderMathModule3','renderMathModule4','renderMathModule5','renderMathModule6','renderMathModule7','renderIcfesGuide'].forEach(fn => {
+                console.log(`${fn}: ${typeof window[fn] === 'function' ? '✅' : '❌'}`);
+            });
+        }, 1000);
     </script>
-    <script src="js/studyModules.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/arcadeGames.js"></script>
+    <script src="js/studyModules.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="js/arcadeGames.js" defer></script>
 </body>
 
 </html>

@@ -281,12 +281,24 @@ const ArcadeGamesModule = {
             if (!container) return;
 
             const rect = container.getBoundingClientRect();
-            // Evitar distorsión: mantener proporción 16:9 o similar
             let w = rect.width;
             let h = rect.height;
+
+            // En móvil, si el contenedor no tiene altura calculada aún,
+            // usar el viewport dinámico para obtener dimensiones reales
+            if (h < 10) {
+                const vvp = window.visualViewport;
+                h = vvp ? vvp.height : window.innerHeight;
+                w = vvp ? vvp.width : window.innerWidth;
+                // Forzar el tamaño del contenedor también
+                container.style.height = h + 'px';
+                container.style.width = w + 'px';
+            }
             
             this.canvas.width = w;
             this.canvas.height = h;
+            this.canvas.style.width = w + 'px';
+            this.canvas.style.height = h + 'px';
             
             // Base lógica para posicionamiento consistente
             const baseWidth = 800;
@@ -1009,11 +1021,26 @@ ArcadeGamesModule.switchView = function(v) {
     if(hub) hub.classList.toggle('hidden', v !== 'hub');
     if(game) game.classList.toggle('hidden', v !== 'game');
     if (v === 'hub') this.updateRankingUI();
+    
+    // En móvil: esperar a que el DOM renderice el contenedor antes de calcular tamaños
+    if (v === 'game') {
+        // Limpiar altura inline del contenedor para que el CSS tome control
+        const border = document.getElementById('arcade-game-border');
+        if (border) {
+            border.style.height = '';
+            border.style.width = '';
+        }
+    }
 };
 
 ArcadeGamesModule.startGame = function(id) {
     this.switchView('game');
-    this.Engine.init(id);
+    // Esperar dos frames para que el CSS y layout del navegador calculen correctamente
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            this.Engine.init(id);
+        });
+    });
 };
 
 ArcadeGamesModule.exitGame = function() {
