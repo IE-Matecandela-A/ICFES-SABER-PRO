@@ -37,9 +37,15 @@
             body { padding-left: 260px; }
             .top-nav-bar { left: 260px !important; width: calc(100% - 260px) !important; }
             .bottom-nav-bar { left: 260px !important; width: calc(100% - 260px) !important; }
-            /* Custom scrollbar para el sidebar */
-            .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-            .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+            /* Custom scrollbar para el sidebar y contenedores globales */
+            .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.03); border-radius: 8px; margin: 4px 0; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.35); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(100, 116, 139, 0.6); }
+
+            [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
+            [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.2); }
+            [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255, 0.4); }
         }
 
         /* LIGHT MODE Premium Mapping */
@@ -99,10 +105,50 @@
             left: 0 !important;
             width: 100% !important;
         }
+
+        /* ===== MOBILE RESPONSIVE SIDEBAR ===== */
+        @media (max-width: 768px) {
+            body {
+                padding-left: 0 !important;
+            }
+            #sidebar-menu {
+                transform: translateX(-100%);
+            }
+            #sidebar-menu.mobile-open {
+                transform: translateX(0) !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+            #top-navbar-main {
+                left: 0 !important;
+                width: 100% !important;
+            }
+            #sidebar-overlay {
+                display: none;
+            }
+            #sidebar-overlay.active {
+                display: block;
+            }
+            /* Show hamburger only on mobile */
+            #mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        @media (min-width: 769px) {
+            #mobile-menu-btn {
+                display: none !important;
+            }
+            #sidebar-overlay {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body class="bg-slate-950 text-slate-100 antialiased overflow-x-hidden transition-all duration-300" style="padding-left: 260px;">
+
+    <!-- MOBILE SIDEBAR OVERLAY -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[998] transition-opacity duration-300" onclick="toggleMobileSidebar()" style="display:none;"></div>
 
     <!-- NAVEGACIÓN LATERAL ELEGANTE (SIDEBAR) -->
     <aside id="sidebar-menu" class="flex flex-col w-[260px] fixed inset-y-0 left-0 bg-[#0f172a] border-r border-slate-700/80 shadow-[10px_0_30px_rgba(0,0,0,0.5)] z-[999] py-6 overflow-y-auto custom-scrollbar transition-all duration-300">
@@ -195,6 +241,10 @@
         
         <!-- Left Section of Header -->
         <div class="flex items-center gap-4">
+            <!-- HAMBURGER MENU BUTTON (mobile only) -->
+            <button id="mobile-menu-btn" onclick="toggleMobileSidebar()" class="items-center justify-center w-10 h-10 rounded-xl bg-slate-800/60 border border-slate-700/50 text-slate-300 hover:text-white hover:bg-slate-700 transition-all" style="display:none;">
+                <span class="material-icons-round text-[22px]">menu</span>
+            </button>
             <!-- 🟢 STATUS BADGE -->
             <div id="floating-status-badge"
                 style="width: 10px; height: 10px; border-radius: 50%; cursor: pointer; background: #10b981; box-shadow: 0 0 12px rgba(16,185,129,0.8); transition: all 0.3s;"
@@ -2810,12 +2860,12 @@
                         <label
                             style="display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text); margin-bottom: 6px;">Colegio
                             o Institución</label>
-                        <input type="text" id="reg-school" placeholder="Ej: IE Matecandela" list="school-options"
-                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: transparent; color: var(--color-text);">
-                        <datalist id="school-options">
-                            <option value="IE MATECANDELA"></option>
-                            <option value="FRANCISCO JOSE DE CALDAS"></option>
-                        </datalist>
+                        <select id="reg-school"
+                            style="width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 10px 14px; font-size: 0.9rem; background: var(--color-surface); color: var(--color-text);">
+                            <option value="" disabled selected>Selecciona tu institución</option>
+                            <option value="IE MATECANDELA">IE MATECANDELA</option>
+                            <option value="IE FRANCISCO JOSE DE CALDAS">IE FRANCISCO JOSE DE CALDAS</option>
+                        </select>
                     </div>
 
                     <!-- Rol de Usuario -->
@@ -2997,12 +3047,18 @@
     <script src="js/mathModule5.js"></script>
     <script src="js/mathModule6.js"></script>
     <script src="js/mathModule7.js"></script>
+    <script src="js/cnModule1.js"></script>
+    <script src="js/cnModule2.js"></script>
+    <script src="js/cnModule3.js"></script>
+    <script src="js/cnModule4.js"></script>
+    <script src="js/cnModule5.js"></script>
+    <script src="js/cnModule6.js"></script>
     <script src="js/icfesGuideModule.js"></script>
     <script>
         // Verificar carga de módulos
         setTimeout(() => {
             console.log("=== VERIFICACIÓN DE MÓDULOS ===");
-            ['renderMathModule1','renderMathModule2','renderMathModule3','renderMathModule4','renderMathModule5','renderMathModule6','renderMathModule7','renderIcfesGuide'].forEach(fn => {
+            ['renderMathModule1','renderMathModule2','renderMathModule3','renderMathModule4','renderMathModule5','renderMathModule6','renderMathModule7','renderIcfesGuide', 'renderCNModule1', 'renderCNModule2', 'renderCNModule3', 'renderCNModule4', 'renderCNModule5', 'renderCNModule6'].forEach(fn => {
                 console.log(`${fn}: ${typeof window[fn] === 'function' ? '✅' : '❌'}`);
             });
         }, 1000);
@@ -3010,6 +3066,39 @@
     <script src="js/studyModules.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/arcadeGames.js" defer></script>
+
+    <!-- MOBILE SIDEBAR TOGGLE -->
+    <script>
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+            const isOpen = sidebar.classList.contains('mobile-open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+                overlay.style.display = 'none';
+            } else {
+                sidebar.classList.add('mobile-open');
+                overlay.classList.add('active');
+                overlay.style.display = 'block';
+            }
+        }
+
+        // Auto-close sidebar when a nav item is clicked on mobile
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar-menu');
+            if (sidebar) {
+                sidebar.querySelectorAll('button[onclick*="Router.go"], button[onclick*="AuthModule"]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (window.innerWidth <= 768) {
+                            setTimeout(() => toggleMobileSidebar(), 150);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

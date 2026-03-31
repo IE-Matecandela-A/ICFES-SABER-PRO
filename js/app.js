@@ -5719,7 +5719,7 @@ const AdminPanelModule = {
                         name: profile.name || 'Desconocido',
                         surnameForSort: surnameForSort,
                         email: profile.email || 'Sin correo',
-                        school: profile.school ? profile.school.trim().toUpperCase() : 'SIN COLEGIO',
+                        school: profile.school ? (window.normalizeSchoolName ? window.normalizeSchoolName(profile.school) : profile.school.trim().toUpperCase()) : 'SIN COLEGIO',
                         grade: profile.grade || 'N/A',
                         maxScore: maxScore,
                         totalQuestions: totalQuestions,
@@ -7089,6 +7089,19 @@ const GamificationModule = {
 
 // ============ AUTH MODULE (Cloud Progress Sync) ============
 
+// ============ SCHOOL NORMALIZATION ============
+window.normalizeSchoolName = function(school) {
+    if (!school) return 'SIN INSTITUCIÓN';
+    const s = school.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (s.includes("matecandela") || s.includes("matacandela")) {
+        return "IE MATECANDELA";
+    }
+    if (s.includes("francisco") || s.includes("caldas") || s.includes("camilo") || s.includes("torres") || s.includes("jose del caldas") || s.includes("jose de caldas")) {
+        return "IE FRANCISCO JOSE DE CALDAS";
+    }
+    return school.trim().toUpperCase();
+};
+
 const AuthModule = {
     currentUser: null,
 
@@ -7176,7 +7189,8 @@ const AuthModule = {
 
         // Simple hash or encoding for ID
         const userId = btoa(email.toLowerCase().trim()).replace(/=/g, '');
-        const newUser = { email, id: userId, name, school, grade, area, sex, password, role };
+        const normalizedSchool = window.normalizeSchoolName ? window.normalizeSchoolName(school) : school;
+        const newUser = { email, id: userId, name, school: normalizedSchool, grade, area, sex, password, role };
 
         try {
             // Check if user already exists
@@ -7600,6 +7614,7 @@ const AuthUI = {
                 return;
             }
 
+            if (matchedUser.school) matchedUser.school = window.normalizeSchoolName ? window.normalizeSchoolName(matchedUser.school) : matchedUser.school;
             AuthModule.login(matchedUser);
             const modal = document.getElementById('login-modal');
             if (modal) modal.classList.add('hidden');
@@ -8105,7 +8120,7 @@ const GlobalResultsModule = {
                         }
                         return {
                             name: user.profile?.name || 'Anónimo',
-                            school: user.profile?.school || user.info?.school || 'Matecandela',
+                            school: window.normalizeSchoolName ? window.normalizeSchoolName(user.profile?.school || user.info?.school || 'Matecandela') : (user.profile?.school || user.info?.school || 'Matecandela'),
                             weeklyXP: user.gamification.weeklyXP
                         };
                     });
@@ -8396,7 +8411,7 @@ const FlashcardModule = {
                     if (u.flashcardRanking_v2 && u.flashcardRanking_v2.points > 0) {
                         rankingList.push({
                             name: u.flashcardRanking_v2.name || u.info?.name || 'Estudiante',
-                            school: u.flashcardRanking_v2.school || u.info?.school || 'Sin Colegio',
+                            school: window.normalizeSchoolName ? window.normalizeSchoolName(u.flashcardRanking_v2.school || u.info?.school) : (u.flashcardRanking_v2.school || u.info?.school || 'Sin Colegio'),
                             points: u.flashcardRanking_v2.points
                         });
                     }
@@ -9422,7 +9437,7 @@ const DuelModule = {
                         return {
                             id: uid,
                             name: profile.name || (uid === 'master' ? 'MASTER' : 'Anónimo'),
-                            school: profile.school || 'IE MATECANDELA',
+                            school: window.normalizeSchoolName ? window.normalizeSchoolName(profile.school || 'IE MATECANDELA') : (profile.school || 'IE MATECANDELA'),
                             rating: (u.duels && u.duels.rating) || 1000,
                             streak: (u.duels && u.duels.streak) || 0,
                             lastActive: (u.gamification && u.gamification.lastUpdated) || 0

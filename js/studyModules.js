@@ -66,7 +66,20 @@ const StudyModules = {
         },
         'lectura_critica': { name: 'Lectura Crítica', color: '#f43f5e', icon: 'auto_stories', modules: [] },
         'sociales': { name: 'Sociales', color: '#fbbf24', icon: 'public', modules: [] },
-        'naturales': { name: 'C. Naturales', color: '#10b981', icon: 'biotech', modules: [] },
+        'naturales': { 
+            name: 'C. Naturales', 
+            color: '#10b981', 
+            icon: 'biotech', 
+            description: 'Domina los conceptos de la biología, química y física para la prueba.',
+            modules: [
+                { id: 'cn_mod_1', title: 'Módulo 1: Indagación Científica', description: 'Aprende a identificar variables y diseñar experimentos.', icon: 'science', content: '' },
+                { id: 'cn_mod_2', title: 'Módulo 2: Biología y Genética', description: 'Comprende la célula, el ADN, y ecosistemas.', icon: 'eco', content: '' },
+                { id: 'cn_mod_3', title: 'Módulo 3: Química y Materia', description: 'La tabla periódica, reacciones y enlaces químicos.', icon: 'water_drop', content: '' },
+                { id: 'cn_mod_4', title: 'Módulo 4: Física y Mecánica', description: 'Leyes de Newton, energía y cinemática.', icon: 'speed', content: '' },
+                { id: 'cn_mod_5', title: 'Módulo 5: Ecología y Sistemas', description: 'Dinámicas ambientales y CTS (Ciencia y Tecnología).', icon: 'public', content: '' },
+                { id: 'cn_mod_6', title: 'Módulo 6: Ondas y Electromagnetismo', description: 'Luz, sonido, y circuitos eléctricos.', icon: 'settings_input_composite', content: '' }
+            ] 
+        },
         'ingles': { name: 'Inglés', color: '#0ea5e9', icon: 'translate', modules: [] }
     },
 
@@ -289,7 +302,7 @@ const StudyModules = {
 
         container.innerHTML = '';
 
-        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3', 'mat_mod_4', 'mat_mod_5', 'mat_mod_6', 'mat_mod_7'].includes(moduleId)) {
+        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3', 'mat_mod_4', 'mat_mod_5', 'mat_mod_6', 'mat_mod_7', 'cn_mod_1', 'cn_mod_2', 'cn_mod_3', 'cn_mod_4', 'cn_mod_5', 'cn_mod_6'].includes(moduleId)) {
             const renderFnName = {
                 'mat_mod_1': 'renderMathModule1',
                 'mat_mod_2': 'renderMathModule2',
@@ -297,7 +310,13 @@ const StudyModules = {
                 'mat_mod_4': 'renderMathModule4',
                 'mat_mod_5': 'renderMathModule5',
                 'mat_mod_6': 'renderMathModule6',
-                'mat_mod_7': 'renderMathModule7'
+                'mat_mod_7': 'renderMathModule7',
+                'cn_mod_1': 'renderCNModule1',
+                'cn_mod_2': 'renderCNModule2',
+                'cn_mod_3': 'renderCNModule3',
+                'cn_mod_4': 'renderCNModule4',
+                'cn_mod_5': 'renderCNModule5',
+                'cn_mod_6': 'renderCNModule6'
             }[moduleId];
             
             console.log(`StudyModules: Solicitando render para ${moduleId} (${renderFnName})...`);
