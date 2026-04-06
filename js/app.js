@@ -2370,7 +2370,7 @@ const ResultsEngine = {
                     resultMessage = "60%... No está mal, pero ese Chigüiro interior sabe que puedes dar más. ¡A repasar las áreas débiles!";
                     resultMood = "neutral";
                 } else {
-                    resultMessage = "Menos del 60%... Andas flojo, camarada. Toca ponerse serio con el estudio. ¡A las Flashcards ya!";
+                    resultMessage = "Menos del 60%... Andas flojo, chigüirada. Toca ponerse serio con el estudio. ¡A las Flashcards ya!";
                     resultMood = "serious";
                 }
 
