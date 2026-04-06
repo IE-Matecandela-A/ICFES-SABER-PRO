@@ -873,7 +873,15 @@ const ExamEngine = {
                     tipo: q.tipo || 'standard'
                 })) : [];
 
-        let allQuestions = [...localQuestions, ...nativeQuestions];
+        // Integrar preguntas de la nube
+        let cloudQuestions = window.CLOUD_QUESTIONS || [];
+        
+        // Unificar y deduplicar por ID (Prioridad: NUBE > NATIVAS > LOCALES)
+        const questionsMap = new Map();
+        localQuestions.forEach(q => questionsMap.set(q.id, q));
+        nativeQuestions.forEach(q => questionsMap.set(q.id, q));
+        cloudQuestions.forEach(q => questionsMap.set(q.id, q));
+        let allQuestions = Array.from(questionsMap.values());
 
         if (allQuestions.length === 0) {
             NotificationModule.show('No hay preguntas cargadas en la aplicación. Por favor, selecciona un simulacro PDF o carga el banco de preguntas.', 'error');
@@ -1218,7 +1226,12 @@ const ExamEngine = {
                 `;
 
         // Question text with Markdown rendering
-        document.getElementById('question-text').innerHTML = renderMarkdown(q.enunciado);
+        const fullText = [];
+        if (q.contexto) fullText.push(q.contexto);
+        if (q.enunciado) fullText.push(q.enunciado);
+        if (q.pregunta) fullText.push(q.pregunta);
+        
+        document.getElementById('question-text').innerHTML = renderMarkdown(fullText.join('\n\n') || 'Texto no disponible');
 
         // Image support
         const imageContainer = document.getElementById('question-image-container');
@@ -1230,9 +1243,16 @@ const ExamEngine = {
             imageContainer.classList.add('hidden');
         }
 
-        // Chart
+        // SVG Support
         const chartContainer = document.getElementById('chart-container');
-        if (q.grafica && q.grafica.datos) {
+        if (q.svg) {
+            chartContainer.innerHTML = `
+                    <div style="padding: 16px; background: var(--color-surface-2); border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+                        ${q.svg}
+                    </div>
+                `;
+            chartContainer.classList.remove('hidden');
+        } else if (q.grafica && q.grafica.datos) {
             chartContainer.innerHTML = `
                     <div style="padding: 16px; background: var(--color-surface-2); border-radius: 12px; margin-bottom: 16px;">
                         <h4 style="font-size: 0.85rem; margin-bottom: 12px; color: var(--color-text-muted);">📊 Gráfica</h4>
@@ -1241,9 +1261,11 @@ const ExamEngine = {
                         </div>
                     </div>
                 `;
+            chartContainer.classList.remove('hidden');
             setTimeout(() => this.renderChart(q.grafica), 50);
         } else {
             chartContainer.innerHTML = '';
+            chartContainer.classList.add('hidden');
         }
 
         // Options
@@ -3702,6 +3724,101 @@ const TeacherModule = {
     init() {
         this.renderStats();
         this.renderTabs();
+        this.loadCloudQuestions(); // Cargar preguntas adicionales de la nube
+    },
+
+    async loadCloudQuestions() {
+        try {
+            const res = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/questions.json');
+            const data = await res.json();
+            if (data) {
+                // Convertir objeto de Firebase a array y guardarlo en window para que ExamEngine lo vea
+                window.CLOUD_QUESTIONS = Object.values(data);
+                console.log('✅ Preguntas de la nube cargadas:', window.CLOUD_QUESTIONS.length);
+            }
+        } catch (e) {
+            console.error('Error cargando preguntas de la nube:', e);
+        }
+    },
+
+    openQuestionEditor(id = null) {
+        const modal = document.getElementById('question-editor-modal');
+        const title = document.getElementById('editor-modal-title');
+        const form = document.getElementById('question-form');
+        
+        form.reset();
+        document.getElementById('edit-q-id').value = '';
+
+        if (id) {
+            title.innerText = '📝 Editar Pregunta';
+            const allQuestions = [...(JSON.parse(localStorage.getItem('icfes_questions') || '[]')), ...(window.NATIVE_EXAM_DATA || []), ...(window.CLOUD_QUESTIONS || [])];
+            const q = allQuestions.find(i => i.id === id);
+            
+            if (q) {
+                document.getElementById('edit-q-id').value = q.id;
+                document.getElementById('edit-q-area').value = q.area.toLowerCase();
+                document.getElementById('edit-q-tema').value = q.tema || '';
+                document.getElementById('edit-q-text').value = q.enunciado || q.texto || '';
+                document.getElementById('edit-q-opt-A').value = q.opciones[0] || '';
+                document.getElementById('edit-q-opt-B').value = q.opciones[1] || '';
+                document.getElementById('edit-q-opt-C').value = q.opciones[2] || '';
+                document.getElementById('edit-q-opt-D').value = q.opciones[3] || '';
+                document.getElementById('edit-q-correct').value = q.correcta;
+                document.getElementById('edit-q-just').value = q.justificacion || '';
+            }
+        } else {
+            title.innerText = '📝 Nueva Pregunta';
+        }
+
+        modal.classList.remove('hidden');
+    },
+
+    closeQuestionEditor() {
+        document.getElementById('question-editor-modal').classList.add('hidden');
+    },
+
+    async saveQuestion() {
+        const id = document.getElementById('edit-q-id').value || ('q_user_' + Date.now());
+        const q = {
+            id: id,
+            area: document.getElementById('edit-q-area').value,
+            tema: document.getElementById('edit-q-tema').value,
+            enunciado: document.getElementById('edit-q-text').value,
+            opciones: [
+                document.getElementById('edit-q-opt-A').value,
+                document.getElementById('edit-q-opt-B').value,
+                document.getElementById('edit-q-opt-C').value,
+                document.getElementById('edit-q-opt-D').value
+            ],
+            correcta: document.getElementById('edit-q-correct').value,
+            justificacion: document.getElementById('edit-q-just').value,
+            tipo: 'standard'
+        };
+
+        // 1. Guardar Localmente (para feedback inmediato)
+        const localQuestions = JSON.parse(localStorage.getItem('icfes_questions') || '[]');
+        const index = localQuestions.findIndex(item => item.id === q.id);
+        if (index > -1) localQuestions[index] = q;
+        else localQuestions.push(q);
+        localStorage.setItem('icfes_questions', JSON.stringify(localQuestions));
+
+        // 2. Guardar en Firebase (para que todos lo vean)
+        try {
+            NotificationModule.show('Sincronizando con la nube...', 'info', 2000);
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/questions/${q.id}.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(q)
+            });
+            NotificationModule.show('✅ Pregunta guardada y publicada exitosamente.', 'success');
+            this.loadCloudQuestions();
+        } catch (e) {
+            console.error('Error guardando en Firebase:', e);
+            NotificationModule.show('Pregunta guardada localmente, pero hubo un error al subirla a la nube.', 'warning');
+        }
+
+        this.closeQuestionEditor();
+        this.init(); // Recargar tablas
     },
 
     setTab(tab) {
@@ -4330,6 +4447,7 @@ const TeacherModule = {
                     <td style="padding: 16px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.9rem;">${q.enunciado}</td>
                     <td style="padding: 16px; text-align: center;">
                         <button class="btn btn-ghost btn-sm" onclick='TeacherModule.preview("${q.id}")' title="Ver">👁️</button>
+                        <button class="btn btn-ghost btn-sm" style="color: var(--color-primary); margin-left: 4px;" onclick='TeacherModule.openQuestionEditor("${q.id}")' title="Editar">✏️</button>
                         <button class="btn btn-sm" style="background: rgba(239,68,68,0.1); color: var(--color-danger); border: none; margin-left: 4px;" onclick='TeacherModule.deleteQuestion("${q.id}")' title="Eliminar">🗑️</button>
                     </td>
                 `;
@@ -4375,7 +4493,13 @@ const TeacherModule = {
 
         // Generate chart HTML if exists
         let chartHTML = '';
-        if (q.grafica && q.grafica.datos) {
+        if (q.svg) {
+            chartHTML = `
+                <div style="margin-bottom: 20px; padding: 16px; background: var(--color-surface-2); border-radius: 12px; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+                    ${q.svg}
+                </div>
+            `;
+        } else if (q.grafica && q.grafica.datos) {
             if (q.grafica.tipo === 'geometry') {
                 // Geometry: use custom canvas
                 chartHTML = `
@@ -4518,18 +4642,16 @@ const TeacherModule = {
         document.getElementById('preview-modal').classList.add('hidden');
     },
 
-    deleteQuestion(id) {
-        if (!confirm('¿Estás seguro de eliminar esta pregunta?')) return;
+    async deleteQuestion(id) {
+        if (!confirm('¿Estás seguro de que quieres eliminar esta pregunta?')) return;
 
-        // Comprobar si es local
-        const questions = JSON.parse(localStorage.getItem('icfes_questions') || '[]');
-        const isLocal = questions.some(q => q.id === id);
+        // 1. Local Delete
+        const local = JSON.parse(localStorage.getItem('icfes_questions') || '[]');
+        const newLocal = local.filter(q => q.id !== id);
+        localStorage.setItem('icfes_questions', JSON.stringify(newLocal));
 
-        if (isLocal) {
-            const newQuestions = questions.filter(q => q.id !== id);
-            localStorage.setItem('icfes_questions', JSON.stringify(newQuestions));
-        } else {
-            // Es nativa (window.NATIVE_EXAM_DATA), usar soft-delete
+        if (local.length === newLocal.length) {
+            // Not a local question, maybe native or cloud?
             const deletedNative = JSON.parse(localStorage.getItem('deleted_native_questions') || '[]');
             if (!deletedNative.includes(id)) {
                 deletedNative.push(id);
@@ -4537,8 +4659,83 @@ const TeacherModule = {
             }
         }
 
-        this.init(); // Reload
-        NotificationModule.show('Pregunta eliminada correctamente.', 'success');
+        // 2. Cloud Delete (Firebase)
+        try {
+            NotificationModule.show('Eliminando de la nube...', 'info', 2000);
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/questions/${id}.json`, {
+                method: 'DELETE'
+            });
+            NotificationModule.show('✅ Pregunta eliminada correctamente (Nube y Local).', 'success');
+            this.loadCloudQuestions(); // Reload cloud cache
+        } catch (e) {
+            console.error('Cloud delete error:', e);
+            NotificationModule.show('Eliminada localmente, pero error al borrar de la nube.', 'warning');
+        }
+
+        this.init(); // Refresh UI
+    },
+
+    async resetStudentData() {
+        if (!confirm('🚨 ALERTA DE REINICIO DE TEMPORADA\n\nEsta acción borrará los puntos (XP), niveles, historial de preguntas y resultados de TODOS los estudiantes registrados.\n\nSin embargo, las CUENTAS se mantendrán para que no tengan que registrarse de nuevo.\n\n¿Estás seguro de que quieres continuar?')) return;
+        
+        const pwd = prompt('Ingresa la contraseña maestra para RESET GLOBAL (9090):');
+        if (pwd !== '9090') {
+            alert('Contraseña incorrecta. Abortando reinicio.');
+            return;
+        }
+
+        try {
+            NotificationModule.show('⏳ Iniciando reinicio de temporada...', 'info', 5000);
+            
+            // 1. Obtener todos los usuarios
+            const res = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+            const users = await res.json();
+            
+            if (!users) {
+                NotificationModule.show('No hay usuarios registrados para resetear.', 'warning');
+                return;
+            }
+
+            const total = Object.keys(users).length;
+            let count = 0;
+
+            // 2. Loop para resetear datos de cada uno manteniendo el perfil
+            for (const uid in users) {
+                const update = {
+                    history: null,
+                    results: null,
+                    gamification: {
+                        level: 1,
+                        xp: 0,
+                        weeklyXP: 0,
+                        streak: 1,
+                        lastActive: Date.now()
+                    },
+                    duels: {
+                        rating: 1000,
+                        wins: 0,
+                        losses: 0
+                    }
+                };
+
+                await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${uid}.json`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(update)
+                });
+                count++;
+                if (count % 5 === 0) console.log(`Procesados ${count}/${total} usuarios...`);
+            }
+
+            NotificationModule.show(`✅ ¡Temporada Reiniciada! Se han reseteado ${count} estudiantes.`, 'success');
+            
+            // Forzar cierre de sesión para aplicar cambios si el docente es un usuario
+            setTimeout(() => location.reload(), 2000);
+
+        } catch (e) {
+            console.error('Error en reset global:', e);
+            NotificationModule.show('Hubo un error al intentar el reinicio global.', 'error');
+        }
     },
 
     exportJSON() {
@@ -7181,14 +7378,19 @@ const AuthModule = {
     },
 
     async register(name, email, school, grade, sex, password, role = 'estudiante', area = '') {
-        // Restricción de seguridad silenciada
-        if (name.toLowerCase().includes('german')) {
+        // Restricción de seguridad removida por solicitud de usuario
+        /* if (name.toLowerCase().includes('german')) {
             NotificationModule.show('Error en el registro. Intenta de nuevo.', 'error');
             return false;
-        }
+        } */
 
-        // Simple hash or encoding for ID
-        const userId = btoa(email.toLowerCase().trim()).replace(/=/g, '');
+        // Simple hash or encoding for ID (Safe encoding)
+        let userId = '';
+        try {
+            userId = btoa(email.toLowerCase().trim()).replace(/=/g, '');
+        } catch(e) {
+            userId = btoa(encodeURIComponent(email.toLowerCase().trim())).replace(/=/g, '');
+        }
         const normalizedSchool = window.normalizeSchoolName ? window.normalizeSchoolName(school) : school;
         const newUser = { email, id: userId, name, school: normalizedSchool, grade, area, sex, password, role };
 
@@ -7197,9 +7399,18 @@ const AuthModule = {
             const checkRes = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${userId}/profile.json`);
             const existingProfile = await checkRes.json();
 
-            if (existingProfile) {
+            if (checkRes.ok && existingProfile && existingProfile.email) {
                 NotificationModule.show('Este correo ya está registrado.', 'error');
                 return false;
+            }
+            
+            if (!checkRes.ok && existingProfile && existingProfile.error) {
+                console.warn('Firebase connection check failed:', existingProfile);
+                if(existingProfile.error.includes("Permission denied")){
+                    // Continuamos para intentar escribir, puede ser por reglas de lectura.
+                } else {
+                     NotificationModule.show('Error de servidor en Firebase: ' + existingProfile.error, 'error');
+                }
             }
 
             // Save to Firebase User Database
@@ -7214,7 +7425,7 @@ const AuthModule = {
             return true;
         } catch (error) {
             console.error('Registration error:', error);
-            NotificationModule.show('Error de conexión al registrar.', 'error');
+            NotificationModule.show('No se pudo establecer conexión con la base de datos (Problemas de red o límite alcanzado).', 'error');
             return false;
         }
     },
@@ -7662,7 +7873,11 @@ const AuthUI = {
         const gradeInput = document.getElementById('reg-grade');
         const sexInput = document.getElementById('reg-sex');
 
-        if (!nameInput || !emailInput || !passwordInput || !schoolInput || !gradeInput || !sexInput) return;
+        if (!nameInput || !emailInput || !passwordInput || !schoolInput || !gradeInput || !sexInput) {
+             console.error('Faltan campos HTML para registro', {nameInput, emailInput, passwordInput, schoolInput, gradeInput, sexInput});
+             NotificationModule.show('Módulo de registro incompleto. Por favor recarga e intenta de nuevo.', 'error');
+             return;
+        }
 
         const name = nameInput.value.trim();
         const email = emailInput.value.trim();

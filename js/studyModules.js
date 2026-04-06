@@ -186,6 +186,25 @@ const StudyModules = {
                 margin-top: 8px;
                 display: inline-block;
             }
+            
+            @media (max-width: 640px) {
+                .module-card-premium {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 12px;
+                    padding: 20px 16px;
+                }
+                .module-icon-box {
+                    width: 48px;
+                    height: 48px;
+                    font-size: 24px;
+                }
+                .module-card-premium > .w-10 {
+                    position: absolute;
+                    bottom: 16px;
+                    right: 16px;
+                }
+            }
         `;
         document.head.appendChild(style);
     },

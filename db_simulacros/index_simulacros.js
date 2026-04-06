@@ -136,6 +136,17 @@ const NATIVE_EXAMS_DB = {
             dificultad: 'Media-Alta',
             archivo_js: 'db_simulacros/matematicas/mat_simulacro_06.js',
             fechaModificacion: '2026-03-09'
+        },
+        {
+            id: 'mat_sim_07',
+            titulo: 'Simulacro Matemáticas 07 (Geometría)',
+            descripcion: 'Séptimo simulacro de matemáticas enfocado en geometría, áreas, volúmenes y trigonometría básica.',
+            area: 'matematicas',
+            preguntas_count: 20,
+            tiempo_minutos: 40,
+            dificultad: 'Media-Alta',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_07.js',
+            fechaModificacion: '2026-03-25'
         }
     ]
 };

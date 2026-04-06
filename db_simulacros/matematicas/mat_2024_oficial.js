@@ -5,7 +5,7 @@ window.NATIVE_EXAM_DATA = window.NATIVE_EXAM_DATA || [];
 window.NATIVE_EXAM_DATA.push(...[
     {
         "id": "mat_1",
-        "area": "matematicas",
+        "area": "Matemáticas",
         "competencia": "Resolución de problemas",
         "texto": "Si en un salón hay 40 estudiantes y el 60% son mujeres, ¿cuántos hombres hay en el salón?",
         "grafica": null,
@@ -20,7 +20,7 @@ window.NATIVE_EXAM_DATA.push(...[
     },
     {
         "id": "mat_2",
-        "area": "matematicas",
+        "area": "Matemáticas",
         "competencia": "Razonamiento cuantitativo",
         "texto": "Un artículo cuesta $150,000. Si se le aplica un descuento del 20%, ¿cuál es el precio final?",
         "grafica": null,
