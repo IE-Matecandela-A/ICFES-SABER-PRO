@@ -1,0 +1,101 @@
+191: if (view === 'global-results' && typeof GlobalResultsModule !== 'undefined') GlobalResultsModule.ini
+1159: '🚫 ¡Ey! Has salido de la pestaña más de una vez. Tu examen NO será registrado, no sumará XP ni apare
+2184: '⏰ ¡Ey! Completaste el simulacro muy rápido. Este resultado NO será registrado, ni sumará XP ni apar
+2216: // 1. Global ranking sync
+7489: // LEGACY RECOVERY: If private history is empty, try to find matches in global ranking by name
+8054: const GlobalResultsModule = {
+8056: this.renderGlobalResults();
+8059: async renderGlobalResults() {
+8064: container.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--color-text-muted)
+8068: this._fetchScoreRankingHtml(),
+8069: this._fetchLevelRankingHtml(),
+8076: .global-ranking-grid {
+8083: .global-ranking-grid {
+8088: .global-ranking-grid {
+8092: .ranking-table-container {
+8099: .ranking-table {
+8103: .ranking-table thead {
+8107: .ranking-table th {
+8116: .ranking-table td {
+8120: .ranking-table tbody tr {
+8124: .ranking-table tbody tr:last-child {
+8127: .ranking-table tbody tr:hover {
+8130: .ranking-medal {
+8136: .ranking-student-name {
+8142: .ranking-student-grade {
+8147: .ranking-score {
+8152: .ranking-header-badge {
+8162: .ranking-level-badge {
+8173: .ranking-level-title {
+8182: .ranking-level-num {
+8189: <div class="global-ranking-grid">
+8191: <!-- Score Ranking Column -->
+8200: <!-- Level Ranking Column -->
+8209: <!-- Weekly Compliance Ranking Column -->
+8222: async _fetchBattleRoyalRankingHtml() {
+8242: console.error('Error fetching Battle Royal ranking:', e);
+8350: <div class="ranking-table-container" style="text-align: center; padding: 48px 24px; color: var(--col
+8363: <div class="ranking-table-container" style="border-color: rgba(16,185,129,0.3);">
+8366: <span class="ranking-header-badge" style="background: rgba(16,185,129,0.15); color: #10b981;">Meta: 
+8368: <table class="ranking-table">
+8389: <td style="padding: 12px 8px;"><span class="ranking-medal">${medal}</span></td>
+8391: <div class="ranking-student-name">${user.name}</div>
+8392: <div class="ranking-student-grade">${user.school}</div>
+8406: async _fetchScoreRankingHtml() {
+8423: // Only use server results for global ranking (no localStorage to prevent fake entries)
+8439: <div class="ranking-table-container" style="text-align: center; padding: 48px 24px; color: var(--col
+8442: <p style="font-size: 0.9rem; margin: 0;">Sé el primero en completar un simulacro y aparecer en el ra
+8448: <div class="ranking-table-container">
+8451: <span class="ranking-header-badge" style="background: rgba(124, 58, 237, 0.1); color: var(--color-pr
+8453: <table class="ranking-table">
+8475: <td><span class="ranking-medal">${medal}</span></td>
+8477: <div class="ranking-student-name">${item.studentName || 'Anónimo'}</div>
+8478: ${item.grade ? `<div class="ranking-student-grade" style="font-size: 0.65rem;">${item.grade}</div>` 
+8481: <span class="ranking-score" style="color: ${scoreColor};">${scoreValue}</span>
+8493: async _fetchLevelRankingHtml() {
+8505: console.error('Error fetching users for level ranking:', e);
+8510: <div class="ranking-table-container" style="text-align: center; padding: 48px 24px; color: var(--col
+8522: <div class="ranking-table-container" style="border-color: rgba(245,158,11,0.3);">
+8525: <span class="ranking-header-badge" style="background: rgba(245,158,11,0.15); color: #d97706;">Experi
+8527: <table class="ranking-table">
+8563: <td><span class="ranking-medal">${medal}</span></td>
+8565: <div class="ranking-student-name">${userObj.profile?.name || 'Anónimo'}</div>
+8566: <div class="ranking-student-grade">${userObj.profile?.grade || 'N/A'}</div>
+8569: <div class="ranking-level-badge">
+8570: <span class="ranking-level-title">${levelObj.title}</span>
+8571: <span class="ranking-level-num">Nvl ${levelObj.level}</span>
+8575: <span class="ranking-score" style="color: var(--color-primary);">${xp.toLocaleString()}</span>
+8611: this.loadRanking();
+8614: async loadRanking() {
+8615: const tbody = document.getElementById('fc-ranking-body');
+8623: let rankingList = [];
+8626: if (u.flashcardRanking_v2 && u.flashcardRanking_v2.points > 0) {
+8627: rankingList.push({
+8628: name: u.flashcardRanking_v2.name || u.info?.name || 'Estudiante',
+8629: school: window.normalizeSchoolName ? window.normalizeSchoolName(u.flashcardRanking_v2.school || u.in
+8630: points: u.flashcardRanking_v2.points
+8637: rankingList.sort((a, b) => b.points - a.points);
+8638: rankingList = rankingList.slice(0, 10);
+8640: if (rankingList.length === 0) {
+8646: rankingList.forEach((user, index) => {
+8670: console.error('Error loading Flashcard Ranking', e);
+8671: tbody.innerHTML = `<tr><td colspan="3" style="padding:24px; text-align:center; color:var(--color-dan
+9064: // Upload to Flashcard Ranking Leaderboard
+9066: const pointsEarned = validCards * 3; // 3 points per valid card for flashcard ranking
+9068: // Get current user flashcard ranking points
+9070: const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${uId}/flashcardRank
+9087: // Show notification for Flashcard Ranking specifically
+9093: console.error('Error updating Flascard ranking points:', e);
+9115: this.loadRanking();
+9190: this.speak("¡Mira dónde estás! 🏆 Este ranking mide constancia y dedicación. Sigue practicando para s
+9364: message: "Revisa el **Ranking Global**. ¡Compite con otros estudiantes y escala hasta el puesto #1! 
+9460: this.speak("Para guardar tu progreso, ganar XP y aparecer en el ranking, necesitas una cuenta. ¿No t
+9519: this.loadDuelRanking();
+9523: // 10-second polling for live ranking updates
+9529: this.loadDuelRanking();
+9604: async loadDuelRanking() {
+9605: const container = document.getElementById('duel-ranking-container');
+9607: container.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--color-text-muted)
+9608: if (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._fetchBattleRoyalRankingHtml) 
+9609: const html = await GlobalResultsModule._fetchBattleRoyalRankingHtml();
+9612: container.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--color-danger);">E

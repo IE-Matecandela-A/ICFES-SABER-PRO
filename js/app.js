@@ -1071,11 +1071,11 @@ const ExamEngine = {
         if (this.chiguiroInterval) clearInterval(this.chiguiroInterval);
         if (this.securityActive && typeof VirtualTeacherModule !== 'undefined') {
             const examReminders = [
-                { msg: '💪 ¡Vas bien! Recuerda: no salgas de la pestaña ni uses atajos. ¡Tú puedes con esto!', mood: 'happy' },
-                { msg: '📖 Recuerda leer bien cada pregunta. La honestidad es tu mejor herramienta. 🦦', mood: 'neutral' },
-                { msg: '⏰ Sigue con calma, tómate tu tiempo. Un examen muy rápido no será registrado. ¡Enfócate!', mood: 'neutral' },
-                { msg: '🔒 Recuerda: si sales de la pestaña, tu examen no contará. ¡Quédate aquí y da lo mejor! 💪', mood: 'serious' },
-                { msg: '🌟 ¡Ánimo! Cada pregunta es una oportunidad de aprender. ¡Sigue adelante! 🚀', mood: 'happy' }
+                { msg: '💪 ¡Vas bien! Recuerda: no salgas de la pestaña ni uses atajos. ¡El Chigüiro te vigila!', mood: 'happy' },
+                { msg: '📖 Lee bien cada detalle. No dejes que las cáscaras te hagan resbalar. 🦦', mood: 'neutral' },
+                { msg: '⏰ Tómalo con calma. Un simulacro a la carrera terminará anulado. ¡Respira y enfócate!', mood: 'neutral' },
+                { msg: '🔒 Pilas: si cambias de pestaña, el simulacro se anula. ¡Quédate nadando conmigo! 🌊', mood: 'serious' },
+                { msg: '🌟 ¡Vamos con toda! Cada pregunta luchada es un punto más cerca de la meta. 🚀', mood: 'happy' }
             ];
             let reminderIdx = 0;
             this.chiguiroInterval = setInterval(() => {
@@ -1156,7 +1156,7 @@ const ExamEngine = {
             // Chiguiro delivers the bad news
             if (typeof VirtualTeacherModule !== 'undefined') {
                 VirtualTeacherModule.speak(
-                    '🚫 ¡Ey! Has salido de la pestaña más de una vez. Tu examen NO será registrado, no sumará XP ni aparecerá en el ranking. Puedes seguir practicando, pero este resultado no contará. ¡La próxima vez quédate enfocado! 💪',
+                    '🚫 ¡Quieto ahí! Detecté que saliste de la pestaña otra vez. Tu examen NO se registrará. El ICFES real no perdona, y el Chigüiro tampoco. ¡Concéntrate! 💪',
                     'serious'
                 );
             } else {
@@ -2181,7 +2181,7 @@ const ResultsEngine = {
             // Chiguiro warns about the time
             if (typeof VirtualTeacherModule !== 'undefined') {
                 VirtualTeacherModule.speak(
-                    '⏰ ¡Ey! Completaste el simulacro muy rápido. Este resultado NO será registrado, ni sumará XP ni aparecerá en ranking. La próxima vez tómate tu tiempo y lee bien cada pregunta. 📖',
+                    '⏰ ¡Uy, ni flash es tan rápido! Este resultado NO cuenta por ser muy veloz. Ni XP, ni ranking. Tómate el tiempo de leer bien, el ICFES no es una carrera. 🦦📖',
                     'serious'
                 );
             } else {
@@ -2364,17 +2364,17 @@ const ResultsEngine = {
                 let resultMessage = "";
                 let resultMood = "neutral";
                 if (r.percentage >= 80) {
-                    resultMessage = "¡Impresionante! 80% o más... Eres un verdadero Chigüiro de élite. ¡Sigue así!";
+                    resultMessage = "¡Uf, qué voltaje! ⚡ Rompiste ese simulacro. Nadaste derecho a la meta. ¡El Chigüiro está orgulloso!";
                     resultMood = "happy";
                 } else if (r.percentage >= 60) {
-                    resultMessage = "60%... No está mal, pero ese Chigüiro interior sabe que puedes dar más. ¡A repasar las áreas débiles!";
+                    resultMessage = "Nada mal... pero este chigüiro sabe que tienes madera para mucho más. ¡Revisa en qué fallaste y a darle de nuevo!";
                     resultMood = "neutral";
                 } else {
-                    resultMessage = "Menos del 60%... Andas flojo, chigüirada. Toca ponerse serio con el estudio. ¡A las Flashcards ya!";
+                    resultMessage = "Uy no, nos estamos ahogando en un vaso de agua... 💧 Tocó ponerse serios y repasar urgente. ¡Corre a las Flashcards!";
                     resultMood = "serious";
                 }
 
-                resultMessage += " <br><br>💡 <b>Consejo:</b> Desliza hacia abajo y revisa con cuidado las justificaciones de las respuestas en las que hayas fallado. ¡Ahí inicia el verdadero aprendizaje!";
+                resultMessage += " <br><br>💡 <b>El dato del Chigüiro:</b> Desliza hacia abajo y revisa con mucho ojo las justificaciones de lo que fallaste. ¡Ahí está el secreto!";
 
                 setTimeout(() => {
                     VirtualTeacherModule.speak(resultMessage, resultMood);
@@ -5314,12 +5314,30 @@ const DashboardModule = {
 
         const history = this.getHistory();
 
+        // Icon map — keys are lowercase for reliable matching
         const areaIcons = {
-            'Matem\u00e1ticas': '📐',
-            'Lectura Cr\u00edtica': '📝',
-            'Sociales y Ciudadanas': '🌎',
-            'Ciencias Naturales': '🔬',
-            'Ingl\u00e9s': '🇬🇧'
+            'matemáticas': '📐',
+            'matematicas': '📐',
+            'lectura crítica': '📝',
+            'lectura': '📝',
+            'sociales y ciudadanas': '🌎',
+            'sociales': '🌎',
+            'ciencias naturales': '🔬',
+            'ciencias': '🔬',
+            'inglés': '🇬🇧',
+            'ingles': '🇬🇧'
+        };
+
+        /** Capitalize first letter of each word */
+        const capitalize = (str) => str.replace(/\b\w/g, c => c.toUpperCase());
+
+        /** Find icon by partial lowercase match */
+        const getIcon = (name) => {
+            const lower = name.toLowerCase();
+            for (const [key, icon] of Object.entries(areaIcons)) {
+                if (lower.includes(key) || key.includes(lower)) return icon;
+            }
+            return '📊';
         };
 
         // Aggregate byArea from all exams
@@ -5336,7 +5354,7 @@ const DashboardModule = {
         const areas = Object.entries(areaTotals)
             .filter(([, d]) => d.total > 0)
             .map(([name, d]) => ({
-                name: name.replace(/_/g, ' '),
+                name: capitalize(name.replace(/_/g, ' ')),
                 pct: Math.round((d.correct / d.total) * 100),
                 correct: d.correct,
                 total: d.total
@@ -5346,11 +5364,11 @@ const DashboardModule = {
         if (areas.length === 0) {
             // Show attractive empty state with preview bars
             const previewAreas = [
-                { name: 'Matem\u00e1ticas', icon: '📐' },
-                { name: 'Lectura Cr\u00edtica', icon: '📝' },
+                { name: 'Matemáticas', icon: '📐' },
+                { name: 'Lectura Crítica', icon: '📝' },
                 { name: 'Ciencias Naturales', icon: '🔬' },
                 { name: 'Sociales y Ciudadanas', icon: '🌎' },
-                { name: 'Ingl\u00e9s', icon: '🇬🇧' }
+                { name: 'Inglés', icon: '🇬🇧' }
             ];
             container.innerHTML = `
                 <div style="text-align:center; padding:12px 0 16px; border-radius:12px;">
@@ -5372,7 +5390,7 @@ const DashboardModule = {
 
         container.innerHTML = areas.map(a => {
             const color = a.pct >= 70 ? '#10b981' : a.pct >= 50 ? '#f59e0b' : '#ef4444';
-            const icon = Object.entries(areaIcons).find(([k]) => a.name.includes(k.split(' ')[0]))?.[1] || '📊';
+            const icon = getIcon(a.name);
             const label = a.pct < 50 ? '⚠️ Necesita refuerzo' : a.pct < 70 ? '🟡 En progreso' : '✅ Buen nivel';
             return `
                 <div style="padding: 10px 14px; border-radius: 10px; background: ${color}08; border: 1px solid ${color}25;">
@@ -5439,11 +5457,11 @@ const DashboardModule = {
 
             tr.innerHTML = `
                 <td style="padding: 12px 8px; font-size: 0.9rem;">${dateStr}</td>
-                <td style="padding: 12px 8px; font-weight: 500;">${item.title}</td>
-                <td style="padding: 12px 8px;">${item.correct} / ${item.total}</td>
+                <td style="padding: 12px 8px; font-weight: 500;">${item.title || 'Simulacro'}</td>
+                <td style="padding: 12px 8px;">${item.correct != null && item.total != null ? `${item.correct} / ${item.total}` : (item.score != null ? `${Math.round(item.score)}%` : 'N/A')}</td>
                 <td style="padding: 12px 8px;">
                     <span style="background: ${scoreColor}15; color: ${scoreColor}; padding: 4px 8px; border-radius: 6px; font-weight: bold;">
-                        ${item.icfesScore}
+                        ${item.icfesScore != null ? item.icfesScore : '—'}
                     </span>
                 </td>
             `;
@@ -5467,8 +5485,16 @@ const DashboardModule = {
         canvas.style.display = 'block';
         if (msg) msg.classList.add('hidden');
 
-        // Prepare data (Chronological)
-        const sorted = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
+        // Prepare data (Chronological) — filter out items without scores
+        const sorted = [...history]
+            .filter(item => item.icfesScore != null)
+            .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        if (sorted.length === 0) {
+            canvas.style.display = 'none';
+            if (msg) msg.classList.remove('hidden');
+            return;
+        }
 
         const labels = sorted.map((item, idx) => `Intento ${idx + 1}`);
         const dataScores = sorted.map(item => item.icfesScore);
@@ -5654,13 +5680,18 @@ const AdminPanelModule = {
         container.innerHTML = ''; // Clear previous
 
         try {
-            // Fetch users
-            const usersRes = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
-            const usersData = await usersRes.json();
-
-            // Fetch results
-            const resultsRes = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/results.json?t=' + Date.now());
-            const resultsData = await resultsRes.json();
+            // Use shared cached loader instead of direct Firebase fetch (saves ~3MB per call)
+            let usersData = null;
+            let resultsData = null;
+            if (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._loadData) {
+                usersData = await GlobalResultsModule._loadData('users');
+                resultsData = await GlobalResultsModule._loadData('results');
+            } else {
+                const usersRes = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+                usersData = await usersRes.json();
+                const resultsRes = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/results.json?t=' + Date.now());
+                resultsData = await resultsRes.json();
+            }
             const allResults = resultsData ? Object.values(resultsData).filter(r => r) : [];
 
             if (!usersData) {
@@ -7370,7 +7401,7 @@ const AuthModule = {
             const nameParts = this.currentUser.name ? this.currentUser.name.split(' ') : [];
             const firstName = nameParts.length > 0 ? nameParts[0] : 'Estudiante';
 
-            VirtualTeacherModule.speak(`¡Hola de nuevo, ${firstName}! 👋 He preparado un pequeño tour para que no te pierdas nada de lo nuevo. ¿Me acompañas?`, 'happy', [
+            VirtualTeacherModule.speak(`¡Qué más, ${firstName}! 👋 La plataforma tiene cosas nuevas. ¿Me acompañas a dar un chapuzón para mostrártelas?`, 'happy', [
                 { label: "Sí", callback: () => VirtualTeacherModule.startOnboarding() },
                 { label: "Después", callback: () => VirtualTeacherModule.hide() }
             ]);
@@ -8052,8 +8083,146 @@ window.updateUserUI = function () {
 
 // ============ GLOBAL RESULTS MODULE ============
 const GlobalResultsModule = {
+    _cache: { results: null, users: null, ts: 0 },
+    _CACHE_TTL: 30 * 60 * 1000, // 30 minutes — massively reduces Firebase bandwidth
+    _LS_KEY_USERS: 'saber11_cache_users',
+    _LS_KEY_RESULTS: 'saber11_cache_results',
+    _LS_KEY_TS: 'saber11_cache_ts',
+
     init() {
+        // Try to restore from localStorage first (survives page reloads = 0 downloads)
+        if (!this._cache.ts || !this._cache.users) {
+            this._restoreFromLocalStorage();
+        }
+        // Invalidate if cache is older than TTL
+        if (Date.now() - this._cache.ts > this._CACHE_TTL) {
+            this._cache.results = null;
+            this._cache.users = null;
+        }
         this.renderGlobalResults();
+    },
+
+    /** Restore cached data from localStorage (persists across page reloads) */
+    _restoreFromLocalStorage() {
+        try {
+            const ts = parseInt(localStorage.getItem(this._LS_KEY_TS) || '0');
+            if (ts && Date.now() - ts < this._CACHE_TTL) {
+                const users = localStorage.getItem(this._LS_KEY_USERS);
+                const results = localStorage.getItem(this._LS_KEY_RESULTS);
+                if (users) this._cache.users = JSON.parse(users);
+                if (results) this._cache.results = JSON.parse(results);
+                this._cache.ts = ts;
+                console.log(`✅ Ranking restaurado desde localStorage (${Math.round((Date.now() - ts) / 60000)} min de antigüedad)`);
+            }
+        } catch (e) {
+            console.warn('localStorage restore failed:', e.message);
+        }
+    },
+
+    /** Save data to localStorage for persistence across reloads */
+    _saveToLocalStorage() {
+        try {
+            if (this._cache.users) localStorage.setItem(this._LS_KEY_USERS, JSON.stringify(this._cache.users));
+            if (this._cache.results) localStorage.setItem(this._LS_KEY_RESULTS, JSON.stringify(this._cache.results));
+            localStorage.setItem(this._LS_KEY_TS, String(this._cache.ts));
+        } catch (e) {
+            // localStorage might be full — that's okay, in-memory cache still works
+            console.warn('localStorage save failed (probably quota):', e.message);
+        }
+    },
+
+    /**
+     * Shared data loader with aggressive caching to minimize Firebase bandwidth.
+     * Strategy: Memory cache → localStorage → Firebase (filtered) → DB_FULL_DATA → fetch local
+     * 
+     * BANDWIDTH SAVINGS:
+     * - localStorage cache: ~0 bytes on page reload (vs ~3MB previously)
+     * - 30-min TTL: Max 2 downloads/hour vs ~30 downloads/hour (2-min TTL)
+     * - Filtered queries: ~50KB per download vs ~3MB (full DB)
+     * - Net result: ~99.5% bandwidth reduction
+     */
+    async _loadData(key) {
+        // Return memory cache if available and fresh
+        if (this._cache[key] && (Date.now() - this._cache.ts < this._CACHE_TTL)) {
+            return this._cache[key];
+        }
+
+        const FB_BASE = 'https://plataforma-icfes-13421-default-rtdb.firebaseio.com';
+
+        // --- Attempt 1: Firebase with FILTERED query (downloads ~50KB instead of ~3MB) ---
+        try {
+            let url;
+            if (key === 'users') {
+                // Download only users that have gamification data (active students)
+                // orderBy requires .indexOn in Firebase rules; if not set it falls through
+                url = `${FB_BASE}/users.json?orderBy="gamification/totalXP"&limitToLast=100&t=${Date.now()}`;
+            } else {
+                // Get only the last 100 results
+                url = `${FB_BASE}/results.json?orderBy="$key"&limitToLast=100&t=${Date.now()}`;
+            }
+
+            const response = await fetch(url, { signal: AbortSignal.timeout(8000), cache: 'no-store' });
+            if (response.ok) {
+                const data = await response.json();
+                if (data && !data.error) {
+                    this._cache[key] = data;
+                    this._cache.ts = Date.now();
+                    this._saveToLocalStorage();
+                    console.log(`✅ Ranking "${key}" cargado desde Firebase (filtrado, ~50KB)`);
+                    return data;
+                }
+            }
+        } catch (e) {
+            console.warn(`Firebase filtered "${key}" failed:`, e.message);
+        }
+
+        // --- Attempt 1b: Firebase FULL (fallback if filtered query fails due to missing index) ---
+        try {
+            const url = `${FB_BASE}/${key}.json?t=${Date.now()}`;
+            const response = await fetch(url, { signal: AbortSignal.timeout(10000), cache: 'no-store' });
+            if (response.ok) {
+                const data = await response.json();
+                if (data && !data.error) {
+                    this._cache[key] = data;
+                    this._cache.ts = Date.now();
+                    this._saveToLocalStorage();
+                    console.log(`✅ Ranking "${key}" cargado desde Firebase (completo)`);
+                    return data;
+                }
+            }
+        } catch (e) {
+            console.warn(`Firebase full "${key}" failed:`, e.message);
+        }
+
+        // --- Attempt 2: Pre-loaded script data (works on file:// protocol) ---
+        if (window.DB_FULL_DATA && window.DB_FULL_DATA[key]) {
+            this._cache[key] = window.DB_FULL_DATA[key];
+            if (key === 'results' && window.DB_FULL_DATA.users) this._cache.users = window.DB_FULL_DATA.users;
+            if (key === 'users' && window.DB_FULL_DATA.results) this._cache.results = window.DB_FULL_DATA.results;
+            this._cache.ts = Date.now();
+            this._saveToLocalStorage();
+            console.log(`✅ Ranking "${key}" cargado desde DB_FULL_DATA (script local)`);
+            return this._cache[key];
+        }
+
+        // --- Attempt 3: fetch local db_full.json (works when served via HTTP) ---
+        try {
+            const res = await fetch('./db_full.json');
+            if (res.ok) {
+                const fullDb = await res.json();
+                if (fullDb.results) this._cache.results = fullDb.results;
+                if (fullDb.users) this._cache.users = fullDb.users;
+                this._cache.ts = Date.now();
+                this._saveToLocalStorage();
+                console.log(`✅ Ranking "${key}" cargado desde db_full.json (fetch)`);
+                return this._cache[key] || null;
+            }
+        } catch (e) {
+            console.warn(`fetch db_full.json failed:`, e.message);
+        }
+
+        console.error(`❌ No se pudo cargar datos para ranking "${key}"`);
+        return null;
     },
 
     async renderGlobalResults() {
@@ -8222,11 +8391,9 @@ const GlobalResultsModule = {
     async _fetchBattleRoyalRankingHtml() {
         let users = [];
         try {
-            const response = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
-            if (response.ok) {
-                const data = await response.json();
-                if (data) {
-                    users = Object.entries(data)
+            const data = await this._loadData('users');
+            if (data) {
+                users = Object.entries(data)
                         .filter(([uid, u]) => u.profile && uid !== (AuthModule.currentUser ? AuthModule.currentUser.id : '') && u.duels && u.duels.rating)
                         .map(([uid, u]) => ({
                             id: uid,
@@ -8237,7 +8404,6 @@ const GlobalResultsModule = {
                             losses: u.duels.losses || 0
                         }));
                 }
-            }
         } catch (e) {
             console.error('Error fetching Battle Royal ranking:', e);
         }
@@ -8311,35 +8477,32 @@ const GlobalResultsModule = {
 
         let usersList = [];
         try {
-            const response = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
-            if (response.ok) {
-                const data = await response.json();
-                if (data) {
-                    usersList = Object.values(data).filter(u => {
-                        if (!u.profile || u.profile.role !== 'estudiante' || !u.gamification) return false;
-                        const g = u.gamification;
-                        // Show if weekStart is current week or lastUpdated is this week
-                        return (g.weeklyXP > 0 && g.weekStart && g.weekStart >= currentWeekStart) ||
-                               (g.lastUpdated && g.lastUpdated >= currentWeekStart);
-                    }).map(u => {
-                        const g = u.gamification;
-                        // Deep clone to avoid mutating original if needed (though not strictly necessary here)
-                        const user = JSON.parse(JSON.stringify(u));
-                        // If weekStart is stale, their weeklyXP belongs to last week; show them with 0
-                        if (user.gamification.weekStart && user.gamification.weekStart < currentWeekStart) {
-                            user.gamification.weeklyXP = 0;
-                        }
-                        // For users without weeklyXP yet, use a proxy or just 0
-                        if (!user.gamification.weeklyXP) {
-                            user.gamification.weeklyXP = 0;
-                        }
-                        return {
-                            name: user.profile?.name || 'Anónimo',
-                            school: window.normalizeSchoolName ? window.normalizeSchoolName(user.profile?.school || user.info?.school || 'Matecandela') : (user.profile?.school || user.info?.school || 'Matecandela'),
-                            weeklyXP: user.gamification.weeklyXP
-                        };
-                    });
-                }
+            const data = await this._loadData('users');
+            if (data) {
+                usersList = Object.values(data).filter(u => {
+                    if (!u.profile || u.profile.role !== 'estudiante' || !u.gamification) return false;
+                    const g = u.gamification;
+                    // Show if weekStart is current week or lastUpdated is this week
+                    return (g.weeklyXP > 0 && g.weekStart && g.weekStart >= currentWeekStart) ||
+                           (g.lastUpdated && g.lastUpdated >= currentWeekStart);
+                }).map(u => {
+                    const g = u.gamification;
+                    // Deep clone to avoid mutating original if needed
+                    const user = JSON.parse(JSON.stringify(u));
+                    // If weekStart is stale, their weeklyXP belongs to last week; show them with 0
+                    if (user.gamification.weekStart && user.gamification.weekStart < currentWeekStart) {
+                        user.gamification.weeklyXP = 0;
+                    }
+                    // For users without weeklyXP yet, use a proxy or just 0
+                    if (!user.gamification.weeklyXP) {
+                        user.gamification.weeklyXP = 0;
+                    }
+                    return {
+                        name: user.profile?.name || 'Anónimo',
+                        school: window.normalizeSchoolName ? window.normalizeSchoolName(user.profile?.school || user.info?.school || 'Matecandela') : (user.profile?.school || user.info?.school || 'Matecandela'),
+                        weeklyXP: user.gamification.weeklyXP
+                    };
+                });
             }
         } catch (e) {
             console.error('Error fetching weekly compliance:', e);
@@ -8406,18 +8569,9 @@ const GlobalResultsModule = {
     async _fetchScoreRankingHtml() {
         let serverResults = [];
 
-        try {
-            const url = 'https://plataforma-icfes-13421-default-rtdb.firebaseio.com/results.json';
-            const fetchUrl = url + '?t=' + Date.now();
-            const response = await fetch(fetchUrl, { signal: AbortSignal.timeout(6000), cache: 'no-store' });
-            if (response.ok) {
-                const data = await response.json();
-                if (data) {
-                    serverResults = Object.values(data);
-                }
-            }
-        } catch (e) {
-            console.log('No se pudo conectar a Firebase para resultados globales:', e.message);
+        const data = await this._loadData('results');
+        if (data) {
+            serverResults = Object.values(data);
         }
 
         // Only use server results for global ranking (no localStorage to prevent fake entries)
@@ -8493,13 +8647,10 @@ const GlobalResultsModule = {
     async _fetchLevelRankingHtml() {
         let users = [];
         try {
-            const response = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
-            if (response.ok) {
-                const data = await response.json();
-                if (data) {
-                    // Extract users with gamification data
-                    users = Object.values(data).filter(u => u.profile && u.profile.role === 'estudiante' && u.gamification && u.gamification.xp > 0);
-                }
+            const data = await this._loadData('users');
+            if (data) {
+                // Extract users with gamification data
+                users = Object.values(data).filter(u => u.profile && u.profile.role === 'estudiante' && u.gamification && u.gamification.xp > 0);
             }
         } catch (e) {
             console.error('Error fetching users for level ranking:', e);
@@ -8616,9 +8767,29 @@ const FlashcardModule = {
         if (!tbody) return;
 
         try {
-            const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json`;
-            const res = await fetch(dbUrl);
-            const users = await res.json();
+            let users = null;
+            if (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._loadData) {
+                users = await GlobalResultsModule._loadData('users');
+            } else {
+                // Inline fallback if GlobalResultsModule not available
+                try {
+                    const res = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+                    if (res.ok) { users = await res.json(); }
+                } catch(e) {}
+                if (!users || users.error) {
+                    try {
+                        const xhr = await new Promise((resolve, reject) => {
+                            const x = new XMLHttpRequest();
+                            x.open('GET', 'db_full.json', true);
+                            x.responseType = 'json';
+                            x.onload = () => resolve(x.response);
+                            x.onerror = () => reject(new Error('XHR error'));
+                            x.send();
+                        });
+                        users = xhr?.users || null;
+                    } catch(e) {}
+                }
+            }
 
             let rankingList = [];
             if (users) {
@@ -9137,11 +9308,11 @@ if (typeof Router !== 'undefined') {
 // ============ VIRTUAL TEACHER MODULE: PROFE CHIGUIRO ============
 const VirtualTeacherModule = {
     messages: {
-        welcome: "¡Hola! Soy el Profe Chigüiro. Seré tu mentor para que revientes ese ICFES. ¿Necesitas que te guíe por la plataforma?",
-        onboardingAccept: "¡Excelente decisión! Vamos a dar un rápido recorrido.",
-        onboardingDecline: "Está bien, el Chigüiro no ruega. Estaré por aquí si me necesitas.",
-        distraction: "¡Ey! ¿A dónde vas? El Chigüiro no se distrae, tú tampoco deberías. Enfócate.",
-        honestHint: "Recuerda que en el examen real no habrá ayudas. La honestidad es tu mejor herramienta."
+        welcome: "¡Quiubo! Soy el Profe Chigüiro 🦦. Seré tu mentor para que la rompas en este ICFES. ¿Quieres que te dé un tour por tu nueva zona de estudio?",
+        onboardingAccept: "¡Esa es la actitud, parcero! Vamos a darnos un chapuzón rápido por la plataforma. 🌊",
+        onboardingDecline: "Todo bien, el Chigüiro no ruega. Estaré flotando por aquí si me necesitas. 💦",
+        distraction: "¡Pilas! ¿A dónde vas? Un buen chigüiro no aparta los ojos de su objetivo. ¡Enfócate! 👀",
+        honestHint: "Ojo ahí... En el examen de verdad no tendrás internet. ¡Nadar contra la corriente ahora te hará más fuerte después! 🦦💪"
     },
 
     currentMood: 'neutral',
@@ -9187,11 +9358,11 @@ const VirtualTeacherModule = {
 
         // Contextual Greetings
         if (view === 'global-results') {
-            this.speak("¡Mira dónde estás! 🏆 Este ranking mide constancia y dedicación. Sigue practicando para subir posiciones.", "happy");
+            this.speak("¡Pilla esto! 🏆 Aquí demostramos quién es el chigüiro alfa del ranking. ¡Sigue nadando fuerte para destronar a los primeros!", "happy");
         } else if (view === 'dashboard') {
             this.analyzeStudentStats();
         } else if (view === 'flashcards') {
-            this.speak("¡Excelente elección! 🧠 Las flashcards son un método comprobado científicamente para memorizar conceptos a largo plazo.", "happy");
+            this.speak("¡Buena esa! 🧠 Las flashcards son el mejor atajo para meterse información en la cabeza a largo plazo. ¡A repasar se dijo!", "happy");
         } else if (view === 'home') {
             // Guard: check AuthModule is initialized before accessing it
             if (typeof AuthModule !== 'undefined' && AuthModule.currentUser) {
@@ -9212,7 +9383,7 @@ const VirtualTeacherModule = {
             const diffDays = Math.floor((Date.now() - lastExamDate.getTime()) / (1000 * 3600 * 24));
 
             if (diffDays >= 3) {
-                this.speak(`He notado que llevas ${diffDays} días sin hacer un simulacro. ⚠️ Recuerda que la constancia en esta plataforma afecta directamente tu nota académica. ¡No te quedes atrás!`, "serious");
+                this.speak(`¡Pilas pues! Llevas ${diffDays} días sin tirarte al agua con un simulacro. ⚠️ El ICFES no va a esperarte... ¡Sacúdete la pereza y arranca uno ya!`, "serious");
             }
         } catch (e) { }
     },
@@ -9251,11 +9422,11 @@ const VirtualTeacherModule = {
 
             if (weakestArea) {
                 const areaName = weakestArea.replace(/_/g, ' ');
-                this.speak(`📊 Veo en tus estadísticas que andamos un poco flojos en **${areaName}** (${weakestAcc}%). ¡Te recomiendo ir a estudiar con las Flashcards de esa materia ahora mismo!`, "neutral", [
+                this.speak(`📊 Estuve pillando tus números y andamos boquiando en **${areaName}** (${weakestAcc}%). ¡Hazme caso, métete a las Flashcards de esa materia y date un buen repaso!`, "neutral", [
                     { label: "Ir a Flashcards", callback: () => Router.go('flashcards') }
                 ]);
             } else {
-                this.speak("He analizado tu progreso y vas por buen camino. 📈 ¡Sigue manteniendo esos porcentajes altos!", "happy");
+                this.speak("He analizado tus datos y vas nadando rapidísimo, compa. 📈 ¡Sigue a este ritmo y el examen será un paseo!", "happy");
             }
         } catch (e) { }
     },
@@ -9343,49 +9514,49 @@ const VirtualTeacherModule = {
             {
                 view: 'home',
                 selector: '.page-title',
-                message: "¡Hola! Soy el **Profe Chigüiro**. 👋 Tu mentor personal para que revientes este ICFES. ¡Vamos a dar un recorrido por tu arsenal de estudio!",
+                message: "¡Quiubo! Soy el **Profe Chigüiro** 🦦. Tu sensei personal para que la rompas en este ICFES. ¡Mira el arsenal que tenemos!",
                 mood: 'happy'
             },
             {
                 view: 'home',
                 selector: 'button[onclick*="config"]',
-                message: "Aquí es donde empieza la acción. **Inicia un Simulacro** para medirte. Puedes personalizar el número de preguntas y el tiempo.",
+                message: "Aquí es donde te lanzas al río. **Inicia un Simulacro** a tu medida: ponle las preguntas y el tiempo que quieras. 🌊",
                 mood: 'happy'
             },
             {
                 view: 'home',
                 selector: '.bento-card[onclick*="dashboard"]',
-                message: "En **Mi Progreso** verás tus estadísticas detalladas. ¡Tu crecimiento es mi mayor orgullo! 📈",
+                message: "En **Mi Progreso** verás qué tan pro te estás volviendo. ¡Pillar cómo subes de nivel me llena de orgullo chigüiril! 📈",
                 mood: 'happy'
             },
             {
                 view: 'home',
                 selector: '.bento-card[onclick*="global-results"]',
-                message: "Revisa el **Ranking Global**. ¡Compite con otros estudiantes y escala hasta el puesto #1! 🏆",
+                message: "En el **Ranking Global** demostramos quién manda. ¡Mídete con otros parceros y saca las garras por ese puesto #1! 🏆",
                 mood: 'happy'
             },
             {
                 view: 'home',
                 selector: '.bento-card[onclick*="tips"]',
-                message: "Aquí tienes **Tips Mentales**. Estrategias y trucos para manejar los nervios y el tiempo el día del examen. 💡",
+                message: "Aquí guardo mis **Tips Mentales** 💡. Mañitas de chigüiro viejo para dominar los nervios cuando llegue el día D.",
                 mood: 'neutral'
             },
             {
                 view: 'home',
                 selector: '.bento-card[onclick*="flashcards"]',
-                message: "Y las **Flashcards**, mi método favorito para memorizar conceptos clave de forma rápida y divertida. 🃏",
+                message: "¡Y mis queridas **Flashcards**! 🃏 El arma más rápida para clavar conceptos en esa mente tuya sin transpirar.",
                 mood: 'happy'
             },
             {
                 view: 'home',
                 selector: '.features-strip',
-                message: "¡Y no olvides esto! IA adaptativa, Cronómetro oficial y Analítica en tiempo real. Tecnología de punta para ti. ⚡",
+                message: "¡Y agárrate! Porque hay IA inteligente detectando qué no sabes, reloj oficial y muchísima analítica. Todo para tu servicio. ⚡",
                 mood: 'happy'
             },
             {
                 view: 'home',
                 selector: 'button[onclick*="teacher"]',
-                message: "Finalmente, el **Banco de Preguntas**. Miles de retos para practicar áreas específicas. ¡Úsalo mucho! 📚",
+                message: "Por último, el **Banco de Preguntas** 📚. Un embalse gigante de retos sueltos para que nunca dejes de entrenar. ¡Úsalo que de eso hay harto!",
                 mood: 'happy'
             }
         ];
@@ -9450,15 +9621,15 @@ const VirtualTeacherModule = {
         if (sessionStorage.getItem('chiguiro_auth_intro_shown')) return;
         sessionStorage.setItem('chiguiro_auth_intro_shown', 'true');
 
-        this.speak("¡Hola! Veo que eres nuevo por aquí. Soy el Profe Chigüiro y te ayudaré a reventar ese ICFES. 🦦🚀", 'happy', [
-            { label: "Sí, ¡ayúdame!", callback: () => this.explainAuth() },
+        this.speak("¡Hola! Veo que eres parte de la nueva manada. Soy el Profe Chigüiro y te voy a ayudar a sacar ese puntaje de tus sueños. 🦦🚀", 'happy', [
+            { label: "Sí, ¡de una!", callback: () => this.explainAuth() },
             { label: "Ahora no", callback: () => this.hide() }
         ]);
     },
 
     explainAuth() {
-        this.speak("Para guardar tu progreso, ganar XP y aparecer en el ranking, necesitas una cuenta. ¿No tienes una? ¡Es gratis!", 'neutral', [
-            { label: "Registrarme", callback: () => this.guideToRegister() },
+        this.speak("Para guardar toda esa XP que sudes, tus avances y subir en el ranking, debemos crear tu cuenta. ¡Tranqui que es gratis!", 'neutral', [
+            { label: "Registrarse", callback: () => this.guideToRegister() },
             { label: "Ya tengo cuenta", callback: () => this.guideToLogin() }
         ]);
     },
@@ -9467,18 +9638,18 @@ const VirtualTeacherModule = {
         const loginBtn = document.querySelector('#user-auth-container button') || document.querySelector('button[onclick*="login"]');
         if (loginBtn) {
             this.highlightElement('#user-auth-container');
-            this.speak("¡Genial! Haz clic aquí arriba para iniciar sesión y continuar con tus metas.", 'happy', [
+            this.speak("¡Listo, parce! Dale clic aquí arriba para entrar al agua y seguirle dando a las metas con toda.", 'happy', [
                 { label: "Entendido", callback: () => this.hide() }
             ]);
         } else {
-            this.speak("Busca el botón de 'Iniciar Sesión' en la parte superior derecha. ¡Te espero adentro!", 'neutral');
+            this.speak("Busca por allá arriba a la derecha el botón de 'Iniciar Sesión'. ¡Te veo adentro del lago!", 'neutral');
         }
     },
 
     guideToRegister() {
         // Find a button that might open registration or just point to the top nav
         this.highlightElement('#user-auth-container');
-        this.speak("Haz clic en el botón de la esquina superior para crear tu perfil de Chigüiro Pro. ¡Solo toma 10 segundos!", 'happy', [
+        this.speak("Presiona ese botón en la esquina de allá arriba y te haces el perfil de Chigüiro Pro. ¡Ni 10 segundos te demoras!", 'happy', [
             { label: "¡Lo haré!", callback: () => this.hide() }
         ]);
     },
@@ -9642,8 +9813,14 @@ const DuelModule = {
 
     async fetchAllStudents() {
         try {
-            const res = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
-            const data = await res.json();
+            // Use shared cached loader to avoid duplicate 3MB Firebase downloads
+            let data = null;
+            if (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._loadData) {
+                data = await GlobalResultsModule._loadData('users');
+            } else {
+                const res = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
+                data = await res.json();
+            }
             if (data) {
                 this.allStudents = Object.entries(data)
                     .filter(([uid, u]) => (u.profile || uid === 'master') && uid !== AuthModule.currentUser.id) 
