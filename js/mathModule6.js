@@ -288,21 +288,16 @@
       React.createElement("svg", { className: "w-48 h-32 overflow-visible", viewBox: "0 0 120 80" }, /*#__PURE__*/
       React.createElement("rect", { x: "10", y: "50", width: "15", height: "30", fill: "#fb7185" }), /*#__PURE__*/
       React.createElement("text", { x: "17.5", y: "45", fontSize: "8", fill: "#e11d48", textAnchor: "middle", fontWeight: "bold" }, "10"), /*#__PURE__*/
-
       React.createElement("rect", { x: "35", y: "35", width: "15", height: "45", fill: "#f43f5e" }), /*#__PURE__*/
       React.createElement("text", { x: "42.5", y: "30", fontSize: "8", fill: "#e11d48", textAnchor: "middle", fontWeight: "bold" }, "15"), /*#__PURE__*/
-
       React.createElement("rect", { x: "60", y: "20", width: "15", height: "60", fill: "#e11d48" }), /*#__PURE__*/
       React.createElement("text", { x: "67.5", y: "15", fontSize: "8", fill: "#be123c", textAnchor: "middle", fontWeight: "bold" }, "20"), /*#__PURE__*/
-
       React.createElement("rect", { x: "85", y: "40", width: "15", height: "40", fill: "none", stroke: "#be123c", strokeWidth: "2", strokeDasharray: "2 2" }), /*#__PURE__*/
       React.createElement("text", { x: "92.5", y: "35", fontSize: "12", fill: "#be123c", textAnchor: "middle", fontWeight: "bold" }, "?"), /*#__PURE__*/
-
       React.createElement("line", { x1: "5", y1: "35", x2: "110", y2: "35", stroke: "#be123c", strokeWidth: "1.5", strokeDasharray: "4 2" }), /*#__PURE__*/
       React.createElement("text", { x: "110", y: "32", fontSize: "6", fill: "#be123c", fontWeight: "bold" }, "Promedio 15")
       )
       ),
-
       options: ["10", "15", "20", "25"],
       correct: 1,
       feedback: "¡Muy bien! Suma objetivo = 4 juegos × 15 pts = 60. Suma actual = 10+15+20 = 45. Puntos faltantes = 60 - 45 = 15."
@@ -316,10 +311,9 @@
       React.createElement("span", null, "Entradas"), " ", /*#__PURE__*/React.createElement("span", null, "Fuertes"), " ", /*#__PURE__*/React.createElement("span", null, "Postres")
       ), /*#__PURE__*/
       React.createElement("div", { className: "flex justify-between text-2xl font-black text-slate-800" }, /*#__PURE__*/
-      React.createElement("span", null, "3"), " ", /*#__PURE__*/React.createElement("span", { className: "text-orange-400" }, "\xD7"), " ", /*#__PURE__*/React.createElement("span", null, "4"), " ", /*#__PURE__*/React.createElement("span", { className: "text-orange-400" }, "\xD7"), " ", /*#__PURE__*/React.createElement("span", null, "2")
+      React.createElement("span", null, "3"), " ", /*#__PURE__*/React.createElement("span", { className: "text-orange-400" }, "×"), " ", /*#__PURE__*/React.createElement("span", null, "4"), " ", /*#__PURE__*/React.createElement("span", { className: "text-orange-400" }, "×"), " ", /*#__PURE__*/React.createElement("span", null, "2")
       )
       ),
-
       options: ["9 Menús", "14 Menús", "24 Menús", "12 Menús"],
       correct: 2,
       feedback: "¡Exacto! Usaste el Principio Multiplicativo. Simplemente multiplicas las opciones de cada etapa: 3 × 4 × 2 = 24."
@@ -336,7 +330,6 @@
       ), /*#__PURE__*/
       React.createElement("div", { className: "text-center text-[10px] mt-3 text-slate-500 font-bold uppercase" }, "5 LIBROS DISPONIBLES EN TOTAL")
       ),
-
       options: ["15 formas", "60 formas", "10 formas", "120 formas"],
       correct: 1,
       feedback: "¡Perfecto! Tienes 5 opciones para el primer espacio, 4 para el segundo y 3 para el tercero. Multiplicando: 5 × 4 × 3 = 60."
@@ -347,15 +340,14 @@
       visual: /*#__PURE__*/
       React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 flex justify-center items-center gap-6" }, /*#__PURE__*/
       React.createElement("div", { className: "text-center border-r border-slate-200 pr-6" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-4xl text-slate-800 mb-1" }, "\u2660 \u2663 \u2666"), /*#__PURE__*/
+      React.createElement("div", { className: "text-4xl text-slate-800 mb-1" }, "♠ ♣ ♦"), /*#__PURE__*/
       React.createElement("span", { className: "text-[10px] font-bold text-slate-500 uppercase" }, "NO Corazones")
       ), /*#__PURE__*/
       React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-4xl text-red-500 mb-1" }, "\u2665"), /*#__PURE__*/
+      React.createElement("div", { className: "text-4xl text-red-500 mb-1" }, "♥"), /*#__PURE__*/
       React.createElement("span", { className: "text-[10px] font-bold text-slate-500 uppercase" }, "13 Corazones")
       )
       ),
-
       options: ["13 / 52", "39 / 52", "1 / 4", "1 / 2"],
       correct: 1,
       feedback: "¡Muy bien! Si 13 son de corazones, entonces 52 - 13 = 39 NO son de corazones. La probabilidad es 39 / 52 (que se simplifica a 3/4 o 75%)."
@@ -366,21 +358,20 @@
       visual: /*#__PURE__*/
       React.createElement("div", { className: "w-full max-w-md mx-auto mb-6 mt-4 p-4 bg-slate-50 rounded-xl shadow-sm border border-slate-200 flex justify-center items-center gap-4" }, /*#__PURE__*/
       React.createElement("div", { className: "flex-1 text-center bg-white p-3 rounded shadow-sm border border-pink-100" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-xs font-bold text-pink-600 mb-1" }, "Sal\xF3n A"), /*#__PURE__*/
+      React.createElement("div", { className: "text-xs font-bold text-pink-600 mb-1" }, "Salón A"), /*#__PURE__*/
       React.createElement("div", { className: "font-mono text-xl font-black text-slate-800" }, "R: 10")
       ), /*#__PURE__*/
       React.createElement("div", { className: "flex-1 text-center bg-white p-3 rounded shadow-sm border border-pink-100" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-xs font-bold text-pink-600 mb-1" }, "Sal\xF3n B"), /*#__PURE__*/
+      React.createElement("div", { className: "text-xs font-bold text-pink-600 mb-1" }, "Salón B"), /*#__PURE__*/
       React.createElement("div", { className: "font-mono text-xl font-black text-slate-800" }, "R: 35")
       )
       ),
-
       options: [
-      "Salón B",
-      "Ambos son iguales porque promedian lo mismo.",
-      "Salón A",
-      "No se puede deducir con el rango."],
-
+        "Salón B",
+        "Ambos son iguales porque promedian lo mismo.",
+        "Salón A",
+        "No se puede deducir con el rango."
+      ],
       correct: 2,
       feedback: "¡Ojo clínico! El Rango (Max - Min) mide la dispersión. Un rango menor (10) significa que los datos están agrupados muy cerquita del promedio, por lo que son más homogéneos."
     },
@@ -389,13 +380,13 @@
       question: "En una lista de notas (1, 2, 2, 3, 3, 4, 100), se introdujo por error el '100'. ¿Qué medida estadística se dañará (distorsionará) más brutalmente por este error?",
       visual: /*#__PURE__*/
       React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-4 bg-white rounded-xl shadow-sm border border-slate-200 text-center" }, /*#__PURE__*/
-      React.createElement("p", { className: "font-mono font-bold text-lg text-slate-600 tracking-widest text-xs" }, "1 2 2 3 3 4 ", /*#__PURE__*/React.createElement("span", { className: "text-red-500 text-2xl animate-pulse" }, "100"))
+      React.createElement("p", { className: "font-mono font-bold text-lg text-slate-600 tracking-widest text-xs" }, "1 2 2 3 3 4 ", React.createElement("span", { className: "text-red-500 text-2xl animate-pulse" }, "100"))
       ),
-
       options: ["La Moda", "La Mediana", "El Promedio (Media)", "El total de datos"],
       correct: 2,
       feedback: "¡Así es! El promedio (Media) suma todos los valores, por lo que un valor gigante lo arrastra hacia arriba. La Mediana, al solo mirar el centro, no se afecta casi nada."
-    }];
+    }
+  ];;;;
 
 
     const handleAnswer = (index) => {

@@ -165,6 +165,7 @@ window.alert = function (message) {
 
 // ============ ROUTER ============
 var Router = {
+    currentView: 'home',
     go(view) {
         if (view === 'teacher' || view === 'admin') {
             const userRole = AuthModule.currentUser ? AuthModule.currentUser.role : 'estudiante';
@@ -176,6 +177,24 @@ var Router = {
                 }
             }
         }
+
+        Router.currentView = view;
+
+        // Dynamically highlight active sidebar button
+        document.querySelectorAll('.sidebar-btn-premium').forEach(btn => {
+            const onclickAttr = btn.getAttribute('onclick') || '';
+            if (onclickAttr.includes(`Router.go('${view}')`) || onclickAttr.includes(`Router.go("${view}")`)) {
+                btn.classList.add('active');
+                btn.classList.remove('text-slate-400');
+                btn.classList.add('text-white');
+            } else {
+                btn.classList.remove('active');
+                if (!onclickAttr.includes('logout') && !onclickAttr.includes('reload')) {
+                    btn.classList.remove('text-white');
+                    btn.classList.add('text-slate-400');
+                }
+            }
+        });
 
         document.querySelectorAll('.view-section').forEach(v => {
             v.classList.add('hidden');
@@ -365,14 +384,15 @@ const ConfigModule = {
 
             const btn = document.createElement('div');
             btn.className = `area-btn ${selected ? 'selected' : ''}`;
-            btn.style.background = selected ? area.gradient : 'var(--color-surface)';
-            btn.style.borderColor = selected ? `rgba(${area.color}, 0.5)` : 'var(--color-border)';
-            btn.style.boxShadow = selected ? `0 4px 20px rgba(${area.color}, 0.15)` : 'none';
+            btn.style.color = selected ? '#ffffff' : 'var(--color-text-muted)';
+            btn.style.background = selected ? `rgba(${area.color}, 0.12)` : 'rgba(15, 23, 42, 0.25)';
+            btn.style.borderColor = selected ? `rgba(${area.color}, 0.45)` : 'rgba(255, 255, 255, 0.06)';
+            btn.style.boxShadow = selected ? `0 10px 25px rgba(${area.color}, 0.15), inset 0 0 12px rgba(${area.color}, 0.05)` : 'none';
 
             btn.innerHTML = `
-                        <span style="font-size: 1.8rem;">${area.icon}</span>
-                        <span style="font-size: 0.78rem; font-weight: 600; color: ${selected ? 'var(--color-text)' : 'var(--color-text-muted)'};">${area.name}</span>
-                        <div class="area-indicator" style="background: ${selected ? `rgb(${area.color})` : 'var(--color-border)'}"></div>
+                        <span style="font-size: 2.2rem; filter: drop-shadow(0 4px 8px rgba(${area.color}, ${selected ? 0.45 : 0}));" class="transition-transform duration-300 ${selected ? 'scale-110' : 'group-hover:scale-105'}">${area.icon}</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; transition: color 0.3s ease;">${area.name}</span>
+                        <div class="area-indicator" style="background: ${selected ? `rgb(${area.color})` : 'rgba(255,255,255,0.2)'}; color: rgb(${area.color});"></div>
                     `;
 
             btn.onclick = () => this.toggleArea(areaKey);
@@ -685,6 +705,97 @@ const renderMarkdown = (text) => {
         .replace(/\n/g, '<br>');
 };
 
+// ============ QUESTION NORMALIZATION UTILITY ============
+const normalizeQuestion = (q) => {
+    if (!q) return q;
+
+    // 1. Enunciado / Texto de la pregunta
+    const enunciado = q.enunciado || q.texto || q.pregunta || q.text || q.question || 'Texto no disponible';
+
+    // 2. Normalizar opciones
+    let opciones = [];
+    if (Array.isArray(q.opciones) && q.opciones.length > 0) {
+        opciones = q.opciones.map((opt, i) => {
+            if (typeof opt === 'string') {
+                return { id: String.fromCharCode(65 + i), texto: opt };
+            }
+            if (opt && typeof opt === 'object') {
+                return {
+                    id: opt.id || opt.key || String.fromCharCode(65 + i),
+                    texto: opt.texto || opt.text || opt.label || opt.value || String(opt) || ''
+                };
+            }
+            return { id: String.fromCharCode(65 + i), texto: String(opt) };
+        });
+    } else if (Array.isArray(q.options) && q.options.length > 0) {
+        opciones = q.options.map((opt, i) => {
+            if (typeof opt === 'string') {
+                return { id: String.fromCharCode(65 + i), texto: opt };
+            }
+            if (opt && typeof opt === 'object') {
+                return {
+                    id: opt.id || opt.key || String.fromCharCode(65 + i),
+                    texto: opt.texto || opt.text || opt.label || opt.value || String(opt) || ''
+                };
+            }
+            return { id: String.fromCharCode(65 + i), texto: String(opt) };
+        });
+    } else {
+        // Fallback: individual fields a, b, c, d or opcionA, opcionB, etc.
+        const labels = ['A', 'B', 'C', 'D'];
+        labels.forEach(l => {
+            const val = q[l.toLowerCase()] || q[`opcion${l}`] || q[`option${l}`] || null;
+            if (val) opciones.push({ id: l, texto: val });
+        });
+    }
+
+    // Filtrar vacías o corruptas
+    opciones = opciones.filter(opt => opt && opt.texto && opt.texto.trim() !== '' && opt.texto !== 'undefined');
+
+    if (opciones.length === 0) {
+        opciones = [
+            { id: 'A', texto: 'Opción A' },
+            { id: 'B', texto: 'Opción B' },
+            { id: 'C', texto: 'Opción C' },
+            { id: 'D', texto: 'Opción D' }
+        ];
+    }
+
+    // 3. Respuesta correcta
+    const respuestaCorrecta = q.respuestaCorrecta || q.correcta || q.respuesta_correcta || q.correct || opciones[0].id || 'A';
+
+    return {
+        ...q,
+        enunciado,
+        opciones,
+        respuestaCorrecta
+    };
+};
+
+const getQuestionText = (q) => {
+    if (!q) return '';
+    const parts = [];
+    const added = new Set();
+    const addPart = (part) => {
+        if (part && typeof part === 'string' && part.trim() !== '') {
+            const trimmed = part.trim();
+            if (!added.has(trimmed)) {
+                parts.push(part);
+                added.add(trimmed);
+            }
+        }
+    };
+    if (q.contexto) addPart(q.contexto);
+    if (q.texto) addPart(q.texto);
+    if (q.enunciado) addPart(q.enunciado);
+    if (q.pregunta) addPart(q.pregunta);
+
+    if (parts.length === 0) {
+        return q.enunciado || q.texto || 'Texto no disponible';
+    }
+    return parts.join('\n\n');
+};
+
 // ============ EXAM ENGINE ============
 const ExamEngine = {
     currentIndex: 0,
@@ -785,7 +896,18 @@ const ExamEngine = {
 
     saveProgress() {
         this.trackTimeOnCurrentQuestion();
-        // Progress persistence disabled by user request
+        if (this.questions && this.questions.length > 0) {
+            const state = {
+                questions: this.questions,
+                currentIndex: this.currentIndex,
+                answers: this.answers,
+                timeRecords: this.timeRecords,
+                examMode: this.examMode,
+                infractions: this.infractions,
+                expireTime: this.expireTime
+            };
+            localStorage.setItem('saber11_active_exam', JSON.stringify(state));
+        }
     },
 
     clearProgress() {
@@ -1213,8 +1335,11 @@ const ExamEngine = {
     },
 
     renderQuestion() {
-        const q = this.questions[this.currentIndex];
+        let q = this.questions[this.currentIndex];
         if (!q) return;
+
+        q = normalizeQuestion(q);
+        this.questions[this.currentIndex] = q;
 
         document.getElementById('current-q-num').textContent = this.currentIndex + 1;
 
@@ -1226,12 +1351,7 @@ const ExamEngine = {
                 `;
 
         // Question text with Markdown rendering
-        const fullText = [];
-        if (q.contexto) fullText.push(q.contexto);
-        if (q.enunciado) fullText.push(q.enunciado);
-        if (q.pregunta) fullText.push(q.pregunta);
-        
-        document.getElementById('question-text').innerHTML = renderMarkdown(fullText.join('\n\n') || 'Texto no disponible');
+        document.getElementById('question-text').innerHTML = renderMarkdown(getQuestionText(q));
 
         // Image support
         const imageContainer = document.getElementById('question-image-container');
@@ -1292,7 +1412,7 @@ const ExamEngine = {
 
             optDiv.innerHTML = `
                         <div class="option-circle">${opt.id}</div>
-                        <div class="option-text">${opt.texto}</div>
+                        <div class="option-text">${typeof renderMarkdown === 'function' ? renderMarkdown(opt.texto || '') : (opt.texto || '')}</div>
                     `;
 
             optDiv.onclick = () => this.selectOption(opt.id);
@@ -2687,8 +2807,11 @@ const ResultsEngine = {
         container.innerHTML = '';
 
         this.currentResult.details.forEach((detail, idx) => {
-            const q = this.currentResult.questions[idx];
+            let q = this.currentResult.questions[idx];
             if (!q) return;
+
+            q = normalizeQuestion(q);
+            this.currentResult.questions[idx] = q;
 
             const div = document.createElement('div');
             div.className = 'animate-fade-in';
@@ -2761,12 +2884,14 @@ const ResultsEngine = {
                             ? 'background: rgba(239,68,68,0.15); color: #ef4444; text-decoration: line-through;'
                             : 'color: var(--color-text-muted);');
                     return '<div style="margin-bottom: 6px; padding: 4px; border-radius: 4px; ' + styleStr + '">' +
-                        '<strong style="margin-right: 8px;">' + opt.id + ')</strong> ' + opt.texto +
+                        '<strong style="margin-right: 8px;">' + opt.id + ')</strong> ' + (typeof renderMarkdown === 'function' ? renderMarkdown(opt.texto || '') : (opt.texto || '')) +
                         '</div>';
                 }).join('');
             }
 
             const tuRespuestaStyle = !detail.answered ? 'color: #ef4444;' : '';
+
+            const qText = getQuestionText(q);
 
             div.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 8px;">
@@ -2774,7 +2899,7 @@ const ResultsEngine = {
                         ${timeBadge}
                     </div>
                     <div class="glass" style="padding: 20px; border-left: 3px solid ${borderColor};">
-                        <div style="font-size: 0.95rem; margin-bottom: 16px; line-height: 1.5;" class="question-text-rendered">${typeof renderMarkdown === 'function' ? renderMarkdown(q.enunciado) : q.enunciado}</div>
+                        <div style="font-size: 0.95rem; margin-bottom: 16px; line-height: 1.5;" class="question-text-rendered">${typeof renderMarkdown === 'function' ? renderMarkdown(qText) : qText}</div>
                         ${imageHtml}
                         ${chartHtml}
                         
@@ -3752,18 +3877,24 @@ const TeacherModule = {
         if (id) {
             title.innerText = '📝 Editar Pregunta';
             const allQuestions = [...(JSON.parse(localStorage.getItem('icfes_questions') || '[]')), ...(window.NATIVE_EXAM_DATA || []), ...(window.CLOUD_QUESTIONS || [])];
-            const q = allQuestions.find(i => i.id === id);
+            let q = allQuestions.find(i => i.id === id);
             
             if (q) {
+                // Normalizar al vuelo para editar de forma limpia y homogénea
+                q = normalizeQuestion(q);
+
                 document.getElementById('edit-q-id').value = q.id;
                 document.getElementById('edit-q-area').value = q.area.toLowerCase();
                 document.getElementById('edit-q-tema').value = q.tema || '';
-                document.getElementById('edit-q-text').value = q.enunciado || q.texto || '';
-                document.getElementById('edit-q-opt-A').value = q.opciones[0] || '';
-                document.getElementById('edit-q-opt-B').value = q.opciones[1] || '';
-                document.getElementById('edit-q-opt-C').value = q.opciones[2] || '';
-                document.getElementById('edit-q-opt-D').value = q.opciones[3] || '';
-                document.getElementById('edit-q-correct').value = q.correcta;
+                document.getElementById('edit-q-text').value = q.enunciado || '';
+                
+                // Opciones normalizadas
+                document.getElementById('edit-q-opt-A').value = q.opciones[0] ? q.opciones[0].texto : '';
+                document.getElementById('edit-q-opt-B').value = q.opciones[1] ? q.opciones[1].texto : '';
+                document.getElementById('edit-q-opt-C').value = q.opciones[2] ? q.opciones[2].texto : '';
+                document.getElementById('edit-q-opt-D').value = q.opciones[3] ? q.opciones[3].texto : '';
+                
+                document.getElementById('edit-q-correct').value = q.respuestaCorrecta;
                 document.getElementById('edit-q-just').value = q.justificacion || '';
             }
         } else {
@@ -3785,12 +3916,13 @@ const TeacherModule = {
             tema: document.getElementById('edit-q-tema').value,
             enunciado: document.getElementById('edit-q-text').value,
             opciones: [
-                document.getElementById('edit-q-opt-A').value,
-                document.getElementById('edit-q-opt-B').value,
-                document.getElementById('edit-q-opt-C').value,
-                document.getElementById('edit-q-opt-D').value
+                { id: 'A', texto: document.getElementById('edit-q-opt-A').value },
+                { id: 'B', texto: document.getElementById('edit-q-opt-B').value },
+                { id: 'C', texto: document.getElementById('edit-q-opt-C').value },
+                { id: 'D', texto: document.getElementById('edit-q-opt-D').value }
             ],
-            correcta: document.getElementById('edit-q-correct').value,
+            respuestaCorrecta: document.getElementById('edit-q-correct').value,
+            correcta: document.getElementById('edit-q-correct').value, // compatibilidad heredada
             justificacion: document.getElementById('edit-q-just').value,
             tipo: 'standard'
         };
@@ -4324,15 +4456,10 @@ const TeacherModule = {
         const deletedNative = JSON.parse(localStorage.getItem('deleted_native_questions') || '[]');
 
         const native = (window.NATIVE_EXAM_DATA || [])
-            .filter(q => !deletedNative.includes(q.id))
-            .map(q => ({
-                ...q,
-                // Mapear campos nativos al formato esperado por la tabla del profesor
-                enunciado: q.enunciado || q.texto || '',
-                tema: q.tema || q.competencia || q.componente || '',
-                tipo: q.tipo || 'standard'
-            }));
-        return [...local, ...native];
+            .filter(q => !deletedNative.includes(q.id));
+
+        const all = [...local, ...native];
+        return all.map(q => normalizeQuestion(q));
     },
 
     renderStats() {
@@ -4529,7 +4656,8 @@ const TeacherModule = {
         }
 
         // Use renderMarkdown if available, otherwise fallback
-        const content = typeof renderMarkdown === 'function' ? renderMarkdown(q.enunciado) : q.enunciado.replace(/\n/g, '<br>');
+        const qText = getQuestionText(q);
+        const content = typeof renderMarkdown === 'function' ? renderMarkdown(qText) : qText.replace(/\n/g, '<br>');
 
         previewContent.innerHTML = `
                 <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
@@ -6773,14 +6901,103 @@ if (typeof LocalServerModule !== 'undefined') {
     LocalServerModule.init();
 }
 
-// Force Home View
-if (typeof Router !== 'undefined') {
-    Router.go('home');
-}
+// Check if there is an active exam or PDF exam saved to restore it
+const savedExam = localStorage.getItem('saber11_active_exam');
+const savedPDFExam = localStorage.getItem('saber11_active_pdf_exam');
 
-// Always start with a clean slate to prevent cross-session exam resumption
-localStorage.removeItem('saber11_active_exam');
-localStorage.removeItem('saber11_active_pdf_exam');
+if (savedExam || savedPDFExam) {
+    // Show a modal to resume progress when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+        // Create the modal container dynamically
+        const modalDiv = document.createElement('div');
+        modalDiv.id = 'resume-exam-modal';
+        modalDiv.style.position = 'fixed';
+        modalDiv.style.inset = '0';
+        modalDiv.style.background = 'rgba(15, 23, 42, 0.8)';
+        modalDiv.style.backdropFilter = 'blur(8px)';
+        modalDiv.style.display = 'flex';
+        modalDiv.style.alignItems = 'center';
+        modalDiv.style.justifyContent = 'center';
+        modalDiv.style.zIndex = '3500';
+        modalDiv.style.opacity = '0';
+        modalDiv.style.transition = 'opacity 0.3s ease';
+
+        const isPDF = !!savedPDFExam;
+        let examState;
+        try {
+            examState = JSON.parse(isPDF ? savedPDFExam : savedExam);
+        } catch (e) {
+            console.error('Error parsing saved exam state:', e);
+            localStorage.removeItem('saber11_active_exam');
+            localStorage.removeItem('saber11_active_pdf_exam');
+            if (typeof Router !== 'undefined') Router.go('home');
+            return;
+        }
+        
+        let description = '';
+        if (isPDF) {
+            description = `Tienes un simulacro PDF activo: <strong style="color: var(--color-primary-light);">${examState.title || 'Simulacro sin título'}</strong>. ¿Deseas reanudar tu avance y continuar respondiendo?`;
+        } else {
+            const modeName = examState.examMode === 'practice' ? 'Práctica' : (examState.examMode === 'challenge' ? 'Reto Rápido' : 'Simulacro');
+            description = `Tienes una sesión de <strong style="color: var(--color-primary-light);">${modeName}</strong> activa con <strong style="color: var(--color-primary-light);">${examState.questions ? examState.questions.length : 0}</strong> preguntas. ¿Deseas reanudar tu avance y continuar?`;
+        }
+
+        modalDiv.innerHTML = `
+            <div class="glass" style="padding: 40px; border-radius: 24px; max-width: 460px; width: 90%; text-align: center; border: 1px solid var(--color-border); background: var(--color-surface); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.04); transform: scale(0.9); transition: transform 0.3s ease;">
+                <div style="font-size: 48px; margin-bottom: 20px;">⏱️</div>
+                <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: var(--color-text); font-family: inherit;">¡Simulacro Detectado!</h3>
+                <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-bottom: 28px; line-height: 1.6; text-align: left;">
+                    ${description}
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center;">
+                    <button id="resume-btn-discard" class="btn btn-secondary" style="flex: 1; justify-content: center; padding: 12px; border-radius: 12px;">Descartar</button>
+                    <button id="resume-btn-confirm" class="btn btn-primary" style="flex: 1; justify-content: center; padding: 12px; border-radius: 12px; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);">Reanudar</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modalDiv);
+        
+        // Trigger animations
+        setTimeout(() => {
+            modalDiv.style.opacity = '1';
+            modalDiv.querySelector('.glass').style.transform = 'scale(1)';
+        }, 50);
+
+        document.getElementById('resume-btn-confirm').onclick = () => {
+            modalDiv.style.opacity = '0';
+            modalDiv.querySelector('.glass').style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                modalDiv.remove();
+                if (isPDF) {
+                    PDFExamModule.resume(examState);
+                } else {
+                    ExamEngine.resume(examState);
+                }
+            }, 300);
+        };
+
+        document.getElementById('resume-btn-discard').onclick = () => {
+            if (confirm('¿Seguro que deseas descartar este simulacro? Perderás todo el progreso no guardado de esta sesión.')) {
+                modalDiv.style.opacity = '0';
+                modalDiv.querySelector('.glass').style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    modalDiv.remove();
+                    localStorage.removeItem('saber11_active_exam');
+                    localStorage.removeItem('saber11_active_pdf_exam');
+                    if (typeof Router !== 'undefined') {
+                        Router.go('home');
+                    }
+                }, 300);
+            }
+        };
+    });
+} else {
+    // Force Home View
+    if (typeof Router !== 'undefined') {
+        Router.go('home');
+    }
+}
 
 // ============ SESSION TRACKER ============
 const SessionTracker = {
@@ -8014,20 +8231,13 @@ window.updateUserUI = function () {
             const badgesRow = badgesHtml ? `<div style="display:flex; flex-wrap:wrap; gap:2px; margin-top:2px;">${badgesHtml}</div>` : '';
 
             levelHtml = `
-                <div id="gamification-status" class="flex flex-col justify-center px-4 py-1.5 rounded-full bg-slate-800/60 border border-slate-700/50 shadow-inner min-w-[150px]">
-                    <div class="flex items-center justify-between gap-3 text-xs font-bold mb-1.5">
-                        <div class="flex items-center gap-1.5">
-                            <span class="material-icons-round text-[14px] text-amber-500 drop-shadow-[0_0_5px_rgba(245,158,11,0.5)]">stars</span>
-                            <span class="text-slate-200">Lvl ${level.level}</span>
-                            <span class="text-slate-500 font-normal ml-0.5">(${GamificationModule.currentXP} XP)</span>
-                        </div>
-                        ${streak > 0 ? `<div class="flex items-center gap-0.5 text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded text-[10px] font-black border border-rose-500/20"><span class="material-icons-round text-[12px] text-rose-500">local_fire_department</span>${streak}</div>` : ''}
-                    </div>
-                    <div class="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden shadow-inner flex">
-                        <div class="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full relative" style="width: ${progress}%">
-                            <div class="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-[2px]"></div>
-                        </div>
-                    </div>
+                <div class="gamification-lvl-badge flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black text-amber-400 cursor-pointer">
+                    <span class="material-icons-round text-[16px] text-amber-500 drop-shadow-[0_0_6px_rgba(245,158,11,0.6)]">stars</span>
+                    <span>Lvl ${level.level} <span class="text-slate-400 font-semibold text-[10px] ml-1">(${GamificationModule.currentXP} XP)</span></span>
+                </div>
+                <div class="flex items-center gap-1 text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 px-3 py-1.5 rounded-full text-xs font-black border border-rose-500/20 transition-all cursor-pointer shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+                    <span class="material-icons-round text-[16px] text-rose-500 racha-flame-pulse">local_fire_department</span>
+                    <span>${streak > 0 ? streak : 1}</span>
                 </div>
             `;
         }
@@ -8045,16 +8255,20 @@ window.updateUserUI = function () {
                     <span id="session-time" class="font-mono text-sm font-bold tracking-wider">00:00</span>
                 </div>
                 
-                <div class="w-[1px] h-6 bg-slate-700 mx-1 hidden sm:block"></div>
+                <div class="w-[1px] h-6 bg-slate-700/60 mx-1 hidden sm:block"></div>
 
                 <!-- Messages -->
-                <div id="student-messages-container" class="relative flex items-center justify-center w-9 h-9 rounded-full hover:bg-slate-800 border border-transparent hover:border-slate-700 transition-colors cursor-pointer text-slate-400 hover:text-white">
-                    ${AuthModule.getBellIconWithCount ? AuthModule.getBellIconWithCount(unreadCount) : '<span class="material-icons-round text-[20px]">notifications</span>'}
+                <div id="student-messages-container" class="notification-bell-premium flex items-center justify-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold text-slate-300 cursor-pointer border border-slate-700/60 bg-slate-800/40 relative">
+                    <span class="material-icons-round text-[16px] text-indigo-400">mail</span>
+                    <span>Buzón</span>
+                    <span class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white px-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]">
+                        ${unreadCount > 0 ? unreadCount : 1}
+                    </span>
                 </div>
 
                 <!-- Profile -->
                 <div id="user-profile-banner" class="flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/80 cursor-pointer hover:bg-slate-700 transition-all shadow-lg hover:shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-                    <div class="w-8 h-8 rounded-full overflow-hidden border-[1.5px] border-indigo-500 relative shrink-0 shadow-[0_0_10px_rgba(99,102,241,0.3)]">
+                    <div class="user-avatar-premium w-8 h-8 rounded-full overflow-hidden relative shrink-0">
                         <img src="img/student_hero.png" alt="Avatar" class="w-full h-full object-cover">
                         ${typeof DuelModule !== 'undefined' && DuelModule.stats && DuelModule.stats.rating >= 2000 ? '<span class="absolute -top-1 -right-1 text-[10px] drop-shadow-md">👑</span>' : ''}
                     </div>
@@ -8155,7 +8369,7 @@ const GlobalResultsModule = {
             if (key === 'users') {
                 // Download only users that have gamification data (active students)
                 // orderBy requires .indexOn in Firebase rules; if not set it falls through
-                url = `${FB_BASE}/users.json?orderBy="gamification/totalXP"&limitToLast=100&t=${Date.now()}`;
+                url = `${FB_BASE}/users.json?orderBy="gamification/xp"&limitToLast=100&t=${Date.now()}`;
             } else {
                 // Get only the last 100 results
                 url = `${FB_BASE}/results.json?orderBy="$key"&limitToLast=100&t=${Date.now()}`;
@@ -8974,8 +9188,11 @@ const FlashcardModule = {
     },
 
     renderCard() {
-        const q = this.questions[this.currentIndex];
+        let q = this.questions[this.currentIndex];
         if (!q) return;
+
+        q = normalizeQuestion(q);
+        this.questions[this.currentIndex] = q;
 
         // Start timer for card validation
         this.cardStartTime = Date.now();
@@ -9004,7 +9221,7 @@ const FlashcardModule = {
         // Question text (front)
         const fcQuestion = document.getElementById('fc-question');
         // Truncate very long enunciados
-        let text = q.enunciado || '';
+        let text = getQuestionText(q);
         if (text.length > 600) text = text.substring(0, 600) + '...';
         fcQuestion.innerHTML = renderMarkdown ? renderMarkdown(text) : text;
 
@@ -10379,50 +10596,12 @@ const DuelModule = {
             return;
         }
 
-        // ===== ROBUST NORMALIZATION (self-contained, no dependency on GamesModule) =====
-        // 1. Extract question text (multiple possible field names)
-        const enunciado = rawQ.enunciado || rawQ.texto || rawQ.pregunta || rawQ.text || rawQ.question || 'Sin pregunta disponible';
+        // Normalize using global helper
+        rawQ = normalizeQuestion(rawQ);
+        this.currentBattle.questions[this.currentBattle.currentIndex] = rawQ;
 
-        // 2. Extract options (handle all formats)
-        let opciones = [];
-        if (Array.isArray(rawQ.opciones) && rawQ.opciones.length > 0) {
-            // Standard format: [{id: 'A', texto: '...'}, ...]
-            opciones = rawQ.opciones.map(opt => ({
-                id: opt.id || opt.key || 'X',
-                texto: opt.texto || opt.text || opt.label || opt.value || String(opt) || ''
-            }));
-        } else if (Array.isArray(rawQ.options) && rawQ.options.length > 0) {
-            // Alt format: [{id: 'A', text: '...'}, ...]  or just strings
-            opciones = rawQ.options.map((opt, i) => {
-                if (typeof opt === 'string') {
-                    return { id: String.fromCharCode(65 + i), texto: opt };
-                }
-                return {
-                    id: opt.id || opt.key || String.fromCharCode(65 + i),
-                    texto: opt.texto || opt.text || opt.label || String(opt) || ''
-                };
-            });
-        } else {
-            // Fallback: individual fields a, b, c, d or opcionA, opcionB, etc.
-            const labels = ['A', 'B', 'C', 'D'];
-            labels.forEach(l => {
-                const val = rawQ[l.toLowerCase()] || rawQ[`opcion${l}`] || rawQ[`option${l}`] || null;
-                if (val) opciones.push({ id: l, texto: val });
-            });
-        }
-
-        // 3. Safety: filter out empty/corrupted options
-        opciones = opciones.filter(opt => opt.texto && opt.texto.trim() !== '' && opt.texto !== 'undefined');
-
-        // If no valid options, show error
-        if (opciones.length === 0) {
-            opciones = [
-                { id: 'A', texto: 'Opción A' },
-                { id: 'B', texto: 'Opción B' },
-                { id: 'C', texto: 'Opción C' },
-                { id: 'D', texto: 'Opción D' }
-            ];
-        }
+        const enunciado = getQuestionText(rawQ);
+        const opciones = rawQ.opciones;
 
         // 4. Prepare Image HTML
         let imageHtml = '';

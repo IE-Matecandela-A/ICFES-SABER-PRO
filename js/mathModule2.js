@@ -39,112 +39,244 @@
     // Banco de Preguntas - Formulación y Ejecución
     const questions = [
     {
-      type: "Geometría",
-      question: "Para pintar la fachada de esta casa, se necesita calcular su área total. Si el techo es un triángulo y la base un rectángulo, ¿cuál es el modelo correcto para hallar el área?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "relative h-48 w-full max-w-sm mx-auto mb-8 mt-6 flex justify-center items-end pb-4" }, /*#__PURE__*/
-      React.createElement("svg", { className: "w-48 h-48 overflow-visible", viewBox: "0 0 100 100" }, /*#__PURE__*/
-
-      React.createElement("rect", { x: "20", y: "50", width: "60", height: "50", fill: "#c7d2fe", stroke: "#6366f1", strokeWidth: "2" }), /*#__PURE__*/
-      React.createElement("text", { x: "50", y: "75", fontSize: "8", fill: "#4f46e5", textAnchor: "middle", fontWeight: "bold" }, "\xC1rea 1"), /*#__PURE__*/
-      React.createElement("text", { x: "50", y: "108", fontSize: "6", fill: "#64748b", textAnchor: "middle" }, "Base = 6m"), /*#__PURE__*/
-      React.createElement("text", { x: "8", y: "75", fontSize: "6", fill: "#64748b", textAnchor: "middle", transform: "rotate(-90 8,75)" }, "Altura = 5m"), /*#__PURE__*/
-
-
-      React.createElement("polygon", { points: "20,50 50,10 80,50", fill: "#ddd6fe", stroke: "#8b5cf6", strokeWidth: "2" }), /*#__PURE__*/
-      React.createElement("text", { x: "50", y: "40", fontSize: "8", fill: "#7c3aed", textAnchor: "middle", fontWeight: "bold" }, "\xC1rea 2"), /*#__PURE__*/
-
-
-      React.createElement("line", { x1: "50", y1: "10", x2: "50", y2: "50", stroke: "#8b5cf6", strokeWidth: "1", strokeDasharray: "2 2" }), /*#__PURE__*/
-      React.createElement("text", { x: "55", y: "32", fontSize: "5", fill: "#64748b" }, "h = 4m")
-      )
-      ),
-
-      options: [
-      "(6 + 5) + (6 + 4) / 2",
-      "(6 × 5) + (6 × 4) / 2",
-      "(6 × 5) × (6 × 4)",
-      "6 × 5 × 4"],
-
-      correct: 1,
-      feedback: "¡Exacto! Formulaste el plan correcto dividiendo el problema: El área del rectángulo es Base × Altura (6×5) y se le suma el área del triángulo (Base × Altura) / 2, es decir (6×4)/2."
+      type: "Modelado Geométrico (Áreas compuestas)",
+      question: "Un estudiante quiere calcular el área de la fachada de una casa de muñecas, la cual está compuesta por un cuadrado de 6 cm de lado y un techo triangular de 4 cm de altura. De acuerdo a la figura, ¿qué expresión permite hallar el área total de la fachada?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 150" width="200" height="150">
+                            <!-- Base Cuadrada -->
+                            <rect x="50" y="70" width="100" height="80" fill="#c7d2fe" stroke="#4f46e5" stroke-width="2"/>
+                            <text x="100" y="140" text-anchor="middle" font-size="12" fill="#312e81">Base = 6 cm</text>
+                            <text x="35" y="115" text-anchor="middle" font-size="12" fill="#312e81" transform="rotate(-90 35,115)">Altura = 6 cm</text>
+                            <!-- Techo Triángulo -->
+                            <polygon points="50,70 100,20 150,70" fill="#fbcfe8" stroke="#e11d48" stroke-width="2"/>
+                            <line x1="100" y1="20" x2="100" y2="70" stroke="#e11d48" stroke-dasharray="4,4"/>
+                            <text x="110" y="50" font-size="12" fill="#be123c">h=4</text>
+                         </svg>` } }),
+      options: ["(6 × 6) + [(6 × 4) / 2]","(6 + 6) + (6 × 4)","(6 × 6) × 4","(6 × 4) / 2"],
+      correct: 0,
+      feedback: "El área total se halla sumando el área del cuadrado (Lado × Lado = 6×6) con el área del triángulo (Base × Altura / 2 = 6×4/2)."
     },
     {
-      type: "Álgebra",
-      question: "Un plan de telefonía cobra una tarifa fija de $15.000 más $200 por cada minuto hablado. ¿Cuál es la ecuación que representa el costo total (C) por (m) minutos hablados?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-6 bg-indigo-50 rounded-xl shadow-sm border border-indigo-100 flex items-center justify-center gap-4" }, /*#__PURE__*/
-      React.createElement(Calculator, { className: "w-10 h-10 text-indigo-500" }), /*#__PURE__*/
-      React.createElement("div", { className: "text-left" }, /*#__PURE__*/
-      React.createElement("p", { className: "text-sm font-bold text-slate-700" }, "Tarifa Base: ", /*#__PURE__*/React.createElement("span", { className: "text-indigo-600" }, "$15.000")), /*#__PURE__*/
-      React.createElement("p", { className: "text-sm font-bold text-slate-700" }, "Por minuto (m): ", /*#__PURE__*/React.createElement("span", { className: "text-violet-600" }, "+$200"))
-      )
-      ),
-
-      options: [
-      "C = 15.000 × m + 200",
-      "C = 15.000 + 200",
-      "C = 15.200 × m",
-      "C = 15.000 + 200m"],
-
-      correct: 3,
-      feedback: "¡Excelente traducción al lenguaje algebraico! Los $15.000 son una constante (no llevan variable), mientras que los $200 se multiplican por la cantidad variable de minutos (m)."
-    },
-    {
-      type: "Probabilidad",
-      question: "En una bolsa hay 3 canicas rojas y 2 azules. Si sacas una al azar, ¿cuál es la probabilidad de que sea roja?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-8 mt-6" }, /*#__PURE__*/
-      React.createElement("svg", { className: "w-full h-32 overflow-visible", viewBox: "0 0 100 50" }, /*#__PURE__*/
-
-      React.createElement("path", { d: "M 20 10 C 20 50, 80 50, 80 10 Z", fill: "none", stroke: "#94a3b8", strokeWidth: "2", strokeDasharray: "4 4" }), /*#__PURE__*/
-
-      React.createElement("circle", { cx: "35", cy: "35", r: "6", fill: "#ef4444" }), /*#__PURE__*/
-      React.createElement("circle", { cx: "50", cy: "40", r: "6", fill: "#ef4444" }), /*#__PURE__*/
-      React.createElement("circle", { cx: "65", cy: "30", r: "6", fill: "#ef4444" }), /*#__PURE__*/
-
-      React.createElement("circle", { cx: "45", cy: "25", r: "6", fill: "#3b82f6" }), /*#__PURE__*/
-      React.createElement("circle", { cx: "60", cy: "20", r: "6", fill: "#3b82f6" })
-      )
-      ),
-
-      options: [
-      "3/2",
-      "2/5",
-      "3/5",
-      "1/3"],
-
+      type: "Álgebra (Traducción y Modelado)",
+      question: "El recibo del agua en una ciudad indica que existe un cargo fijo mensual de $12.000 y un costo de $1.500 por cada metro cúbico (m³) consumido. Si una familia consume 'x' metros cúbicos en un mes, ¿cuál de las siguientes funciones representa el costo total (C) a pagar?",
+      visual: null,
+      options: ["C = 12.000x + 1.500","C = 13.500x","C = 12.000 + 1.500x","C = (12.000 + 1.500)x"],
       correct: 2,
-      feedback: "¡Muy bien ejecutado! La fórmula de probabilidad es (Casos Favorables / Casos Totales). Hay 3 canicas rojas (favorables) y un total de 5 canicas en la bolsa. Por ende, 3/5."
+      feedback: "El valor fijo (12.000) no depende del consumo, por lo que va solo. El valor variable (1.500) se multiplica por la cantidad consumida (x). Por tanto, C = 12.000 + 1.500x."
+    },
+    {
+      type: "Probabilidad Clásica",
+      question: "En un experimento de genética se cuenta con una urna que contiene semillas de arveja: 4 semillas lisas (L) y 6 semillas rugosas (R). Si un investigador extrae una semilla al azar, ¿cuál es la probabilidad de que la semilla extraída sea lisa?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 120" width="200" height="120">
+                            <path d="M 50 20 L 50 100 A 50 20 0 0 0 150 100 L 150 20" fill="none" stroke="#64748b" stroke-width="3"/>
+                            <ellipse cx="100" cy="20" rx="50" ry="15" fill="none" stroke="#64748b" stroke-width="3"/>
+                            <circle cx="80" cy="70" r="10" fill="#fbbf24"/> <text x="80" y="74" text-anchor="middle" font-size="10" font-weight="bold">L</text>
+                            <circle cx="100" cy="90" r="10" fill="#fbbf24"/> <text x="100" y="94" text-anchor="middle" font-size="10" font-weight="bold">L</text>
+                            <circle cx="120" cy="75" r="10" fill="#fbbf24"/> <text x="120" y="79" text-anchor="middle" font-size="10" font-weight="bold">L</text>
+                            <circle cx="90" cy="50" r="10" fill="#fbbf24"/> <text x="90" y="54" text-anchor="middle" font-size="10" font-weight="bold">L</text>
+                            
+                            <circle cx="70" cy="90" r="10" fill="#10b981"/> <text x="70" y="94" text-anchor="middle" font-size="10" font-weight="bold">R</text>
+                            <circle cx="130" cy="90" r="10" fill="#10b981"/> <text x="130" y="94" text-anchor="middle" font-size="10" font-weight="bold">R</text>
+                            <circle cx="110" cy="50" r="10" fill="#10b981"/> <text x="110" y="54" text-anchor="middle" font-size="10" font-weight="bold">R</text>
+                            <circle cx="130" cy="60" r="10" fill="#10b981"/> <text x="130" y="64" text-anchor="middle" font-size="10" font-weight="bold">R</text>
+                            <circle cx="70" cy="55" r="10" fill="#10b981"/> <text x="70" y="59" text-anchor="middle" font-size="10" font-weight="bold">R</text>
+                            <circle cx="100" cy="70" r="10" fill="#10b981"/> <text x="100" y="74" text-anchor="middle" font-size="10" font-weight="bold">R</text>
+                         </svg>` } }),
+      options: ["4/6","4/10","6/10","1/4"],
+      correct: 1,
+      feedback: "La probabilidad es (Casos Favorables / Casos Totales). Hay 4 semillas lisas a favor, y el total de semillas es 10 (4+6). Por lo tanto, es 4/10."
     },
     {
       type: "Proporcionalidad",
-      question: "Una receta para 4 personas requiere 200g de harina. ¿Qué operación debes ejecutar para saber cuánta harina se necesita para 10 personas?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200" }, /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between items-center px-4" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "flex gap-1 justify-center mb-2" }, /*#__PURE__*/React.createElement(CheckCircle, { className: "w-4 h-4 text-violet-500 fill-violet-500" }), /*#__PURE__*/React.createElement(CheckCircle, { className: "w-4 h-4 text-violet-500 fill-violet-500" }), /*#__PURE__*/React.createElement(CheckCircle, { className: "w-4 h-4 text-violet-500 fill-violet-500" }), /*#__PURE__*/React.createElement(CheckCircle, { className: "w-4 h-4 text-violet-500 fill-violet-500" })), /*#__PURE__*/
-      React.createElement("span", { className: "font-bold text-slate-700" }, "4 Personas"), /*#__PURE__*/
-      React.createElement("p", { className: "text-sm text-slate-500" }, "200g Harina")
-      ), /*#__PURE__*/
-      React.createElement(ArrowRight, { className: "w-6 h-6 text-slate-300" }), /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-violet-500 font-bold text-lg mb-1" }, "10 Personas"), /*#__PURE__*/
-      React.createElement("p", { className: "text-sm font-bold text-indigo-600" }, "\xBFX gramos?")
-      )
-      )
-      ),
-
-      options: [
-      "(200 ÷ 10) × 4",
-      "(200 ÷ 4) × 10",
-      "200 + 6",
-      "200 × 4 × 10"],
-
+      question: "En un laboratorio químico, para preparar una solución desinfectante se requieren 30 ml de cloro por cada 2 litros de agua. ¿Qué operación permite determinar la cantidad de cloro requerida para preparar 8 litros de solución?",
+      visual: null,
+      options: ["(30 × 2) / 8","(30 ÷ 8) × 2","(30 ÷ 2) × 8","30 + (8 × 2)"],
+      correct: 2,
+      feedback: "Mediante reducción a la unidad: divides 30 ml entre 2 litros para saber cuánto cloro va por 1 litro, y luego multiplicas el resultado por los 8 litros deseados."
+    },
+    {
+      type: "Modelado Geométrico (Perímetro)",
+      question: "Para delimitar un lote de conservación ecológica rectangular que mide 40 metros de largo y 25 metros de ancho, se decidió colocar una cerca de 3 hilos de alambre. ¿Cuántos metros de alambre se necesitan en total?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 120" width="200" height="120">
+                            <rect x="30" y="30" width="140" height="60" fill="#dcfce7" stroke="#16a34a" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="100" y="20" text-anchor="middle" font-size="12" fill="#16a34a">40 m</text>
+                            <text x="15" y="65" text-anchor="middle" font-size="12" fill="#16a34a" transform="rotate(-90 15,65)">25 m</text>
+                         </svg>` } }),
+      options: ["130 m","390 m","1.000 m","3.000 m"],
       correct: 1,
-      feedback: "¡Perfecto! Aplicaste la regla de tres o reducción a la unidad: Divides 200 entre 4 para saber cuánto come una persona (50g), y lo multiplicas por 10."
-    }];
+      feedback: "Primero hallamos el perímetro de 1 vuelta: 40 + 40 + 25 + 25 = 130 m. Como son 3 hilos (3 vueltas), se multiplica 130 m × 3 = 390 m."
+    },
+    {
+      type: "Modelado Geométrico (Área Sombreada)",
+      question: "Un parque municipal tiene forma de rectángulo de 50 m × 30 m. En su interior se ha construido una pista de patinaje cuadrada de 10 m de lado. Si el resto del parque se va a cubrir de pasto, ¿cuál es el área destinada para el pasto?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 120" width="200" height="120">
+                            <rect x="20" y="20" width="160" height="80" fill="#86efac" stroke="#15803d" stroke-width="2"/>
+                            <text x="100" y="15" text-anchor="middle" font-size="10" fill="#15803d">50 m</text>
+                            <text x="10" y="60" text-anchor="middle" font-size="10" fill="#15803d" transform="rotate(-90 10,60)">30 m</text>
+                            
+                            <rect x="130" y="40" width="30" height="30" fill="#cbd5e1" stroke="#475569" stroke-width="2"/>
+                            <text x="145" y="58" text-anchor="middle" font-size="8" fill="#334155">10x10</text>
+                         </svg>` } }),
+      options: ["1.500 m²","100 m²","1.400 m²","1.490 m²"],
+      correct: 2,
+      feedback: "Área del rectángulo: 50 × 30 = 1.500 m². Área del cuadrado (pista): 10 × 10 = 100 m². Área de pasto = 1.500 - 100 = 1.400 m²."
+    },
+    {
+      type: "Probabilidad y Tablas",
+      question: "En un curso de Biología se registraron las preferencias de proyectos finales: 12 estudiantes eligieron Botánica, 8 eligieron Zoología y 5 eligieron Ecología. Si se escoge un proyecto al azar para la feria de ciencias, ¿cuál es la probabilidad de que pertenezca al área de Zoología?",
+      visual: null,
+      options: ["8 / 25","8 / 12","1 / 8","12 / 25"],
+      correct: 0,
+      feedback: "El total de estudiantes (casos posibles) es 12 + 8 + 5 = 25. Los que eligieron Zoología (casos favorables) son 8. La probabilidad es 8 / 25."
+    },
+    {
+      type: "Proporcionalidad (Escalas)",
+      question: "Un estudiante de arquitectura dibuja el plano de un edificio. En el plano, una pared que en la realidad mide 15 metros, está representada por un segmento de 5 cm. ¿A qué escala está dibujado el plano?",
+      visual: null,
+      options: ["1 : 3","1 : 30","1 : 300","1 : 150"],
+      correct: 2,
+      feedback: "Convertimos los 15 metros reales a cm: 15 × 100 = 1.500 cm. Si 5 cm en el plano equivalen a 1.500 cm reales, dividimos 1.500 / 5 = 300. La escala es 1:300."
+    },
+    {
+      type: "Álgebra (Despeje de Ecuaciones)",
+      question: "En un experimento de física, la distancia (d) recorrida por un móvil a velocidad constante se modela como d = 4t + 10. Si el móvil recorrió una distancia de 34 metros, ¿cuántos segundos (t) estuvo en movimiento?",
+      visual: null,
+      options: ["24 s","6 s","10 s","4 s"],
+      correct: 1,
+      feedback: "Sustituimos d por 34: 34 = 4t + 10. Pasamos 10 a restar: 24 = 4t. Despejamos t pasando el 4 a dividir: t = 24 / 4 = 6 segundos."
+    },
+    {
+      type: "Lectura de Gráficas (Proporcionalidad)",
+      question: "La siguiente gráfica muestra el crecimiento de una planta en función de los días transcurridos. Observando la tendencia de la línea recta, ¿cuántos milímetros habrá crecido la planta en el día 6 si mantiene el mismo ritmo?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 150" width="200" height="150">
+                            <!-- Ejes -->
+                            <line x1="30" y1="130" x2="180" y2="130" stroke="#475569" stroke-width="2"/>
+                            <line x1="30" y1="130" x2="30" y2="20" stroke="#475569" stroke-width="2"/>
+                            <!-- Títulos -->
+                            <text x="100" y="145" text-anchor="middle" font-size="10" fill="#475569">Tiempo (Días)</text>
+                            <text x="15" y="70" text-anchor="middle" font-size="10" fill="#475569" transform="rotate(-90 15,70)">Altura (mm)</text>
+                            
+                            <!-- Datos (1 dia = 5mm, 2 = 10, 4 = 20) -->
+                            <line x1="30" y1="130" x2="110" y2="50" stroke="#2563eb" stroke-width="2"/>
+                            
+                            <circle cx="50" cy="110" r="3" fill="#ef4444"/> <text x="50" y="140" font-size="8">2</text> <text x="20" y="113" font-size="8">10</text>
+                            <circle cx="90" cy="70" r="3" fill="#ef4444"/> <text x="90" y="140" font-size="8">4</text> <text x="20" y="73" font-size="8">20</text>
+                         </svg>` } }),
+      options: ["25 mm","30 mm","35 mm","40 mm"],
+      correct: 1,
+      feedback: "La gráfica muestra que por cada 2 días, la planta crece 10 mm (es decir, 5 mm por día). Si son 6 días, crecerá 6 × 5 = 30 mm."
+    },
+    {
+      type: "Modelado Geométrico (Descomposición)",
+      question: "Un arquitecto necesita entapetar el piso de un salón con forma de 'L'. El plano muestra las siguientes medidas. Para calcular la cantidad de tapete, él descompone la figura trazando una línea (punteada) formando dos rectángulos. ¿Cuál es el área total del salón?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 150" width="200" height="150">
+                            <!-- Poligono en forma de L -->
+                            <polygon points="60,20 100,20 100,80 160,80 160,130 60,130" fill="#fef08a" stroke="#d97706" stroke-width="2"/>
+                            <!-- Línea de descomposición -->
+                            <line x1="100" y1="80" x2="100" y2="130" stroke="#d97706" stroke-dasharray="4,4"/>
+                            
+                            <!-- Etiquetas -->
+                            <text x="80" y="15" text-anchor="middle" font-size="10" fill="#b45309">4m</text>
+                            <text x="45" y="75" text-anchor="middle" font-size="10" fill="#b45309" transform="rotate(-90 45,75)">10m</text>
+                            <text x="110" y="145" text-anchor="middle" font-size="10" fill="#b45309">10m</text>
+                            <text x="175" y="105" text-anchor="middle" font-size="10" fill="#b45309" transform="rotate(-90 175,105)">5m</text>
+                         </svg>` } }),
+      options: ["70 m²","100 m²","80 m²","50 m²"],
+      correct: 0,
+      feedback: "Descomponiendo en dos rectángulos: El de la izquierda tiene base 4m y altura 10m (Área = 40m²). La parte derecha tiene altura 5m y su base es 6m (10m totales abajo - 4m de la izquierda). Área derecha = 6m × 5m = 30m². Total = 40 + 30 = 70 m²."
+    },
+    {
+      type: "Álgebra (Traducción Simultánea)",
+      question: "El doble de la masa del reactivo A sumada con el triple de la masa del reactivo B resulta en 50 gramos. ¿Cuál de las siguientes expresiones algebraicas traduce correctamente este enunciado?",
+      visual: null,
+      options: ["2A + 3B = 50","(2+A) + (3+B) = 50","A² + B³ = 50","2(A + B) + 3 = 50"],
+      correct: 0,
+      feedback: "El 'doble de A' es 2A, y el 'triple de B' es 3B. La palabra 'sumada' indica adición (+), y 'resulta' indica igualdad (=). Por tanto, 2A + 3B = 50."
+    },
+    {
+      type: "Probabilidad Clásica (Dados)",
+      question: "Un estudiante lanza un dado no trucado de seis caras (numeradas del 1 al 6). ¿Cuál es la probabilidad de que el número obtenido sea MÚLTIPLO DE 3?",
+      visual: null,
+      options: ["1/6","2/6 (o 1/3)","3/6 (o 1/2)","4/6 (o 2/3)"],
+      correct: 1,
+      feedback: "Los múltiplos de 3 en un dado son el 3 y el 6 (2 casos favorables). El total de caras es 6. La probabilidad es 2/6, que al simplificar es 1/3."
+    },
+    {
+      type: "Modelado Geométrico (Descomposición Mixta)",
+      question: "Una ventana de estilo clásico tiene la forma de un rectángulo coronado por un semicírculo. Si la base del rectángulo mide 40 cm y su altura es de 60 cm, ¿cuál es el procedimiento correcto para encontrar el área total de la ventana?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 150" width="200" height="150">
+                            <!-- Rectángulo -->
+                            <rect x="70" y="60" width="60" height="80" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+                            <!-- Semicírculo -->
+                            <path d="M 70 60 A 30 30 0 0 1 130 60 Z" fill="#bae6fd" stroke="#0284c7" stroke-width="2"/>
+                            <!-- Etiquetas -->
+                            <text x="100" y="155" text-anchor="middle" font-size="10" fill="#0369a1">40 cm</text>
+                            <text x="55" y="100" text-anchor="middle" font-size="10" fill="#0369a1" transform="rotate(-90 55,100)">60 cm</text>
+                            <!-- Línea guía -->
+                            <line x1="70" y1="60" x2="130" y2="60" stroke="#0284c7" stroke-dasharray="4,4"/>
+                         </svg>` } }),
+      options: ["Área del rectángulo (40×60) más el área del semicírculo (π × 20² / 2)","Área del rectángulo (40×60) más el área del círculo completo (π × 40²)","Perímetro del rectángulo más la circunferencia","Área del rectángulo (40×60) por el área del semicírculo"],
+      correct: 0,
+      feedback: "La figura se descompone en un rectángulo y un semicírculo. El radio del semicírculo es la mitad de la base del rectángulo (20 cm). Al área del rectángulo se le SUMA la mitad del área de un círculo (πr²/2)."
+    },
+    {
+      type: "Modelado Geométrico (Triángulos Rectángulos)",
+      question: "Para alcanzar una muestra en lo alto de un muro de 4 metros, un estudiante apoya una escalera. Si la base de la escalera está a 3 metros de la pared, ¿cuál debe ser la longitud mínima de la escalera? (Pista: Usa el Teorema de Pitágoras c² = a² + b²)",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `<svg viewBox="0 0 200 150" width="200" height="150">
+                            <!-- Pared -->
+                            <rect x="40" y="20" width="20" height="100" fill="#94a3b8"/>
+                            <text x="25" y="70" font-size="10" fill="#475569">4m</text>
+                            <!-- Piso -->
+                            <line x1="40" y1="120" x2="160" y2="120" stroke="#475569" stroke-width="4"/>
+                            <text x="100" y="140" font-size="10" fill="#475569">3m</text>
+                            <!-- Escalera -->
+                            <line x1="60" y1="20" x2="130" y2="120" stroke="#d97706" stroke-width="4"/>
+                            <text x="110" y="60" font-size="14" fill="#d97706" font-weight="bold">c = ?</text>
+                         </svg>` } }),
+      options: ["7 m","5 m","12 m","25 m"],
+      correct: 1,
+      feedback: "Aplicando Pitágoras: c² = 4² + 3² = 16 + 9 = 25. La raíz cuadrada de 25 es 5. La escalera mide 5 metros."
+    },
+    {
+      type: "Álgebra (Consecutivos)",
+      question: "En un experimento, la suma de las temperaturas de dos soluciones consecutivas (en grados) es 45. Si la temperatura de la primera solución es 'x', ¿qué modelo matemático representa este fenómeno?",
+      visual: null,
+      options: ["x + y = 45","x² + x = 45","x + (x + 1) = 45","2x = 45"],
+      correct: 2,
+      feedback: "Si un número es 'x', el siguiente o consecutivo es 'x + 1'. La suma de ambos se expresa correctamente como x + (x + 1) = 45."
+    },
+    {
+      type: "Proporcionalidad Directa",
+      question: "En la ley de Hooke, la fuerza aplicada a un resorte es directamente proporcional a su elongación (estiramiento). Si una fuerza de 10 Newtons estira el resorte 2 cm, ¿cuántos centímetros se estirará con una fuerza de 35 Newtons?",
+      visual: null,
+      options: ["7 cm","5 cm","10 cm","3.5 cm"],
+      correct: 0,
+      feedback: "Reduciendo a la unidad: si 10 N causan 2 cm, entonces 1 cm es causado por 5 N. Dividiendo 35 N / 5 N/cm = 7 cm. (También mediante regla de tres: 35×2/10 = 7)."
+    },
+    {
+      type: "Geometría (Círculos)",
+      question: "El contorno de una placa circular bacteriana mide 62.8 mm de perímetro (circunferencia). Sabiendo que la fórmula de la circunferencia es C = 2 × π × r, y tomando π = 3.14, ¿cuál es el valor del radio de la placa?",
+      visual: null,
+      options: ["5 mm","10 mm","20 mm","31.4 mm"],
+      correct: 1,
+      feedback: "Despejamos 'r': r = C / (2 × π) = 62.8 / (2 × 3.14) = 62.8 / 6.28 = 10 mm."
+    },
+    {
+      type: "Probabilidad Compuesta",
+      question: "Un estudiante lanza una moneda normal y un dado de seis caras al mismo tiempo. ¿Cuál es la probabilidad de obtener 'Sello' en la moneda Y un número 'menor que 3' en el dado?",
+      visual: null,
+      options: ["1/2","1/6","2/8","1/3"],
+      correct: 1,
+      feedback: "P(Sello) = 1/2. Los números menores que 3 son el 1 y el 2 (2/6 = 1/3). Como son eventos independientes, se multiplican: (1/2) × (1/3) = 1/6."
+    },
+    {
+      type: "Interpretación de Datos (Probabilidad)",
+      question: "Un estudio sobre eficacia de un medicamento en 100 pacientes mostró los siguientes resultados: 60 pacientes se curaron y 40 no. Si se selecciona un paciente al azar para una entrevista, ¿cuál es la probabilidad porcentual de elegir a alguien que NO se curó?",
+      visual: null,
+      options: ["40%","60%","100%","4%"],
+      correct: 0,
+      feedback: "La cantidad de pacientes que no se curaron es 40 de un total de 100. En fracción es 40/100, lo que equivale directamente al 40%."
+    }
+  ];;
 
 
     const handleAnswer = (index) => {

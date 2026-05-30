@@ -185,7 +185,7 @@
         <!-- Logo -->
         <div class="flex items-center justify-center mb-10 px-3 py-2 cursor-pointer group" onclick="Router.go('home')">
             <div class="flex flex-col items-center leading-[0.85] font-sans font-black transform transition-transform group-hover:scale-105">
-                <span class="text-[36px] tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#c084fc] via-[#d946ef] to-[#ec4899]" style="filter: drop-shadow(0 2px 10px rgba(217,70,239,0.4));">SABER</span>
+                <span class="text-[36px] tracking-tight text-transparent bg-clip-text sidebar-logo-shimmer">SABER</span>
                 <span class="text-[32px] tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]" style="filter: drop-shadow(0 2px 10px rgba(245,158,11,0.4));">PRO</span>
             </div>
         </div>
@@ -194,52 +194,57 @@
         <nav class="flex-1 space-y-1.5 px-3">
             <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-2">Principal</h3>
             
-            <button onclick="Router.go('home')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl hover:bg-slate-800/80 transition-all text-sm font-semibold text-white group relative">
-                <div class="absolute left-0 w-1 h-6 bg-indigo-500 rounded-r-md opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('home')" class="sidebar-btn-premium active w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-semibold text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">home</span></div>
                 <span class="text-left">Home</span>
             </button>
-            <button onclick="Router.go('dashboard')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-cyan-500 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('dashboard')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-cyan-400 transition-colors">insert_chart</span></div>
                 <span class="text-left">Analítica</span>
             </button>
             
             <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-8">Cursos / Academia</h3>
-            <button onclick="Router.go('study-modules')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-indigo-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('study-modules')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-indigo-400 transition-colors">menu_book</span></div>
                 <span class="text-left">Módulos de Estudio</span>
             </button>
-            <button onclick="Router.go('flashcards')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-purple-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('flashcards')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-purple-400 transition-colors">dynamic_feed</span></div>
                 <span class="text-left">Flashcards</span>
             </button>
-            <button onclick="Router.go('icfes-guide')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-amber-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('icfes-guide')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-amber-400 transition-colors">assignment</span></div>
                 <span class="text-left">Guía Oficial</span>
             </button>
+            <button onclick="Router.go('tips')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
+                <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-red-400 transition-colors">video_library</span></div>
+                <span class="text-left">Videoteca ICFES</span>
+            </button>
             
             <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-3 mt-8">Play / Juegos</h3>
-            <button onclick="Router.go('arcade-games')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-cyan-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('arcade-games')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-cyan-400 transition-colors">sports_esports</span></div>
                 <span class="text-left">Arcade</span>
             </button>
-            <button onclick="Router.go('games')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-pink-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('games')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-pink-400 transition-colors">extension</span></div>
                 <span class="text-left">Juegos</span>
             </button>
-            <button onclick="Router.go('duels')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-rose-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('duels')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-rose-400 transition-colors">security</span></div>
                 <span class="text-left">Arena de Duelos</span>
             </button>
-            <button onclick="Router.go('global-results')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-yellow-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('global-results')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-yellow-400 transition-colors">emoji_events</span></div>
                 <span class="text-left">Ranking</span>
             </button>
@@ -247,18 +252,18 @@
         
         <div class="mt-auto px-4 w-full pt-8">
             <div class="h-[1px] bg-slate-800/80 w-full mb-4"></div>
-            <button onclick="Router.go('teacher')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium group relative">
-                <div class="absolute left-0 w-1 h-6 bg-emerald-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('teacher')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-emerald-400">library_books</span></div>
                 <span class="text-left">Banco de Preguntas</span>
             </button>
-            <button onclick="Router.go('admin')" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all text-sm font-medium mt-1 group relative">
-                <div class="absolute left-0 w-1 h-6 bg-rose-500 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="Router.go('admin')" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-white group">
+                <div class="active-indicator"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-rose-400">admin_panel_settings</span></div>
                 <span class="text-left">Control Docente</span>
             </button>
-            <button onclick="AuthModule && AuthModule.logout ? AuthModule.logout() : window.location.reload()" class="w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm font-medium mt-1 group relative">
-                <div class="absolute left-0 w-1 h-6 bg-red-400 rounded-r-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <button onclick="AuthModule && AuthModule.logout ? AuthModule.logout() : window.location.reload()" class="sidebar-btn-premium w-full flex items-center justify-start gap-4 px-3 py-3 rounded-xl transition-all text-sm font-medium text-slate-400 hover:text-red-400 hover:bg-red-500/10 group">
+                <div class="active-indicator" style="background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);"></div>
                 <div class="w-6 flex justify-center"><span class="material-icons-round text-[20px] text-slate-500 group-hover:text-red-400">logout</span></div>
                 <span class="text-left">Salir</span>
             </button>
@@ -307,16 +312,20 @@
     <div id="view-home" class="view-section relative"
         style="overflow-x: hidden; background-color: var(--color-surface);">
 
-        <!-- Premium Ambient Background (Clean Minimal) -->
-        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
-            <!-- Subtle grid pattern instead of noisy orbs -->
-            <div class="absolute inset-0"
-                style="background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 40px 40px;">
-            </div>
+        <!-- Premium Ambient Background (Futuristic Dark Theme) -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#070b13]">
+            <!-- Subtle futuristic grid pattern with radial fading -->
+            <div class="absolute inset-0 bg-grid-pattern opacity-70"></div>
             
-            <!-- One single, elegant, subtle glow -->
-            <div class="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full filter blur-[120px] opacity-20"
-                style="background: radial-gradient(circle, #6366f1, transparent 70%); pointer-events: none;">
+            <!-- Animated glowing ambient orbs (SaaS Style) -->
+            <div class="absolute top-[-20%] left-[-15%] w-[600px] h-[600px] rounded-full filter blur-[130px] opacity-25 animate-blob-drift-1"
+                style="background: radial-gradient(circle, #4f46e5, transparent 70%);">
+            </div>
+            <div class="absolute bottom-[10%] right-[-10%] w-[500px] h-[500px] rounded-full filter blur-[125px] opacity-[0.16] animate-blob-drift-2"
+                style="background: radial-gradient(circle, #ec4899, transparent 70%);">
+            </div>
+            <div class="absolute top-[30%] right-[35%] w-[400px] h-[400px] rounded-full filter blur-[140px] opacity-[0.08] animate-blob-drift-3"
+                style="background: radial-gradient(circle, #06b6d4, transparent 70%);">
             </div>
         </div>
 
@@ -329,54 +338,57 @@
 
                 <!-- Left Text Content -->
                 <div class="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start z-20">
-                    <div
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 shadow-sm glass border-indigo-500/30"
-                        style="background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.3);">
+                    <div class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full mb-8 shadow-[0_4px_20px_rgba(99,102,241,0.15)] border border-indigo-500/30 backdrop-blur-md transition-all hover:border-indigo-500/50 hover:shadow-[0_4px_30px_rgba(99,102,241,0.25)] hover:scale-102"
+                        style="background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05));">
                         <span class="animate-pulse text-indigo-400">✨</span>
-                        <span class="text-sm font-medium tracking-wide uppercase text-indigo-300">Plataforma SABER PRO</span>
+                        <span class="text-[11px] font-extrabold tracking-widest uppercase text-indigo-200">Plataforma SABER PRO</span>
                     </div>
 
                     <style>
                         /* Hero Animations & Premium Effects */
-                        @keyframes hero-glow {
-                            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-                            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.6; }
-                            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-                        }
                         @keyframes text-shine {
                             0% { background-position: 0% 50%; }
                             100% { background-position: 100% 50%; }
                         }
                         
-                        [data-theme="dark"] .title-saber {
-                            background: linear-gradient(to right, #ffffff, #e2e8f0);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            background-clip: text;
-                            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.4));
-                            animation: text-shine 4s linear infinite;
+                        @keyframes blob-drift-1 {
+                            0%, 100% { transform: translate(0, 0) scale(1); }
+                            33% { transform: translate(40px, -60px) scale(1.1); }
+                            66% { transform: translate(-30px, 30px) scale(0.95); }
                         }
-                        [data-theme="light"] .title-saber {
-                            color: #0f172a;
+                        @keyframes blob-drift-2 {
+                            0%, 100% { transform: translate(0, 0) scale(1); }
+                            33% { transform: translate(-50px, 40px) scale(0.9); }
+                            66% { transform: translate(30px, -40px) scale(1.05); }
                         }
-                        [data-theme="dark"] .title-pro {
-                            background: linear-gradient(to right, #6366f1, #06b6d4, #3b82f6, #6366f1);
-                            background-size: 200% auto;
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            background-clip: text;
-                            filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.6));
-                            animation: text-shine 4s linear infinite;
+                        @keyframes blob-drift-3 {
+                            0%, 100% { transform: translate(0, 0) scale(1); }
+                            50% { transform: translate(50px, 50px) scale(1.15); }
                         }
-                        [data-theme="light"] .title-pro {
-                            background: linear-gradient(to right, #4f46e5, #0891b2, #2563eb);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            background-clip: text;
-                        }
+                        .animate-blob-drift-1 { animation: blob-drift-1 14s infinite ease-in-out; }
+                        .animate-blob-drift-2 { animation: blob-drift-2 18s infinite ease-in-out; }
+                        .animate-blob-drift-3 { animation: blob-drift-3 12s infinite ease-in-out; }
                         
-                        [data-theme="light"] .hero-glow-bg { display: none !important; }
-                        [data-theme="dark"] .hero-glow-bg { display: block; }
+                        .saber-title-gradient {
+                            background: linear-gradient(135deg, #c084fc, #e879f9, #ec4899, #c084fc);
+                            background-size: 300% 300%;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            animation: gradient-text-shift 6s ease infinite;
+                        }
+                        .pro-title-gradient {
+                            background: linear-gradient(135deg, #fbbf24, #f59e0b, #f97316, #fbbf24);
+                            background-size: 300% 300%;
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            animation: gradient-text-shift 6s ease infinite;
+                            animation-delay: 2s;
+                        }
+                        @keyframes gradient-text-shift {
+                            0% { background-position: 0% 50%; }
+                            50% { background-position: 100% 50%; }
+                            100% { background-position: 0% 50%; }
+                        }
                         
                         .massive-title {
                             font-size: min(15vw, 10.5rem); 
@@ -389,11 +401,12 @@
                             position: absolute;
                             inset: 0;
                             background-image: 
-                                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+                                radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1.5px),
+                                linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
+                                linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
                             background-size: 40px 40px;
-                            mask-image: radial-gradient(circle at center, black, transparent 80%);
-                            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+                            mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+                            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
                             pointer-events: none;
                             z-index: 0;
                         }
@@ -402,139 +415,190 @@
                                 linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
                                 linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
                         }
+                        
+                        /* Sparkline Drawing Animation */
+                        .sparkline-path {
+                            stroke-dasharray: 200;
+                            stroke-dashoffset: 200;
+                            animation: draw-sparkline 3s forwards cubic-bezier(0.4, 0, 0.2, 1);
+                        }
+                        @keyframes draw-sparkline {
+                            to { stroke-dashoffset: 0; }
+                        }
+                        .sparkline-pulse {
+                            animation: pulse-dot 2s infinite;
+                        }
+                        @keyframes pulse-dot {
+                            0% { r: 2.5; opacity: 1; }
+                            50% { r: 5; opacity: 0.4; }
+                            100% { r: 2.5; opacity: 1; }
+                        }
+                        @keyframes bounce-slow {
+                            0%, 100% { transform: translateY(0); }
+                            50% { transform: translateY(-5px); }
+                        }
+                        .animate-bounce-slow {
+                            animation: bounce-slow 3s infinite ease-in-out;
+                        }
                     </style>
                     
-                    <!-- Premium Background Grid (Removed overlapping grids to keep it clean) -->
+                    <!-- Title -->
                     <div class="relative inline-block mb-6 w-full z-10 pt-4">
                         <h1 class="massive-title font-extrabold tracking-tighter relative flex flex-col items-center lg:items-start select-none" style="margin-bottom: 2rem;">
-                            <span class="block uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#c084fc] via-[#d946ef] to-[#ec4899] z-10 leading-[0.85] pb-1" style="filter: drop-shadow(0 0 30px rgba(217,70,239,0.4));">SABER</span>
-                            <span class="block uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#ea580c] z-10 leading-[0.85] pl-6 md:pl-10 font-black" style="filter: drop-shadow(0 0 30px rgba(245,158,11,0.5));">PRO</span>
+                            <span class="block uppercase tracking-tight text-transparent bg-clip-text saber-title-gradient saber-title-glow z-10 leading-[0.85] pb-1">SABER</span>
+                            <span class="block uppercase tracking-tighter text-transparent bg-clip-text pro-title-gradient pro-title-glow z-10 leading-[0.85] pl-6 md:pl-10 font-black">PRO</span>
                         </h1>
                     </div>
 
-                    <p class="text-lg md:text-xl mb-10 max-w-2xl leading-relaxed font-light relative z-10"
-                        style="color: var(--color-text-muted);">
-                        Eleva tu puntaje con el simulador más <strong
-                            style="color: var(--color-text); font-weight: 600;">revolucionario</strong> y <strong
-                            style="color: var(--color-text); font-weight: 600;">preciso</strong>. Diagnóstico por IA,
-                        cronómetro oficial y reportes avanzados en tiempo real.
+                    <p class="text-lg md:text-xl mb-10 max-w-2xl leading-relaxed font-light relative z-10 text-slate-300">
+                        Eleva tu puntaje con el simulador más <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">revolucionario</span> y <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">preciso</span>. Diagnóstico por IA, cronómetro oficial y reportes avanzados en tiempo real.
                     </p>
 
-                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-4">
+                    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-4 z-10">
                         <button onclick="Router.go('config')"
-                            class="group relative overflow-hidden transition-all flex items-center justify-center gap-3 px-10 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl text-white shadow-[0_0_30px_-5px_rgba(99,102,241,0.6)] hover:-translate-y-1">
-                            <span class="material-icons-round text-xl">play_arrow</span>
-                            <span class="font-semibold tracking-wide">Iniciar Simulacro</span>
+                            class="simulacro-btn-premium group relative overflow-hidden transition-all duration-300 flex items-center justify-center gap-3 px-10 py-4.5 rounded-2xl text-white hover:-translate-y-1 shadow-[0_8px_30px_rgba(99,102,241,0.45)]"
+                            style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899); background-size: 200% auto; transition: 0.5s;"
+                            onmouseover="this.style.backgroundPosition='right center'"
+                            onmouseout="this.style.backgroundPosition='left center'">
+                            <span class="material-icons-round text-xl group-hover:scale-120 transition-transform">play_arrow</span>
+                            <span class="font-bold tracking-wide">Iniciar Simulacro</span>
                         </button>
 
                         <button onclick="ExamEngine.startFastTrack()"
-                            class="group flex items-center justify-center gap-3 px-10 py-4 bg-transparent border-2 border-slate-700 hover:border-slate-500 rounded-2xl text-slate-300 hover:text-white transition-all hover:-translate-y-1">
-                            <span class="material-icons-round text-xl text-cyan-400">bolt</span>
-                            <span class="font-semibold tracking-wide">Reto Rápido</span>
+                            class="reto-btn-premium group flex items-center justify-center gap-3 px-10 py-4.5 rounded-2xl text-slate-300 hover:text-white transition-all duration-300 hover:-translate-y-1">
+                            <span class="material-icons-round text-xl text-cyan-400 group-hover:animate-bounce">bolt</span>
+                            <span class="font-bold tracking-wide">Reto Rápido</span>
                         </button>
                     </div>
                     
-                    <!-- Teacher Info Block -->
-                    <div class="mt-8 flex items-center gap-4 relative z-10 animate-fade-in" style="animation-delay: 0.3s;">
+                    <!-- Director Académico Block -->
+                    <div class="mt-12 flex items-center gap-5 p-4 rounded-2xl border border-white/5 relative z-10 animate-fade-in" 
+                         style="background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); animation-delay: 0.3s;">
                         <div class="flex -space-x-3">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[var(--color-bg)] z-[3]"
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black text-white border-2 border-[#0f172a] z-[3] shadow-lg"
                                 style="background-color: #3b82f6;">95%</div>
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[var(--color-bg)] z-[2]"
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black text-white border-2 border-[#0f172a] z-[2] shadow-lg"
                                 style="background-color: #10b981;">Top</div>
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-[var(--color-bg)] z-[1]"
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black text-white border-2 border-[#0f172a] z-[1] shadow-lg"
                                 style="background-color: #f59e0b;">96%</div>
                         </div>
-                        <div class="flex flex-col">
-                            <span class="font-semibold text-sm" style="color: var(--color-text);">Docente Edgar Acevedo</span>
-                            <span class="text-xs font-medium" style="color: var(--color-text-muted);">IE Matecandela • Colombia</span>
+                        <div class="flex flex-col text-left">
+                            <span class="font-black text-[9px] uppercase tracking-widest text-indigo-400">DIRECTOR ACADÉMICO</span>
+                            <span class="font-extrabold text-sm text-white mt-0.5 flex items-center gap-1">Docente Edgar Acevedo <span class="text-sky-400 text-xs">✓</span></span>
+                            <span class="text-xs text-slate-400 font-medium">IE Matecandela • Colombia</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right 3D/Visual Content (Student Image with Badges) -->
                 <div class="flex-1 w-full max-w-lg lg:max-w-xl relative mt-16 md:mt-24 lg:mt-0 perspective-1000 mx-auto">
-                    <!-- Clean minimal shadow behind image instead of huge glowing blob -->
-                    <div class="absolute inset-0 rounded-[32px] bg-indigo-900/20 filter blur-3xl transform scale-90 mt-10"></div>
+                    <!-- Ambient neon glow behind the image wrapper -->
+                    <div class="absolute inset-0 rounded-[36px] bg-gradient-to-tr from-indigo-500/20 via-fuchsia-500/10 to-transparent filter blur-3xl transform scale-95 mt-5"></div>
 
                     <div class="relative z-10 w-full animate-float flex justify-center lg:justify-end">
-                        <img src="img/hero_student_laptop.png" alt="Estudiante preparándose para Saber Pro"
-                            class="w-full h-auto object-cover max-h-[500px] lg:max-h-[600px] rounded-[32px] overflow-hidden"
-                            style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); max-width: 90%;">
+                        <div class="relative rounded-[36px] p-2.5 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.5)] overflow-hidden group"
+                             style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)); max-width: 90%;">
+                            <!-- Frame border glow overlay -->
+                            <div class="absolute inset-0 border border-white/15 rounded-[34px] pointer-events-none group-hover:border-indigo-500/40 transition-all duration-500"></div>
+                            <img src="img/hero_student_laptop.png" alt="Estudiante preparándose para Saber Pro"
+                                class="w-full h-auto object-cover max-h-[500px] lg:max-h-[600px] rounded-[28px] transform group-hover:scale-102 transition-transform duration-700">
+                        </div>
 
                         <!-- Floating Badges over image -->
-                        <div
-                            class="absolute top-[5%] -left-2 md:-left-8 p-3 px-4 rounded-2xl shadow-lg flex flex-col gap-2 animate-float-slow"
-                            style="background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid rgba(52, 211, 153, 0.4); box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);">
+                        <!-- Floating Badge 1 (Glassmorphic Stats) -->
+                        <div class="glass-card-premium absolute top-[5%] -left-4 md:-left-10 p-5 rounded-2xl flex flex-col gap-3 hover:scale-105"
+                            style="border-color: rgba(52, 211, 153, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(52, 211, 153, 0.15) !important;">
                             <div class="flex items-center gap-3">
-                                <div class="p-1.5 rounded-xl flex items-center justify-center"
-                                    style="background: rgba(52, 211, 153, 0.15); color: #34d399;">
-                                    <span class="material-icons-round text-sm">trending_up</span>
+                                <div class="p-2 rounded-xl flex items-center justify-center shadow-inner"
+                                    style="background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.25);">
+                                    <span class="material-icons-round text-base">trending_up</span>
                                 </div>
-                                <div>
-                                    <p class="font-bold text-lg leading-none" style="color: var(--color-text);">95%</p>
-                                    <p class="text-[10px] mt-0.5 mb-0 font-medium tracking-wide" style="color: var(--color-text-muted);">PRECISIÓN</p>
+                                <div class="text-left">
+                                    <p class="font-black text-xl leading-none text-white">95%</p>
+                                    <p class="text-[9px] mt-1.5 mb-0 font-black tracking-widest text-[#34d399]">PRECISIÓN</p>
                                 </div>
                             </div>
-                            <div class="w-full mt-1">
-                                <svg viewBox="0 0 100 40" class="w-full h-8" preserveAspectRatio="none">
-                                    <polyline points="0,35 20,20 40,30 60,10 80,15 100,5" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline>
-                                    <circle cx="60" cy="10" r="2.5" fill="#34d399"></circle>
-                                    <circle cx="100" cy="5" r="2.5" fill="#34d399"></circle>
+                            <div class="w-full mt-1.5 overflow-hidden" style="height: 32px;">
+                                <svg viewBox="0 0 120 40" class="w-full h-full" preserveAspectRatio="none">
+                                    <path d="M0,35 Q20,25 40,32 T80,15 T120,5" fill="none" stroke="url(#cyan-green-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sparkline-path"></path>
+                                    <defs>
+                                        <linearGradient id="cyan-green-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#10b981" />
+                                            <stop offset="100%" stop-color="#06b6d4" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="80" cy="15" r="3" fill="#06b6d4" class="sparkline-pulse"></circle>
+                                    <circle cx="120" cy="5" r="3" fill="#06b6d4"></circle>
                                 </svg>
                             </div>
                         </div>
 
-                        <div class="absolute bottom-[20%] -right-4 md:-right-8 p-3 px-5 rounded-2xl shadow-lg flex items-center gap-4 animate-float"
-                            style="animation-delay: 1s; background: var(--glass-bg); backdrop-filter: blur(12px); border: 1px solid rgba(250, 204, 21, 0.4); box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);">
-                            <div class="relative flex items-center justify-center">
-                                <span style="font-size: 2.2rem; filter: drop-shadow(0 4px 10px rgba(250, 204, 21, 0.4));">🏅</span>
+                        <!-- Floating Badge 2 (Glassmorphic Award) -->
+                        <div class="glass-card-premium absolute bottom-[18%] -right-4 md:-right-8 p-4 px-6 rounded-2xl flex items-center gap-4.5 hover:scale-105"
+                            style="animation-delay: 1s; border-color: rgba(250, 204, 21, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(250, 204, 21, 0.15) !important;">
+                            <div class="relative flex items-center justify-center w-10 h-10 rounded-full"
+                                 style="background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.2);">
+                                <span style="font-size: 2rem; filter: drop-shadow(0 4px 10px rgba(250, 204, 21, 0.45));" class="animate-bounce-slow">🏅</span>
                             </div>
-                            <div>
-                                <p class="font-bold text-lg leading-none" style="color: var(--color-text);">TOP 1</p>
-                                <p class="text-[11px] mt-1.5 mb-0 font-medium tracking-wide" style="color: var(--color-text-muted);">Mejor ICFES</p>
+                            <div class="text-left">
+                                <p class="font-black text-xl leading-none text-white">TOP 1</p>
+                                <p class="text-[10px] mt-1.5 mb-0 font-black tracking-widest text-[#f59e0b]">MEJOR ICFES</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge 3 (Glassmorphic Gamification Status) -->
+                        <div class="glass-card-premium absolute bottom-[5%] left-[5%] p-4 px-5 rounded-2xl flex items-center gap-3.5 hover:scale-105"
+                            style="animation-delay: 0.5s; border-color: rgba(239, 68, 68, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(239, 68, 68, 0.15) !important;">
+                            <div class="flex items-center justify-center w-8 h-8 rounded-full"
+                                 style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444;">
+                                <span class="material-icons-round text-lg racha-flame-pulse">local_fire_department</span>
+                            </div>
+                            <div class="text-left">
+                                <p class="font-black text-sm leading-none text-white">Racha Activa</p>
+                                <p class="text-[9px] mt-1.5 mb-0 font-black tracking-wider text-[#ef4444]">DIARIA</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ELIMINADO: Grid de 9 tarjetas movidas al Sidebar -->
+            <!-- Space bottom -->
             <div class="w-full max-w-7xl mx-auto mb-10 z-20 px-2 lg:px-4">
-               <!-- Espacio limpio inferior -->
             </div>
 
             <!-- Features Strip Modernized -->
-            <div class="w-full max-w-5xl mx-auto mt-16 mb-10 z-20">
-                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-                    <div class="flex items-center gap-3 px-6 py-4 rounded-xl"
-                        style="background: var(--color-surface-2); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md);">
-                        <div class="flex items-center justify-center p-1.5 rounded-full"
-                            style="background: rgba(99,102,241,0.15); color: var(--color-primary-light);">
+            <div class="w-full max-w-5xl mx-auto mt-16 mb-10 z-20 px-4">
+                <div class="flex flex-wrap justify-center gap-6">
+                    <div class="bento-feature-card flex items-center gap-3.5 px-6 py-4 rounded-2xl">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-xl"
+                            style="background: rgba(99,102,241,0.15); color: var(--color-primary-light); border: 1px solid rgba(99,102,241,0.25);">
                             <span class="material-icons-round text-sm">psychology</span>
                         </div>
-                        <span class="font-semibold text-sm" style="color: var(--color-text);">Motor de IA Adaptativo</span>
+                        <span class="font-bold text-xs uppercase tracking-wider text-slate-300">Motor de IA Adaptativo</span>
                     </div>
-                    <div class="flex items-center gap-3 px-6 py-4 rounded-xl"
-                        style="background: var(--color-surface-2); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md);">
-                        <div class="flex items-center justify-center p-1.5 rounded-full"
-                            style="background: rgba(236,72,153,0.15); color: #f472b6;">
+                    <div class="bento-feature-card flex items-center gap-3.5 px-6 py-4 rounded-2xl">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-xl"
+                            style="background: rgba(236,72,153,0.15); color: #f472b6; border: 1px solid rgba(236,72,153,0.25);">
                             <span class="material-icons-round text-sm">timer</span>
                         </div>
-                        <span class="font-semibold text-sm" style="color: var(--color-text);">Cronómetro Oficial</span>
+                        <span class="font-bold text-xs uppercase tracking-wider text-slate-300">Cronómetro Oficial</span>
                     </div>
-                    <div class="flex items-center gap-3 px-6 py-4 rounded-xl"
-                        style="background: var(--color-surface-2); border: 1px solid var(--glass-border); box-shadow: var(--shadow-md);">
-                        <div class="flex items-center justify-center p-1.5 rounded-full"
-                            style="background: rgba(16,185,129,0.15); color: var(--color-success);">
+                    <div class="bento-feature-card flex items-center gap-3.5 px-6 py-4 rounded-2xl">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-xl"
+                            style="background: rgba(16,185,129,0.15); color: var(--color-success); border: 1px solid rgba(16,185,129,0.25);">
                             <span class="material-icons-round text-sm">auto_graph</span>
                         </div>
-                        <span class="font-semibold text-sm" style="color: var(--color-text);">Analítica Detallada</span>
+                        <span class="font-bold text-xs uppercase tracking-wider text-slate-300">Analítica Detallada</span>
+                    </div>
+                    <div onclick="Router.go('tips')" class="bento-feature-card flex items-center gap-3.5 px-6 py-4 rounded-2xl cursor-pointer">
+                        <div class="flex items-center justify-center w-8 h-8 rounded-xl"
+                            style="background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.25);">
+                            <span class="material-icons-round text-sm">video_library</span>
+                        </div>
+                        <span class="font-bold text-xs uppercase tracking-wider text-slate-300">Videoteca ICFES</span>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
@@ -761,12 +825,14 @@
 
         <!-- CONTENEDOR DE JUEGOS -->
         <div id="arcade-view-game" class="hidden bg-slate-950 flex flex-col items-center justify-center p-0 sm:p-4">
-            <!-- Aviso de Orientación para Celulares (ahora opcional) -->
-            <div id="arcade-orientation-prompt" class="hidden fixed inset-0 z-[100] bg-slate-950/90 flex flex-col items-center justify-center p-8 text-center sm:hidden pointer-events-none">
+            <div id="arcade-orientation-prompt" class="hidden fixed inset-0 z-[100] bg-slate-950/90 flex flex-col items-center justify-center p-8 text-center sm:hidden transition-opacity duration-300">
                 <div class="w-16 h-16 mb-4 text-cyan-500 opacity-60">
                     <i data-lucide="rotate-cw" class="w-full h-full"></i>
                 </div>
-                <p class="text-slate-400 text-sm">Mejor en horizontal</p>
+                <p class="text-slate-300 text-lg mb-8 font-medium">Juega mejor en horizontal</p>
+                <button onclick="ArcadeGamesModule.dismissOrientationPrompt()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-300 font-bold border border-slate-600 px-8 py-3 rounded-xl transition-all shadow-lg active:scale-95">
+                    Omitir
+                </button>
             </div>
 
             <div id="arcade-game-border" class="relative w-full max-w-6xl mx-auto bg-black sm:border-y-4 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden sm:rounded-xl flex items-center justify-center">
@@ -1414,8 +1480,19 @@
 
     <!-- ============ CONFIG VIEW ============ -->
 
-    <div id="view-config" class="view-section hidden">
-        <header class="config-header">
+    <div id="view-config" class="view-section hidden relative" style="overflow-x: hidden; background-color: var(--color-surface);">
+        <!-- Premium Ambient Background -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-[#070b13]">
+            <div class="absolute inset-0 bg-grid-pattern opacity-70"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full filter blur-[120px] opacity-20"
+                style="background: radial-gradient(circle, #8b5cf6, transparent 70%);">
+            </div>
+            <div class="absolute bottom-[20%] right-[-10%] w-[500px] h-[500px] rounded-full filter blur-[120px] opacity-[0.14]"
+                style="background: radial-gradient(circle, #06b6d4, transparent 70%);">
+            </div>
+        </div>
+
+        <header class="config-header border-b border-white/5 relative z-[50]" style="background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
             <button class="config-back-btn" onclick="Router.go('home')">
                 <span class="material-icons-round">arrow_back</span>
                 <span>Volver</span>
@@ -1423,20 +1500,20 @@
             <div></div>
         </header>
 
-        <main class="config-main-content">
+        <main class="config-main-content relative z-10">
             <!-- Encabezado -->
             <div class="config-hero-header">
-                <div class="config-hero-icon">
+                <div class="config-hero-icon flex items-center justify-center mx-auto">
                     <span class="material-icons-round">psychology</span>
                 </div>
-                <h1 class="config-title">Configurar Simulacro</h1>
-                <p class="config-subtitle">Personaliza tu experiencia de preparación Saber Pro y mide tus conocimientos.
-                </p>
-                <div id="student-global-average-container" class="config-score-badge hidden">
-                    <span class="config-score-label">PROMEDIO ICFES PROYECTADO</span>
-                    <div class="config-score-value">
+                <h1 class="config-title text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 font-extrabold tracking-tight" style="filter: drop-shadow(0 2px 10px rgba(99,102,241,0.25));">Configurar Simulacro</h1>
+                <p class="config-subtitle mt-2 max-w-lg mx-auto text-slate-400 font-medium">Personaliza tu experiencia de preparación Saber Pro y mide tus conocimientos.</p>
+                
+                <div id="student-global-average-container" class="config-score-badge hidden bg-emerald-500/10 border border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.15)] rounded-2xl py-4.5 px-8 mt-6">
+                    <span class="config-score-label text-emerald-400 font-black tracking-widest text-[10px]">PROMEDIO ICFES PROYECTADO</span>
+                    <div class="config-score-value text-white font-black text-3xl mt-1">
                         <span id="student-global-icfes-score">--</span>
-                        <span class="config-score-max">/ 500</span>
+                        <span class="config-score-max text-slate-400 font-semibold text-sm">/ 500</span>
                     </div>
                 </div>
             </div>
@@ -1447,8 +1524,8 @@
                     <!-- Áreas del Conocimiento -->
                     <section class="config-card">
                         <div class="config-card-header">
-                            <h2 class="config-card-title">
-                                <span class="material-icons-round config-icon-primary">category</span>
+                            <h2 class="config-card-title text-white">
+                                <span class="material-icons-round text-indigo-400">category</span>
                                 Áreas del Conocimiento
                             </h2>
                             <span id="areas-count" class="config-areas-badge">5 DE 5 SELECCIONADAS</span>
@@ -1461,109 +1538,107 @@
 
                     <!-- Modo de Estudio -->
                     <section class="config-card">
-                        <h2 class="config-card-title">
-                            <span class="material-icons-round config-icon-primary">tune</span>
+                        <h2 class="config-card-title text-white mb-6">
+                            <span class="material-icons-round text-indigo-400">tune</span>
                             Modo de Estudio
                         </h2>
                         <div class="config-mode-grid">
-                            <label class="config-mode-option">
+                            <label class="config-mode-option" id="mode-exam">
                                 <input type="radio" name="study_mode" value="exam" checked class="sr-only"
                                     onchange="ConfigModule.selectMode('exam')">
-                                <div class="config-mode-card" id="mode-exam">
+                                <div class="config-mode-card">
                                     <div class="config-mode-icon config-mode-icon-purple">
                                         <span class="material-icons-round">timer</span>
                                     </div>
-                                    <div>
-                                        <h3 class="config-mode-name">Examen</h3>
+                                    <div class="text-left">
+                                        <h3 class="config-mode-name text-white">Examen</h3>
                                         <p class="config-mode-desc">Con cronómetro, resultados al final.</p>
                                     </div>
-                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                    <span class="material-icons-round config-mode-check text-indigo-400">check_circle</span>
                                 </div>
                             </label>
-                            <label class="config-mode-option">
+                            <label class="config-mode-option" id="mode-practice">
                                 <input type="radio" name="study_mode" value="practice" class="sr-only"
                                     onchange="ConfigModule.selectMode('practice')">
-                                <div class="config-mode-card" id="mode-practice">
+                                <div class="config-mode-card">
                                     <div class="config-mode-icon config-mode-icon-blue">
                                         <span class="material-icons-round">school</span>
                                     </div>
-                                    <div>
-                                        <h3 class="config-mode-name">Práctica</h3>
-                                        <p class="config-mode-desc">Sin límite de tiempo, retroalimentación inmediata.
-                                        </p>
+                                    <div class="text-left">
+                                        <h3 class="config-mode-name text-white">Práctica</h3>
+                                        <p class="config-mode-desc">Sin límite de tiempo, retroalimentación inmediata.</p>
                                     </div>
-                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                    <span class="material-icons-round config-mode-check text-emerald-400">check_circle</span>
                                 </div>
                             </label>
-                            <label class="config-mode-option">
+                            <label class="config-mode-option" id="mode-challenge">
                                 <input type="radio" name="study_mode" value="challenge" class="sr-only"
                                     onchange="ConfigModule.selectMode('challenge')">
-                                <div class="config-mode-card" id="mode-challenge">
+                                <div class="config-mode-card">
                                     <div class="config-mode-icon"
-                                        style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
-                                        <span class="material-icons-round">local_fire_department</span>
+                                        style="background: rgba(239, 68, 68, 0.12); color: #ef4444;">
+                                        <span class="material-icons-round animate-pulse">local_fire_department</span>
                                     </div>
-                                    <div>
-                                        <h3 class="config-mode-name">Challenge</h3>
+                                    <div class="text-left">
+                                        <h3 class="config-mode-name text-white">Challenge</h3>
                                         <p class="config-mode-desc">Alta presión: ¡90 segundos por pregunta!</p>
                                     </div>
-                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                    <span class="material-icons-round config-mode-check text-rose-500">check_circle</span>
                                 </div>
                             </label>
-                            <label class="config-mode-option">
+                            <label class="config-mode-option" id="mode-adaptive">
                                 <input type="radio" name="study_mode" value="adaptive" class="sr-only"
                                     onchange="ConfigModule.selectMode('adaptive')">
-                                <div class="config-mode-card" id="mode-adaptive">
+                                <div class="config-mode-card">
                                     <div class="config-mode-icon config-mode-icon-teal">
                                         <span class="material-icons-round">psychology</span>
                                     </div>
-                                    <div>
-                                        <h3 class="config-mode-name">IA Adaptativo</h3>
+                                    <div class="text-left">
+                                        <h3 class="config-mode-name text-white">IA Adaptativo</h3>
                                         <p class="config-mode-desc">Personalizado según tus debilidades.</p>
                                     </div>
-                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                    <span class="material-icons-round config-mode-check text-teal-400">check_circle</span>
                                 </div>
                             </label>
-                            <label class="config-mode-option">
+                            <label class="config-mode-option" id="mode-study">
                                 <input type="radio" name="study_mode" value="study" class="sr-only"
                                     onchange="ConfigModule.selectMode('study')">
-                                <div class="config-mode-card" id="mode-study">
+                                <div class="config-mode-card">
                                     <div class="config-mode-icon"
-                                        style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                        style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">
                                         <span class="material-icons-round">menu_book</span>
                                     </div>
-                                    <div>
-                                        <h3 class="config-mode-name">En Clase</h3>
+                                    <div class="text-left">
+                                        <h3 class="config-mode-name text-white">En Clase</h3>
                                         <p class="config-mode-desc">Estudio guiado por rangos.</p>
                                     </div>
-                                    <span class="material-icons-round config-mode-check">check_circle</span>
+                                    <span class="material-icons-round config-mode-check text-amber-500">check_circle</span>
                                 </div>
                             </label>
                         </div>
-                        <div id="mode-description" class="config-mode-description">Con cronómetro, resultados al final
-                        </div>
+                        <div id="mode-description" class="config-mode-description mt-3 text-slate-400 font-medium">Con cronómetro, resultados al final</div>
                     </section>
 
                     <!-- Parámetros -->
                     <section class="config-card">
-                        <h2 class="config-card-title">
-                            <span class="material-icons-round config-icon-primary">settings_suggest</span>
+                        <h2 class="config-card-title text-white mb-6">
+                            <span class="material-icons-round text-indigo-400">settings_suggest</span>
                             Parámetros
                         </h2>
                         <div class="config-params">
-                            <div>
-                                <label class="config-label">
-                                    <span class="material-icons-round config-label-icon">badge</span>
+                            <div class="text-left">
+                                <label class="config-label text-slate-300 font-bold">
+                                    <span class="material-icons-round config-label-icon text-indigo-400">badge</span>
                                     Nombre del Estudiante
                                 </label>
                                 <input type="text" id="student-name" class="config-input"
                                     placeholder="Tu nombre completo"
                                     onchange="localStorage.setItem('saber11_student_name', this.value)">
                             </div>
-                            <div class="config-params-row">
+                            <div class="config-params-row text-left">
                                 <div id="num-questions-selector">
-                                    <label class="config-label">
-                                        <span class="material-icons-round config-label-icon">format_list_numbered</span>
+                                    <label class="config-label text-slate-300 font-bold">
+                                        <span class="material-icons-round config-label-icon text-indigo-400">format_list_numbered</span>
                                         Número de Preguntas
                                     </label>
                                     <div class="config-select-wrapper">
@@ -1579,8 +1654,8 @@
                                     </div>
                                 </div>
                                 <div id="study-range-selector" class="hidden" style="display: none;">
-                                    <label class="config-label">
-                                        <span class="material-icons-round config-label-icon">linear_scale</span>
+                                    <label class="config-label text-slate-300 font-bold">
+                                        <span class="material-icons-round config-label-icon text-indigo-400">linear_scale</span>
                                         Rango de Preguntas (Ej. 1 al 10)
                                     </label>
                                     <div style="display: flex; gap: 10px; align-items: center;">
@@ -1592,14 +1667,14 @@
                                             value="10" min="1" style="width: 50%;"
                                             oninput="ConfigModule.updateSummary()">
                                     </div>
-                                    <div id="study-count-info"
-                                        style="margin-top: 8px; font-size: 0.82rem; padding: 6px 10px; border-radius: 8px; background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.15);">
+                                    <div id="study-count-info" class="mt-2 text-xs font-semibold px-4 py-2.5 rounded-xl text-amber-400"
+                                         style="background: rgba(245, 158, 11, 0.08); border: 1px dashed rgba(245,158,11,0.25);">
                                         Selecciona un área para ver el total disponible
                                     </div>
                                 </div>
                                 <div id="time-selector">
-                                    <label class="config-label">
-                                        <span class="material-icons-round config-label-icon">hourglass_empty</span>
+                                    <label class="config-label text-slate-300 font-bold">
+                                        <span class="material-icons-round config-label-icon text-indigo-400">hourglass_empty</span>
                                         Tiempo Límite
                                     </label>
                                     <div class="config-select-wrapper">
@@ -1622,11 +1697,13 @@
 
                     <!-- Botón Iniciar -->
                     <div class="config-start-wrapper">
-                        <button id="start-btn" class="config-start-btn" onclick="ConfigModule.startExam()">
-                            <span class="material-icons-round config-start-icon">play_arrow</span>
-                            Iniciar Simulacro
+                        <button id="start-btn" class="simulacro-btn-premium w-full flex justify-center items-center gap-3 py-4.5 rounded-2xl text-white font-black tracking-wide text-lg hover:-translate-y-1 shadow-[0_8px_30px_rgba(99,102,241,0.4)] transition-all duration-300"
+                                onclick="ConfigModule.startExam()"
+                                style="background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899); background-size: 200% auto;">
+                            <span class="material-icons-round text-2xl">play_arrow</span>
+                            <span>Iniciar Simulacro</span>
                         </button>
-                        <p class="config-start-note">Al iniciar, aceptas los términos de la evaluación académica.</p>
+                        <p class="config-start-note mt-3 text-slate-500 font-medium">Al iniciar, aceptas los términos de la evaluación académica.</p>
                     </div>
                 </div>
 
@@ -1636,42 +1713,43 @@
                         <!-- Simulacros PDF -->
                         <div class="config-card">
                             <div class="config-card-header">
-                                <h3 class="config-card-title" style="font-size: 1rem;">Simulacros PDF</h3>
-                                <span class="config-new-badge">NUEVO</span>
+                                <h3 class="config-card-title text-white font-extrabold" style="font-size: 1rem;">Simulacros PDF</h3>
+                                <span class="config-new-badge" style="background: #fbbf24; color: #78350f;">NUEVO</span>
                             </div>
                             <div id="pdf-exam-list" class="config-pdf-list">
                                 <div class="config-pdf-empty">
-                                    <div class="config-pdf-empty-icon">
-                                        <span class="material-icons-round">sentiment_dissatisfied</span>
+                                    <div class="config-pdf-empty-icon text-slate-500 mb-2">
+                                        <span class="material-icons-round text-3xl">sentiment_dissatisfied</span>
                                     </div>
-                                    <p class="config-pdf-empty-text">No hay simulacros PDF disponibles.</p>
-                                    <p class="config-pdf-empty-hint">(El profesor debe subirlos al servidor)</p>
+                                    <p class="config-pdf-empty-text text-white font-bold text-sm">No hay simulacros PDF disponibles.</p>
+                                    <p class="config-pdf-empty-hint text-xs text-slate-400 font-medium mt-1">(El profesor debe subirlos al servidor)</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Estadísticas Rápidas -->
                         <div class="config-card">
-                            <h3 class="config-card-title" style="font-size: 1rem;">
-                                <span class="material-icons-round" style="color: #10B981;">insights</span>
+                            <h3 class="config-card-title text-white font-extrabold mb-6" style="font-size: 1rem;">
+                                <span class="material-icons-round text-emerald-400">insights</span>
                                 Estadísticas Rápidas
                             </h3>
-                            <div class="config-stats">
-                                <div class="config-stat-progress">
-                                    <div class="config-stat-progress-header">
-                                        <span class="config-stat-label">Progreso Semanal</span>
-                                        <span class="config-stat-value-accent">75%</span>
+                            <div class="config-stats flex flex-col gap-5">
+                                <div class="config-stat-progress text-left">
+                                    <div class="config-stat-progress-header flex justify-between items-center mb-2.5">
+                                        <span class="config-stat-label text-xs font-bold text-slate-400">Progreso Semanal</span>
+                                        <span class="config-stat-value-accent text-xs font-black text-indigo-400">75%</span>
                                     </div>
                                     <div class="config-progress-bar">
                                         <div class="config-progress-fill" style="width: 75%"></div>
                                     </div>
                                 </div>
-                                <div class="config-stat-card">
-                                    <span class="material-icons-round"
-                                        style="color: #F59E0B; font-size: 24px;">emoji_events</span>
+                                <div class="config-stat-card flex items-center gap-4 text-left">
+                                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500">
+                                        <span class="material-icons-round text-xl drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)] animate-bounce-slow">emoji_events</span>
+                                    </div>
                                     <div>
-                                        <span class="config-stat-label">Mejor Puntaje</span>
-                                        <span class="config-stat-score">340/500</span>
+                                        <span class="config-stat-label block text-[10px] font-bold tracking-widest text-slate-400 uppercase">Mejor Puntaje</span>
+                                        <span class="config-stat-score text-base font-black text-white mt-0.5">340 <span class="text-xs text-slate-400 font-semibold">/ 500</span></span>
                                     </div>
                                 </div>
                             </div>
@@ -2185,83 +2263,123 @@
                 <p class="config-subtitle">Selecciona un área para profundizar con teoría, ejercicios y estrategias clave.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 mt-8 pb-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6 mt-10 pb-24">
                 <!-- Matemáticas -->
-                <div onclick="StudyModules.openSubject('matematicas')" class="relative p-8 rounded-[32px] overflow-hidden cursor-pointer group transition-all hover:scale-[1.05] hover:shadow-[0_20px_50px_rgba(79,70,229,0.3)]"
-                    style="background: linear-gradient(145deg, #1e1b4b 0%, #312e81 100%); border: 1px solid rgba(99, 102, 241, 0.3);">
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col h-full relative z-10">
-                        <div class="w-16 h-16 rounded-2xl bg-indigo-500/30 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
-                            <span class="material-icons-round text-3xl text-indigo-300">functions</span>
+                <div onclick="StudyModules.openSubject('matematicas')" class="subject-card-premium group" style="--card-theme-color: #818cf8; --card-theme-rgb: 129, 140, 248;">
+                    <div class="subject-card-banner">
+                        <img src="img/math_banner.png" alt="Matemáticas">
+                        <div class="subject-card-gradient"></div>
+                        <div class="subject-card-icon">
+                            <span class="material-icons-round text-2xl">functions</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-indigo-200 transition-colors">Matemáticas</h3>
-                        <p class="text-indigo-100/70 text-sm mb-6 leading-relaxed">Domina el cálculo, álgebra y estadística con resolución de problemas complejos.</p>
-                        <div class="mt-auto flex items-center text-indigo-400 font-bold text-sm tracking-wide uppercase">
-                            Explorar <span class="material-icons-round ml-2 group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </div>
+                    <div class="subject-card-body">
+                        <h3 class="subject-card-title">Matemáticas</h3>
+                        <p class="subject-card-desc">Domina el cálculo, álgebra y estadística con resolución de problemas complejos.</p>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-badge">8 MÓDULOS</span>
+                            <div class="flex items-center gap-2">
+                                <span>EXPLORAR</span>
+                                <span class="subject-card-btn-arrow">
+                                    <span class="material-icons-round text-sm">arrow_forward</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Lectura Crítica -->
-                <div onclick="StudyModules.openSubject('lectura_critica')" class="relative p-8 rounded-[32px] overflow-hidden cursor-pointer group transition-all hover:scale-[1.05] hover:shadow-[0_20px_50px_rgba(225,29,72,0.3)]"
-                    style="background: linear-gradient(145deg, #450a0a 0%, #7f1d1d 100%); border: 1px solid rgba(244, 63, 94, 0.3);">
-                    <div class="absolute inset-0 bg-gradient-to-br from-rose-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col h-full relative z-10">
-                        <div class="w-16 h-16 rounded-2xl bg-rose-500/30 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform">
-                            <span class="material-icons-round text-3xl text-rose-300">import_contacts</span>
+                <div onclick="StudyModules.openSubject('lectura_critica')" class="subject-card-premium group" style="--card-theme-color: #f43f5e; --card-theme-rgb: 244, 63, 94;">
+                    <div class="subject-card-banner">
+                        <img src="img/reading_banner.png" alt="Lectura Crítica">
+                        <div class="subject-card-gradient"></div>
+                        <div class="subject-card-icon">
+                            <span class="material-icons-round text-2xl">import_contacts</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-rose-200 transition-colors">Lectura Crítica</h3>
-                        <p class="text-rose-100/70 text-sm mb-6 leading-relaxed">Potencia tu comprensión lectora, análisis crítico y velocidad de lectura.</p>
-                        <div class="mt-auto flex items-center text-rose-400 font-bold text-sm tracking-wide uppercase">
-                            Explorar <span class="material-icons-round ml-2 group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </div>
+                    <div class="subject-card-body">
+                        <h3 class="subject-card-title">Lectura Crítica</h3>
+                        <p class="subject-card-desc">Potencia tu comprensión lectora, análisis crítico y velocidad de lectura.</p>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-badge">6 MÓDULOS</span>
+                            <div class="flex items-center gap-2">
+                                <span>EXPLORAR</span>
+                                <span class="subject-card-btn-arrow">
+                                    <span class="material-icons-round text-sm">arrow_forward</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Sociales -->
-                <div onclick="StudyModules.openSubject('sociales')" class="relative p-8 rounded-[32px] overflow-hidden cursor-pointer group transition-all hover:scale-[1.05] hover:shadow-[0_20px_50px_rgba(217,119,6,0.3)]"
-                    style="background: linear-gradient(145deg, #451a03 0%, #78350f 100%); border: 1px solid rgba(251, 191, 36, 0.3);">
-                    <div class="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col h-full relative z-10">
-                        <div class="w-16 h-16 rounded-2xl bg-amber-500/30 flex items-center justify-center mb-6 shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform">
-                            <span class="material-icons-round text-3xl text-amber-300">public</span>
+                <div onclick="StudyModules.openSubject('sociales')" class="subject-card-premium group" style="--card-theme-color: #fbbf24; --card-theme-rgb: 251, 191, 36;">
+                    <div class="subject-card-banner">
+                        <img src="img/socials_banner.png" alt="Sociales">
+                        <div class="subject-card-gradient"></div>
+                        <div class="subject-card-icon">
+                            <span class="material-icons-round text-2xl">public</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-amber-200 transition-colors">Sociales</h3>
-                        <p class="text-amber-100/70 text-sm mb-6 leading-relaxed">Historia, geografía, constitución y resolución de dilemas ciudadanos.</p>
-                        <div class="mt-auto flex items-center text-amber-400 font-bold text-sm tracking-wide uppercase">
-                            Explorar <span class="material-icons-round ml-2 group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </div>
+                    <div class="subject-card-body">
+                        <h3 class="subject-card-title">Sociales</h3>
+                        <p class="subject-card-desc">Historia, geografía, constitución y resolución de dilemas ciudadanos.</p>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-badge">5 MÓDULOS</span>
+                            <div class="flex items-center gap-2">
+                                <span>EXPLORAR</span>
+                                <span class="subject-card-btn-arrow">
+                                    <span class="material-icons-round text-sm">arrow_forward</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Naturales -->
-                <div onclick="StudyModules.openSubject('naturales')" class="relative p-8 rounded-[32px] overflow-hidden cursor-pointer group transition-all hover:scale-[1.05] hover:shadow-[0_20px_50px_rgba(5,150,105,0.3)]"
-                    style="background: linear-gradient(145deg, #022c22 0%, #064e3b 100%); border: 1px solid rgba(16, 185, 129, 0.3);">
-                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col h-full relative z-10">
-                        <div class="w-16 h-16 rounded-2xl bg-emerald-500/30 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-                            <span class="material-icons-round text-3xl text-emerald-300">biotech</span>
+                <div onclick="StudyModules.openSubject('naturales')" class="subject-card-premium group" style="--card-theme-color: #10b981; --card-theme-rgb: 16, 185, 129;">
+                    <div class="subject-card-banner">
+                        <img src="img/science_banner.png" alt="Ciencias Naturales">
+                        <div class="subject-card-gradient"></div>
+                        <div class="subject-card-icon">
+                            <span class="material-icons-round text-2xl">biotech</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-emerald-200 transition-colors">C. Naturales</h3>
-                        <p class="text-emerald-100/70 text-sm mb-6 leading-relaxed">Explora la biología, química y física aplicadas en contextos científicos reales.</p>
-                        <div class="mt-auto flex items-center text-emerald-400 font-bold text-sm tracking-wide uppercase">
-                            Explorar <span class="material-icons-round ml-2 group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </div>
+                    <div class="subject-card-body">
+                        <h3 class="subject-card-title">C. Naturales</h3>
+                        <p class="subject-card-desc">Explora la biología, química y física aplicadas en contextos científicos reales.</p>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-badge">6 MÓDULOS</span>
+                            <div class="flex items-center gap-2">
+                                <span>EXPLORAR</span>
+                                <span class="subject-card-btn-arrow">
+                                    <span class="material-icons-round text-sm">arrow_forward</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Inglés -->
-                <div onclick="StudyModules.openSubject('ingles')" class="relative p-8 rounded-[32px] overflow-hidden cursor-pointer group transition-all hover:scale-[1.05] hover:shadow-[0_20px_50px_rgba(2,132,199,0.3)]"
-                    style="background: linear-gradient(145deg, #082f49 0%, #0c4a6e 100%); border: 1px solid rgba(14, 165, 233, 0.3);">
-                    <div class="absolute inset-0 bg-gradient-to-br from-sky-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col h-full relative z-10">
-                        <div class="w-16 h-16 rounded-2xl bg-sky-500/30 flex items-center justify-center mb-6 shadow-lg shadow-sky-500/20 group-hover:scale-110 transition-transform">
-                            <span class="material-icons-round text-3xl text-sky-300">translate</span>
+                <div onclick="StudyModules.openSubject('ingles')" class="subject-card-premium group" style="--card-theme-color: #0ea5e9; --card-theme-rgb: 14, 165, 233;">
+                    <div class="subject-card-banner">
+                        <img src="img/english_banner.png" alt="Inglés">
+                        <div class="subject-card-gradient"></div>
+                        <div class="subject-card-icon">
+                            <span class="material-icons-round text-2xl">translate</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-sky-200 transition-colors">Inglés</h3>
-                        <p class="text-sky-100/70 text-sm mb-6 leading-relaxed">Mejora tu gramática, vocabulario y comprensión textual en el idioma global.</p>
-                        <div class="mt-auto flex items-center text-sky-400 font-bold text-sm tracking-wide uppercase">
-                            Explorar <span class="material-icons-round ml-2 group-hover:translate-x-2 transition-transform">arrow_forward</span>
+                    </div>
+                    <div class="subject-card-body">
+                        <h3 class="subject-card-title">Inglés</h3>
+                        <p class="subject-card-desc">Mejora tu gramática, vocabulario y comprensión de lectura en el idioma global.</p>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-badge">6 MÓDULOS</span>
+                            <div class="flex items-center gap-2">
+                                <span>EXPLORAR</span>
+                                <span class="subject-card-btn-arrow">
+                                    <span class="material-icons-round text-sm">arrow_forward</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3144,6 +3262,14 @@
     <script src="db_simulacros/matematicas/mat_simulacro_05.js"></script>
     <script src="db_simulacros/matematicas/mat_simulacro_06.js?v=2"></script>
     <script src="db_simulacros/matematicas/mat_simulacro_07.js?v=svg"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_08.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_09.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_10.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_11.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_12.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_13.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_14.js"></script>
+    <script src="db_simulacros/matematicas/mat_simulacro_15.js"></script>
     <script src="db_simulacros/naturales/nat_simulacro_01.js"></script>
     <script src="db_simulacros/naturales/nat_simulacro_02.js"></script>
     <script src="db_simulacros/lectura/lec_simulacro_01.js"></script>
@@ -3161,6 +3287,7 @@
     <script src="js/mathModule4.js"></script>
     <script src="js/mathModule5.js"></script>
     <script src="js/mathModule6.js"></script>
+    <script src="js/mathModule8.js"></script>
     <script src="js/mathModule7.js"></script>
     <script src="js/cnModule1.js"></script>
     <script src="js/cnModule2.js"></script>
@@ -3168,17 +3295,35 @@
     <script src="js/cnModule4.js"></script>
     <script src="js/cnModule5.js"></script>
     <script src="js/cnModule6.js"></script>
+    <script src="js/lcModule1.js"></script>
+    <script src="js/lcModule2.js"></script>
+    <script src="js/lcModule3.js"></script>
+    <script src="js/lcModule4.js"></script>
+    <script src="js/lcModule5.js"></script>
+    <script src="js/lcModule6.js"></script>
+    <script src="js/csModule1.js"></script>
+    <script src="js/csModule2.js"></script>
+    <script src="js/csModule3.js"></script>
+    <script src="js/csModule4.js"></script>
+    <script src="js/csModule5.js"></script>
+    <script src="js/enModule1.js"></script>
+    <script src="js/enModule2.js"></script>
+    <script src="js/enModule3.js"></script>
+    <script src="js/enModule4.js"></script>
+    <script src="js/enModule5.js"></script>
+    <script src="js/enModule6.js"></script>
     <script src="js/icfesGuideModule.js"></script>
     <script>
         // Verificar carga de módulos
         setTimeout(() => {
             console.log("=== VERIFICACIÓN DE MÓDULOS ===");
-            ['renderMathModule1','renderMathModule2','renderMathModule3','renderMathModule4','renderMathModule5','renderMathModule6','renderMathModule7','renderIcfesGuide', 'renderCNModule1', 'renderCNModule2', 'renderCNModule3', 'renderCNModule4', 'renderCNModule5', 'renderCNModule6'].forEach(fn => {
+            ['renderMathModule1','renderMathModule2','renderMathModule3','renderMathModule4','renderMathModule5','renderMathModule6','renderMathModule7','renderIcfesGuide', 'renderCNModule1', 'renderCNModule2', 'renderCNModule3', 'renderCNModule4', 'renderCNModule5', 'renderCNModule6', 'renderLCModule1', 'renderLCModule2', 'renderLCModule3', 'renderLCModule4', 'renderLCModule5', 'renderLCModule6', 'renderCSModule1', 'renderCSModule2', 'renderCSModule3', 'renderCSModule4', 'renderCSModule5', 'renderENModule1', 'renderENModule2', 'renderENModule3', 'renderENModule4', 'renderENModule5', 'renderENModule6'].forEach(fn => {
                 console.log(`${fn}: ${typeof window[fn] === 'function' ? '✅' : '❌'}`);
             });
         }, 1000);
     </script>
     <script src="js/studyModules.js" defer></script>
+    <script src="js/moduleContent.js" defer></script>
     <script src="js/app.js" defer></script>
     <script src="js/arcadeGames.js" defer></script>
 

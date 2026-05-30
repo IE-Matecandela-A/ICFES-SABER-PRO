@@ -20,176 +20,339 @@
   // Contenido del Quiz (6 Preguntas)
   const questions = [
     {
-      type: "extraer",
-      question: "Observa el gráfico de barras sobre préstamos. ¿Cuántos libros del género 'Historia' se prestaron el mes pasado?",
-      visual: (
-        React.createElement("div", { className: "relative h-40 w-full max-w-sm mx-auto border-b-2 border-l-2 border-slate-300 mb-8 mt-6 ml-6" },
-          React.createElement("div", { className: "absolute h-full -left-8 top-0 flex flex-col justify-between text-[10px] text-slate-500 font-bold py-0 text-right w-6 pr-1" },
-            React.createElement("span", null, "400"), React.createElement("span", null, "300"), React.createElement("span", null, "200"), React.createElement("span", null, "100"), React.createElement("span", null, "0")
-          ),
-          React.createElement("div", { className: "absolute w-full border-t border-dashed border-slate-200 bottom-1/4 left-0 -z-10" }),
-          React.createElement("div", { className: "absolute w-full border-t border-dashed border-slate-200 bottom-2/4 left-0 -z-10" }),
-          React.createElement("div", { className: "absolute w-full border-t border-dashed border-slate-200 bottom-3/4 left-0 -z-10" }),
-          React.createElement("div", { className: "flex items-end justify-around h-full w-full px-2" },
-            React.createElement("div", { className: "flex flex-col items-center w-1/3 h-full justify-end group" },
-              React.createElement("div", { className: "w-10 bg-emerald-400 rounded-t-md shadow-sm", style: { height: '37.5%' } }),
-              React.createElement("span", { className: "text-[11px] font-semibold text-slate-600 absolute -bottom-6 text-center" }, "C. Ficción")
-            ),
-            React.createElement("div", { className: "flex flex-col items-center w-1/3 h-full justify-end group" },
-              React.createElement("div", { className: "w-10 bg-blue-500 rounded-t-md shadow-sm", style: { height: '75%' } }),
-              React.createElement("span", { className: "text-[11px] font-semibold text-slate-600 absolute -bottom-6 text-center" }, "Historia")
-            ),
-            React.createElement("div", { className: "flex flex-col items-center w-1/3 h-full justify-end group" },
-              React.createElement("div", { className: "w-10 bg-teal-400 rounded-t-md shadow-sm", style: { height: '50%' } }),
-              React.createElement("span", { className: "text-[11px] font-semibold text-slate-600 absolute -bottom-6 text-center" }, "Clásica")
-            )
-          )
-        )
-      ),
-      options: ["150 libros", "200 libros", "300 libros", "400 libros"],
-      correct: 2,
-      feedback: "¡Excelente! Extraer información relevante implica ubicar la categoría 'Historia' en el Eje X (horizontal) y cruzarla con su altura en el Eje Y (vertical) para obtener 300."
-    },
-    {
-      type: "interpretar",
-      question: "Analiza el gráfico de líneas. ¿En qué horario se registró la temperatura máxima?",
-      visual: (
-        React.createElement("div", { className: "relative h-40 w-full max-w-sm mx-auto border-b-2 border-l-2 border-slate-300 mb-8 mt-6 ml-6" },
-          React.createElement("div", { className: "absolute h-full -left-8 top-0 flex flex-col justify-between text-[10px] text-slate-500 font-bold py-0 text-right w-6 pr-1" },
-            React.createElement("span", null, "30°"), React.createElement("span", null, "20°"), React.createElement("span", null, "10°"), React.createElement("span", null, "0°")
-          ),
-          React.createElement("svg", { className: "w-full h-full overflow-visible", viewBox: "0 0 300 100", preserveAspectRatio: "none" },
-            React.createElement("polyline", { points: "0,80 100,50 200,10 300,40", fill: "none", stroke: "#ef4444", strokeWidth: "4" }),
-            React.createElement("circle", { cx: "0", cy: "80", r: "5", fill: "#ef4444", stroke: "#ffffff", strokeWidth: "2" }),
-            React.createElement("circle", { cx: "100", cy: "50", r: "5", fill: "#ef4444", stroke: "#ffffff", strokeWidth: "2" }),
-            React.createElement("circle", { cx: "200", cy: "10", r: "5", fill: "#ef4444", stroke: "#ffffff", strokeWidth: "2" }),
-            React.createElement("circle", { cx: "300", cy: "40", r: "5", fill: "#ef4444", stroke: "#ffffff", strokeWidth: "2" })
-          ),
-          React.createElement("div", { className: "flex justify-between w-full absolute -bottom-6 text-[11px] font-semibold text-slate-600 px-1" },
-            React.createElement("span", { className: "-ml-3" }, "08:00"), React.createElement("span", null, "10:00"), React.createElement("span", null, "12:00"), React.createElement("span", { className: "-mr-3" }, "14:00")
-          )
-        )
-      ),
-      options: ["08:00", "10:00", "12:00", "14:00"],
-      correct: 2,
-      feedback: "¡Muy bien! Interpretar gráficas de líneas implica encontrar el 'pico' más alto de la línea y ver a qué punto en la base (Eje X) corresponde. El pico está en las 12:00."
-    },
-    {
-      type: "transformar",
-      question: "Observa el gráfico circular. Si el ingreso total es de $2,000, ¿qué cantidad de dinero representa el sector 'Ahorro'?",
-      visual: (
-        React.createElement("div", { className: "flex justify-center items-center gap-6 mb-6 mt-4 p-4 bg-white/50 rounded-xl" },
-          React.createElement("div", { className: "w-32 h-32 rounded-full shadow-md border-4 border-white shrink-0", style: { background: 'conic-gradient(#10b981 0% 50%, #3b82f6 50% 75%, #8b5cf6 75% 90%, #f59e0b 90% 100%)' } }),
-          React.createElement("ul", { className: "text-xs space-y-2 font-medium text-slate-600" },
-            React.createElement("li", { className: "flex items-center gap-2" }, React.createElement("div", { className: "w-3 h-3 rounded-sm bg-emerald-500" }), "Vivienda (50%)"),
-            React.createElement("li", { className: "flex items-center gap-2" }, React.createElement("div", { className: "w-3 h-3 rounded-sm bg-blue-500" }), "Alimentos (25%)"),
-            React.createElement("li", { className: "flex items-center gap-2" }, React.createElement("div", { className: "w-3 h-3 rounded-sm bg-purple-500" }), "Transporte (15%)"),
-            React.createElement("li", { className: "flex items-center gap-2" }, React.createElement("div", { className: "w-3 h-3 rounded-sm bg-amber-500" }), "Ahorro (10%)")
-          )
-        )
-      ),
-      options: ["$10", "$100", "$200", "$500"],
-      correct: 2,
-      feedback: "¡Correcto! Transformar implica aplicar la proporción al total. Según la leyenda, el ahorro es el 10% del gráfico. El 10% de $2,000 es $200."
-    },
-    {
-      type: "comprender",
-      question: "Basado en la siguiente tabla de reacciones químicas, ¿cuál sustancia NO cambió de estado al ser calentada a 100°C?",
-      visual: (
-        React.createElement("div", { className: "w-full max-w-md mx-auto mb-6 mt-4 bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" },
-          React.createElement("table", { className: "w-full text-sm text-left" },
-            React.createElement("thead", { className: "bg-slate-100 text-slate-700" },
-              React.createElement("tr", null,
-                React.createElement("th", { className: "p-3 font-bold" }, "Sustancia"),
-                React.createElement("th", { className: "p-3 font-bold text-center" }, "A 20°C"),
-                React.createElement("th", { className: "p-3 font-bold text-center" }, "A 100°C")
-              )
-            ),
-            React.createElement("tbody", null,
-              React.createElement("tr", { className: "border-b border-slate-100" },
-                React.createElement("td", { className: "p-3 font-medium" }, "Alfa-1"),
-                React.createElement("td", { className: "p-3 text-center" }, "Sólido"),
-                React.createElement("td", { className: "p-3 text-center" }, "Líquido")
-              ),
-              React.createElement("tr", { className: "border-b border-slate-100" },
-                React.createElement("td", { className: "p-3 font-medium" }, "Beta-2"),
-                React.createElement("td", { className: "p-3 text-center" }, "Líquido"),
-                React.createElement("td", { className: "p-3 text-center" }, "Gas")
-              ),
-              React.createElement("tr", null,
-                React.createElement("td", { className: "p-3 font-medium" }, "Gamma-3"),
-                React.createElement("td", { className: "p-3 text-center" }, "Sólido"),
-                React.createElement("td", { className: "p-3 text-center" }, "Sólido")
-              )
-            )
-          )
-        )
-      ),
-      options: ["Sustancia Alfa-1", "Sustancia Beta-2", "Sustancia Gamma-3", "Todas cambiaron de estado"],
-      correct: 2,
-      feedback: "¡Perfecto! Al comprender la tabla y comparar la columna inicial (20°C) con la final (100°C), vemos que Gamma-3 permaneció sólida en ambos casos."
-    },
-    {
-      type: "interpretar",
-      question: "Este diagrama de dispersión muestra las 'Horas jugadas de videojuegos por semana' (Eje X) vs el 'Puntaje en el examen final' (Eje Y). ¿Qué interpretación es correcta?",
-      visual: (
-        React.createElement("div", { className: "relative h-40 w-full max-w-sm mx-auto mb-8 mt-6" },
-          React.createElement("svg", { className: "w-full h-full overflow-visible", viewBox: "0 0 100 100" },
-            React.createElement("polyline", { points: "10,10 10,90 90,90", fill: "none", stroke: "#94a3b8", strokeWidth: "2" }),
-            React.createElement("text", { x: "50", y: "105", fontSize: "5", fill: "#64748b", textAnchor: "middle", fontWeight: "bold" }, "Horas de Videojuegos →"),
-            React.createElement("text", { x: "-4", y: "50", fontSize: "5", fill: "#64748b", transform: "rotate(-90 -4,50)", textAnchor: "middle", fontWeight: "bold" }, "← Puntaje Examen"),
-            [ [20, 20], [25, 30], [30, 25], [35, 40], [40, 35], [45, 50], [50, 45], [55, 60], [60, 55], [65, 70], [70, 65], [75, 80], [80, 75], [85, 90] ].map((point, i) => 
-              React.createElement("circle", { key: i, cx: point[0], cy: point[1], r: "2", fill: "#8b5cf6" })
-            )
-          )
-        )
-      ),
-      options: [
-        "A mayor cantidad de horas de juego, mayor es el puntaje obtenido.",
-        "Existe una correlación negativa: más horas de juego se asocian a un menor puntaje.",
-        "Las horas de juego no afectan en absoluto el puntaje del examen.",
-        "Todos los estudiantes aprobaron el examen sin importar cuánto jugaron."
-      ],
+      type: "Gráficos de Barras",
+      question: "La gráfica muestra las ventas de 4 productos. ¿Qué producto vendió exactamente el doble que el producto D?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:flex-end; height:200px; border-left:2px solid #333; border-bottom:2px solid #333; width:80%; padding-bottom:5px; justify-content:space-around;">
+                    <div style="height: 37%; width: 40px; background: #3b82f6; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">150</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">A</span></div>
+                    <div style="height: 100%; width: 40px; background: #3b82f6; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">400</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">B</span></div>
+                    <div style="height: 77%; width: 40px; background: #3b82f6; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">310</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">C</span></div>
+                    <div style="height: 50%; width: 40px; background: #3b82f6; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">200</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">D</span></div>
+                </div>
+                <div style="margin-top: 30px; font-weight:bold; color:#666;">Productos</div>` } }),
+      options: ["Producto A","Producto B","Producto C","Ninguno"],
       correct: 1,
-      feedback: "¡Exacto! La 'nube' de puntos desciende de izquierda a derecha. Esto significa que a medida que avanza el Eje X (más juegos), disminuye el Eje Y (menos puntaje), creando una correlación negativa."
+      feedback: "El producto D vendió 200. El doble de 200 es 400, que corresponde al Producto B."
     },
     {
-      type: "extraer",
-      question: "Observa el pictograma de estudiantes inscritos en cursos extracurriculares. ¿Cuántos estudiantes están inscritos en 'Robótica'?",
-      visual: (
-        React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200" },
-          React.createElement("div", { className: "text-center mb-4 pb-2 border-b border-slate-100" },
-            React.createElement("span", { className: "text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1" }, "Convención"),
-            React.createElement("div", { className: "inline-flex items-center gap-2 bg-amber-50 px-3 py-1 rounded-md" },
-              React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } }),
-              React.createElement("span", { className: "text-xs font-bold text-slate-700" }, "= 10 Estudiantes")
-            )
-          ),
-          React.createElement("div", { className: "space-y-3" },
-            React.createElement("div", { className: "flex items-center gap-3" },
-              React.createElement("span", { className: "w-16 text-xs font-bold text-slate-600" }, "Ajedrez"),
-              React.createElement("div", { className: "flex gap-1" },
-                React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } }),
-                React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } })
-              )
-            ),
-            React.createElement("div", { className: "flex items-center gap-3" },
-              React.createElement("span", { className: "w-16 text-xs font-bold text-slate-600" }, "Robótica"),
-              React.createElement("div", { className: "flex gap-1" },
-                React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } }),
-                React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } }),
-                React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } }),
-                React.createElement(Icon, { name: "star", className: "w-4 h-4 text-amber-500", style: { fill: '#f59e0b' } })
-              )
-            )
-          )
-        )
-      ),
-      options: ["4 estudiantes", "10 estudiantes", "40 estudiantes", "400 estudiantes"],
+      type: "Gráfico de Líneas",
+      question: "El gráfico ilustra los cambios de temperatura. ¿En qué intervalo se observa el mayor descenso de temperatura?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 200" style="width:100%; max-width:400px; height:auto;">
+                    <!-- Ejes -->
+                    <line x1="30" y1="170" x2="280" y2="170" stroke="#333" stroke-width="2"/>
+                    <line x1="30" y1="20" x2="30" y2="170" stroke="#333" stroke-width="2"/>
+                    <!-- Puntos y líneas (Valores: 80, 70, 30, 50, 45) -->
+                    <!-- Escala Y: max 100 = y:20, min 0 = y:170 -->
+                    <polyline points="50,50 100,65 150,125 200,95 250,102.5" fill="none" stroke="#ef4444" stroke-width="3" />
+                    <circle cx="50" cy="50" r="4" fill="#000"/><text x="40" y="40" font-size="10">80°</text>
+                    <circle cx="100" cy="65" r="4" fill="#000"/><text x="90" y="55" font-size="10">70°</text>
+                    <circle cx="150" cy="125" r="4" fill="#000"/><text x="140" y="115" font-size="10">30°</text>
+                    <circle cx="200" cy="95" r="4" fill="#000"/><text x="190" y="85" font-size="10">50°</text>
+                    <circle cx="250" cy="102.5" r="4" fill="#000"/><text x="240" y="92" font-size="10">45°</text>
+                    <!-- Etiquetas X -->
+                    <text x="40" y="185" font-size="12">Min1</text><text x="90" y="185" font-size="12">Min2</text><text x="140" y="185" font-size="12">Min3</text><text x="190" y="185" font-size="12">Min4</text><text x="240" y="185" font-size="12">Min5</text>
+                </svg>` } }),
+      options: ["Min 1 a Min 2","Min 2 a Min 3","Min 3 a Min 4","Min 4 a Min 5"],
+      correct: 1,
+      feedback: "La pendiente más empinada hacia abajo ocurre del Min 2 (70°) al Min 3 (30°), cayendo 40°."
+    },
+    {
+      type: "Gráficos Circulares",
+      question: "Si el ingreso mensual es $4,000,000 COP, ¿cuánto dinero destinan a Transporte (15%) y Ahorro (10%) en conjunto?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#10b981 0% 50%, #f59e0b 50% 75%, #6366f1 75% 90%, #8b5cf6 90% 100%);"></div>
+                    <div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#10b981; margin-right:5px;"></span> Vivienda (50%)</div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#f59e0b; margin-right:5px;"></span> Alimentos (25%)</div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#6366f1; margin-right:5px;"></span> Transporte (15%)</div>
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#8b5cf6; margin-right:5px;"></span> Ahorro (10%)</div>
+                    </div>
+                </div>` } }),
+      options: ["$600,000","$1,000,000","$400,000","$1,400,000"],
+      correct: 1,
+      feedback: "15% + 10% = 25%. El 25% (una cuarta parte) de $4,000,000 es $1,000,000."
+    },
+    {
+      type: "Tablas de Doble Entrada",
+      question: "Según la tabla de propiedades, ¿qué cambio de estado experimenta el Elemento B al pasar de 20°C a 100°C?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Sustancia</th><th>20°C (Inicial)</th><th>100°C (Final)</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Elemento A</b></td><td>Sólido</td><td>Líquido</td></tr>
+                        <tr><td><b>Elemento B</b></td><td>Líquido</td><td>Gas</td></tr>
+                        <tr><td><b>Elemento C</b></td><td>Sólido</td><td>Sólido</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["De sólido a líquido","De líquido a gas (Evaporación)","De gas a líquido","De líquido a sólido"],
+      correct: 1,
+      feedback: "Cruzando la fila \"Elemento B\", inicia Líquido y termina en Gas."
+    },
+    {
+      type: "Diagrama de Dispersión",
+      question: "El gráfico muestra horas de estudio vs puntaje. ¿Qué conclusión es correcta basándose en la \"nube\" de puntos?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 200 150" style="width:100%; max-width:300px;">
+                    <line x1="20" y1="130" x2="180" y2="130" stroke="#333" />
+                    <line x1="20" y1="10" x2="20" y2="130" stroke="#333" />
+                    <!-- Nube positiva -->
+                    <circle cx="40" cy="110" r="4" fill="#ec4899"/><circle cx="55" cy="95" r="4" fill="#ec4899"/>
+                    <circle cx="70" cy="100" r="4" fill="#ec4899"/><circle cx="90" cy="70" r="4" fill="#ec4899"/>
+                    <circle cx="110" cy="85" r="4" fill="#ec4899"/><circle cx="130" cy="50" r="4" fill="#ec4899"/>
+                    <circle cx="150" cy="60" r="4" fill="#ec4899"/><circle cx="170" cy="30" r="4" fill="#ec4899"/>
+                    <text x="70" y="145" font-size="10">Horas Estudio →</text>
+                    <text x="5" y="80" font-size="10" transform="rotate(-90 5,80)">Puntaje →</text>
+                </svg>` } }),
+      options: ["Correlación negativa; a más horas, menor puntaje.","No hay relación.","Correlación positiva; a más horas, mayor puntaje.","El puntaje es constante."],
       correct: 2,
-      feedback: "¡Muy bien! Extraer en pictogramas exige leer la convención primero. Si cada estrella vale 10, y Robótica tiene 4 estrellas, la operación es 4 x 10 = 40 estudiantes."
+      feedback: "La nube sube de izquierda a derecha, indicando que a mayor valor en X (horas), mayor valor en Y (puntaje)."
+    },
+    {
+      type: "Pictogramas",
+      question: "Si cada icono (👤) representa 1,000 personas, ¿cuántas personas habitan en la Zona Sur?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="font-size: 1.2rem; background:white; padding:15px; border-radius:8px; width:100%;">
+                    <div style="font-size:0.9rem; color:#666; font-weight:bold; border-bottom:1px solid #ccc; margin-bottom:10px;">CONVENCIÓN: 👤 = 1,000 Personas</div>
+                    <div><b>Norte:</b> 👤👤👤</div>
+                    <div><b>Centro:</b> 👤👤👤👤👤</div>
+                    <div><b>Sur:</b> 👤👤<span style="display:inline-block; width:0.6em; overflow:hidden;">👤</span> <span style="font-size:0.8rem;color:#888;">(medio icono)</span></div>
+                </div>` } }),
+      options: ["2,000","2,500","3,000","25,000"],
+      correct: 1,
+      feedback: "La Zona Sur tiene 2 iconos completos y medio icono (2.5). 2.5 * 1000 = 2,500 personas."
+    },
+    {
+      type: "Gráficos de Barras",
+      question: "Según la gráfica de lluvia, ¿cuál es la diferencia exacta en mm entre el mes más lluvioso y el menos lluvioso?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:flex-end; height:200px; border-left:2px solid #333; border-bottom:2px solid #333; width:80%; padding-bottom:5px; justify-content:space-around;">
+                    <div style="height: 37%; width: 40px; background: #0ea5e9; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">45</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Ene</span></div>
+                    <div style="height: 100%; width: 40px; background: #0ea5e9; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">120</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Feb</span></div>
+                    <div style="height: 66%; width: 40px; background: #0ea5e9; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">80</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Mar</span></div>
+                    <div style="height: 16%; width: 40px; background: #0ea5e9; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">20</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Abr</span></div>
+                </div>` } }),
+      options: ["100 mm","80 mm","75 mm","40 mm"],
+      correct: 0,
+      feedback: "Más lluvioso: Febrero (120). Menos lluvioso: Abril (20). Diferencia: 120 - 20 = 100 mm."
+    },
+    {
+      type: "Tablas de Doble Entrada",
+      question: "Si se elige al azar a alguien del grupo que NO usa gafas, ¿cuál es la probabilidad de que sea Mujer?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Género</th><th>Usan Gafas</th><th>NO Usan Gafas</th><th>Total</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Hombres</b></td><td>15</td><td>25</td><td>40</td></tr>
+                        <tr><td><b>Mujeres</b></td><td>20</td><td>40</td><td>60</td></tr>
+                        <tr><td><b>Total</b></td><td>35</td><td style="color:red; font-weight:bold;">65</td><td>100</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["40 / 100","40 / 60","40 / 65","20 / 65"],
+      correct: 2,
+      feedback: "La condición es \"personas que NO usan gafas\", cuyo total es 65. De ellas, las mujeres son 40. La probabilidad es 40/65."
+    },
+    {
+      type: "Gráficos Circulares",
+      question: "Si se necesita más del 50% para ganar en primera vuelta, ¿qué indica el gráfico electoral?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#ef4444 0% 42%, #3b82f6 42% 77%, #10b981 77% 95%, #9ca3af 95% 100%);"></div>
+                    <div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#ef4444; margin-right:5px;"></span> Cand. A (42%)</div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#3b82f6; margin-right:5px;"></span> Cand. B (35%)</div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#10b981; margin-right:5px;"></span> Cand. C (18%)</div>
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#9ca3af; margin-right:5px;"></span> Blanco (5%)</div>
+                    </div>
+                </div>` } }),
+      options: ["Ganó el Cand. A en primera vuelta.","Habrá segunda vuelta porque nadie superó el 50%.","El Cand. B obtuvo exactamente 3,500 votos.","Los votos blancos ganaron."],
+      correct: 1,
+      feedback: "El Cand. A es el mayor pero solo tiene el 42%, lo que no cumple el requisito de >50%."
+    },
+    {
+      type: "Gráfico de Líneas",
+      question: "Observando el precio del dólar, ¿qué día se produjo un \"descenso\" respecto al día inmediatamente anterior?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="text-align:center; width:100%;">
+                    <svg viewBox="0 0 300 150" style="width:100%; max-width:350px;">
+                        <line x1="30" y1="120" x2="280" y2="120" stroke="#333" />
+                        <!-- L, M, Mi, J, V. (3900, 3950, 4010, 3980, 4050) -->
+                        <polyline points="50,90 100,75 150,57 200,66 250,45" fill="none" stroke="#16a34a" stroke-width="3" />
+                        <circle cx="50" cy="90" r="4" fill="#000"/><text x="35" y="80" font-size="9">3900</text>
+                        <circle cx="100" cy="75" r="4" fill="#000"/><text x="85" y="65" font-size="9">3950</text>
+                        <circle cx="150" cy="57" r="4" fill="#000"/><text x="135" y="47" font-size="9">4010</text>
+                        <circle cx="200" cy="66" r="4" fill="#000"/><text x="185" y="82" font-size="9">3980</text>
+                        <circle cx="250" cy="45" r="4" fill="#000"/><text x="235" y="35" font-size="9">4050</text>
+                        <text x="45" y="135" font-size="10">Lun</text><text x="95" y="135" font-size="10">Mar</text><text x="145" y="135" font-size="10">Mié</text><text x="195" y="135" font-size="10">Jue</text><text x="245" y="135" font-size="10">Vie</text>
+                    </svg>
+                </div>` } }),
+      options: ["Martes","Miércoles","Jueves","Viernes"],
+      correct: 2,
+      feedback: "La línea baja del Miércoles (4010) al Jueves (3980), lo que indica un descenso."
+    },
+    {
+      type: "Diagramas de Dispersión",
+      question: "El siguiente diagrama de dispersión muestra la relación entre el Precio de vehículos usados y su Kilometraje. Según la gráfica, ¿qué tipo de tendencia es lógico concluir?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 200 150" style="width:100%; max-width:300px;">
+                    <line x1="20" y1="130" x2="180" y2="130" stroke="#333" />
+                    <line x1="20" y1="10" x2="20" y2="130" stroke="#333" />
+                    <!-- Nube negativa (baja de izquierda a derecha) -->
+                    <circle cx="30" cy="20" r="4" fill="#0ea5e9"/><circle cx="45" cy="40" r="4" fill="#0ea5e9"/>
+                    <circle cx="55" cy="25" r="4" fill="#0ea5e9"/><circle cx="70" cy="55" r="4" fill="#0ea5e9"/>
+                    <circle cx="85" cy="45" r="4" fill="#0ea5e9"/><circle cx="100" cy="70" r="4" fill="#0ea5e9"/>
+                    <circle cx="115" cy="65" r="4" fill="#0ea5e9"/><circle cx="130" cy="95" r="4" fill="#0ea5e9"/>
+                    <circle cx="145" cy="85" r="4" fill="#0ea5e9"/><circle cx="160" cy="115" r="4" fill="#0ea5e9"/>
+                    <circle cx="170" cy="100" r="4" fill="#0ea5e9"/>
+                    <text x="70" y="145" font-size="10">Kilometraje →</text>
+                    <text x="5" y="80" font-size="10" transform="rotate(-90 5,80)">Precio →</text>
+                </svg>` } }),
+      options: ["Correlación positiva (sube).","Correlación negativa (baja).","Ausencia de correlación.","Correlación constante."],
+      correct: 1,
+      feedback: "La nube de puntos desciende de izquierda a derecha. A mayor kilometraje (aumenta X), el precio disminuye (baja Y). Esto es una correlación negativa."
+    },
+    {
+      type: "Pictogramas",
+      question: "Si 📚 = 50 libros prestados. ¿Cuántos libros MÁS se prestaron en Abril comparado con Mayo?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="font-size: 1.5rem; background:white; padding:15px; border-radius:8px; width:100%; text-align:center;">
+                    <div style="font-size:0.9rem; color:#666; font-weight:bold; border-bottom:1px solid #ccc; margin-bottom:10px;">CONVENCIÓN: 📚 = 50 Libros</div>
+                    <div style="margin-bottom:10px;"><b style="font-size:1.1rem; margin-right:15px;">ABRIL:</b> 📚 📚 📚 📚</div>
+                    <div><b style="font-size:1.1rem; margin-right:15px;">MAYO:</b> 📚 📚</div>
+                </div>` } }),
+      options: ["2","100","200","150"],
+      correct: 1,
+      feedback: "Abril tiene 4 iconos (200). Mayo tiene 2 (100). 200 - 100 = 100 libros más."
+    },
+    {
+      type: "Gráficos de Barras",
+      question: "¿Cuál fue el promedio de gasto mensual en este cuatrimestre?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:flex-end; height:200px; border-left:2px solid #333; border-bottom:2px solid #333; width:80%; padding-bottom:5px; justify-content:space-around;">
+                    <div style="height: 66%; width: 40px; background: #f59e0b; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">\$200</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Ene</span></div>
+                    <div style="height: 50%; width: 40px; background: #f59e0b; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">\$150</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Feb</span></div>
+                    <div style="height: 100%; width: 40px; background: #f59e0b; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">\$300</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Mar</span></div>
+                    <div style="height: 83%; width: 40px; background: #f59e0b; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">\$250</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold; font-size:11px;">Abr</span></div>
+                </div>` } }),
+      options: ["$200","$225","$250","$900"],
+      correct: 1,
+      feedback: "Suma de datos: 200+150+300+250 = 900. Promedio: 900 ÷ 4 = 225."
+    },
+    {
+      type: "Gráfico de Líneas",
+      question: "El gráfico muestra el crecimiento de una planta en centímetros. ¿Entre qué semanas NO hubo crecimiento?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 150" style="width:100%; max-width:350px;">
+                    <line x1="30" y1="120" x2="280" y2="120" stroke="#333" />
+                    <polyline points="50,105 100,90 150,75 200,75 250,60" fill="none" stroke="#2563eb" stroke-width="3" />
+                    <circle cx="50" cy="105" r="4" fill="#000"/><text x="45" y="95" font-size="9">5cm</text>
+                    <circle cx="100" cy="90" r="4" fill="#000"/><text x="95" y="80" font-size="9">10cm</text>
+                    <circle cx="150" cy="75" r="4" fill="#000"/><text x="145" y="65" font-size="9">15cm</text>
+                    <circle cx="200" cy="75" r="4" fill="#000"/><text x="195" y="65" font-size="9">15cm</text>
+                    <circle cx="250" cy="60" r="4" fill="#000"/><text x="245" y="50" font-size="9">20cm</text>
+                    <text x="40" y="135" font-size="10">Sem1</text><text x="90" y="135" font-size="10">Sem2</text><text x="140" y="135" font-size="10">Sem3</text><text x="190" y="135" font-size="10">Sem4</text><text x="240" y="135" font-size="10">Sem5</text>
+                </svg>` } }),
+      options: ["Sem 1 y 2","Sem 2 y 3","Sem 3 y 4","Sem 4 y 5"],
+      correct: 2,
+      feedback: "Entre la semana 3 y 4 la línea es horizontal (se mantuvo en 15cm), lo que indica pendiente cero o nulo crecimiento."
+    },
+    {
+      type: "Gráficos Circulares",
+      question: "Si el total de encuestados es de 200 estudiantes, ¿cuántos prefieren el Tenis?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:center; gap:20px;">
+                    <div style="width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#3b82f6 0% 40%, #f59e0b 40% 70%, #10b981 70% 90%, #6b7280 90% 100%);"></div>
+                    <div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#3b82f6; margin-right:5px;"></span> Fútbol (40%)</div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#f59e0b; margin-right:5px;"></span> Baloncesto (30%)</div>
+                        <div style="margin-bottom:5px;"><span style="display:inline-block; width:12px; height:12px; background:#10b981; margin-right:5px;"></span> Tenis (20%)</div>
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#6b7280; margin-right:5px;"></span> Otros (10%)</div>
+                    </div>
+                </div>` } }),
+      options: ["40","20","60","80"],
+      correct: 0,
+      feedback: "El Tenis tiene el 20%. El 20% de 200 es 40."
+    },
+    {
+      type: "Tablas de Doble Entrada",
+      question: "Si se selecciona a un trabajador que labora en la Tarde, ¿cuál es la probabilidad de que sea Mujer?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Turno</th><th>Hombres</th><th>Mujeres</th><th>Total</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Mañana</b></td><td>10</td><td>15</td><td>25</td></tr>
+                        <tr><td><b>Tarde</b></td><td>20</td><td>10</td><td>30</td></tr>
+                        <tr><td><b>Noche</b></td><td>15</td><td>5</td><td>20</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["10 / 75","10 / 30","20 / 30","10 / 25"],
+      correct: 1,
+      feedback: "El total de trabajadores en el turno Tarde es 30. De esos, 10 son mujeres. Probabilidad = 10 / 30."
+    },
+    {
+      type: "Diagramas de Dispersión",
+      question: "Este diagrama compara \"Horas semanales de ejercicio\" vs \"Índice de Masa Corporal (IMC)\". ¿Qué relación visualizan los datos?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 200 150" style="width:100%; max-width:300px;">
+                    <line x1="20" y1="130" x2="180" y2="130" stroke="#333" />
+                    <line x1="20" y1="10" x2="20" y2="130" stroke="#333" />
+                    <!-- Nube negativa -->
+                    <circle cx="30" cy="30" r="4" fill="#8b5cf6"/><circle cx="45" cy="40" r="4" fill="#8b5cf6"/>
+                    <circle cx="60" cy="55" r="4" fill="#8b5cf6"/><circle cx="75" cy="45" r="4" fill="#8b5cf6"/>
+                    <circle cx="95" cy="70" r="4" fill="#8b5cf6"/><circle cx="115" cy="85" r="4" fill="#8b5cf6"/>
+                    <circle cx="130" cy="100" r="4" fill="#8b5cf6"/><circle cx="150" cy="95" r="4" fill="#8b5cf6"/>
+                    <text x="50" y="145" font-size="10">Horas Ejercicio →</text>
+                    <text x="5" y="80" font-size="10" transform="rotate(-90 5,80)">IMC →</text>
+                </svg>` } }),
+      options: ["Correlación Positiva.","Correlación Negativa.","Cero Correlación.","Relación exponencial perfecta."],
+      correct: 1,
+      feedback: "La nube de puntos desciende de izquierda a derecha; a más ejercicio, menor IMC. Es correlación negativa."
+    },
+    {
+      type: "Pictogramas",
+      question: "Si 🌳 = 100 árboles. ¿Cuántos árboles en TOTAL se plantaron sumando los tres parques?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="font-size: 1.2rem; background:white; padding:15px; border-radius:8px; width:100%;">
+                    <div style="font-size:0.9rem; color:#666; font-weight:bold; border-bottom:1px solid #ccc; margin-bottom:10px;">CONVENCIÓN: 🌳 = 100 Árboles</div>
+                    <div><b>Parque A:</b> 🌳 🌳 🌳</div>
+                    <div><b>Parque B:</b> 🌳 🌳 🌳 🌳 <span style="display:inline-block; width:0.6em; overflow:hidden;">🌳</span></div>
+                    <div><b>Parque C:</b> 🌳 🌳</div>
+                </div>` } }),
+      options: ["9.5","95","950","1000"],
+      correct: 2,
+      feedback: "A(3) + B(4.5) + C(2) = 9.5 iconos. 9.5 * 100 = 950 árboles."
+    },
+    {
+      type: "Gráficos de Barras",
+      question: "¿Qué porcentaje del total anual de ventas representa el trimestre C?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:flex-end; height:200px; border-left:2px solid #333; border-bottom:2px solid #333; width:80%; padding-bottom:5px; justify-content:space-around;">
+                    <div style="height: 25%; width: 40px; background: #6366f1; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">500</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">A</span></div>
+                    <div style="height: 50%; width: 40px; background: #6366f1; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">1000</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">B</span></div>
+                    <div style="height: 100%; width: 40px; background: #6366f1; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">2000</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">C</span></div>
+                    <div style="height: 25%; width: 40px; background: #6366f1; position:relative;"><span style="position:absolute; top:-20px; width:100%; text-align:center; font-size:12px;">500</span><span style="position:absolute; bottom:-25px; width:100%; text-align:center; font-weight:bold;">D</span></div>
+                </div>` } }),
+      options: ["20%","30%","50%","40%"],
+      correct: 2,
+      feedback: "Total = 500+1000+2000+500 = 4000. El trimestre C tuvo 2000, que es exactamente la mitad (50%)."
+    },
+    {
+      type: "Tablas de Doble Entrada",
+      question: "¿Qué porcentaje de las personas encuestadas en Cali utiliza Moto como medio principal?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Ciudad</th><th>Bus</th><th>Moto</th><th>Auto</th><th>Total</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Cali</b></td><td>50</td><td>30</td><td>20</td><td>100</td></tr>
+                        <tr><td><b>Medellín</b></td><td>40</td><td>40</td><td>20</td><td>100</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["15%","30%","50%","60%"],
+      correct: 1,
+      feedback: "El total de Cali es 100. Los que usan Moto en Cali son 30. Por lo tanto, representan el 30%."
     }
-  ];
+  ];;
 
   const handleAnswer = (index) => {
     if (hasAnswered) return;

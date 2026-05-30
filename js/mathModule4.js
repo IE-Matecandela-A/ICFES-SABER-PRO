@@ -252,124 +252,682 @@
     // ==========================================
     const questions = [
     {
-      type: "Porcentajes (IVA)",
-      question: "Un portátil tiene un precio de exhibición de $2.000.000. El vendedor te aclara que este precio aún NO incluye el 19% de IVA. ¿Cuánto debes pagar en caja?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-6 bg-slate-50 rounded-xl shadow-sm border border-slate-200 flex items-center gap-6" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-16 h-16 bg-cyan-100 rounded-lg flex items-center justify-center border border-cyan-200 shrink-0" }, /*#__PURE__*/
-      React.createElement(DollarSign, { className: "w-8 h-8 text-cyan-600" })
-      ), /*#__PURE__*/
-      React.createElement("div", null, /*#__PURE__*/
-      React.createElement("div", { className: "text-xs text-slate-500 uppercase tracking-widest font-bold mb-1" }, "Precio Base"), /*#__PURE__*/
-      React.createElement("div", { className: "text-2xl font-mono font-bold text-slate-800" }, "$2.000.000"), /*#__PURE__*/
-      React.createElement("div", { className: "text-xs font-bold text-rose-500 mt-1" }, "+ 19% Impuesto")
-      )
-      ),
-
-      options: ["$2.019.000", "$2.380.000", "$1.620.000", "$2.190.000"],
+      type: "Formulación y Ejecución - Porcentajes vs Absolutos",
+      question: "A un grupo de 400 estudiantes de un colegio se les preguntó sobre su deporte favorito. Los resultados se muestran en el siguiente gráfico de barras, donde el Eje Y representa PORCENTAJES.\n\n¿Cuántos estudiantes (en cantidad exacta) respondieron que prefieren el Fútbol?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 180" style="width:100%; max-width:400px; background:white; border-radius:8px; padding:10px;">
+                    <!-- Eje Y -->
+                    <line x1="45" y1="10" x2="45" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <line x1="45" y1="15" x2="280" y2="15" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="42" x2="280" y2="42" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="69" x2="280" y2="69" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="96" x2="280" y2="96" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="123" x2="280" y2="123" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="40" y="18" font-size="9" text-anchor="end">50%</text>
+                    <text x="40" y="45" font-size="9" text-anchor="end">40%</text>
+                    <text x="40" y="72" font-size="9" text-anchor="end">30%</text>
+                    <text x="40" y="99" font-size="9" text-anchor="end">20%</text>
+                    <text x="40" y="126" font-size="9" text-anchor="end">10%</text>
+                    <text x="40" y="150" font-size="9" text-anchor="end">0%</text>
+                    <text x="15" y="80" font-size="9" transform="rotate(-90 15,80)" text-anchor="middle">Porcentaje (%)</text>
+                    <line x1="45" y1="150" x2="280" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <!-- Barras -->
+                    <rect x="65" y="42" width="40" height="108" fill="#3b82f6"/> <!-- Futbol 40% -->
+                    <text x="85" y="165" font-size="9" text-anchor="middle">Fútbol</text>
+                    <rect x="125" y="69" width="40" height="81" fill="#f59e0b"/> <!-- Baloncesto 30% -->
+                    <text x="145" y="165" font-size="9" text-anchor="middle">Balonc.</text>
+                    <rect x="185" y="96" width="40" height="54" fill="#22c55e"/> <!-- Voleibol 20% -->
+                    <text x="205" y="165" font-size="9" text-anchor="middle">Voleibol</text>
+                    <rect x="245" y="123" width="40" height="27" fill="#ef4444"/> <!-- Otros 10% -->
+                    <text x="265" y="165" font-size="9" text-anchor="middle">Otros</text>
+                </svg>` } }),
+      options: ["40 estudiantes","160 estudiantes","400 estudiantes","80 estudiantes"],
       correct: 1,
-      feedback: "¡Excelente! Al entender el concepto multiplicador: $2.000.000 × 1.19 = $2.380.000."
+      feedback: "Cascarita clásica: La barra de Fútbol marca el 40%. Muchos marcan \"40\", pero piden la cantidad de estudiantes. El 40% de 400 es (40 * 400)/100 = 160 estudiantes."
     },
     {
-      type: "Interés Financiero",
-      question: "Pides un crédito de $1.000.000 a un mes con un 'interés de usura' del 20% mensual simple. Para evitar problemas, pagas todo exactamente al cumplir el mes. ¿Cuánto dinero entregaste?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200" }, /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between items-center border-b border-slate-100 pb-3 mb-3" }, /*#__PURE__*/
-      React.createElement("span", { className: "font-bold text-slate-600" }, "Pr\xE9stamo Inicial:"), /*#__PURE__*/
-      React.createElement("span", { className: "font-mono font-bold text-slate-800" }, "$1.000.000")
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between items-center text-sm" }, /*#__PURE__*/
-      React.createElement("span", { className: "text-rose-500 font-bold" }, "Inter\xE9s Mensual:"), /*#__PURE__*/
-      React.createElement("span", { className: "font-mono text-rose-600 font-bold" }, "+ 20%")
-      )
-      ),
-
-      options: ["$1.020.000", "$1.200.000", "$200.000", "$1.500.000"],
-      correct: 1,
-      feedback: "¡Bien calculado! El 20% de 1.000.000 es 200.000. Entregas el capital (1M) más los intereses (200k) = 1.2M."
-    },
-    {
-      type: "Lectura de Facturas",
-      question: "En la factura del gas, el 'Cargo Fijo' es de $5.000. Consumiste 10 m³, y cada m³ cuesta $1.500. ¿Cuál es el valor total a pagar?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-4 bg-slate-800 rounded-xl shadow-sm border border-slate-700 text-slate-100 font-mono text-sm" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center text-cyan-400 border-b border-slate-600 pb-2 mb-3" }, "** RECIBO DE SERVICIO **"), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between py-1" }, /*#__PURE__*/React.createElement("span", null, "Cargo Fijo:"), /*#__PURE__*/React.createElement("span", null, "$5.000")), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between py-1" }, /*#__PURE__*/React.createElement("span", null, "Consumo (m\xB3):"), /*#__PURE__*/React.createElement("span", null, "10")), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between py-1" }, /*#__PURE__*/React.createElement("span", null, "Tarifa x m\xB3:"), /*#__PURE__*/React.createElement("span", null, "$1.500")), /*#__PURE__*/
-      React.createElement("div", { className: "border-t border-dashed border-slate-600 mt-3 pt-2 flex justify-between font-bold text-emerald-400" }, /*#__PURE__*/React.createElement("span", null, "TOTAL:"), /*#__PURE__*/React.createElement("span", null, "?"))
-      ),
-
-      options: ["$15.000", "$20.000", "$50.000", "$65.000"],
-      correct: 1,
-      feedback: "¡Perfecto! El consumo variable es 10 × 1.500 = 15.000. A esto le sumas el cargo fijo obligatorio de 5.000, para un total de $20.000."
-    },
-    {
-      type: "Descuentos",
-      question: "Unos tenis valen $200.000. Hoy tienen el 50% de descuento. Si pagas con la tarjeta VIP, te dan un 50% de descuento adicional sobre el precio ya rebajado. ¿Cuánto pagas finalmente?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 flex items-center justify-center gap-3" }, /*#__PURE__*/
-      React.createElement("div", { className: "bg-rose-500 text-white p-3 rounded-lg text-center shadow-md rotate-[-5deg]" }, /*#__PURE__*/
-      React.createElement("span", { className: "block text-xs font-bold opacity-80" }, "HOY"), /*#__PURE__*/
-      React.createElement("span", { className: "block font-black text-xl" }, "-50%")
-      ), /*#__PURE__*/
-      React.createElement("span", { className: "font-black text-slate-400 text-2xl" }, "+"), /*#__PURE__*/
-      React.createElement("div", { className: "bg-amber-500 text-white p-3 rounded-lg text-center shadow-md rotate-[5deg]" }, /*#__PURE__*/
-      React.createElement("span", { className: "block text-xs font-bold opacity-80" }, "TARJETA VIP"), /*#__PURE__*/
-      React.createElement("span", { className: "block font-black text-xl" }, "-50%")
-      )
-      ),
-
-      options: ["$0 (Gratis)", "$50.000", "$100.000", "$150.000"],
-      correct: 1,
-      feedback: "¡No caíste en la trampa! Primer descuento deja los tenis en $100.000. El segundo descuento (50%) aplica sobre esos $100.000, bajándolo a $50.000."
-    },
-    {
-      type: "Conversión de Monedas",
-      question: "Estás en el aeropuerto. Quieres comprar un café de $5 dólares. Si la casa de cambio dice: 'Compramos USD a $3.800 y Vendemos USD a $4.000'. ¿Cuántos pesos colombianos exactos te cobrarán por el café?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center border-b border-slate-100 pb-3 mb-3" }, /*#__PURE__*/
-      React.createElement(Landmark, { className: "w-6 h-6 text-slate-600 mx-auto mb-1" }), /*#__PURE__*/
-      React.createElement("span", { className: "font-bold text-slate-700" }, "CASA DE CAMBIO")
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-between items-center px-4" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("span", { className: "block text-xs text-slate-400 font-bold uppercase" }, "Compra"), /*#__PURE__*/
-      React.createElement("span", { className: "font-mono text-emerald-600 font-bold" }, "$3.800")
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "w-px h-8 bg-slate-200" }), /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("span", { className: "block text-xs text-slate-400 font-bold uppercase" }, "Venta"), /*#__PURE__*/
-      React.createElement("span", { className: "font-mono text-blue-600 font-bold" }, "$4.000")
-      )
-      )
-      ),
-
-      options: ["$19.000", "$20.000", "$4.000", "$7.800"],
-      correct: 1,
-      feedback: "¡Muy bien analizado! La casa de cambio te 'vende' los dólares (tú pagas pesos para obtener el café). Usas la tasa de venta: $4.000 × 5 = $20.000."
-    },
-    {
-      type: "Rendimiento y Proporciones",
-      question: "La pintura rinde 10 m² por cada galón. Tienes que pintar una pared de 20m de largo por 3m de alto. Si cada galón cuesta $40.000, ¿cuánto gastarás en pintura?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-4 bg-slate-50 rounded-xl shadow-sm border border-slate-200 flex justify-center items-center gap-6" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center border-r border-slate-200 pr-6" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-16 h-12 bg-cyan-200 border-2 border-cyan-400 flex items-center justify-center text-xs font-bold text-cyan-800 mx-auto mb-2" }, "20x3m"), /*#__PURE__*/
-      React.createElement("span", { className: "text-[10px] font-bold text-slate-500 uppercase" }, "La Pared")
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-10 h-12 bg-slate-200 border-2 border-slate-300 rounded-b-md mx-auto mb-2 flex items-center justify-center text-[10px] font-bold text-slate-500" }, "10m\xB2"), /*#__PURE__*/
-      React.createElement("span", { className: "text-[10px] font-bold text-slate-500 uppercase" }, "Rendimiento")
-      )
-      ),
-
-      options: ["$80.000", "$120.000", "$240.000", "$40.000"],
+      type: "Argumentación - Distorsión de Ejes",
+      question: "El gerente de ventas de una empresa presenta este gráfico para afirmar: \"En el mes de Febrero nuestras ventas casi que TRIPLICARON las ventas obtenidas en Enero. Ha sido un crecimiento explosivo\".\n\n¿Es cierta la afirmación del gerente basándose estrictamente en los datos matemáticos?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 180" style="width:100%; max-width:400px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="45" y1="10" x2="45" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <line x1="45" y1="30" x2="280" y2="30" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="110" x2="280" y2="110" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="40" y="33" font-size="9" text-anchor="end">130</text>
+                    <text x="40" y="73" font-size="9" text-anchor="end">120</text>
+                    <text x="40" y="113" font-size="9" text-anchor="end">110</text>
+                    <text x="40" y="150" font-size="9" text-anchor="end">100</text> <!-- Eje base en 100 -->
+                    <text x="15" y="80" font-size="9" transform="rotate(-90 15,80)" text-anchor="middle">Ventas (Millones)</text>
+                    <line x1="45" y1="150" x2="280" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <rect x="90" y="110" width="40" height="40" fill="#64748b"/> <!-- Ene: 110 -->
+                    <text x="110" y="165" font-size="10" text-anchor="middle">Enero</text>
+                    <rect x="180" y="30" width="40" height="120" fill="#22c55e"/> <!-- Feb: 130 -->
+                    <text x="200" y="165" font-size="10" text-anchor="middle">Febrero</text>
+                </svg>` } }),
+      options: ["Sí, porque visualmente la barra de Febrero es casi 3 veces más alta que la de Enero.","Sí, de 110 millones a 130 millones hay una triplicación exacta de las ventas.","No, porque las ventas solo aumentaron de 110 a 130 millones; la gráfica es engañosa porque no inicia en cero.","No, porque el mes de Enero siempre tiene bajas ventas históricas."],
       correct: 2,
-      feedback: "¡Cálculo maestro! 1. Área: 20×3 = 60 m². 2. Galones necesarios: 60 ÷ 10 = 6 galones. 3. Costo: 6 × 40.000 = $240.000."
-    }];
+      feedback: "Cascarita de manipulación visual: Al iniciar el eje en 100, la barra de 110 mide \"10 unidades\" visuales y la de 130 mide \"30 unidades\". Parece el triple, pero matemáticamente 130 no es el triple de 110."
+    },
+    {
+      type: "Interpretación - Probabilidad Condicional en Tablas",
+      question: "La siguiente tabla muestra el resultado de las pruebas de conducción de un grupo de personas, clasificadas por su género.\n\nSi se elige al azar una persona y se sabe de antemano que esta persona APROBÓ el examen, ¿cuál es la probabilidad de que sea Mujer?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Género</th><th>Aprobó</th><th>Reprobó</th><th>Total</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Hombre</b></td><td>12</td><td>8</td><td>20</td></tr>
+                        <tr><td><b>Mujer</b></td><td>18</td><td>12</td><td>30</td></tr>
+                        <tr><td><b>Total</b></td><td>30</td><td>20</td><td>50</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["18 / 50","18 / 30","18 / 12","30 / 50"],
+      correct: 1,
+      feedback: "Cascarita condicional: Al decir \"se sabe que APROBÓ\", el universo ya no es el total (50), sino solo la columna de Aprobados (30). De esos 30, las mujeres son 18. Probabilidad = 18/30."
+    },
+    {
+      type: "Formulación - Tasa vs Cantidad (Líneas)",
+      question: "La gráfica muestra la TASA DE INFLACIÓN mensual de un país durante el primer trimestre del año. La inflación mide el porcentaje en que aumentan los precios.\n\nA partir de la gráfica, un estudiante concluye que \"En el mes de Marzo, las cosas se volvieron más baratas que en Febrero porque la línea bajó\". ¿Es correcta esta conclusión?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 150" style="width:100%; max-width:350px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="30" y1="130" x2="280" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="10" x2="30" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="40" x2="280" y2="40" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="30" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="30" y1="100" x2="280" y2="100" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="25" y="43" font-size="9" text-anchor="end">3%</text>
+                    <text x="25" y="73" font-size="9" text-anchor="end">2%</text>
+                    <text x="25" y="103" font-size="9" text-anchor="end">1%</text>
+                    <text x="25" y="130" font-size="9" text-anchor="end">0%</text>
+                    <text x="10" y="70" font-size="9" transform="rotate(-90 10,70)" text-anchor="middle">Inflación (%)</text>
+                    
+                    <polyline points="70,100 140,40 210,70" fill="none" stroke="#dc2626" stroke-width="3" />
+                    <circle cx="70" cy="100" r="4" fill="#000"/><text x="70" y="145" font-size="10" text-anchor="middle">Ene</text>
+                    <circle cx="140" cy="40" r="4" fill="#000"/><text x="140" y="145" font-size="10" text-anchor="middle">Feb</text>
+                    <circle cx="210" cy="70" r="4" fill="#000"/><text x="210" y="145" font-size="10" text-anchor="middle">Mar</text>
+                </svg>` } }),
+      options: ["Sí, porque la pendiente es negativa entre Febrero y Marzo, indicando deflación.","Sí, porque el punto de Marzo está más cerca del 0% en el Eje Y.","No, porque la gráfica muestra que los precios siguieron subiendo en Marzo (un 2%), solo que subieron más lento que en Febrero.","No, porque en Enero la inflación era del 1% y en Marzo es mayor."],
+      correct: 2,
+      feedback: "Cascarita de tasas: Mientras la tasa esté en la zona positiva (arriba de 0%), la variable principal (los precios) sigue creciendo. Bajó la \"velocidad de crecimiento\", pero las cosas no son más baratas."
+    },
+    {
+      type: "Formulación y Ejecución - Ángulos en Circulares",
+      question: "Los resultados de una elección escolar con 120 votantes en total se muestran en la tabla adjunta. Se pide a un estudiante crear un Gráfico Circular (diagrama de pastel) con estos datos.\n\n¿Cuántos GRADOS (°) debe medir el ángulo del sector circular correspondiente al Candidato B?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Candidato</th><th>Votos</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Candidato A</b></td><td>60</td></tr>
+                        <tr><td><b>Candidato B</b></td><td>40</td></tr>
+                        <tr><td><b>Voto en Blanco</b></td><td>20</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["40°","120°","90°","33°"],
+      correct: 1,
+      feedback: "Cascarita de conversión: El total de votos es 120, lo que equivale a 360°. Para hallar los grados del Cand B, hacemos regla de 3: (40 votos * 360°) / 120 votos = 120°. No confundir el valor (40) o porcentaje (33%) con el ángulo."
+    },
+    {
+      type: "Interpretación - Lectura de Leyendas",
+      question: "La gráfica muestra el número de DEFECTOS DE FÁBRICA reportados en tres marcas de lavadoras durante el último año.\n\nUn cliente observa el gráfico y dice: \"Deberíamos comprar la Marca X porque su barra es la más alta, lo que indica superioridad\". ¿Qué error de interpretación está cometiendo el cliente?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 180" style="width:100%; max-width:400px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="45" y1="10" x2="45" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <line x1="45" y1="30" x2="280" y2="30" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="110" x2="280" y2="110" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="40" y="33" font-size="9" text-anchor="end">150</text>
+                    <text x="40" y="73" font-size="9" text-anchor="end">100</text>
+                    <text x="40" y="113" font-size="9" text-anchor="end">50</text>
+                    <text x="40" y="150" font-size="9" text-anchor="end">0</text>
+                    <text x="15" y="80" font-size="9" transform="rotate(-90 15,80)" text-anchor="middle">N° de Defectos</text>
+                    <line x1="45" y1="150" x2="280" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <rect x="70" y="30" width="40" height="120" fill="#ef4444"/> <!-- Marca X: 150 -->
+                    <text x="90" y="165" font-size="10" text-anchor="middle">Marca X</text>
+                    <rect x="140" y="70" width="40" height="80" fill="#3b82f6"/> <!-- Marca Y: 100 -->
+                    <text x="160" y="165" font-size="10" text-anchor="middle">Marca Y</text>
+                    <rect x="210" y="110" width="40" height="40" fill="#22c55e"/> <!-- Marca Z: 50 -->
+                    <text x="230" y="165" font-size="10" text-anchor="middle">Marca Z</text>
+                </svg>` } }),
+      options: ["Ninguno, en matemáticas las barras más altas siempre representan el mejor desempeño.","Ignorar que el Eje Y representa \"defectos\", por lo que la barra más alta indica la peor calidad, no la mejor.","Creer que 150 defectos es mucho, cuando en realidad es un número normal.","No tener en cuenta los precios de las lavadoras."],
+      correct: 1,
+      feedback: "Cascarita de contexto: Los estudiantes tienden a asociar automáticamente \"mayor tamaño = mejor\". El ICFES suele poner gráficas de inflación, quejas, contaminación o defectos donde lo más alto es lo negativo."
+    },
+    {
+      type: "Ejecución - Pictogramas y Fracciones",
+      question: "Un municipio muestra la cantidad de árboles plantados en dos zonas usando un pictograma. La convención indica que cada ícono completo (🌳) representa exactamente 200 árboles.\n\n¿Cuántos árboles se plantaron en total sumando ambas zonas?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="background:#fff; padding:15px; border-radius:8px; border:1px dashed #ccc; width:100%; text-align:center;">
+                    <div style="font-size:0.9rem; font-weight:bold; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">Convención: 🌳 = 200 Árboles</div>
+                    <div style="margin-bottom:12px; font-size:1.5rem; display:flex; align-items:center; justify-content:center;">
+                        <span style="font-size:1rem; font-weight:bold; width:80px; text-align:left;">Zona A:</span> 🌳 🌳 🌳
+                    </div>
+                    <div style="font-size:1.5rem; display:flex; align-items:center; justify-content:center;">
+                        <span style="font-size:1rem; font-weight:bold; width:80px; text-align:left;">Zona B:</span> 🌳 <div style="display:inline-block; width:0.5em; overflow:hidden;">🌳</div> 
+                        <span style="font-size:0.8rem; color:#666; margin-left:10px;">(Medio ícono)</span>
+                    </div>
+                </div>` } }),
+      options: ["900 árboles","4.5 árboles","800 árboles","500 árboles"],
+      correct: 0,
+      feedback: "Zona A tiene 3 iconos (600). Zona B tiene 1 y medio iconos (300). Total = 900. La trampa es sumar los iconos y responder 4.5, olvidando multiplicar por la convención."
+    },
+    {
+      type: "Interpretación - Análisis de Pendientes",
+      question: "La gráfica muestra la distancia recorrida por un automóvil a lo largo del tiempo durante un viaje por carretera.\n\nSabiendo que la velocidad es la relación entre distancia y tiempo, ¿en qué intervalo de tiempo el automóvil iba a la MAYOR velocidad?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 150" style="width:100%; max-width:350px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="30" y1="130" x2="280" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="10" x2="30" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <polyline points="30,130 90,100 160,100 230,20 280,20" fill="none" stroke="#0ea5e9" stroke-width="3" />
+                    <text x="90" y="145" font-size="10" text-anchor="middle">1 Hr</text>
+                    <text x="160" y="145" font-size="10" text-anchor="middle">2 Hr</text>
+                    <text x="230" y="145" font-size="10" text-anchor="middle">3 Hr</text>
+                    <text x="10" y="70" font-size="9" transform="rotate(-90 10,70)" text-anchor="middle">Distancia (km)</text>
+                </svg>` } }),
+      options: ["Entre las 0 horas y la 1 Hr.","Entre la 1 Hr y las 2 Hr.","Entre las 2 Hr y las 3 Hr.","La velocidad fue constante durante todo el viaje."],
+      correct: 2,
+      feedback: "En un gráfico Distancia vs Tiempo, una mayor pendiente (inclinación más pronunciada) indica mayor velocidad. El tramo más empinado es de la hora 2 a la 3."
+    },
+    {
+      type: "Formulación - Interpolación en Dispersión",
+      question: "Un pediatra usa el siguiente diagrama de dispersión para relacionar la Edad (meses) de los bebés con su Peso (kg). Un niño de 5 meses llega a la consulta.\n\nProyectando la tendencia lineal de los datos mostrados en la gráfica, ¿qué peso aproximado es esperable para un bebé de 5 meses?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 200 140" style="width:100%; max-width:280px; background:white; padding:10px; border-radius:8px;">
+                    <line x1="20" y1="120" x2="180" y2="120" stroke="#333" stroke-width="1.5" />
+                    <line x1="20" y1="10" x2="20" y2="120" stroke="#333" stroke-width="1.5" />
+                    <line x1="20" y1="100" x2="180" y2="100" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="20" y1="60" x2="180" y2="60" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="20" y1="20" x2="180" y2="20" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="60" y1="120" x2="60" y2="10" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="100" y1="120" x2="100" y2="10" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="140" y1="120" x2="140" y2="10" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    
+                    <text x="15" y="103" font-size="8" text-anchor="end">4</text>
+                    <text x="15" y="63" font-size="8" text-anchor="end">6</text>
+                    <text x="15" y="23" font-size="8" text-anchor="end">8</text>
+                    <text x="60" y="132" font-size="8" text-anchor="middle">2</text>
+                    <text x="100" y="132" font-size="8" text-anchor="middle">4</text>
+                    <text x="140" y="132" font-size="8" text-anchor="middle">6</text>
+
+                    <text x="100" y="145" font-size="9" text-anchor="middle">Edad (meses)</text>
+                    <text x="5" y="65" font-size="9" transform="rotate(-90 5,65)" text-anchor="middle">Peso (kg)</text>
+                    
+                    <!-- Puntos: (2, 4), (4, 6), (6, 8) -->
+                    <circle cx="60" cy="100" r="3" fill="#8b5cf6"/><circle cx="55" cy="105" r="3" fill="#8b5cf6"/>
+                    <circle cx="100" cy="60" r="3" fill="#8b5cf6"/><circle cx="105" cy="55" r="3" fill="#8b5cf6"/>
+                    <circle cx="140" cy="20" r="3" fill="#8b5cf6"/><circle cx="135" cy="25" r="3" fill="#8b5cf6"/>
+                </svg>` } }),
+      options: ["5 kg","7 kg","6 kg","8 kg"],
+      correct: 1,
+      feedback: "A los 2 meses pesa 4kg, a los 4 meses pesa 6kg, a los 6 meses pesa 8kg. Interpolando en la línea, a los 5 meses (mitad entre 4 y 6) le corresponde un peso de 7kg (mitad entre 6 y 8)."
+    },
+    {
+      type: "Razonamiento - Porcentajes Faltantes",
+      question: "La superficie total de una finca es de 200 hectáreas (ha), distribuidas en diferentes cultivos y una zona de bosque, como muestra el gráfico circular.\n\nSabiendo que el círculo completo es el 100%, ¿cuántas hectáreas exactas corresponden a la zona de Bosque?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display:flex; align-items:center; gap:20px; background:white; padding:15px; border-radius:8px;">
+                    <div style="width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(#eab308 0% 40%, #14b8a6 40% 75%, #a8a29e 75% 85%, #22c55e 85% 100%); position:relative;">
+                        <span style="position:absolute; top:20%; right:15%; font-size:12px; font-weight:bold;">40%</span>
+                        <span style="position:absolute; bottom:15%; right:40%; font-size:12px; font-weight:bold;">35%</span>
+                        <span style="position:absolute; top:40%; left:10%; font-size:12px; font-weight:bold;">10%</span>
+                        <span style="position:absolute; top:10%; left:40%; font-size:12px; font-weight:bold;">? %</span>
+                    </div>
+                    <div style="font-size:0.9rem;">
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#eab308;"></span> Maíz (40%)</div>
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#14b8a6;"></span> Trigo (35%)</div>
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#a8a29e;"></span> Lácteos (10%)</div>
+                        <div><span style="display:inline-block; width:12px; height:12px; background:#22c55e;"></span> Bosque (?)</div>
+                    </div>
+                </div>` } }),
+      options: ["15 ha","30 ha","100 ha","200 ha"],
+      correct: 1,
+      feedback: "Cascarita de dos pasos. Paso 1: Hallar el % del bosque: 100% - (40+35+10) = 15%. Paso 2: Hallar la cantidad. El 15% de 200 hectáreas es (15*200)/100 = 30 ha."
+    },
+    {
+      type: "Argumentación - Barras Apiladas vs Proporción",
+      question: "La gráfica muestra la composición de hombres y mujeres en tres salones de clase. Cada barra está apilada.\n\nUn estudiante afirma: \"El Salón B es el que tiene mayor predominio (porcentaje) de mujeres en su propio grupo\". ¿Es correcta esta afirmación?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 180" style="width:100%; max-width:400px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="45" y1="10" x2="45" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <line x1="45" y1="30" x2="280" y2="30" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="110" x2="280" y2="110" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="40" y="33" font-size="9" text-anchor="end">30</text>
+                    <text x="40" y="73" font-size="9" text-anchor="end">20</text>
+                    <text x="40" y="113" font-size="9" text-anchor="end">10</text>
+                    <text x="40" y="150" font-size="9" text-anchor="end">0</text>
+                    <text x="15" y="80" font-size="9" transform="rotate(-90 15,80)" text-anchor="middle">Total Personas</text>
+                    <line x1="45" y1="150" x2="280" y2="150" stroke="#333" stroke-width="1.5"/>
+                    
+                    <rect x="70" y="110" width="30" height="40" fill="#60a5fa"/> <!-- H -->
+                    <rect x="70" y="70" width="30" height="40" fill="#f472b6"/> <!-- M -->
+                    <text x="85" y="165" font-size="10" text-anchor="middle">Salón A</text>
+                    
+                    <rect x="135" y="70" width="30" height="80" fill="#60a5fa"/> <!-- H -->
+                    <rect x="135" y="10" width="30" height="60" fill="#f472b6"/> <!-- M -->
+                    <text x="150" y="165" font-size="10" text-anchor="middle">Salón B</text>
+
+                    <rect x="200" y="142" width="30" height="8" fill="#60a5fa"/> <!-- H -->
+                    <rect x="200" y="110" width="30" height="32" fill="#f472b6"/> <!-- M -->
+                    <text x="215" y="165" font-size="10" text-anchor="middle">Salón C</text>
+
+                    <!-- Leyenda -->
+                    <rect x="245" y="20" width="10" height="10" fill="#f472b6"/><text x="260" y="28" font-size="9">Mujer</text>
+                    <rect x="245" y="35" width="10" height="10" fill="#60a5fa"/><text x="260" y="43" font-size="9">Hombre</text>
+                </svg>` } }),
+      options: ["Sí, porque la porción rosada del Salón B es la más grande de todas en cantidad absoluta (15 mujeres).","Sí, porque el Salón B tiene la mayor cantidad de personas en total.","No, porque en el Salón C casi la totalidad de su barra corresponde a mujeres, representando un porcentaje mucho mayor (80%).","No, porque el Salón A es el único donde hay empate."],
+      correct: 2,
+      feedback: "Cascarita de Proporción vs Absoluto: El Salón B tiene más mujeres contadas una a una (15), pero su barra azul (hombres) es enorme. El Salón C es pequeño, pero casi todo es rosado, indicando el mayor \"predominio o porcentaje\"."
+    },
+    {
+      type: "Ejecución - Áreas o Acumulados (Líneas)",
+      question: "Un estudiante guarda dinero en una alcancía. La gráfica muestra el DEPÓSITO DIARIO que hace (cuánto mete ese día, no el total acumulado).\n\nAl finalizar el Día 3, ¿cuánto dinero en TOTAL hay dentro de la alcancía?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 150" style="width:100%; max-width:350px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="30" y1="130" x2="280" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="10" x2="30" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="40" x2="280" y2="40" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="30" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="30" y1="100" x2="280" y2="100" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="25" y="43" font-size="9" text-anchor="end">\$300</text>
+                    <text x="25" y="73" font-size="9" text-anchor="end">\$200</text>
+                    <text x="25" y="103" font-size="9" text-anchor="end">\$100</text>
+                    <text x="25" y="130" font-size="9" text-anchor="end">\$0</text>
+                    <text x="10" y="70" font-size="9" transform="rotate(-90 10,70)" text-anchor="middle">Depósito (\$)</text>
+                    
+                    <polyline points="80,100 160,40 240,70" fill="none" stroke="#10b981" stroke-width="3" />
+                    <circle cx="80" cy="100" r="4" fill="#000"/><text x="80" y="145" font-size="10" text-anchor="middle">Día 1</text>
+                    <circle cx="160" cy="40" r="4" fill="#000"/><text x="160" y="145" font-size="10" text-anchor="middle">Día 2</text>
+                    <circle cx="240" cy="70" r="4" fill="#000"/><text x="240" y="145" font-size="10" text-anchor="middle">Día 3</text>
+                </svg>` } }),
+      options: ["$200","$300","$600","$100"],
+      correct: 2,
+      feedback: "Cascarita de acumulación: Si la pregunta pidiera el depósito del Día 3 la respuesta sería $200. Pero pide el TOTAL acumulado. Debemos sumar: Día 1 ($100) + Día 2 ($300) + Día 3 ($200) = $600."
+    },
+    {
+      type: "Formulación - Cruce de Líneas",
+      question: "Dos empresas de telefonía ofrecen planes. El Plan A cobra un cargo fijo alto pero el minuto es barato. El Plan B no tiene cargo fijo pero el minuto es caro. La gráfica ilustra Costo Total vs Minutos Consumidos.\n\n¿A partir de cuántos minutos empieza a ser más económico (barato) para un usuario elegir el Plan A sobre el Plan B?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 150" style="width:100%; max-width:350px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="30" y1="130" x2="280" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="10" x2="30" y2="130" stroke="#333" stroke-width="1.5"/>
+                    
+                    <line x1="30" y1="130" x2="220" y2="20" stroke="#dc2626" stroke-width="2"/>
+                    <text x="230" y="25" font-size="10" fill="#dc2626">Plan B</text>
+                    
+                    <line x1="30" y1="80" x2="250" y2="40" stroke="#2563eb" stroke-width="2"/>
+                    <text x="260" y="45" font-size="10" fill="#2563eb">Plan A</text>
+
+                    <line x1="115" y1="130" x2="115" y2="80" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="115" y="145" font-size="10" text-anchor="middle">50 min</text>
+
+                    <text x="10" y="70" font-size="9" transform="rotate(-90 10,70)" text-anchor="middle">Costo (\$)</text>
+                    <text x="150" y="145" font-size="9" text-anchor="middle">Minutos</text>
+                </svg>` } }),
+      options: ["Es más barato desde el minuto 0.","A partir del minuto 50 (cuando la línea azul queda por debajo de la roja).","Nunca, el Plan B siempre es mejor porque inicia en 0.","A partir del minuto 100."],
+      correct: 1,
+      feedback: "Análisis de cruce: Antes del punto de intersección (50 min), el Plan A (azul) está por encima, es más caro. Después del minuto 50, el Plan A queda por debajo del Plan B, haciéndose más económico."
+    },
+    {
+      type: "Formulación - Regla de Tres en Tablas",
+      question: "Un chef tiene una tabla con los ingredientes para preparar un postre diseñado exactamente para 4 personas.\n\nSi el chef necesita preparar este mismo postre para 10 personas manteniendo la receta, ¿cuántos gramos de Azúcar necesitará?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Ingrediente</th><th>Cantidad (para 4 pers)</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Harina</b></td><td>200 g</td></tr>
+                        <tr><td><b>Azúcar</b></td><td>80 g</td></tr>
+                        <tr><td><b>Leche</b></td><td>120 ml</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["160 g","200 g","800 g","320 g"],
+      correct: 1,
+      feedback: "Cascarita de Proporcionalidad: 4 personas requieren 80g de azúcar. Para 1 persona es 80/4 = 20g. Para 10 personas será 20g * 10 = 200g. O alternativamente, multiplicar por 2.5."
+    },
+    {
+      type: "Interpretación - Suma de Intervalos en Histogramas",
+      question: "Un cine realizó una encuesta sobre la edad de los asistentes a una película clásica, agrupando los resultados en rangos de edad (10 a 20 años, 20 a 30 años, etc.).\n\n¿Cuántas personas asistentes tenían 30 AÑOS O MÁS?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 180" style="width:100%; max-width:400px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="45" y1="10" x2="45" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <line x1="45" y1="30" x2="280" y2="30" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="110" x2="280" y2="110" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="40" y="33" font-size="9" text-anchor="end">30</text>
+                    <text x="40" y="73" font-size="9" text-anchor="end">20</text>
+                    <text x="40" y="113" font-size="9" text-anchor="end">10</text>
+                    <text x="40" y="150" font-size="9" text-anchor="end">0</text>
+                    <text x="15" y="80" font-size="9" transform="rotate(-90 15,80)" text-anchor="middle">Personas</text>
+                    <line x1="45" y1="150" x2="280" y2="150" stroke="#333" stroke-width="1.5"/>
+                    
+                    <rect x="50" y="110" width="45" height="40" fill="#a855f7" stroke="white"/>
+                    <text x="72" y="165" font-size="9" text-anchor="middle">10-20</text>
+                    <rect x="95" y="30" width="45" height="120" fill="#a855f7" stroke="white"/>
+                    <text x="117" y="165" font-size="9" text-anchor="middle">20-30</text>
+                    <rect x="140" y="70" width="45" height="80" fill="#a855f7" stroke="white"/>
+                    <text x="162" y="165" font-size="9" text-anchor="middle">30-40</text>
+                    <rect x="185" y="110" width="45" height="40" fill="#a855f7" stroke="white"/>
+                    <text x="207" y="165" font-size="9" text-anchor="middle">40-50</text>
+                    <rect x="230" y="110" width="45" height="40" fill="#a855f7" stroke="white"/>
+                    <text x="252" y="165" font-size="9" text-anchor="middle">50+</text>
+                </svg>` } }),
+      options: ["20 personas","30 personas","40 personas","80 personas"],
+      correct: 2,
+      feedback: "Trampa del Histograma: Piden \"30 o más\", eso significa que hay que sumar todas las barras desde los 30 hacia arriba. Es decir, [30-40] + [40-50] + [50+] = 20 + 10 + 10 = 40 personas."
+    },
+    {
+      type: "Argumentación - Diferencia Porcentual",
+      question: "La tabla muestra las ventas de dos sucursales en los Años 1 y 2. El dueño afirma: \"La Sucursal B tuvo el mayor porcentaje de crecimiento porque sus ventas aumentaron en 50 unidades, mientras que la A solo aumentó 10 unidades\".\n\n¿Es válido el argumento del dueño para evaluar el PORCENTAJE de crecimiento?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Sucursal</th><th>Ventas Año 1</th><th>Ventas Año 2</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Sucursal A</b></td><td>10 unid.</td><td>20 unid.</td></tr>
+                        <tr><td><b>Sucursal B</b></td><td>100 unid.</td><td>150 unid.</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["Sí, 50 unidades es mayor que 10 unidades, por ende es un mayor porcentaje.","No, porque la Sucursal A creció un 100% (el doble), mientras que la Sucursal B solo creció un 50%.","Sí, porque 150 unidades es el número más grande de toda la tabla.","No, porque los porcentajes no se pueden calcular con estos datos."],
+      correct: 1,
+      feedback: "Cascarita entre Absoluto y Relativo: La Sucursal B creció más en \"cantidad neta\" (50), pero en \"porcentaje\", la Sucursal A duplicó sus ventas (pasó de 10 a 20, creció 100%), mientras B solo creció la mitad de su valor inicial (50%)."
+    },
+    {
+      type: "Ejecución - Promedios Simples",
+      question: "La tabla presenta las calificaciones (de 0 a 10) de tres estudiantes en cuatro asignaturas. Gana la beca quien obtenga el promedio más alto.\n\n¿Qué estudiante se llevó la beca?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <table class="data-table">
+                    <thead><tr><th>Estudiante</th><th>Matemáticas</th><th>Lenguaje</th><th>Ciencias</th><th>Sociales</th></tr></thead>
+                    <tbody>
+                        <tr><td><b>Ana</b></td><td>6</td><td>8</td><td>7</td><td>7</td></tr>
+                        <tr><td><b>Luis</b></td><td>9</td><td>5</td><td>6</td><td>6</td></tr>
+                        <tr><td><b>María</b></td><td>7</td><td>7</td><td>8</td><td>8</td></tr>
+                    </tbody>
+                </table>` } }),
+      options: ["Ana","Luis","María","Ana y María empataron"],
+      correct: 2,
+      feedback: "Suma de Ana = 28. Suma de Luis = 26. Suma de María = 30. Al tener la suma más alta entre la misma cantidad de notas (4), María lógicamente tiene el mayor promedio (7.5)."
+    },
+    {
+      type: "Interpretación - Puntos Atípicos (Outliers)",
+      question: "Un diagrama de dispersión grafica el peso (kg) vs la estatura (cm) de un grupo de jóvenes. Se observa una clara tendencia positiva, excepto por un punto aislado.\n\n¿Qué describe físicamente el punto atípico marcado con la estrella roja?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 200 140" style="width:100%; max-width:280px; background:white; padding:10px; border-radius:8px;">
+                    <line x1="20" y1="120" x2="180" y2="120" stroke="#333" stroke-width="1.5" />
+                    <line x1="20" y1="10" x2="20" y2="120" stroke="#333" stroke-width="1.5" />
+                    <circle cx="40" cy="100" r="3" fill="#64748b"/><circle cx="50" cy="95" r="3" fill="#64748b"/>
+                    <circle cx="65" cy="80" r="3" fill="#64748b"/><circle cx="75" cy="70" r="3" fill="#64748b"/>
+                    <circle cx="90" cy="65" r="3" fill="#64748b"/><circle cx="105" cy="50" r="3" fill="#64748b"/>
+                    <circle cx="120" cy="40" r="3" fill="#64748b"/><circle cx="130" cy="30" r="3" fill="#64748b"/>
+                    <polygon points="140,105 145,115 135,115" fill="#dc2626"/>
+                    <text x="140" y="100" font-size="8" fill="#dc2626" text-anchor="middle">Atípico</text>
+
+                    <text x="100" y="135" font-size="9" text-anchor="middle">Peso (X)</text>
+                    <text x="10" y="65" font-size="9" transform="rotate(-90 10,65)" text-anchor="middle">Estatura (Y)</text>
+                </svg>` } }),
+      options: ["Un joven muy alto y muy pesado.","Un joven de baja estatura pero con un peso elevado.","Un joven muy alto pero con bajo peso.","Un joven promedio que sigue exactamente la tendencia."],
+      correct: 1,
+      feedback: "El punto está situado a la derecha en el Eje X (peso alto) pero se encuentra muy abajo en el Eje Y (estatura baja). Es un outlier o caso atípico."
+    },
+    {
+      type: "Formulación - Interpolación en Líneas Dobles",
+      question: "El gráfico muestra los costos de producción y los ingresos por ventas de una fábrica de zapatos, en función de las docenas fabricadas.\n\nSe llama \"Punto de Equilibrio\" al momento donde no hay ganancias ni pérdidas (Ingresos = Costos). ¿A las cuántas docenas se alcanza este punto?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 150" style="width:100%; max-width:350px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="30" y1="130" x2="280" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="10" x2="30" y2="130" stroke="#333" stroke-width="1.5"/>
+                    <line x1="30" y1="90" x2="260" y2="30" stroke="#f59e0b" stroke-width="2"/>
+                    <text x="270" y="35" font-size="9" fill="#f59e0b">Costos</text>
+                    <line x1="30" y1="130" x2="200" y2="10" stroke="#22c55e" stroke-width="2"/>
+                    <text x="210" y="15" font-size="9" fill="#22c55e">Ingresos</text>
+                    
+                    <line x1="120" y1="130" x2="120" y2="65" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="120" y="145" font-size="10" text-anchor="middle">50 Docenas</text>
+
+                    <text x="10" y="70" font-size="9" transform="rotate(-90 10,70)" text-anchor="middle">Dinero (\$)</text>
+                    <text x="260" y="145" font-size="9" text-anchor="middle">Docenas</text>
+                </svg>` } }),
+      options: ["A las 0 docenas","A las 100 docenas","A las 50 docenas","No hay punto de equilibrio"],
+      correct: 2,
+      feedback: "El punto de equilibrio es literalmente donde se cruzan las dos líneas (Costos e Ingresos son iguales). Bajando por la línea punteada hasta el Eje X, leemos \"50 Docenas\"."
+    },
+    {
+      type: "Razonamiento - Inferencia con Datos Faltantes",
+      question: "Se tiene un gráfico de barras incompleto que representa las notas de 50 alumnos. Solo se ven los alumnos que sacaron Insuficiente, Aceptable y Sobresaliente. Se borró la barra de \"Excelente\".\n\nConociendo que el total de alumnos evaluados fue de 50, ¿cuántos alumnos sacaron la nota Excelente?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <svg viewBox="0 0 300 180" style="width:100%; max-width:400px; background:white; border-radius:8px; padding:10px;">
+                    <line x1="45" y1="10" x2="45" y2="150" stroke="#333" stroke-width="1.5"/>
+                    <line x1="45" y1="30" x2="280" y2="30" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="70" x2="280" y2="70" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <line x1="45" y1="110" x2="280" y2="110" stroke="#cbd5e1" stroke-dasharray="2,2"/>
+                    <text x="40" y="33" font-size="9" text-anchor="end">30</text>
+                    <text x="40" y="73" font-size="9" text-anchor="end">20</text>
+                    <text x="40" y="113" font-size="9" text-anchor="end">10</text>
+                    <text x="40" y="150" font-size="9" text-anchor="end">0</text>
+                    <text x="15" y="80" font-size="9" transform="rotate(-90 15,80)" text-anchor="middle">Alumnos</text>
+                    <line x1="45" y1="150" x2="280" y2="150" stroke="#333" stroke-width="1.5"/>
+                    
+                    <rect x="60" y="110" width="35" height="40" fill="#facc15"/>
+                    <text x="77" y="165" font-size="8" text-anchor="middle">Insuf</text>
+                    <rect x="110" y="70" width="35" height="80" fill="#facc15"/>
+                    <text x="127" y="165" font-size="8" text-anchor="middle">Acep</text>
+                    <rect x="160" y="90" width="35" height="60" fill="#facc15"/>
+                    <text x="177" y="165" font-size="8" text-anchor="middle">Sobre</text>
+                    <rect x="210" y="80" width="35" height="70" fill="transparent" stroke="#94a3b8" stroke-dasharray="2,2"/>
+                    <text x="227" y="165" font-size="8" text-anchor="middle">Excel</text>
+                    <text x="227" y="115" font-size="16" fill="#94a3b8" text-anchor="middle">?</text>
+                </svg>` } }),
+      options: ["5 alumnos","10 alumnos","15 alumnos","0 alumnos"],
+      correct: 0,
+      feedback: "Proyectemos: Insuf=10, Acep=20, Sobre=15 (está en la mitad del 10 y 20). Suma visible = 10+20+15 = 45 alumnos. Si el total es 50, los que faltan son 50 - 45 = 5 alumnos."
+    },
+    {
+      type: "Traducción de Datos - Circular",
+      question: "Un colegio tiene 200 estudiantes de grado 11. En una encuesta sobre la carrera que desean estudiar, 100 estudiantes respondieron \"Ingeniería\", 50 respondieron \"Medicina\" y los 50 restantes \"Artes\".\n\n¿Cuál de los siguientes diagramas circulares representa correctamente la proporción de esta información?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; max-width:400px; margin:0 auto; background:white; padding:15px; border-radius:8px;">
+                    <div style="grid-column: 1 / -1; font-size: 0.8rem; text-align:center; margin-bottom:10px; border-bottom: 1px solid #ccc; padding-bottom:5px;">
+                        <b>Leyenda:</b> <span style="color:#3b82f6;">■ Ing</span> <span style="color:#ef4444;">■ Med</span> <span style="color:#22c55e;">■ Artes</span>
+                    </div>
+                    <!-- A: 50%, 25%, 25% (CORRECTO) -->
+                    <div style="text-align:center;"><b style="font-size:0.9rem;">Gráfica A</b>
+                        <div style="width:80px; height:80px; border-radius:50%; background:conic-gradient(#3b82f6 0 50%, #ef4444 50% 75%, #22c55e 75% 100%); margin:5px auto; border:1px solid #ddd;"></div>
+                    </div>
+                    <!-- B: 33%, 33%, 33% -->
+                    <div style="text-align:center;"><b style="font-size:0.9rem;">Gráfica B</b>
+                        <div style="width:80px; height:80px; border-radius:50%; background:conic-gradient(#3b82f6 0 33%, #ef4444 33% 66%, #22c55e 66% 100%); margin:5px auto; border:1px solid #ddd;"></div>
+                    </div>
+                    <!-- C: Trap (Swapped colors: 50% Med) -->
+                    <div style="text-align:center;"><b style="font-size:0.9rem;">Gráfica C</b>
+                        <div style="width:80px; height:80px; border-radius:50%; background:conic-gradient(#ef4444 0 50%, #3b82f6 50% 75%, #22c55e 75% 100%); margin:5px auto; border:1px solid #ddd;"></div>
+                    </div>
+                    <!-- D: 75%, 12.5, 12.5 -->
+                    <div style="text-align:center;"><b style="font-size:0.9rem;">Gráfica D</b>
+                        <div style="width:80px; height:80px; border-radius:50%; background:conic-gradient(#3b82f6 0 75%, #ef4444 75% 87.5%, #22c55e 87.5% 100%); margin:5px auto; border:1px solid #ddd;"></div>
+                    </div>
+                </div>` } }),
+      options: ["Gráfica A","Gráfica B","Gráfica C","Gráfica D"],
+      correct: 0,
+      feedback: "Ingeniería (100) es exactamente la MITAD del total (200), por lo que debe ocupar el 50% del círculo (azul). Medicina y Artes son la cuarta parte cada uno (25%). La Gráfica A muestra exactamente esto."
+    },
+    {
+      type: "Traducción de Datos - Gráfico de Líneas",
+      question: "Un tanque que contiene 100 litros de agua tiene una fuga. El tanque pierde agua de manera constante hasta vaciarse exactamente a la mitad a las 2 horas. En ese momento, se repara la fuga y el nivel del agua se mantiene sin cambios durante 2 horas más.\n\n¿Qué gráfica representa correctamente el volumen de agua en el tanque en función del tiempo?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width:400px; margin:0 auto; background:white; padding:15px; border-radius:8px;">
+                    <!-- A: Correcta -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica A</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333" stroke-width="1"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333" stroke-width="1"/>
+                            <text x="10" y="15" font-size="7" text-anchor="end">100</text><text x="10" y="42" font-size="7" text-anchor="end">50</text>
+                            <text x="55" y="78" font-size="7" text-anchor="middle">2h</text><text x="95" y="78" font-size="7" text-anchor="middle">4h</text>
+                            <polyline points="15,15 55,40 95,40" fill="none" stroke="#2563eb" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <!-- B: Cae a cero -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica B</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333" stroke-width="1"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333" stroke-width="1"/>
+                            <text x="10" y="15" font-size="7" text-anchor="end">100</text><text x="10" y="42" font-size="7" text-anchor="end">50</text>
+                            <polyline points="15,15 55,70 95,70" fill="none" stroke="#2563eb" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <!-- C: Invertida -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica C</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333" stroke-width="1"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333" stroke-width="1"/>
+                            <text x="10" y="15" font-size="7" text-anchor="end">100</text><text x="10" y="42" font-size="7" text-anchor="end">50</text>
+                            <polyline points="15,70 55,40 95,40" fill="none" stroke="#2563eb" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <!-- D: Tarde en bajar -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica D</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333" stroke-width="1"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333" stroke-width="1"/>
+                            <text x="10" y="15" font-size="7" text-anchor="end">100</text><text x="10" y="42" font-size="7" text-anchor="end">50</text>
+                            <polyline points="15,15 55,15 95,40" fill="none" stroke="#2563eb" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>` } }),
+      options: ["Gráfica A","Gráfica B","Gráfica C","Gráfica D"],
+      correct: 0,
+      feedback: "Empieza en 100, baja linealmente hasta 50 (la mitad) en el eje X=2. Luego, como se repara la fuga, el volumen no cambia, creando una línea horizontal en Y=50."
+    },
+    {
+      type: "Traducción de Datos - Dispersión",
+      question: "Un estudio ambiental de varias ciudades en una cordillera afirma lo siguiente: \"Existe una clara relación inversamente proporcional: a medida que los pueblos se ubican a mayor altitud (msnm), su temperatura promedio anual desciende\".\n\n¿Cuál diagrama de dispersión corresponde estrictamente a la afirmación del estudio?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width:400px; margin:0 auto; background:white; padding:15px; border-radius:8px;">
+                    <!-- A: Positiva -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica A</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <circle cx="25" cy="60" r="2" fill="#ef4444"/><circle cx="45" cy="45" r="2" fill="#ef4444"/><circle cx="65" cy="30" r="2" fill="#ef4444"/><circle cx="85" cy="15" r="2" fill="#ef4444"/>
+                        </svg>
+                    </div>
+                    <!-- B: Negativa (Correcta) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica B</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <circle cx="25" cy="15" r="2" fill="#ef4444"/><circle cx="45" cy="30" r="2" fill="#ef4444"/><circle cx="65" cy="45" r="2" fill="#ef4444"/><circle cx="85" cy="60" r="2" fill="#ef4444"/>
+                        </svg>
+                    </div>
+                    <!-- C: Horizontal -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica C</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <circle cx="25" cy="40" r="2" fill="#ef4444"/><circle cx="45" cy="40" r="2" fill="#ef4444"/><circle cx="65" cy="40" r="2" fill="#ef4444"/><circle cx="85" cy="40" r="2" fill="#ef4444"/>
+                        </svg>
+                    </div>
+                    <!-- D: Random -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica D</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <circle cx="25" cy="25" r="2" fill="#ef4444"/><circle cx="45" cy="55" r="2" fill="#ef4444"/><circle cx="65" cy="15" r="2" fill="#ef4444"/><circle cx="85" cy="45" r="2" fill="#ef4444"/>
+                        </svg>
+                    </div>
+                </div>` } }),
+      options: ["Gráfica A","Gráfica B","Gráfica C","Gráfica D"],
+      correct: 1,
+      feedback: "Una relación \"inversamente proporcional\" (a mayor X, menor Y) siempre se dibuja como una nube de puntos con pendiente negativa (que baja de izquierda a derecha), como en la Gráfica B."
+    },
+    {
+      type: "Traducción de Datos - Gráfico de Barras",
+      question: "Un vendedor registró las siguientes ventas trimestrales de vehículos nuevos: <br>• Trimestre 1: 20 vehículos<br>• Trimestre 2: 40 vehículos<br>• Trimestre 3: 10 vehículos<br>• Trimestre 4: 30 vehículos\n\n¿Qué gráfico de barras representa de manera cronológica y precisa esta información?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width:400px; margin:0 auto; background:white; padding:15px; border-radius:8px;">
+                    <!-- A: Correcta (20, 40, 10, 30) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica A</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <rect x="20" y="40" width="10" height="30" fill="#22c55e"/><rect x="40" y="10" width="10" height="60" fill="#22c55e"/><rect x="60" y="55" width="10" height="15" fill="#22c55e"/><rect x="80" y="25" width="10" height="45" fill="#22c55e"/>
+                        </svg>
+                    </div>
+                    <!-- B: Trap Orden Ascendente (10, 20, 30, 40) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica B</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <rect x="20" y="55" width="10" height="15" fill="#22c55e"/><rect x="40" y="40" width="10" height="30" fill="#22c55e"/><rect x="60" y="25" width="10" height="45" fill="#22c55e"/><rect x="80" y="10" width="10" height="60" fill="#22c55e"/>
+                        </svg>
+                    </div>
+                    <!-- C: Trap Aleatoria (40, 20, 30, 10) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica C</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <rect x="20" y="10" width="10" height="60" fill="#22c55e"/><rect x="40" y="40" width="10" height="30" fill="#22c55e"/><rect x="60" y="25" width="10" height="45" fill="#22c55e"/><rect x="80" y="55" width="10" height="15" fill="#22c55e"/>
+                        </svg>
+                    </div>
+                    <!-- D: Trap Repetida (20, 40, 20, 40) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica D</b>
+                        <svg viewBox="0 0 100 80" style="width:100%; max-width:120px; display:inline-block;">
+                            <line x1="15" y1="70" x2="95" y2="70" stroke="#333"/><line x1="15" y1="10" x2="15" y2="70" stroke="#333"/>
+                            <rect x="20" y="40" width="10" height="30" fill="#22c55e"/><rect x="40" y="10" width="10" height="60" fill="#22c55e"/><rect x="60" y="40" width="10" height="30" fill="#22c55e"/><rect x="80" y="10" width="10" height="60" fill="#22c55e"/>
+                        </svg>
+                    </div>
+                </div>` } }),
+      options: ["Gráfica A","Gráfica B","Gráfica C","Gráfica D"],
+      correct: 0,
+      feedback: "Cascarita de orden: Los datos deben graficarse en el mismo orden cronológico en que ocurren (T1, T2, T3, T4). La Gráfica A respeta el patrón visual de subir a 40, caer a 10 y rebotar a 30."
+    },
+    {
+      type: "Traducción de Datos - Barras Apiladas",
+      question: "El presupuesto anual de un pequeño municipio se divide en solo 3 rubros: <br>• 60% para Educación.<br>• 30% para Salud.<br>• 10% para Infraestructura.\n\n¿Cuál barra apilada representa correctamente la distribución del presupuesto total (100%)?",
+      visual: React.createElement("div", { dangerouslySetInnerHTML: { __html: `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width:400px; margin:0 auto; background:white; padding:15px; border-radius:8px;">
+                    <div style="grid-column: 1 / -1; font-size: 0.8rem; text-align:center; margin-bottom:10px; border-bottom: 1px solid #ccc; padding-bottom:5px;">
+                        <b>Leyenda:</b> <span style="color:#3b82f6;">■ Edu</span> <span style="color:#f59e0b;">■ Sal</span> <span style="color:#64748b;">■ Inf</span>
+                    </div>
+                    <!-- A: Correcta (60, 30, 10) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica A</b>
+                        <svg viewBox="0 0 50 100" style="width:100%; max-width:50px; display:block; margin: 5px auto;">
+                            <!-- Edu 60% (height 60), Salud 30% (height 30), Inf 10% (height 10) -->
+                            <rect x="10" y="0" width="30" height="60" fill="#3b82f6"/>
+                            <rect x="10" y="60" width="30" height="30" fill="#f59e0b"/>
+                            <rect x="10" y="90" width="30" height="10" fill="#64748b"/>
+                        </svg>
+                    </div>
+                    <!-- B: Trap Invertida (10, 30, 60) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica B</b>
+                        <svg viewBox="0 0 50 100" style="width:100%; max-width:50px; display:block; margin: 5px auto;">
+                            <rect x="10" y="0" width="30" height="10" fill="#3b82f6"/>
+                            <rect x="10" y="10" width="30" height="30" fill="#f59e0b"/>
+                            <rect x="10" y="40" width="30" height="60" fill="#64748b"/>
+                        </svg>
+                    </div>
+                    <!-- C: Trap Partes Iguales (33, 33, 33) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica C</b>
+                        <svg viewBox="0 0 50 100" style="width:100%; max-width:50px; display:block; margin: 5px auto;">
+                            <rect x="10" y="0" width="30" height="33.3" fill="#3b82f6"/>
+                            <rect x="10" y="33.3" width="30" height="33.3" fill="#f59e0b"/>
+                            <rect x="10" y="66.6" width="30" height="33.4" fill="#64748b"/>
+                        </svg>
+                    </div>
+                    <!-- D: Trap Falta 10% (50, 50) -->
+                    <div style="border:1px solid #eee; padding:5px; text-align:center;">
+                        <b style="font-size:0.8rem;">Gráfica D</b>
+                        <svg viewBox="0 0 50 100" style="width:100%; max-width:50px; display:block; margin: 5px auto;">
+                            <rect x="10" y="0" width="30" height="50" fill="#3b82f6"/>
+                            <rect x="10" y="50" width="30" height="50" fill="#f59e0b"/>
+                        </svg>
+                    </div>
+                </div>` } }),
+      options: ["Gráfica A","Gráfica B","Gráfica C","Gráfica D"],
+      correct: 0,
+      feedback: "La Gráfica A es la única que destina más de la mitad (60%) al color azul, casi una tercera parte (30%) al amarillo y deja una porción muy pequeña (10%) para el gris."
+    }
+  ];;
 
 
     const handleAnswer = (index) => {

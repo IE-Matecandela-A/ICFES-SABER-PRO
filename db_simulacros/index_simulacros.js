@@ -147,6 +147,94 @@ const NATIVE_EXAMS_DB = {
             dificultad: 'Media-Alta',
             archivo_js: 'db_simulacros/matematicas/mat_simulacro_07.js',
             fechaModificacion: '2026-03-25'
+        },
+        {
+            id: 'mat_sim_08',
+            titulo: 'Simulacro Matemáticas 08 (Sesión 1 - 2025)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas, Sesión 1 - 2025.',
+            area: 'matematicas',
+            preguntas_count: 25,
+            tiempo_minutos: 50,
+            dificultad: 'Media',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_08.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_09',
+            titulo: 'Simulacro Matemáticas 09 (Sesión 2 - 2025)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas, Sesión 2 - 2025.',
+            area: 'matematicas',
+            preguntas_count: 25,
+            tiempo_minutos: 50,
+            dificultad: 'Media',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_09.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_10',
+            titulo: 'Simulacro Matemáticas 10 (Sesión 3 - 2025)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas, Sesión 3 - 2025.',
+            area: 'matematicas',
+            preguntas_count: 25,
+            tiempo_minutos: 50,
+            dificultad: 'Media',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_10.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_11',
+            titulo: 'Simulacro Matemáticas 11 (Sesión 1 - B)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas, Segunda Sesión 1.',
+            area: 'matematicas',
+            preguntas_count: 21,
+            tiempo_minutos: 42,
+            dificultad: 'Media-Alta',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_11.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_12',
+            titulo: 'Simulacro Matemáticas 12 (Sesión 2 - B)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas, Segunda Sesión 2.',
+            area: 'matematicas',
+            preguntas_count: 21,
+            tiempo_minutos: 42,
+            dificultad: 'Media-Alta',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_12.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_13',
+            titulo: 'Simulacro Matemáticas 13 (2025 CA)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas 2025 CA.',
+            area: 'matematicas',
+            preguntas_count: 14,
+            tiempo_minutos: 28,
+            dificultad: 'Media',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_13.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_14',
+            titulo: 'Simulacro Matemáticas 14 (Real 2024-2)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas 2024-2.',
+            area: 'matematicas',
+            preguntas_count: 25,
+            tiempo_minutos: 50,
+            dificultad: 'Alta',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_14.js',
+            fechaModificacion: '2026-05-29'
+        },
+        {
+            id: 'mat_sim_15',
+            titulo: 'Simulacro Matemáticas 15 (Real 2025-2)',
+            descripcion: 'Simulacro adaptado del examen real de Matemáticas 2025-2.',
+            area: 'matematicas',
+            preguntas_count: 25,
+            tiempo_minutos: 50,
+            dificultad: 'Alta',
+            archivo_js: 'db_simulacros/matematicas/mat_simulacro_15.js',
+            fechaModificacion: '2026-05-29'
         }
     ]
 };

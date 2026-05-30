@@ -13,7 +13,31 @@ const ArcadeGamesModule = {
         { q: "¿10% de 70?", a: "7", f1: "70", f2: "0.7" }, { q: "¿10% de 500?", a: "50", f1: "5", f2: "500" },
         { q: "¿2²?", a: "4", f1: "2", f2: "8" }, { q: "¿2³?", a: "8", f1: "6", f2: "9" },
         { q: "¿5²?", a: "25", f1: "10", f2: "125" }, { q: "¿10²?", a: "100", f1: "20", f2: "1000" },
-        { q: "¿√9?", a: "3", f1: "4.5", f2: "6" }, { q: "¿√64?", a: "8", f1: "32", f2: "16" }
+        { q: "¿√9?", a: "3", f1: "4.5", f2: "6" }, { q: "¿√64?", a: "8", f1: "32", f2: "16" },
+        { q: "¿20% de 150?", a: "30", f1: "15", f2: "60" }, { q: "¿3³?", a: "27", f1: "9", f2: "33" },
+        { q: "¿15% de 200?", a: "30", f1: "15", f2: "20" }, { q: "¿√81?", a: "9", f1: "18", f2: "20" },
+        { q: "¿6²?", a: "36", f1: "12", f2: "24" }, { q: "¿7²?", a: "49", f1: "14", f2: "21" },
+        { q: "¿1% de 1000?", a: "10", f1: "100", f2: "1" }, { q: "¿√144?", a: "12", f1: "72", f2: "14" },
+        { q: "¿2^4?", a: "16", f1: "8", f2: "64" }, { q: "¿√121?", a: "11", f1: "121", f2: "10" },
+        { q: "¿1/2 de 50?", a: "25", f1: "12.5", f2: "50" }, { q: "¿3/4 de 100?", a: "75", f1: "25", f2: "34" },
+        { q: "¿1/5 de 50?", a: "10", f1: "5", f2: "25" }, { q: "¿30% de 90?", a: "27", f1: "30", f2: "9" },
+        { q: "¿(-3)²?", a: "9", f1: "-9", f2: "6" }, { q: "¿-(-2)³?", a: "8", f1: "-8", f2: "6" },
+        { q: "¿√25 + √16?", a: "9", f1: "41", f2: "20" }, { q: "¿30% de 300?", a: "90", f1: "30", f2: "100" },
+        { q: "¿5% de 80?", a: "4", f1: "8", f2: "40" }, { q: "¿2% de 200?", a: "4", f1: "10", f2: "40" },
+        { q: "¿12²?", a: "144", f1: "24", f2: "122" }, { q: "¿9²?", a: "81", f1: "18", f2: "99" },
+        { q: "¿√169?", a: "13", f1: "14", f2: "16" }, { q: "¿√400?", a: "20", f1: "40", f2: "200" },
+        { q: "¿20% de 25?", a: "5", f1: "10", f2: "2" }, { q: "¿11²?", a: "121", f1: "22", f2: "111" },
+        { q: "¿0.5 × 40?", a: "20", f1: "200", f2: "0.2" }, { q: "¿0.25 × 16?", a: "4", f1: "16", f2: "64" },
+        { q: "¿0.1 × 35?", a: "3.5", f1: "35", f2: "0.35" }, { q: "¿(-5) × (-4)?", a: "20", f1: "-20", f2: "-9" },
+        { q: "¿(-8) + 3?", a: "-5", f1: "-11", f2: "5" }, { q: "¿(-10) / (-2)?", a: "5", f1: "-5", f2: "-20" },
+        { q: "¿100 / 0.5?", a: "200", f1: "50", f2: "10" }, { q: "¿2/3 de 30?", a: "20", f1: "30", f2: "10" },
+        { q: "¿3/5 de 50?", a: "30", f1: "15", f2: "50" }, { q: "¿200% de 40?", a: "80", f1: "20", f2: "400" },
+        { q: "¿√(9+16)?", a: "5", f1: "7", f2: "25" }, { q: "¿1/4 de 80?", a: "20", f1: "4", f2: "40" },
+        { q: "¿10% de 1000?", a: "100", f1: "10", f2: "1" }, { q: "¿4³?", a: "64", f1: "16", f2: "12" },
+        { q: "¿(-1)^5?", a: "-1", f1: "1", f2: "-5" }, { q: "¿1^100?", a: "1", f1: "100", f2: "0" },
+        { q: "¿(-2)^4?", a: "16", f1: "-16", f2: "-8" }, { q: "¿40% de 60?", a: "24", f1: "40", f2: "10" },
+        { q: "¿60% de 50?", a: "30", f1: "60", f2: "15" }, { q: "¿0.01 × 100?", a: "1", f1: "0.1", f2: "10" },
+        { q: "¿2.5 × 4?", a: "10", f1: "25", f2: "8" }, { q: "¿√36 + 4?", a: "10", f1: "40", f2: "8" }
     ],
 
     QUESTIONS_CHEMISTRY: [
@@ -22,7 +46,11 @@ const ArcadeGamesModule = {
         { q: "Nitrógeno", a: "N", f1: "Ni", f2: "No" }, { q: "Oxígeno", a: "O", f1: "Ox", f2: "Os" },
         { q: "Sodio", a: "Na", f1: "So", f2: "S" }, { q: "Magnesio", a: "Mg", f1: "Ma", f2: "Mn" },
         { q: "Hierro", a: "Fe", f1: "Hi", f2: "H" }, { q: "Cobre", a: "Cu", f1: "C", f2: "Co" },
-        { q: "Plata", a: "Ag", f1: "Pl", f2: "P" }, { q: "Oro", a: "Au", f1: "O", f2: "Or" }
+        { q: "Plata", a: "Ag", f1: "Pl", f2: "P" }, { q: "Oro", a: "Au", f1: "O", f2: "Or" },
+        { q: "Potasio", a: "K", f1: "Po", f2: "P" }, { q: "Calcio", a: "Ca", f1: "C", f2: "Cl" },
+        { q: "Cloro", a: "Cl", f1: "C", f2: "Cr" }, { q: "Fósforo", a: "P", f1: "F", f2: "Fs" },
+        { q: "Azufre", a: "S", f1: "Az", f2: "A" }, { q: "Flúor", a: "F", f1: "Fl", f2: "Fr" },
+        { q: "Zinc", a: "Zn", f1: "Z", f2: "Zi" }, { q: "Níquel", a: "Ni", f1: "N", f2: "Nq" }
     ],
 
     QUESTIONS_DEFENDER: [
@@ -31,7 +59,10 @@ const ArcadeGamesModule = {
         { q: "Equivale a 10%", a: "1/10", f1: "0.01", f2: "1/5", f3: "10/10" }, { q: "Equivale a 0.5", a: "1/2", f1: "5%", f2: "1/5", f3: "0.05" },
         { q: "x + 2 = 5", a: "3", f1: "7", f2: "2.5", f3: "10" }, { q: "3x = 15", a: "5", f1: "12", f2: "18", f3: "45" },
         { q: "x/2 = 8", a: "16", f1: "4", f2: "10", f3: "6" }, { q: "2x + 1 = 7", a: "3", f1: "4", f2: "8", f3: "6" },
-        { q: "Prob. Cara (Moneda)", a: "1/2", f1: "1/4", f2: "1", f3: "0" }, { q: "Ángulo Recto", a: "90°", f1: "180°", f2: "360°", f3: "45°" }
+        { q: "Prob. Cara (Moneda)", a: "1/2", f1: "1/4", f2: "1", f3: "0" }, { q: "Ángulo Recto", a: "90°", f1: "180°", f2: "360°", f3: "45°" },
+        { q: "x - 5 = 10", a: "15", f1: "5", f2: "50", f3: "2" }, { q: "4x = 20", a: "5", f1: "16", f2: "24", f3: "10" },
+        { q: "x/3 = 9", a: "27", f1: "3", f2: "12", f3: "6" }, { q: "3x - 2 = 7", a: "3", f1: "5", f2: "9", f3: "2" },
+        { q: "Equivale a 33.3%", a: "1/3", f1: "1/4", f2: "0.33", f3: "3/10" }, { q: "100x = 500", a: "5", f1: "50", f2: "0.5", f3: "5000" }
     ],
 
     THEMES_NEON: [
@@ -88,11 +119,24 @@ const ArcadeGamesModule = {
         });
     },
 
+    isOrientationPromptDismissed: false,
+
+    dismissOrientationPrompt() {
+        this.isOrientationPromptDismissed = true;
+        const prompt = document.getElementById('arcade-orientation-prompt');
+        if (prompt) prompt.classList.add('hidden');
+    },
+
     setupOrientationHandler() {
         const checkOrientation = () => {
             const prompt = document.getElementById('arcade-orientation-prompt');
             if (!prompt) return;
             
+            if (this.isOrientationPromptDismissed) {
+                prompt.classList.add('hidden');
+                return;
+            }
+
             // Ahora solo sugerimos rotate pero permitimos jugar en portrait
             if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
                 prompt.classList.remove('hidden');
@@ -170,22 +214,31 @@ const ArcadeGamesModule = {
         table.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 animate-pulse">Cargando ranking global...</td></tr>`;
 
         try {
-            const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json`;
-            const res = await fetch(dbUrl);
-            const users = await res.json();
+            let users = null;
+            if (window.GlobalResultsModule && typeof window.GlobalResultsModule._loadData === 'function') {
+                users = await window.GlobalResultsModule._loadData('users');
+            } else {
+                const dbUrl = `https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json?orderBy="gamification/xp"&limitToLast=200`;
+                const res = await fetch(dbUrl);
+                users = await res.json();
+            }
 
             let rankingList = [];
             if (users) {
                 Object.values(users).forEach(u => {
                     const arc = u.arcade_v1;
                     if (arc && (arc.totalScore > 0 || arc.neon_dash > 0 || arc.atomic_catcher > 0 || arc.numeric_defender > 0)) {
-                        rankingList.push({
-                            name: arc.name || u.profile?.name || 'Estudiante',
-                            school: arc.school || u.profile?.school || 'IE MATECANDELA',
-                            grade: arc.grade || u.profile?.grade || '',
-                            score: arc.totalScore || 0,
-                            avatar: arc.avatar || '👤'
-                        });
+                        // Implementación Ranking Semanal: Filtras aquellos donde la última fecha fue dentro de los últimos 7 días
+                        const isThisWeek = arc.lastUpdated && (Date.now() - arc.lastUpdated < 7 * 24 * 60 * 60 * 1000);
+                        if(isThisWeek) {
+                            rankingList.push({
+                                name: arc.name || u.profile?.name || 'Estudiante',
+                                school: arc.school || u.profile?.school || 'IE MATECANDELA',
+                                grade: arc.grade || u.profile?.grade || '',
+                                score: arc.totalScore || 0,
+                                avatar: arc.avatar || '👤'
+                            });
+                        }
                     }
                 });
             }
@@ -818,19 +871,26 @@ Object.assign(ArcadeGamesModule.Engine, {
 
         if(!s.gateAct && s.frames%40===0 && !s.isTrans) {
             let r = Math.random();
-            if(r<0.3 && s.frames>200) {
+            let gateThreshold = Math.min(0.3 + (s.level * 0.05), 0.55); // Aumenta prob de mostrar compuertas
+            let orbThreshold = Math.min(0.55 + (s.level * 0.05), 0.85); // Aumenta prob de mostrar orbs
+
+            if(r < gateThreshold && s.frames>200) {
                 s.gateAct = true; let q = s.qs.length===0 ? (s.qs=[...ArcadeGamesModule.QUESTIONS_MATH].sort(()=>Math.random()-0.5)).pop() : s.qs.pop();
                 let ans = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false}].sort(()=>Math.random()-0.5);
-                this.showQuestion(q.q, true);
+                this.showQuestion(q.q, true, true); // Añadimos isMath=false (en este params, pasamos texto puro en el hub arcade) => Dejaremos true para no chocar.
+                this.showQuestion(q.q, true, false); // Forzar que no aplique reglas Math de las anteriores pantallas, porque es texto puro Neon Dash
                 ans.forEach((a,i)=>s.obs.push({type:'gate', x:cv.width+100, lane:i, w:40, h:120, t:a.t, c:a.c, del:false}));
-            } else if(r<0.55) {
+            } else if(r < orbThreshold) {
                 let l1 = Math.floor(Math.random()*3); for(let j=0;j<3;j++) s.obs.push({type:'orb', x:cv.width+(j*50), lane:l1, sz:12, r:0, del:false});
             } else {
                 let l1 = Math.floor(Math.random()*3); let shps = ['sq','tr','ci','hx'];
                 if(Math.random()<0.05) s.obs.push({type:'star', x:cv.width, lane:l1, sz:18, r:0, rs:0.1, del:false});
                 else {
                     s.obs.push({type:'ast', sh:shps[Math.floor(Math.random()*shps.length)], x:cv.width, lane:l1, sz:40, r:0, rs:(Math.random()-0.5)*0.1, del:false});
-                    if(Math.random()<0.5) s.obs.push({type:'ast', sh:shps[Math.floor(Math.random()*shps.length)], x:cv.width, lane:(l1+1+Math.floor(Math.random()*2))%3, sz:40, r:0, rs:(Math.random()-0.5)*0.1, del:false});
+                    // Mayor probabilidad de asteroides dobles bloqueando caminos
+                    if(Math.random() < 0.3 + (s.level * 0.1)) s.obs.push({type:'ast', sh:shps[Math.floor(Math.random()*shps.length)], x:cv.width, lane:(l1+1+Math.floor(Math.random()*2))%3, sz:40, r:0, rs:(Math.random()-0.5)*0.1, del:false});
+                    // Nivel super experto: Asteroides triples!!!
+                    if(s.level >= 5 && Math.random() < 0.2) s.obs.push({type:'ast', sh:shps[Math.floor(Math.random()*shps.length)], x:cv.width+20, lane:(l1+2)%3, sz:40, r:0, rs:(Math.random()-0.5)*0.1, del:false});
                 }
             }
         }
@@ -850,13 +910,25 @@ Object.assign(ArcadeGamesModule.Engine, {
             if(o.type==='gate') { cx.fillStyle=th.e2f; cx.strokeStyle=th.e2; cx.lineWidth=3; cx.shadowBlur=15; cx.shadowColor=th.e2; cx.fillRect(o.x, oy-o.h/2, o.w, o.h); cx.strokeRect(o.x, oy-o.h/2, o.w, o.h); cx.shadowBlur=0; cx.fillStyle='#fff'; cx.font='bold 18px Arial'; if(cv.width>600) cx.font='bold 24px Arial'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(o.t, o.x+o.w/2, oy); }
 
             let dy = Math.abs(py - oy);
-            if(o.x < px+25 && o.x+(o.w||o.sz*2) > px-25 && dy < 25 && !o.del) {
+            // Hacer la detección de 'gate' mucho más indulgente en Y para que el jugador no pase "entre medio" de los carriles impunemente
+            let hitDist = o.type === 'gate' ? (cv.height*0.25) : 25;
+            
+            if(o.x < px+25 && o.x+(o.w||o.sz*2) > px-25 && dy < hitDist && !o.del) {
                 if(o.type==='orb') { s.internalScore+=20; this.updateScore(s.internalScore); ArcadeGamesModule.AudioSys.play('catch'); this.createExp(o.x,oy,th.p3,5); o.del=true; }
                 else if(o.type==='star') { s.player.invulnerableTimer=300; ArcadeGamesModule.AudioSys.play('levelup'); this.createExp(px,py,'#fbbf24',30); o.del=true; }
                 else if(o.type==='ast') { if(isInv){this.createExp(o.x,oy,th.e1,20); o.del=true;} else{s.baseSpeed=Math.max(4,s.baseSpeed-2); this.takeDamage(); this.createExp(px,py,th.e1,20); o.del=true;} }
                 else if(o.type==='gate') { if(o.c){s.internalScore+=100; this.updateScore(s.internalScore); ArcadeGamesModule.AudioSys.play('catch'); this.createExp(o.x,oy,'#10b981',30);} else{if(isInv){this.createExp(o.x,oy,th.e2,20);}else{s.baseSpeed=Math.max(4,s.baseSpeed-2); this.takeDamage(); this.createExp(px,py,th.e2,20);}} this.showQuestion(null,false); s.gateAct=false; s.obs.forEach(ob=>{if(ob.type==='gate') ob.del=true;}); }
             }
-            if(o.x < -100 && !o.del) { if(o.type==='gate' && o.lane===0) {this.showQuestion(null,false); s.gateAct=false;} o.del=true; }
+            if(o.x < -100 && !o.del) { 
+                if(o.type==='gate' && o.lane===0) {
+                    ArcadeGamesModule.AudioSys.play('error');
+                    this.takeDamage();
+                    this.showQuestion(null,false); 
+                    s.gateAct=false;
+                    s.obs.forEach(ob=>{if(ob.type==='gate') ob.del=true;});
+                } 
+                o.del=true; 
+            }
         }
         s.obs = s.obs.filter(o=>!o.del);
         for(let i=s.parts.length-1; i>=0; i--) { let p=s.parts[i]; p.x+=p.vx; p.y+=p.vy; p.life-=0.05; if(p.life<=0){p.del=true;continue;} cx.fillStyle=p.color; cx.globalAlpha=p.life; cx.beginPath(); cx.arc(p.x,p.y,p.size,0,Math.PI*2); cx.fill(); cx.globalAlpha=1; }

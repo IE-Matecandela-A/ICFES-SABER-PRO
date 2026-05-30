@@ -342,141 +342,206 @@
     // ==========================================
     const questions = [
     {
-      type: "Caza-errores",
-      question: "Un estudiante intentó resolver la ecuación 3x - 5 = 10. ¿En qué paso cometió el primer error?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 font-mono text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-slate-500 mb-2 border-b border-slate-100 pb-2" }, "Ecuaci\xF3n: 3x - 5 = 10"), /*#__PURE__*/
-      React.createElement("div", { className: "py-2" }, /*#__PURE__*/React.createElement("span", { className: "text-amber-600 font-bold mr-2" }, "Paso 1:"), " 3x = 10 - 5"), /*#__PURE__*/
-      React.createElement("div", { className: "py-2" }, /*#__PURE__*/React.createElement("span", { className: "text-amber-600 font-bold mr-2" }, "Paso 2:"), " 3x = 5"), /*#__PURE__*/
-      React.createElement("div", { className: "py-2" }, /*#__PURE__*/React.createElement("span", { className: "text-amber-600 font-bold mr-2" }, "Paso 3:"), " x = 5 / 3")
-      ),
-
-      options: ["En el Paso 1", "En el Paso 2", "En el Paso 3", "No hay ningún error."],
+      type: "Procedimientos",
+      question: "Un estudiante debe resolver la ecuación 4x - 8 = 12. Su procedimiento es:\nPaso 1: 4x = 12 - 8\nPaso 2: 4x = 4\nPaso 3: x = 4 / 4\nPaso 4: x = 1.\n¿Es correcto el procedimiento del estudiante?",
+      visual: null,
+      options: ["Sí, el estudiante aplicó correctamente todas las propiedades de las igualdades.","No, el error está en el Paso 1, porque el 8 debía pasar a sumar, no a restar.","No, el error está en el Paso 3, porque el 4 multiplicando pasa a restar.","No, el error está en el Paso 2, porque 12 - 8 no es igual a 4."],
+      correct: 1,
+      feedback: "Al despejar, un término que está restando pasa al otro lado de la igualdad a realizar la operación contraria (suma). Debió ser 12 + 8."
+    },
+    {
+      type: "Procedimientos",
+      question: "Para calcular el costo total de 3 cuadernos a $5.000 cada uno, más un lapicero de $2.000, un estudiante plantea la expresión: 5.000 + 2.000 × 3 y afirma que el resultado es $21.000. El profesor le indica que su razonamiento tiene una falacia. ¿Cuál es?",
+      visual: null,
+      options: ["Planteó mal la operación, ya que el precio del lapicero debe multiplicarse por los 3 cuadernos.","Olvidó sumar un cuaderno extra al resultado final.","Sumó antes de multiplicar, ignorando la jerarquía de operaciones, lo que le dio $21.000 en vez de $11.000.","El procedimiento es correcto, el resultado real es $21.000."],
+      correct: 2,
+      feedback: "La jerarquía de operaciones (PEMDAS) dicta que las multiplicaciones se resuelven antes que las sumas. Correcto: 5000 + (2000×3) = 11000."
+    },
+    {
+      type: "Procedimientos",
+      question: "Al despejar la variable en la ecuación -3x = 15, un estudiante concluye que el primer paso correcto es x = 15 + 3. Esta conclusión es:",
+      visual: null,
+      options: ["Verdadera, porque el 3 tiene un signo negativo y pasa a hacer la operación contraria.","Falsa, porque el -3 está multiplicando a la x, por lo tanto debe pasar a dividir conservando su signo negativo.","Falsa, porque el -3 está restando, por lo que debe pasar a dividir con signo positivo.","Verdadera, porque los signos negativos siempre se invierten al cambiar de lado."],
+      correct: 1,
+      feedback: "El número -3 actúa como coeficiente multiplicador. Al despejar mediante división, se conserva el signo del coeficiente (x = 15 / -3)."
+    },
+    {
+      type: "Procedimientos",
+      question: "Un estudiante calcula la expresión (10 + 6) / 2. En su primer paso, divide el 6 entre 2 y luego suma el 10, obteniendo 13. ¿Por qué es incorrecto este procedimiento?",
+      visual: null,
+      options: ["Porque el numerador (10 + 6) actúa como un bloque agrupado por un paréntesis implícito y debe sumarse primero.","Porque la división siempre se debe hacer de izquierda a derecha, empezando por el 10.","Porque el resultado real de dividir 6 entre 2 no es 3.","El procedimiento no es incorrecto, 13 es la respuesta válida."],
       correct: 0,
-      feedback: "¡Bien detectado! Al pasar el '-5', debió pasar sumando (+5). El Paso 1 debió ser: 3x = 10 + 5."
+      feedback: "En una fracción, toda la expresión del numerador debe resolverse antes de ejecutar la división general (16 / 2 = 8)."
     },
     {
-      type: "Contraejemplo",
-      question: "Alguien afirma: 'Si elevas cualquier número al cuadrado, el resultado siempre será mayor que el número original'. ¿Qué número sirve como contraejemplo?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "relative h-32 w-full max-w-sm mx-auto mb-8 mt-6" }, /*#__PURE__*/
-      React.createElement("svg", { className: "w-full h-full overflow-visible", viewBox: "0 0 200 80" }, /*#__PURE__*/
-      React.createElement("rect", { x: "10", y: "10", width: "180", height: "60", rx: "10", fill: "#fffbeb", stroke: "#f59e0b", strokeWidth: "2", strokeDasharray: "4 4" }), /*#__PURE__*/
-      React.createElement("text", { x: "100", y: "45", fontSize: "16", fill: "#b45309", textAnchor: "middle", fontWeight: "bold", fontFamily: "monospace" }, "X\xC2\xB2 > X"), /*#__PURE__*/
-      React.createElement("text", { x: "100", y: "60", fontSize: "8", fill: "#d97706", textAnchor: "middle", fontStyle: "italic" }, "\xBFSiempre se cumple?")
-      )
-      ),
-
-      options: ["x = -2", "x = 2", "x = 0.5", "x = 10"],
+      type: "Procedimientos",
+      question: "Un estudiante simplifica la fracción algebráica (2x + 4) / 2 cancelando únicamente el número 2 del denominador con el coeficiente 2 de la 'x', obteniendo como resultado final x + 4. ¿Es matemáticamente correcto este paso?",
+      visual: null,
+      options: ["Sí, porque al haber un 2 arriba y uno abajo, se pueden cancelar directamente.","No, porque el 2 del denominador afecta y divide a ambos términos del binomio superior (2x y 4).","No, porque el resultado correcto de la cancelación directa debería ser 2x + 2.","Sí, es una propiedad estándar de la suma de fracciones heterogéneas."],
+      correct: 1,
+      feedback: "El denominador divide a todo el bloque del numerador. Para simplificar, debes dividir cada término (2x/2 + 4/2), lo que daría como resultado x + 2."
+    },
+    {
+      type: "Contraejemplos",
+      question: "Un texto escolar afirma: 'Elevar un número entero al cuadrado siempre da como resultado un valor mayor que el número original'. ¿Cuál de las siguientes opciones sirve como contraejemplo para demostrar que la afirmación es FALSA?",
+      visual: null,
+      options: ["x = -2","x = 5","x = 1","x = -10"],
       correct: 2,
-      feedback: "¡Excelente! Si x = 0.5, entonces xÂ² = 0.25. Aquí, 0.25 NO es mayor que 0.5, lo que destruye la afirmación."
+      feedback: "Un contraejemplo destruye la regla 'siempre'. Si x=1, entonces 1² = 1. Uno no es mayor que uno (son iguales)."
     },
     {
-      type: "Análisis Lógico",
-      question: "El dueño de la Tienda A afirma: 'Mi tienda creció más porque mi porcentaje (50%) es mayor que el de la tienda B (20%)'. ¿Por qué NO es válido?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "flex gap-4 w-full max-w-md mx-auto mb-6 mt-4 p-4 bg-white rounded-xl shadow-sm border border-slate-200" }, /*#__PURE__*/
-      React.createElement("div", { className: "flex-1 border-r border-slate-100 pr-4 text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-[10px] text-slate-400" }, "Vend\xEDa $1.000"), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-center my-2" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-8 h-16 bg-gradient-to-t from-orange-400 to-amber-400 rounded-sm relative" }, /*#__PURE__*/
-      React.createElement("span", { className: "absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold text-orange-600" }, "+50%")
-      )
-      )
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "flex-1 pl-4 text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-[10px] text-slate-400" }, "Vend\xEDa $10.000"), /*#__PURE__*/
-      React.createElement("div", { className: "flex justify-center my-2" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-12 h-20 bg-gradient-to-t from-blue-400 to-cyan-400 rounded-sm relative" }, /*#__PURE__*/
-      React.createElement("span", { className: "absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-bold text-blue-600" }, "+20%")
-      )
-      )
-      )
-      ),
-
-      options: [
-      "El 50% siempre es menor que el 20% en negocios.",
-      "Un porcentaje mayor no da más dinero si las bases iniciales son distintas.",
-      "La gráfica de B está dibujada más alta.",
-      "Sí es válido."],
-
+      type: "Contraejemplos",
+      question: "Alguien afirma: 'La suma de dos números reales distintos siempre es mayor que cualquiera de los dos números sumados por separado'. Para demostrar que esto es falso, basta con sumar:",
+      visual: null,
+      options: ["Dos números pares positivos.","Un número positivo y el cero.","Dos números fraccionarios mayores que 1.","Un número positivo y un número negativo."],
+      correct: 3,
+      feedback: "Si sumas 5 + (-3) el resultado es 2. El 2 NO es mayor que el 5 original, refutando la afirmación absoluta."
+    },
+    {
+      type: "Contraejemplos",
+      question: "Una regla general dice que 'Todo cuadrilátero con sus cuatro lados de igual longitud es obligatoriamente un cuadrado'. ¿Qué figura geométrica refuta esta afirmación?",
+      visual: null,
+      options: ["Un rectángulo, porque tiene lados iguales dos a dos.","Un rombo, porque tiene cuatro lados iguales pero sus ángulos no son rectos.","Un trapecio isósceles, porque tiene dos lados no paralelos iguales.","Un pentágono, porque tiene cinco lados."],
       correct: 1,
-      feedback: "¡Perfecto! Un 50% de poco dinero ($500) es menos que un 20% de mucho dinero ($2.000)."
+      feedback: "El rombo es el contraejemplo geométrico perfecto: lados iguales, pero ángulos diferentes a 90°."
     },
     {
-      type: "Geometría Falsa",
-      question: "Un carpintero dice: 'Si duplico el ancho y el largo de esta ventana cuadrada de 1 metro, gastaré el doble en vidrio'. ¿Es correcta su conclusión?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "flex items-center justify-center gap-8 w-full max-w-sm mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-12 h-12 border-2 border-slate-300 bg-sky-50 mx-auto flex items-center justify-center text-xs text-sky-700 font-bold" }, "1x1"), /*#__PURE__*/
-      React.createElement("div", { className: "text-[10px] text-slate-400 mt-2" }, "Original")
-      ), /*#__PURE__*/
-      React.createElement(ArrowRight, { className: "text-slate-300 w-6 h-6" }), /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement("div", { className: "w-24 h-24 border-2 border-orange-300 bg-orange-50 mx-auto flex items-center justify-center text-xs text-orange-700 font-bold" }, "2x2"), /*#__PURE__*/
-      React.createElement("div", { className: "text-[10px] text-slate-400 mt-2" }, "Lados Duplicados")
-      )
-      ),
-
-      options: [
-      "Sí, si los lados se multiplican por 2, el área también.",
-      "No, al duplicar ambos lados (2x2), el área aumenta 4 veces.",
-      "Sí, porque el perímetro es el doble.",
-      "No, porque el vidrio se cobra por perímetro."],
-
-      correct: 1,
-      feedback: "¡Exacto! El área original es 1x1=1. El área nueva es 2x2=4. Crece 4 veces, no 2."
-    },
-    {
-      type: "Falsa Causalidad",
-      question: "Un estudio muestra que las ciudades con más bibliotecas tienen más delitos. Un periodista afirma: '¡Las bibliotecas causan delincuencia!'. ¿Por qué es erróneo?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-md mx-auto mb-6 mt-4 p-5 bg-white rounded-xl shadow-sm border border-slate-200 flex justify-center items-center gap-6" }, /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement(TrendingUp, { className: "w-10 h-10 text-emerald-500 mx-auto mb-2" }), /*#__PURE__*/
-      React.createElement("span", { className: "text-xs font-bold text-slate-600 block" }, "Bibliotecas")
-      ), /*#__PURE__*/
-      React.createElement("div", { className: "text-center text-amber-500 font-bold font-mono text-2xl" }, "\xE2\u2030\u02C6"), /*#__PURE__*/
-      React.createElement("div", { className: "text-center" }, /*#__PURE__*/
-      React.createElement(TrendingUp, { className: "w-10 h-10 text-rose-500 mx-auto mb-2" }), /*#__PURE__*/
-      React.createElement("span", { className: "text-xs font-bold text-slate-600 block" }, "Delitos")
-      )
-      ),
-
-      options: [
-      "Los criminales no leen.",
-      "Correlación no es causalidad; una tercera variable (población total) causa que ambas suban.",
-      "Las encuestas tienen margen de error.",
-      "La conclusión es válida."],
-
-      correct: 1,
-      feedback: "¡Excelente! Que dos gráficas suban juntas no significa que una cause a la otra. Ciudades grandes tienen más de todo."
-    },
-    {
-      type: "Suposición Oculta",
-      question: "Pedro afirma que el área de este triángulo es exactamente 24 cmÂ² porque multiplicó (6 × 8) / 2. ¿Es válida su afirmación matemática?",
-      visual: /*#__PURE__*/
-      React.createElement("div", { className: "w-full max-w-sm mx-auto mb-8 mt-6 flex justify-center" }, /*#__PURE__*/
-      React.createElement("svg", { className: "w-48 h-40 overflow-visible", viewBox: "0 0 100 100" }, /*#__PURE__*/
-      React.createElement("polygon", { points: "10,90 90,90 25,20", fill: "#fdf4ff", stroke: "#4f46e5", strokeWidth: "2" }), /*#__PURE__*/
-      React.createElement("text", { x: "50", y: "105", fontSize: "8", fill: "#4f46e5", textAnchor: "middle", fontWeight: "bold" }, "Base = 8 cm"), /*#__PURE__*/
-      React.createElement("text", { x: "-5", y: "55", fontSize: "8", fill: "#4f46e5", textAnchor: "middle", transform: "rotate(-70 0,50)", fontWeight: "bold" }, "Lado = 6 cm"), /*#__PURE__*/
-      React.createElement("path", { d: "M 25 90 A 15 15 0 0 0 16.5 83", fill: "none", stroke: "#f43f5e", strokeWidth: "1.5" }), /*#__PURE__*/
-      React.createElement("text", { x: "25", y: "80", fontSize: "8", fill: "#f43f5e", textAnchor: "middle", fontWeight: "bold" }, "?")
-      )
-      ),
-
-      options: [
-      "Sí, la fórmula es B x h / 2.",
-      "Sí, 6 x 8 es 48, y la mitad es 24.",
-      "No, requiere un ángulo recto (90Â°) para usar el 6 como altura, y no lo tiene.",
-      "No, el área se suma."],
-
+      type: "Contraejemplos",
+      question: "Un compañero argumenta: 'Si multiplico un número x por cualquier valor y, el resultado siempre será de mayor magnitud que x'. ¿Por qué valor de 'y' debes multiplicar para demostrarle que está equivocado?",
+      visual: null,
+      options: ["y = 2","y = 10","y = 0.5","y = 1.1"],
       correct: 2,
-      feedback: "¡Brillante! Si un ángulo no dice 90Â° explícitamente, NO puedes asumir que ese lado inclinado es la altura real."
-    }];
+      feedback: "Al multiplicar por un decimal entre 0 y 1 (como 0.5), el número original se reduce a la mitad, refutando que 'siempre aumenta'."
+    },
+    {
+      type: "Contraejemplos",
+      question: "Se afirma como regla general que: 'Todo número multiplicado por -1 da como resultado un número estrictamente menor que cero'. ¿Qué número demuestra que esto es falso?",
+      visual: null,
+      options: ["Cualquier fracción positiva.","El número 5.","Cualquier número negativo (ejemplo: -3).","El número 1."],
+      correct: 2,
+      feedback: "Si multiplicas -3 por -1, el resultado es 3 positivo, el cual es mayor a cero. Esto rompe la regla de la afirmación."
+    },
+    {
+      type: "Porcentajes",
+      question: "Un almacén anuncia un descuento del 50% en una chaqueta de $200.000. Al pagar con tarjeta de crédito de la tienda, ofrecen un 50% de descuento adicional sobre el valor ya rebajado. Un cliente afirma que la chaqueta le saldrá gratis. Esta afirmación es:",
+      visual: null,
+      options: ["Verdadera, porque 50% + 50% = 100% de descuento total.","Falsa, porque los descuentos sucesivos no se suman. El cliente pagará $50.000.","Falsa, porque el descuento adicional solo se aplica sobre el valor del IVA.","Verdadera, la publicidad obliga al almacén a regalar la prenda."],
+      correct: 1,
+      feedback: "Primer descuento: 50% de 200.000 = 100.000. Segundo descuento: 50% de 100.000 = 50.000. El cliente paga $50.000."
+    },
+    {
+      type: "Porcentajes",
+      question: "Las ventas de la 'Tienda A' crecieron un 100% este año. Las ventas de la multinacional 'Tienda B' crecieron un 5%. El dueño de la Tienda A afirma que sus ganancias aumentaron en mayor cantidad de dinero que las de la Tienda B. Su argumento es:",
+      visual: null,
+      options: ["Válido, porque 100% es un número mucho mayor que 5%.","Inválido, porque no se pueden comparar porcentajes relativos sin conocer las bases (ingresos iniciales) de cada tienda.","Válido, porque un crecimiento del 100% significa que se duplicó la inversión inicial garantizando más ganancias.","Inválido, porque la Tienda A probablemente evade impuestos."],
+      correct: 1,
+      feedback: "El 100% de $10 (son $10) es mucho menor que el 5% de $1.000.000 (son $50.000). Sin la base absoluta, el porcentaje no define la cantidad de dinero."
+    },
+    {
+      type: "Porcentajes",
+      question: "Un inversor compra acciones por $100. Al día siguiente, la bolsa cae y pierde el 50% de su dinero. Al tercer día, la bolsa se recupera y sube un 50%. El inversor asegura que volvió a tener sus $100 iniciales. ¿Es esto correcto?",
+      visual: null,
+      options: ["Sí, porque la bajada y la subida fueron del mismo porcentaje.","No, porque al subir el 50% sobre el dinero que le quedaba ($50), solo recuperó $25, terminando con $75.","No, porque el mercado de valores descuenta comisiones por transacción.","Sí, porque matemáticamente -50 + 50 = 0, dejándolo en equilibrio."],
+      correct: 1,
+      feedback: "El 50% de caída lo deja en $50. El incremento del 50% ahora se calcula sobre esos $50 (que son $25). Termina con $75."
+    },
+    {
+      type: "Porcentajes",
+      question: "En una elección, el candidato A pasó de tener el 10% de intención de voto al 15%. Su jefe de campaña afirma en televisión: '¡Nuestra intención de voto creció un 5%!'. Desde un punto de vista matemático estricto, la afirmación es:",
+      visual: null,
+      options: ["Verdadera, porque 15 - 10 = 5.","Falsa, porque pasó de 10 a 15, lo que representa un crecimiento relativo del 50% respecto a su base inicial, no del 5%.","Verdadera, porque las encuestas siempre miden porcentajes absolutos.","Falsa, porque los votos en blanco reducen el porcentaje."],
+      correct: 1,
+      feedback: "La afirmación del jefe habla de puntos porcentuales absolutos, no del crecimiento relativo del candidato. Pasar de 10 a 15 implica que aumentó la mitad de lo que ya tenía (creció un 50% sobre su propia base)."
+    },
+    {
+      type: "Porcentajes",
+      question: "El precio de un celular de última tecnología sube un 20% debido a impuestos. Al mes siguiente, la tienda decide hacer un descuento bajándole el 20% al nuevo precio. El vendedor afirma que 'el producto volvió a su precio original'. ¿Es cierto?",
+      visual: null,
+      options: ["Sí, porque si le sumas 20 y le restas 20, queda exactamente igual.","No, porque el descuento del 20% se aplicó sobre un precio base que ahora era mayor, por lo que rebajó más dinero del que había subido.","Sí, es una estrategia común de marketing donde los números se anulan mutuamente.","No, porque los impuestos nunca se devuelven al cliente final."],
+      correct: 1,
+      feedback: "Si costaba 100 y sube 20%, pasa a 120. Si le quitas el 20% a 120, le estás quitando 24, por lo que el precio final será 96 (quedó más barato que al inicio)."
+    },
+    {
+      type: "Causalidad",
+      question: "Un análisis estadístico en una ciudad costera demuestra que los meses en los que más se vende helado coinciden exactamente con los meses en que hay más personas ahogadas en el mar. Un periódico titula: 'Comer helado aumenta el riesgo de ahogarse'. ¿Qué error argumentativo se está cometiendo?",
+      visual: null,
+      options: ["Ignorar que las ventas de helado no pagan impuestos.","Asumir que la correlación implica causalidad, ignorando que el calor (verano) es la tercera variable que causa el aumento en ambas cosas.","Mentir en los datos, ya que es imposible que ambas variables suban al mismo tiempo.","Usar una muestra demasiado pequeña para el análisis estadístico."],
+      correct: 1,
+      feedback: "Falacia de falsa causalidad. Dos cosas que ocurren juntas no significa que una cause la otra. La 'Variable de confusión' es el verano."
+    },
+    {
+      type: "Causalidad",
+      question: "El consejo directivo de un colegio nota que los estudiantes que asisten a tutorías privadas extracurriculares tienen los peores promedios del salón. Deciden prohibir las tutorías argumentando que estas 'hacen que los alumnos bajen sus notas'. Este argumento es:",
+      visual: null,
+      options: ["Correcto, las estadísticas demuestran el bajo rendimiento de ese grupo.","Incorrecto, comete el error de causalidad inversa: los estudiantes van a tutorías PORQUE tienen malas notas, no al revés.","Correcto, las tutorías sobrecargan de información a los alumnos.","Incorrecto, porque la muestra de estudiantes no fue seleccionada aleatoriamente."],
+      correct: 1,
+      feedback: "Causalidad inversa: Se confunde la causa con el efecto. Las bajas notas son la causa de ir a la tutoría, no el resultado."
+    },
+    {
+      type: "Causalidad",
+      question: "Se observa que los niños de primaria que tienen pies más grandes (mayor talla de zapatos) tienen un vocabulario más amplio y leen mejor. Por tanto, se sugiere hacer zapatos más grandes para estimular la lectura. La falacia aquí es que se ignora una variable oculta. ¿Cuál es?",
+      visual: null,
+      options: ["El nivel socioeconómico de los padres.","La edad y el desarrollo natural del niño.","El material con el que se fabrican los zapatos.","La metodología de enseñanza del colegio."],
+      correct: 1,
+      feedback: "Los niños mayores (más edad) leen mejor y, naturalmente, tienen pies más grandes. La talla del zapato no causa inteligencia."
+    },
+    {
+      type: "Causalidad",
+      question: "Un informe del Ministerio de Salud revela que los hospitales nivel 4 (los más avanzados y costosos) presentan la tasa de mortalidad más alta del país frente a las clínicas locales pequeñas. Se concluye que las clínicas locales tienen mejores médicos. ¿Por qué es inválida esta conclusión?",
+      visual: null,
+      options: ["Porque los hospitales nivel 4 falsifican los datos.","Por sesgo de selección: a los hospitales de nivel 4 se envían los casos más graves y terminales, elevando naturalmente su mortalidad.","Porque las clínicas locales no atienden a suficientes personas para ser contadas.","La conclusión es válida y demuestra la ineficiencia de la inversión en salud."],
+      correct: 1,
+      feedback: "Sesgo de selección. Estás comparando poblaciones distintas. El hospital de alto nivel recibe a los pacientes que ya tienen riesgo inminente de muerte."
+    },
+    {
+      type: "Causalidad",
+      question: "Una investigación demuestra que las personas que usan mucho protector solar a diario tienen más probabilidades de sufrir de insolación y deshidratación que aquellos que no lo usan. Conclusión del estudio: ¡El químico del protector solar causa la deshidratación corporal! ¿Cuál es el error?",
+      visual: null,
+      options: ["Confundir un producto químico con un factor biológico natural.","Ignorar una tercera variable lógica: el nivel de exposición al sol. Quienes más usan bloqueador es porque están más expuestos a climas o tareas de alto calor que, de por sí, causan deshidratación.","Aceptar que las encuestas de salud siempre mienten por intereses de las farmacéuticas.","La conclusión es lógicamente inquebrantable."],
+      correct: 1,
+      feedback: "Correlación no es causalidad. El calor excesivo es la causa común: te obliga a usar más bloqueador y, al mismo tiempo, es lo que realmente deshidrata tu cuerpo."
+    },
+    {
+      type: "Suposiciones",
+      question: "En un examen, se presenta un polígono que visualmente se asemeja a un cuadrado. No hay datos de ángulos ni símbolos de perpendicularidad. Un estudiante calcula su área multiplicando lado por lado asumiendo que sus ángulos son de 90°. Según las normas geométricas del ICFES, esto es:",
+      visual: null,
+      options: ["Correcto, porque las figuras siempre están dibujadas a escala exacta.","Incorrecto, porque no se puede asumir que un ángulo es de 90° (recto) si no está explícitamente indicado con el símbolo o en el texto.","Correcto, es la única forma de resolver el problema.","Incorrecto, porque el área se calcula sumando los lados."],
+      correct: 1,
+      feedback: "Regla fundamental: 'A ojo' no vale en el ICFES. Si no hay cuadrito de 90° o no lo dice el texto explícitamente, matemáticamente podría ser un romboide."
+    },
+    {
+      type: "Suposiciones",
+      question: "Una gráfica de barras en las noticias compara las ganancias de dos empresas. La barra de la Empresa A es visualmente el doble de alta que la de la Empresa B. Sin embargo, al observar el eje vertical (Y), se nota que este comienza en $1.000.000 y no en $0. La ganancia de B es $1.010.000 y la de A es $1.020.000. ¿Qué se puede deducir?",
+      visual: null,
+      options: ["La Empresa A gana exactamente el doble de dinero que la Empresa B.","La gráfica usa un eje truncado para crear una ilusión visual de una diferencia gigantesca, cuando en realidad la ganancia de A es solo ligeramente superior.","La gráfica es matemáticamente inválida y no debería publicarse.","El eje X está mal etiquetado."],
+      correct: 1,
+      feedback: "El eje truncado (no empezar en cero) distorsiona las proporciones visuales. 1.020.000 no es el doble de 1.010.000."
+    },
+    {
+      type: "Suposiciones",
+      question: "En una bolsa hay 99 pelotas rojas y 1 azul. Un jugador dice: 'Dado que la inmensa mayoría de las pelotas son rojas, es IMPOSIBLE sacar la pelota azul al azar'. Esta afirmación es:",
+      visual: null,
+      options: ["Verdadera, porque la probabilidad es estadísticamente irrelevante.","Falsa, porque sacar la pelota azul es improbable (1%), pero no matemáticamente imposible (0%).","Verdadera, porque el cerebro humano no percibe la diferencia en probabilidades menores al 5%.","Falsa, porque tiene un 50% de probabilidad: o la saca o no la saca."],
+      correct: 1,
+      feedback: "En matemáticas, 'imposible' significa probabilidad cero (0/100). 1/100 es una probabilidad baja, pero permite categóricamente que el evento ocurra."
+    },
+    {
+      type: "Suposiciones",
+      question: "Un gráfico circular (torta) distribuido en un periódico muestra los porcentajes de presupuesto de un municipio: Educación 40%, Salud 30%, Infraestructura 30% y Seguridad 20%. Un analista descarta inmediatamente el gráfico argumentando que:",
+      visual: null,
+      options: ["Faltan más categorías de inversión.","Los gráficos circulares no se usan para presupuestos.","La suma de las partes de un gráfico circular representa el todo, y en este caso suma 120%, lo cual es un error matemático estructural.","La seguridad recibe muy poco porcentaje comparado con educación."],
+      correct: 2,
+      feedback: "Una torta estadística representa el 100% de los datos. Si las partes suman 120% (40+30+30+20), el gráfico es matemáticamente absurdo y falso."
+    },
+    {
+      type: "Suposiciones",
+      question: "En un reporte visual, una gráfica circular muestra que el sector 'Alimentos' representa el 50% de los gastos y 'Transporte' el 25%. Sin embargo, al observar el dibujo, ambas rebanadas parecen tener exactamente el mismo tamaño físico. ¿Qué inferencia es la única lógicamente válida?",
+      visual: null,
+      options: ["El gasto en transporte subió para igualar al de alimentos.","La representación gráfica está mal construida o fue manipulada deliberadamente, ya que las proporciones matemáticas (50 vs 25) no coinciden con las áreas dibujadas.","El 50% y el 25% son estadísticamente equivalentes cuando se miden en gastos mensuales.","El reporte es perfectamente confiable si se lee rápido."],
+      correct: 1,
+      feedback: "La regla de oro de la argumentación gráfica: si el área dibujada no es proporcional al número que representa, la gráfica está sesgada o mal hecha intencionalmente para engañar al lector."
+    }
+  ];;
 
 
     const handleAnswer = (index) => {
