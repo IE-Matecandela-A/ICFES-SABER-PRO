@@ -215,12 +215,12 @@
             React.createElement("div", { className: "bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between" },
               React.createElement("div", { className: "absolute top-0 left-0 w-2 h-full bg-amber-500" }),
               React.createElement("div", { className: "space-y-4" },
-                React.createElement("div", { className: "bg-slate-50 dark:bg-slate-950/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/40 italic text-slate-650 dark:text-slate-350 text-xs leading-relaxed" },
+                React.createElement("div", { className: "bg-slate-50 dark:bg-slate-950/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/40 italic text-slate-600 dark:text-slate-300 text-xs leading-relaxed" },
                   speeches[selectedQuote].quote
                 ),
                 React.createElement("div", { className: "grid md:grid-cols-4 gap-4 pt-2 text-xs font-medium" },
                   React.createElement("div", { className: "md:col-span-1 border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden h-[120px] bg-slate-50 dark:bg-slate-950/20" },
-                    React.createElement("img", {
+                    React.createElement("img", { loading: "lazy", decoding: "async",
                       src: selectedQuote === 0 ? "img/perfil_geologico_fracking.png" :
                            selectedQuote === 1 ? "img/caricatura_neoliberalismo.png" :
                            "img/caricatura_protesta_social.png",
@@ -234,11 +234,11 @@
                   ),
                   React.createElement("div", { className: "md:col-span-1" },
                     React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1 text-[10px]" }, "Intención Implícita:"),
-                    React.createElement("p", { className: "text-slate-650 dark:text-slate-400 font-light leading-relaxed" }, speeches[selectedQuote].intention)
+                    React.createElement("p", { className: "text-slate-600 dark:text-slate-400 font-light leading-relaxed" }, speeches[selectedQuote].intention)
                   ),
                   React.createElement("div", { className: "md:col-span-1" },
                     React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1 text-[10px]" }, "Perspectiva de Contraste:"),
-                    React.createElement("p", { className: "text-slate-650 dark:text-slate-400 font-light leading-relaxed" }, speeches[selectedQuote].contrast)
+                    React.createElement("p", { className: "text-slate-600 dark:text-slate-400 font-light leading-relaxed" }, speeches[selectedQuote].contrast)
                   )
                 )
               )
@@ -256,13 +256,13 @@
             ),
             React.createElement("div", { className: "grid md:grid-cols-2 gap-6" },
               React.createElement("div", { className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80" },
-                React.createElement("h4", { className: "font-black text-emerald-600 dark:text-emerald-450 text-sm uppercase tracking-wider mb-2" }, "Hechos Objetivos"),
+                React.createElement("h4", { className: "font-black text-emerald-600 dark:text-emerald-400 text-sm uppercase tracking-wider mb-2" }, "Hechos Objetivos"),
                 React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-light" },
                   "Enunciados constatables empíricamente, basados en estadísticas oficiales, leyes aprobadas, registros físicos o sucesos comprobados históricamente (ej: 'El PIB de Colombia decreció un 0.5% en el 2020'). Son ajenos a la emotividad o simpatía del autor."
                 )
               ),
               React.createElement("div", { className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80" },
-                React.createElement("h4", { className: "font-black text-rose-600 dark:text-rose-450 text-sm uppercase tracking-wider mb-2" }, "Juicios de Valor (Opiniones)"),
+                React.createElement("h4", { className: "font-black text-rose-600 dark:text-rose-400 text-sm uppercase tracking-wider mb-2" }, "Juicios de Valor (Opiniones)"),
                 React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-light" },
                   "Apreciaciones subjetivas, valoraciones morales o interpretaciones sesgadas de los hechos (ej: 'El PIB decreció debido a que el Ministro no sabe de finanzas públicas y es flojo'). Usan lenguaje adjetivado y ad-hominem para moldear la postura del lector."
                 )

@@ -130,7 +130,7 @@
           React.createElement("div", { className: "grid md:grid-cols-2 gap-8 items-center" },
             React.createElement("div", { className: "space-y-6" },
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 tracking-tight dark:text-white" }, "Parte 3: Diálogos Conversacionales"),
-              React.createElement("p", { className: "text-slate-650 dark:text-slate-350 leading-relaxed text-lg font-light" },
+              React.createElement("p", { className: "text-slate-600 dark:text-slate-300 leading-relaxed text-lg font-light" },
                 "La Parte 3 evalúa la pragmática conversacional. Leerás una frase dicha por un Hablante A y deberás seleccionar la respuesta más adecuada y natural para el Hablante B. Es vital prestar atención a las ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "normas de interacción social"),
                 " (saludos, ofertas, excusas, peticiones) y a la ",
@@ -141,7 +141,7 @@
               React.createElement("div", { className: "bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group" },
                 React.createElement("div", { className: "absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-500 rounded-l-2xl" }),
                 React.createElement("h3", { className: "font-bold text-slate-800 dark:text-white mb-4 text-lg" }, "Pistas de Interacción Social:"),
-                React.createElement("ul", { className: "space-y-4 font-medium text-slate-650 dark:text-slate-355 text-sm" },
+                React.createElement("ul", { className: "space-y-4 font-medium text-slate-600 dark:text-slate-400 text-sm" },
                   [
                     "Ofrecimientos/Peticiones: 'Would you like...?' u ofrecimientos similares se aceptan cortésmente o se declinan con agradecimiento.",
                     "Profesiones: 'What does she do?' indaga sobre su profesión habitual, no sobre lo que está haciendo ahora.",
@@ -170,14 +170,14 @@
                       React.createElement("p", { className: "text-[10px] text-slate-400 font-bold" }, "Saber 11 - Parte 3")
                     )
                   ),
-                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-350 italic leading-relaxed" },
+                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-300 italic leading-relaxed" },
                     "\"Siempre lee la pregunta con cuidado. Identifica saludos, peticiones o expresiones de sentimientos para elegir la respuesta correcta.\""
                   )
                 )
               ),
               React.createElement("button", { 
                 onClick: () => setActiveTab('teoria'),
-                className: "mt-4 bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
+                className: "mt-4 bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
               },
                 "Iniciar Simulador ", React.createElement(Icon, { name: "arrow_forward", className: "w-4 h-4" })
               )
@@ -209,7 +209,7 @@
                     className: `p-3 rounded-xl border text-left transition-all duration-300 text-xs font-bold ${
                       activeScenario === index 
                         ? 'border-sky-500 bg-sky-500/10 text-sky-600 dark:text-sky-400' 
-                        : 'border-slate-200 dark:border-slate-850 text-slate-550 hover:bg-slate-550/5'
+                        : 'border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-500/5'
                     }`
                   },
                     scen.title
@@ -225,7 +225,7 @@
                     React.createElement("div", { className: "w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-xl shrink-0" }, 
                       scenarios[activeScenario].avatar
                     ),
-                    React.createElement("div", { className: "bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-850 rounded-2xl p-4 shadow-sm max-w-md relative" },
+                    React.createElement("div", { className: "bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 shadow-sm max-w-md relative" },
                       React.createElement("span", { className: "text-[10px] font-black text-sky-600 block mb-1" }, scenarios[activeScenario].characterName),
                       React.createElement("p", { className: "text-xs leading-relaxed text-slate-700 dark:text-slate-300 font-mono" }, scenarios[activeScenario].prompt)
                     )
@@ -251,7 +251,7 @@
                       React.createElement("button", {
                         key: i,
                         onClick: () => handleReplySelection(i),
-                        className: "w-full text-left p-3 border border-slate-200 dark:border-slate-855 bg-white dark:bg-slate-900 rounded-xl text-xs hover:border-sky-300 transition-all font-semibold font-mono"
+                        className: "w-full text-left p-3 border border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-900 rounded-xl text-xs hover:border-sky-300 transition-all font-semibold font-mono"
                       },
                         reply.text
                       )
@@ -286,13 +286,13 @@
             React.createElement("div", { className: "grid md:grid-cols-2 gap-6 text-xs leading-relaxed" },
               React.createElement("div", { className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80" },
                 React.createElement("h4", { className: "font-black text-sky-700 dark:text-sky-400 text-sm uppercase mb-2" }, "Compatibilidad de Tiempos Verbales"),
-                React.createElement("p", { className: "text-slate-550 dark:text-slate-400" },
+                React.createElement("p", { className: "text-slate-500 dark:text-slate-400" },
                   "Si el Hablante A pregunta en pasado ('How was your trip?'), la respuesta obligatoriamente debe contener elementos en pasado ('It was fantastic'). Si preguntan por planes futuros, descarta las respuestas secas en pasado."
                 )
               ),
               React.createElement("div", { className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80" },
                 React.createElement("h4", { className: "font-black text-sky-700 dark:text-sky-400 text-sm uppercase mb-2" }, "Cortesía y Pragmatismo Social"),
-                React.createElement("p", { className: "text-slate-550 dark:text-slate-400" },
+                React.createElement("p", { className: "text-slate-500 dark:text-slate-400" },
                   "Los diálogos evaluados modelan interacciones cotidianas amables. Evita opciones que suenen extremadamente rudas, indiferentes o que ignoren el estado de ánimo o la petición del interlocutor."
                 )
               )
@@ -394,7 +394,7 @@
                   ),
                   React.createElement("button", {
                     onClick: nextQuestion,
-                    className: "bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-8 py-3.5 rounded-xl ml-auto block transition-all active:scale-95 shadow-md text-sm"
+                    className: "bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-8 py-3.5 rounded-xl ml-auto block transition-all active:scale-95 shadow-md text-sm"
                   },
                     currentQuestion === questions.length - 1 ? "Ver Resultados" : "Siguiente Pregunta →"
                   )
@@ -420,7 +420,7 @@
                 onClick: () => setActiveTab(tab.id),
                 className: `flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-all duration-300 rounded-xl whitespace-nowrap flex-1 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-slate-800 text-sky-655 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
+                    ? 'bg-white dark:bg-slate-800 text-sky-700 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/40 scale-95'
                 }`
               },

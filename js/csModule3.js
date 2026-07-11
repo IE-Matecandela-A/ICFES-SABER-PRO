@@ -227,19 +227,19 @@
                       
                       // Card del Nodo
                       React.createElement("div", {
-                        className: `w-full p-4 rounded-2xl border text-center transition-all duration-350 ${
+                        className: `w-full p-4 rounded-2xl border text-center transition-all duration-300 ${
                           isSelected
                             ? 'border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold scale-100 shadow-md'
                             : 'border-slate-200 dark:border-slate-800 text-slate-500 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/40 scale-95'
                         }`
                       },
                         React.createElement("div", { className: `w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-2 transition-all ${
-                          isSelected ? 'bg-amber-500 text-white' : 'bg-slate-100 dark:bg-slate-850 text-slate-500 group-hover:bg-amber-100 group-hover:text-amber-500'
+                          isSelected ? 'bg-amber-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 group-hover:bg-amber-100 group-hover:text-amber-500'
                         }` },
                           React.createElement(Icon, { name: branch.icon, style: { fontSize: '15px' } })
                         ),
                         React.createElement("h5", { className: "text-xs font-black tracking-tight" }, branch.name),
-                        React.createElement("span", { className: "text-[9px] text-slate-400 dark:text-slate-550 block mt-1 uppercase tracking-wider font-bold truncate max-w-full" }, branch.leader.split(",")[0])
+                        React.createElement("span", { className: "text-[9px] text-slate-400 dark:text-slate-500 block mt-1 uppercase tracking-wider font-bold truncate max-w-full" }, branch.leader.split(",")[0])
                       )
                     );
                   })
@@ -251,20 +251,20 @@
                 React.createElement("div", { className: "absolute top-0 left-0 w-2 h-full bg-amber-500" }),
                 React.createElement("h4", { className: "text-lg font-black text-slate-800 dark:text-white mb-1" }, stateBranches[selectedBranch].name),
                 React.createElement("span", { className: "text-[10px] font-black text-amber-600 dark:text-amber-400 block mb-4 uppercase tracking-widest" }, `INTEGRADO POR: ${stateBranches[selectedBranch].leader}`),
-                React.createElement("p", { className: "text-slate-650 dark:text-slate-350 text-sm leading-relaxed mb-6 font-light" }, stateBranches[selectedBranch].function),
+                React.createElement("p", { className: "text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light" }, stateBranches[selectedBranch].function),
                 React.createElement("div", { className: "border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden h-[180px] mb-4 bg-slate-50 dark:bg-slate-950/20 flex items-center justify-center p-2" },
-                  React.createElement("img", {
+                  React.createElement("img", { loading: "lazy", decoding: "async",
                     src: selectedBranch === 0 ? "img/diagrama_estados_excepcion.png" :
                          selectedBranch === 1 ? "img/ruta_proyecto_ley.png" :
                          selectedBranch === 2 ? "img/estructura_altas_cortes.png" :
                          "img/esquema_organos_control.png",
                     alt: "Esquema conceptual",
-                    className: "w-full h-full object-contain select-none transition-all duration-300 hover:scale-102"
+                    className: "w-full h-full object-contain select-none transition-all duration-300 hover:scale-105"
                   })
                 ),
                 React.createElement("div", { className: "border-t border-slate-100 dark:border-slate-800 pt-4 text-xs font-medium" },
                   React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1" }, "Mecanismo de Pesos y Contrapesos (Control recíproco):"),
-                  React.createElement("p", { className: "text-slate-650 dark:text-slate-400 font-light leading-relaxed" }, stateBranches[selectedBranch].check)
+                  React.createElement("p", { className: "text-slate-600 dark:text-slate-400 font-light leading-relaxed" }, stateBranches[selectedBranch].check)
                 )
               )
             )
@@ -278,7 +278,7 @@
             ),
             React.createElement("div", { className: "grid lg:grid-cols-12 gap-6" },
               React.createElement("div", { className: "lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-4 flex items-center justify-center h-[280px] lg:h-auto" },
-                React.createElement("img", {
+                React.createElement("img", { loading: "lazy", decoding: "async",
                   src: "img/diagrama_mecanismos_proteccion.png",
                   alt: "Diagrama de Mecanismos de Protección",
                   className: "w-full h-full object-contain rounded-xl select-none"

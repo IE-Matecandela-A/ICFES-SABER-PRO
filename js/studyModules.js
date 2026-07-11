@@ -21,62 +21,29 @@ const StudyModules = {
             bgGradient: 'linear-gradient(145deg, #1e1b4b 0%, #312e81 100%)',
             description: 'Explora los fundamentos del razonamiento cuantitativo.',
             modules: [
-                {
-                    id: 'mat_mod_1',
-                    title: 'Módulo 1: Interpretación y representación',
-                    description: 'Comprende y transforma información en diferentes formatos.',
-                    icon: 'insights',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_2',
-                    title: 'Módulo 2: Formulación y ejecución',
-                    description: 'Plantea y ejecuta estrategias para resolver problemas.',
-                    icon: 'architecture',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_3',
-                    title: 'Módulo 3: Argumentación',
-                    description: 'Valida o refuta conclusiones basadas en evidencias matemáticas.',
-                    icon: 'fact_check',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_4',
-                    title: 'Módulo 4: Razonamiento Cuantitativo',
-                    description: 'Aplica matemáticas a situaciones financieras y de la vida real.',
-                    icon: 'trending_up',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_5',
-                    title: 'Módulo 5: Pensamiento Geométrico',
-                    description: 'Domina el espacio, áreas, volúmenes y el Teorema de Pitágoras.',
-                    icon: 'change_history',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_6',
-                    title: 'Módulo 6: Estadística y Probabilidad',
-                    description: 'Analiza datos, promedios y leyes de probabilidad.',
-                    icon: 'query_stats',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_7',
-                    title: 'Módulo 7: Álgebra y Funciones',
-                    description: 'Domina ecuaciones, parábolas y modelamiento matemático.',
-                    icon: 'functions',
-                    content: ''
-                },
-                {
-                    id: 'mat_mod_8',
-                    title: 'Módulo 8: Estadística y Probabilidad II',
-                    description: 'Simulador Avanzado de Estadística y Probabilidad (20 preguntas).',
-                    icon: 'analytics',
-                    content: ''
-                }
+                { id: 'mat_mod_1', title: 'Módulo 1: Lectura de Gráficos', description: 'Lectura directa de datos en barras, líneas, tortas y tablas de contingencia.', icon: 'insights', content: '' },
+                { id: 'mat_mod_2', title: 'Módulo 2: Aritmética: Fracciones', description: 'Operaciones básicas y representación con números racionales y fraccionarios.', icon: 'percent', content: '' },
+                { id: 'mat_mod_3', title: 'Módulo 3: Aritmética: Porcentajes', description: 'Cálculo de porcentajes, variaciones y descuentos comerciales.', icon: 'trending_up', content: '' },
+                { id: 'mat_mod_4', title: 'Módulo 4: Proporcionalidad y Regla de Tres', description: 'Proporcionalidad directa e inversa, y reglas de tres.', icon: 'balance', content: '' },
+                { id: 'mat_mod_5', title: 'Módulo 5: Escalas y Planos', description: 'Relaciones de escalas cartográficas y conversión de dimensiones reales.', icon: 'map', content: '' },
+                { id: 'mat_mod_6', title: 'Módulo 6: Geometría: Perímetros y Áreas', description: 'Cálculo de perímetros y áreas en figuras planas básicas.', icon: 'square_foot', content: '' },
+                { id: 'mat_mod_7', title: 'Módulo 7: Geometría: Áreas Sombreadas', description: 'Diferencia y descomposición de áreas compuestas.', icon: 'pattern', content: '' },
+                { id: 'mat_mod_8', title: 'Módulo 8: Geometría: Teorema de Pitágoras', description: 'Relaciones métricas y cálculo de longitudes en triángulos rectángulos.', icon: 'change_history', content: '' },
+                { id: 'mat_mod_9', title: 'Módulo 9: Geometría Espacial: Volúmenes', description: 'Volumen y capacidad de prismas rectangulares y cilindros.', icon: 'view_in_ar', content: '' },
+                { id: 'mat_mod_10', title: 'Módulo 10: Plano Cartesiano y Distancia', description: 'Coordenadas, distancia en el plano bidimensional y cálculo de pendientes.', icon: 'grid_on', content: '' },
+                { id: 'mat_mod_11', title: 'Módulo 11: Semejanza y Teorema de Tales', description: 'Triángulos semejantes y proporcionalidad en geometría.', icon: 'star_border', content: '' },
+                { id: 'mat_mod_12', title: 'Módulo 12: Álgebra: Ecuaciones Lineales', description: 'Modelado y despeje de ecuaciones de primer grado a partir de texto.', icon: 'notes', content: '' },
+                { id: 'mat_mod_13', title: 'Módulo 13: Álgebra: Sistemas 2x2', description: 'Planteamiento y resolución de sistemas de ecuaciones lineales simultáneas.', icon: 'schema', content: '' },
+                { id: 'mat_mod_14', title: 'Módulo 14: Álgebra: Inecuaciones', description: 'Desigualdades lineales y representación de intervalos de solución.', icon: 'rule', content: '' },
+                { id: 'mat_mod_15', title: 'Módulo 15: Sucesiones y Progresiones', description: 'Secuencias y regularidades aritméticas y geométricas.', icon: 'format_list_numbered', content: '' },
+                { id: 'mat_mod_16', title: 'Módulo 16: Funciones Lineales y Cuadráticas', description: 'Propiedades de rectas y cálculo de vértice de parábolas.', icon: 'show_chart', content: '' },
+                { id: 'mat_mod_17', title: 'Módulo 17: Funciones Exponenciales', description: 'Modelado de crecimiento exponencial y decaimiento.', icon: 'stacked_line_chart', content: '' },
+                { id: 'mat_mod_18', title: 'Módulo 18: Trigonometría: Ley del Seno/Coseno', description: 'Razones trigonométricas y leyes de senos/cosenos en triángulos.', icon: 'architecture', content: '' },
+                { id: 'mat_mod_19', title: 'Módulo 19: Estadística: Tendencia Central', description: 'Media, mediana, moda, valores atípicos y bimodalidad.', icon: 'query_stats', content: '' },
+                { id: 'mat_mod_20', title: 'Módulo 20: Estadística: Medidas de Dispersión', description: 'Rango, varianza y desviación estándar en conjuntos de datos.', icon: 'analytics', content: '' },
+                { id: 'mat_mod_21', title: 'Módulo 21: Técnicas de Conteo', description: 'Principio multiplicativo, permutaciones y combinatoria.', icon: 'tag', content: '' },
+                { id: 'mat_mod_22', title: 'Módulo 22: Probabilidad Clásica y Compuesta', description: 'Regla de Laplace, eventos independientes y compuestos con y sin reemplazo.', icon: 'casino', content: '' },
+                { id: 'mat_mod_23', title: 'Módulo 23: Falacias y Razonamiento Crítico', description: 'Detección de falacias estadísticas, errores de causalidad y sesgos visuales.', icon: 'fact_check', content: '' }
             ] },
         'lectura_critica': { name: 'Lectura Crítica', color: '#f43f5e', icon: 'auto_stories', bgGradient: 'linear-gradient(145deg, #4c0519 0%, #881337 100%)', description: 'Desarrolla tu capacidad de leer, comprender y analizar textos de forma crítica.', modules: [
                 { id: 'cr_mod_1', title: 'Módulo 1: Vocabulario e Información Explícita', description: 'Afirmación 1: Entiende palabras en contexto y ubica información puntual en cualquier tipo de texto.', icon: 'search', content: '' },
@@ -114,6 +81,68 @@ const StudyModules = {
                 { id: 'en_mod_4', title: 'Módulo 4: Grammar in Context', description: 'Uso de conectores, tiempos verbales y preposiciones (Parte 4 y 7 ICFES).', icon: 'spellcheck', content: '' },
                 { id: 'en_mod_5', title: 'Módulo 5: Reading Comprehension', description: 'Comprensión literal, inferencial y de intenciones del autor (Parte 5 y 6 ICFES).', icon: 'chrome_reader_mode', content: '' },
                 { id: 'en_mod_6', title: 'Módulo 6: Exam Simulation & Strategies', description: 'Simulacro contrarreloj, técnicas de descarte y manejo de distractores.', icon: 'psychology', content: '' }
+            ] },
+        'vocacional': { name: 'Orientación', color: '#a855f7', icon: 'psychology', bgGradient: 'linear-gradient(145deg, #3b0764 0%, #6b21a8 100%)', description: 'Estrategias para manejo de ansiedad, elección de carrera y preparación mental antes de la prueba.', modules: [
+                { id: 'voc_mod_1', title: 'Módulo 1: Manejo de la Ansiedad', description: 'Técnicas de respiración, control del estrés y cómo mantener la calma durante las 9 horas de prueba.', icon: 'self_improvement', content: `
+                    <div style="font-family: var(--font-sans); color: var(--color-text);">
+                        <h2 style="font-size: 2rem; margin-bottom: 1rem; color: #a855f7; font-weight: 800;">Dominando la Ansiedad en el ICFES</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">El examen Saber 11 es extenso y desafiante. La ansiedad no es tu enemiga; es energía que tu cuerpo te da para estar alerta. Aquí aprenderás a canalizarla.</p>
+                        
+                        <div style="background: rgba(168,85,247,0.1); border-left: 4px solid #a855f7; padding: 1rem; border-radius: 0 12px 12px 0; margin-bottom: 2rem;">
+                            <h3 style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">La regla de los 4 Segundos (Respiración Táctica)</h3>
+                            <p>Utilizada por atletas y profesionales de alto rendimiento. Cuando sientas que tu mente se bloquea:</p>
+                            <ol style="margin-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+                                <li><strong>Inhala</strong> profundamente por la nariz durante 4 segundos.</li>
+                                <li><strong>Sostén</strong> la respiración durante 4 segundos.</li>
+                                <li><strong>Exhala</strong> lentamente por la boca durante 4 segundos.</li>
+                                <li><strong>Pausa</strong> sin aire durante 4 segundos y repite.</li>
+                            </ol>
+                        </div>
+                        
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">Estrategias durante la prueba</h3>
+                        <ul style="list-style: none; padding: 0; display: grid; gap: 1rem;">
+                            <li style="background: var(--color-surface); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border);"><strong style="color: #a855f7;">Divide y Vencerás:</strong> No pienses en "tengo 120 preguntas". Piensa en "voy a resolver este bloque de 10 preguntas".</li>
+                            <li style="background: var(--color-surface); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border);"><strong style="color: #a855f7;">El Salto Estratégico:</strong> Si una pregunta te toma más de 3 minutos, márcala y sáltala. Tu subconsciente trabajará en ella mientras avanzas.</li>
+                            <li style="background: var(--color-surface); padding: 1rem; border-radius: 12px; border: 1px solid var(--color-border);"><strong style="color: #a855f7;">Micro-descansos:</strong> Cada 30 minutos, cierra los ojos 10 segundos, estira el cuello y respira profundo. Esto reinicia tu enfoque visual y mental.</li>
+                        </ul>
+                    </div>
+                ` },
+                { id: 'voc_mod_2', title: 'Módulo 2: Elección de Carrera', description: 'Cómo alinear tu puntaje ICFES con tus pasiones, habilidades y proyección laboral.', icon: 'explore', content: `
+                    <div style="font-family: var(--font-sans); color: var(--color-text);">
+                        <h2 style="font-size: 2rem; margin-bottom: 1rem; color: #a855f7; font-weight: 800;">Tu Proyecto de Vida post-ICFES</h2>
+                        <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">El ICFES es solo una llave; tú decides qué puerta abrir. La elección de carrera debe equilibrar tres pilares fundamentales.</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="background: var(--color-surface-2); padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid rgba(168,85,247,0.3);">
+                                <span class="material-icons-round" style="font-size: 3rem; color: #a855f7; margin-bottom: 0.5rem;">favorite</span>
+                                <h3 style="font-weight: bold; margin-bottom: 0.5rem;">Pasión (Lo que amas)</h3>
+                                <p style="font-size: 0.9rem; color: var(--color-text-muted);">¿Qué temas puedes investigar por horas sin aburrirte? ¿Qué problemas del mundo te gustaría resolver?</p>
+                            </div>
+                            <div style="background: var(--color-surface-2); padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid rgba(16,185,129,0.3);">
+                                <span class="material-icons-round" style="font-size: 3rem; color: #10b981; margin-bottom: 0.5rem;">psychology</span>
+                                <h3 style="font-weight: bold; margin-bottom: 0.5rem;">Habilidad (En lo que eres bueno)</h3>
+                                <p style="font-size: 0.9rem; color: var(--color-text-muted);">Tus puntajes ICFES te darán una pista. ¿Destacas en matemáticas, en lectura, o analizando ciencias?</p>
+                            </div>
+                            <div style="background: var(--color-surface-2); padding: 1.5rem; border-radius: 16px; text-align: center; border: 1px solid rgba(59,130,246,0.3);">
+                                <span class="material-icons-round" style="font-size: 3rem; color: #3b82f6; margin-bottom: 0.5rem;">monetization_on</span>
+                                <h3 style="font-weight: bold; margin-bottom: 0.5rem;">Proyección (Lo que el mundo necesita)</h3>
+                                <p style="font-size: 0.9rem; color: var(--color-text-muted);">Investiga carreras con alta empleabilidad y áreas donde podrías generar un impacto real y sostenible.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px;">
+                            <h3 style="font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem;">Ejercicio Práctico (IKIGAI Colombiano):</h3>
+                            <p style="margin-bottom: 1rem;">Haz una lista de 5 carreras que te llamen la atención. Para cada una, califica del 1 al 10:</p>
+                            <ul style="margin-left: 2rem; list-style-type: circle;">
+                                <li>Me gusta estudiarlo (Pasión)</li>
+                                <li>Soy naturalmente hábil en esto (Talento)</li>
+                                <li>Tiene buen futuro laboral en el país/exterior (Demanda)</li>
+                                <li>Mi puntaje ICFES me permite acceder (Realidad)</li>
+                            </ul>
+                            <p style="margin-top: 1rem; font-weight: bold; color: #a855f7;">¡La carrera con más puntaje total es tu mejor candidata inicial!</p>
+                        </div>
+                    </div>
+                ` }
             ] }
     },
 
@@ -441,44 +470,42 @@ const StudyModules = {
 
         container.innerHTML = '';
 
-        if (['mat_mod_1', 'mat_mod_2', 'mat_mod_3', 'mat_mod_4', 'mat_mod_5', 'mat_mod_6', 'mat_mod_7', 'mat_mod_8', 
-             'cn_mod_1', 'cn_mod_2', 'cn_mod_3', 'cn_mod_4', 'cn_mod_5', 'cn_mod_6',
-             'cr_mod_1', 'cr_mod_2', 'cr_mod_3', 'cr_mod_4', 'cr_mod_5', 'cr_mod_6',
-             'cs_mod_1', 'cs_mod_2', 'cs_mod_3', 'cs_mod_4', 'cs_mod_5',
-             'en_mod_1', 'en_mod_2', 'en_mod_3', 'en_mod_4', 'en_mod_5', 'en_mod_6'].includes(moduleId)) {
-            const renderFnName = {
-                'mat_mod_1': 'renderMathModule1',
-                'mat_mod_2': 'renderMathModule2',
-                'mat_mod_3': 'renderMathModule3',
-                'mat_mod_4': 'renderMathModule4',
-                'mat_mod_5': 'renderMathModule5',
-                'mat_mod_6': 'renderMathModule6',
-                'mat_mod_7': 'renderMathModule7',
-                'mat_mod_8': 'renderMathModule8',
-                'cn_mod_1': 'renderCNModule1',
-                'cn_mod_2': 'renderCNModule2',
-                'cn_mod_3': 'renderCNModule3',
-                'cn_mod_4': 'renderCNModule4',
-                'cn_mod_5': 'renderCNModule5',
-                'cn_mod_6': 'renderCNModule6',
-                'cr_mod_1': 'renderLCModule1',
-                'cr_mod_2': 'renderLCModule2',
-                'cr_mod_3': 'renderLCModule3',
-                'cr_mod_4': 'renderLCModule4',
-                'cr_mod_5': 'renderLCModule5',
-                'cr_mod_6': 'renderLCModule6',
-                'cs_mod_1': 'renderCSModule1',
-                'cs_mod_2': 'renderCSModule2',
-                'cs_mod_3': 'renderCSModule3',
-                'cs_mod_4': 'renderCSModule4',
-                'cs_mod_5': 'renderCSModule5',
-                'en_mod_1': 'renderENModule1',
-                'en_mod_2': 'renderENModule2',
-                'en_mod_3': 'renderENModule3',
-                'en_mod_4': 'renderENModule4',
-                'en_mod_5': 'renderENModule5',
-                'en_mod_6': 'renderENModule6'
-            }[moduleId];
+        if (moduleId.startsWith('mat_mod_') ||
+             ['cn_mod_1', 'cn_mod_2', 'cn_mod_3', 'cn_mod_4', 'cn_mod_5', 'cn_mod_6',
+              'cr_mod_1', 'cr_mod_2', 'cr_mod_3', 'cr_mod_4', 'cr_mod_5', 'cr_mod_6',
+              'cs_mod_1', 'cs_mod_2', 'cs_mod_3', 'cs_mod_4', 'cs_mod_5',
+              'en_mod_1', 'en_mod_2', 'en_mod_3', 'en_mod_4', 'en_mod_5', 'en_mod_6'].includes(moduleId)) {
+            
+            let renderFnName;
+            if (moduleId.startsWith('mat_mod_')) {
+                renderFnName = 'renderMathModuleGeneric';
+            } else {
+                renderFnName = {
+                    'cn_mod_1': 'renderCNModule1',
+                    'cn_mod_2': 'renderCNModule2',
+                    'cn_mod_3': 'renderCNModule3',
+                    'cn_mod_4': 'renderCNModule4',
+                    'cn_mod_5': 'renderCNModule5',
+                    'cn_mod_6': 'renderCNModule6',
+                    'cr_mod_1': 'renderLCModule1',
+                    'cr_mod_2': 'renderLCModule2',
+                    'cr_mod_3': 'renderLCModule3',
+                    'cr_mod_4': 'renderLCModule4',
+                    'cr_mod_5': 'renderLCModule5',
+                    'cr_mod_6': 'renderLCModule6',
+                    'cs_mod_1': 'renderCSModule1',
+                    'cs_mod_2': 'renderCSModule2',
+                    'cs_mod_3': 'renderCSModule3',
+                    'cs_mod_4': 'renderCSModule4',
+                    'cs_mod_5': 'renderCSModule5',
+                    'en_mod_1': 'renderENModule1',
+                    'en_mod_2': 'renderENModule2',
+                    'en_mod_3': 'renderENModule3',
+                    'en_mod_4': 'renderENModule4',
+                    'en_mod_5': 'renderENModule5',
+                    'en_mod_6': 'renderENModule6'
+                }[moduleId];
+            }
             
             console.log(`StudyModules: Solicitando render para ${moduleId} (${renderFnName})...`);
             
@@ -491,7 +518,11 @@ const StudyModules = {
 
                 if (window[renderFnName]) {
                     console.log(`StudyModules: Ejecutando ${renderFnName} para ${moduleId}...`);
-                    window[renderFnName](containerId);
+                    if (renderFnName === 'renderMathModuleGeneric') {
+                        window[renderFnName](containerId, moduleId);
+                    } else {
+                        window[renderFnName](containerId);
+                    }
                 } else {
                     console.warn(`StudyModules: Esperando módulo ${moduleId}... Intento ${attempts + 1}`);
                     attempts++;

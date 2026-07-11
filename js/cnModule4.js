@@ -986,7 +986,7 @@
       className: "relative w-full rounded-[2.5rem] overflow-hidden min-h-[500px] flex items-center bg-slate-900 shadow-2xl"
     }, /*#__PURE__*/React.createElement("div", {
       className: "absolute inset-0 z-0"
-    }, /*#__PURE__*/React.createElement("img", {
+    }, /*#__PURE__*/React.createElement("img", { loading: "lazy", decoding: "async",
       src: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=2000&q=80",
       alt: "Wind Turbines and Nature",
       className: "w-full h-full object-cover opacity-40 mix-blend-luminosity"

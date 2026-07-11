@@ -124,7 +124,7 @@
           React.createElement("div", { className: "grid md:grid-cols-2 gap-8 items-center" },
             React.createElement("div", { className: "space-y-6" },
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 tracking-tight dark:text-white" }, "Parte 2: Avisos Públicos y Pragmática"),
-              React.createElement("p", { className: "text-slate-655 dark:text-slate-350 leading-relaxed text-lg font-light" },
+              React.createElement("p", { className: "text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-light" },
                 "La Parte 2 evalúa tu competencia pragmática. Se te muestra un aviso público de la vida cotidiana y debes deducir dónde se encuentra. Comprender el contexto e identificar verbos modales de advertencia como ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "must, should, do not"),
                 " o palabras clave como ",
@@ -135,7 +135,7 @@
               React.createElement("div", { className: "bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group" },
                 React.createElement("div", { className: "absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-500 rounded-l-2xl" }),
                 React.createElement("h3", { className: "font-bold text-slate-800 dark:text-white mb-4 text-lg" }, "Pistas Pragmáticas de Oro:"),
-                React.createElement("ul", { className: "space-y-4 font-medium text-slate-650 dark:text-slate-355 text-sm" },
+                React.createElement("ul", { className: "space-y-4 font-medium text-slate-600 dark:text-slate-400 text-sm" },
                   [
                     "Imperativos: Expresiones como 'Do not' y 'No' comunican prohibiciones estrictas en zonas públicas.",
                     "Obligaciones: El modal 'Must' representa una norma de seguridad o ley de obligatorio cumplimiento (ej. lavarse las manos).",
@@ -164,14 +164,14 @@
                       React.createElement("p", { className: "text-[10px] text-slate-400 font-bold" }, "Saber 11 - Parte 2")
                     )
                   ),
-                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-350 italic leading-relaxed" },
+                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-300 italic leading-relaxed" },
                     "\"Presta mucha atención al entorno del aviso. ¡Una señal de seguridad vial nunca aparecerá en el baño de una casa!\""
                   )
                 )
               ),
               React.createElement("button", { 
                 onClick: () => setActiveTab('teoria'),
-                className: "mt-4 bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
+                className: "mt-4 bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
               },
                 "Ver Galería ", React.createElement(Icon, { name: "arrow_forward", className: "w-4 h-4" })
               )
@@ -203,7 +203,7 @@
                       className: `p-3 rounded-xl border text-left transition-all duration-300 text-xs font-bold flex items-center gap-3 ${
                         selectedSign === index 
                           ? 'border-sky-500 bg-sky-500/10 text-sky-600 dark:text-sky-400' 
-                          : 'border-slate-200 dark:border-slate-850 text-slate-550 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+                          : 'border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/40'
                       }`
                     },
                       React.createElement("span", { className: "w-2 h-2 rounded-full bg-current" }),
@@ -218,8 +218,8 @@
                 React.createElement("div", { className: "absolute top-0 left-0 w-2 h-full bg-sky-500" }),
                 
                 // Signboard Image Box
-                React.createElement("div", { className: "w-36 h-36 bg-slate-50 dark:bg-slate-950/30 border border-slate-100 dark:border-slate-850 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden mx-auto lg:mx-0 p-2 shadow-inner" },
-                  React.createElement("img", {
+                React.createElement("div", { className: "w-36 h-36 bg-slate-50 dark:bg-slate-950/30 border border-slate-100 dark:border-slate-800 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden mx-auto lg:mx-0 p-2 shadow-inner" },
+                  React.createElement("img", { loading: "lazy", decoding: "async",
                     src: signboards[selectedSign].src,
                     alt: signboards[selectedSign].title,
                     className: "w-full h-full object-contain select-none transition-all duration-300 hover:scale-105"
@@ -231,16 +231,16 @@
                   React.createElement("h4", { className: "text-lg font-black text-slate-800 dark:text-white" }, signboards[selectedSign].title),
                   React.createElement("div", null,
                     React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-0.5 text-[9px]" }, "Descripción y Significado:"),
-                    React.createElement("p", { className: "text-slate-655 dark:text-slate-350 text-xs font-light leading-relaxed" }, signboards[selectedSign].description)
+                    React.createElement("p", { className: "text-slate-700 dark:text-slate-300 text-xs font-light leading-relaxed" }, signboards[selectedSign].description)
                   ),
                   React.createElement("div", { className: "grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-slate-800 pt-3 text-xs" },
                     React.createElement("div", null,
-                      React.createElement("span", { className: "text-emerald-600 dark:text-emerald-450 block uppercase tracking-wider font-bold text-[9px] mb-0.5" }, "Ubicación Típica:"),
+                      React.createElement("span", { className: "text-emerald-600 dark:text-emerald-400 block uppercase tracking-wider font-bold text-[9px] mb-0.5" }, "Ubicación Típica:"),
                       React.createElement("span", { className: "text-slate-800 dark:text-white font-bold" }, signboards[selectedSign].location)
                     ),
                     React.createElement("div", null,
-                      React.createElement("span", { className: "text-amber-600 dark:text-amber-450 block uppercase tracking-wider font-bold text-[9px] mb-0.5" }, "Pistas de Gramática:"),
-                      React.createElement("span", { className: "text-slate-500 dark:text-slate-450 font-normal leading-tight block mt-0.5" }, signboards[selectedSign].clues)
+                      React.createElement("span", { className: "text-amber-600 dark:text-amber-400 block uppercase tracking-wider font-bold text-[9px] mb-0.5" }, "Pistas de Gramática:"),
+                      React.createElement("span", { className: "text-slate-500 dark:text-slate-400 font-normal leading-tight block mt-0.5" }, signboards[selectedSign].clues)
                     )
                   )
                 )
@@ -250,11 +250,11 @@
 
           // Alertas/Trucos
           React.createElement("div", { className: "bg-sky-500/10 border-2 border-sky-500/20 rounded-3xl p-6 md:p-8" },
-            React.createElement("h3", { className: "text-xl font-bold text-sky-850 dark:text-sky-400 flex items-center gap-3 mb-4" },
+            React.createElement("h3", { className: "text-xl font-bold text-sky-800 dark:text-sky-400 flex items-center gap-3 mb-4" },
               React.createElement(Icon, { name: "verified_user", className: "text-sky-500" }),
               "2. Consejos y Trucos de Avisos para el Saber 11"
             ),
-            React.createElement("div", { className: "space-y-4 text-xs text-slate-600 dark:text-slate-350 leading-relaxed font-medium" },
+            React.createElement("div", { className: "space-y-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium" },
               React.createElement("div", { className: "flex gap-3" },
                 React.createElement("span", { className: "font-black text-sky-500 text-base" }, "1."),
                 React.createElement("p", null, 
@@ -311,7 +311,7 @@
               React.createElement("div", { className: "lg:col-span-4 bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-inner flex flex-col items-center gap-4 text-center" },
                 React.createElement("span", { className: "text-slate-400 dark:text-slate-500 font-black text-[9px] uppercase tracking-wider block" }, "Imagen del Aviso:"),
                 React.createElement("div", { className: "w-44 h-44 bg-white dark:bg-slate-950/50 rounded-2xl border border-slate-150 dark:border-slate-800 p-4 shadow-md flex items-center justify-center overflow-hidden" },
-                  React.createElement("img", {
+                  React.createElement("img", { loading: "lazy", decoding: "async",
                     src: q.imageSrc,
                     alt: "Question sign",
                     className: "w-full h-full object-contain select-none"
@@ -399,7 +399,7 @@
                 onClick: () => setActiveTab(tab.id),
                 className: `flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-all duration-300 rounded-xl whitespace-nowrap flex-1 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-slate-800 text-sky-655 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
+                    ? 'bg-white dark:bg-slate-800 text-sky-700 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/40 scale-95'
                 }`
               },

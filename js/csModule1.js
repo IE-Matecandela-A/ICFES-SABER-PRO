@@ -226,7 +226,7 @@
                       key: index,
                       onClick: () => setSelectedTimelineEra(index),
                       className: `relative flex items-start gap-4 cursor-pointer select-none group transition-all duration-300 ${
-                        isSelected ? 'scale-100' : 'opacity-60 hover:opacity-100 hover:scale-98'
+                        isSelected ? 'scale-100' : 'opacity-60 hover:opacity-100 hover:scale-95'
                       }`
                     },
                       // Nodo circular
@@ -234,7 +234,7 @@
                         className: `w-7 h-7 rounded-full border-2 flex items-center justify-center shrink-0 transition-all z-10 ${
                           isSelected 
                             ? 'border-amber-500 bg-amber-500 text-white shadow-[0_0_12px_rgba(245,158,11,0.4)] scale-110' 
-                            : 'border-slate-350 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 group-hover:border-amber-400'
+                            : 'border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 group-hover:border-amber-400'
                         }`
                       },
                         React.createElement(Icon, { name: era.icon, style: { fontSize: '13px' } })
@@ -248,7 +248,7 @@
                         }, era.year),
                         React.createElement("h5", {
                           className: `text-xs font-black transition-colors ${
-                            isSelected ? 'text-slate-850 dark:text-white' : 'text-slate-500 dark:text-slate-450 group-hover:text-slate-700 dark:group-hover:text-slate-300'
+                            isSelected ? 'text-slate-800 dark:text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300'
                           }`
                         }, era.title)
                       )
@@ -272,21 +272,21 @@
                   ),
                   React.createElement("p", { className: "text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light" }, timelineEras[selectedTimelineEra].desc),
                   React.createElement("div", { className: "border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden h-[140px] mb-4 bg-slate-50 dark:bg-slate-950/20" },
-                    React.createElement("img", {
+                    React.createElement("img", { loading: "lazy", decoding: "async",
                       src: selectedTimelineEra === 0 ? "img/mapa_nueva_granada.png" :
                            selectedTimelineEra === 1 ? "img/insurreccion_comunera.png" :
                            selectedTimelineEra === 2 ? "img/caricatura_protesta_social.png" :
                            selectedTimelineEra === 3 ? "img/caricatura_reparto_bipolar.png" :
                            "img/modelo_jep.png",
                       alt: "Ilustración de la época histórica",
-                      className: "w-full h-full object-cover select-none transition-all duration-300 hover:scale-102"
+                      className: "w-full h-full object-cover select-none transition-all duration-300 hover:scale-105"
                     })
                   )
                 ),
                 React.createElement("div", { className: "border-t border-slate-100 dark:border-slate-800 pt-4 grid md:grid-cols-2 gap-4 text-xs font-medium" },
                   React.createElement("div", null,
                     React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1" }, "Enfoque ICFES (Preguntas frecuentes):"),
-                    React.createElement("span", { className: "text-slate-650 dark:text-slate-400 leading-normal font-light" }, timelineEras[selectedTimelineEra].context)
+                    React.createElement("span", { className: "text-slate-600 dark:text-slate-400 leading-normal font-light" }, timelineEras[selectedTimelineEra].context)
                   ),
                   React.createElement("div", null,
                     React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1" }, "Concepto Sistémico Clave:"),

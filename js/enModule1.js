@@ -121,7 +121,7 @@
           React.createElement("div", { className: "grid md:grid-cols-2 gap-8 items-center" },
             React.createElement("div", { className: "space-y-6" },
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 tracking-tight dark:text-white" }, "Parte 1: Vocabulario y Asociación"),
-              React.createElement("p", { className: "text-slate-650 dark:text-slate-350 leading-relaxed text-lg font-light" },
+              React.createElement("p", { className: "text-slate-600 dark:text-slate-300 leading-relaxed text-lg font-light" },
                 "La sección de inglés del Saber 11 comienza con la asociación de vocabulario. Se te presentarán 5 definiciones y 8 palabras para elegir. La clave del éxito es identificar ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "palabras clave"),
                 " como categorías gramaticales (personas, lugares, cosas, acciones) y eliminar las opciones incorrectas.",
@@ -130,7 +130,7 @@
               React.createElement("div", { className: "bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group" },
                 React.createElement("div", { className: "absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-500 rounded-l-2xl" }),
                 React.createElement("h3", { className: "font-bold text-slate-800 dark:text-white mb-4 text-lg" }, "Temas de Estudio Clave:"),
-                React.createElement("ul", { className: "space-y-4 font-medium text-slate-650 dark:text-slate-355 text-sm" },
+                React.createElement("ul", { className: "space-y-4 font-medium text-slate-600 dark:text-slate-400 text-sm" },
                   [
                     "Ocupaciones y profesiones (chef, nurse, guide).",
                     "Lugares públicos comunes (airport, museum, supermarket, library).",
@@ -160,14 +160,14 @@
                       React.createElement("p", { className: "text-[10px] text-slate-400 font-bold" }, "Saber 11 - Parte 1")
                     )
                   ),
-                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-350 italic leading-relaxed" },
+                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-300 italic leading-relaxed" },
                     "\"Las palabras clave son tus mejores aliadas. Conecta verbos con acciones y sustantivos con objetos para encontrar rápidamente la palabra correcta.\""
                   )
                 )
               ),
               React.createElement("button", { 
                 onClick: () => setActiveTab('teoria'),
-                className: "mt-4 bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
+                className: "mt-4 bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
               },
                 "Iniciar Teoría ", React.createElement(Icon, { name: "arrow_forward", className: "w-4 h-4" })
               )
@@ -200,7 +200,7 @@
                   if (isMatched) {
                     bgStyle = "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500 text-emerald-800 dark:text-emerald-400 opacity-60";
                   } else if (isSelected) {
-                    bgStyle = "border-sky-500 bg-sky-500/5 text-sky-600 dark:text-sky-400 font-bold scale-102 shadow-sm";
+                    bgStyle = "border-sky-500 bg-sky-500/5 text-sky-600 dark:text-sky-400 font-bold scale-105 shadow-sm";
                   } else if (wrongMatch && wrongMatch.descId === item.id) {
                     bgStyle = "border-rose-500 bg-rose-500/5 text-rose-600 dark:text-rose-455 animate-shake-custom";
                   }
@@ -276,7 +276,7 @@
               ].map((tip, i) => (
                 React.createElement("div", { key: i, className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/85" },
                   React.createElement("h4", { className: "font-black text-sky-700 dark:text-sky-400 mb-2 uppercase tracking-wide" }, tip.title),
-                  React.createElement("p", { className: "text-slate-550 dark:text-slate-400" }, tip.desc)
+                  React.createElement("p", { className: "text-slate-500 dark:text-slate-400" }, tip.desc)
                 )
               ))
             )
@@ -403,7 +403,7 @@
                 onClick: () => setActiveTab(tab.id),
                 className: `flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-all duration-300 rounded-xl whitespace-nowrap flex-1 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-slate-800 text-sky-650 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
+                    ? 'bg-white dark:bg-slate-800 text-sky-600 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/40 scale-95'
                 }`
               },

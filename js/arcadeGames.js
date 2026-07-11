@@ -6,64 +6,157 @@
 const ArcadeGamesModule = {
     // --- DATOS GLOBALES (Fieles a arcane.html) ---
     WEEKLY_RANKING: [],
-
-    QUESTIONS_MATH: [
-        { q: "¿50% de 10?", a: "5", f1: "10", f2: "2" }, { q: "¿50% de 20?", a: "10", f1: "5", f2: "15" },
-        { q: "¿25% de 40?", a: "10", f1: "20", f2: "15" }, { q: "¿25% de 100?", a: "25", f1: "50", f2: "75" },
-        { q: "¿10% de 70?", a: "7", f1: "70", f2: "0.7" }, { q: "¿10% de 500?", a: "50", f1: "5", f2: "500" },
-        { q: "¿2²?", a: "4", f1: "2", f2: "8" }, { q: "¿2³?", a: "8", f1: "6", f2: "9" },
-        { q: "¿5²?", a: "25", f1: "10", f2: "125" }, { q: "¿10²?", a: "100", f1: "20", f2: "1000" },
-        { q: "¿√9?", a: "3", f1: "4.5", f2: "6" }, { q: "¿√64?", a: "8", f1: "32", f2: "16" },
-        { q: "¿20% de 150?", a: "30", f1: "15", f2: "60" }, { q: "¿3³?", a: "27", f1: "9", f2: "33" },
-        { q: "¿15% de 200?", a: "30", f1: "15", f2: "20" }, { q: "¿√81?", a: "9", f1: "18", f2: "20" },
-        { q: "¿6²?", a: "36", f1: "12", f2: "24" }, { q: "¿7²?", a: "49", f1: "14", f2: "21" },
-        { q: "¿1% de 1000?", a: "10", f1: "100", f2: "1" }, { q: "¿√144?", a: "12", f1: "72", f2: "14" },
-        { q: "¿2^4?", a: "16", f1: "8", f2: "64" }, { q: "¿√121?", a: "11", f1: "121", f2: "10" },
-        { q: "¿1/2 de 50?", a: "25", f1: "12.5", f2: "50" }, { q: "¿3/4 de 100?", a: "75", f1: "25", f2: "34" },
-        { q: "¿1/5 de 50?", a: "10", f1: "5", f2: "25" }, { q: "¿30% de 90?", a: "27", f1: "30", f2: "9" },
-        { q: "¿(-3)²?", a: "9", f1: "-9", f2: "6" }, { q: "¿-(-2)³?", a: "8", f1: "-8", f2: "6" },
-        { q: "¿√25 + √16?", a: "9", f1: "41", f2: "20" }, { q: "¿30% de 300?", a: "90", f1: "30", f2: "100" },
-        { q: "¿5% de 80?", a: "4", f1: "8", f2: "40" }, { q: "¿2% de 200?", a: "4", f1: "10", f2: "40" },
-        { q: "¿12²?", a: "144", f1: "24", f2: "122" }, { q: "¿9²?", a: "81", f1: "18", f2: "99" },
-        { q: "¿√169?", a: "13", f1: "14", f2: "16" }, { q: "¿√400?", a: "20", f1: "40", f2: "200" },
-        { q: "¿20% de 25?", a: "5", f1: "10", f2: "2" }, { q: "¿11²?", a: "121", f1: "22", f2: "111" },
-        { q: "¿0.5 × 40?", a: "20", f1: "200", f2: "0.2" }, { q: "¿0.25 × 16?", a: "4", f1: "16", f2: "64" },
-        { q: "¿0.1 × 35?", a: "3.5", f1: "35", f2: "0.35" }, { q: "¿(-5) × (-4)?", a: "20", f1: "-20", f2: "-9" },
-        { q: "¿(-8) + 3?", a: "-5", f1: "-11", f2: "5" }, { q: "¿(-10) / (-2)?", a: "5", f1: "-5", f2: "-20" },
-        { q: "¿100 / 0.5?", a: "200", f1: "50", f2: "10" }, { q: "¿2/3 de 30?", a: "20", f1: "30", f2: "10" },
-        { q: "¿3/5 de 50?", a: "30", f1: "15", f2: "50" }, { q: "¿200% de 40?", a: "80", f1: "20", f2: "400" },
-        { q: "¿√(9+16)?", a: "5", f1: "7", f2: "25" }, { q: "¿1/4 de 80?", a: "20", f1: "4", f2: "40" },
-        { q: "¿10% de 1000?", a: "100", f1: "10", f2: "1" }, { q: "¿4³?", a: "64", f1: "16", f2: "12" },
-        { q: "¿(-1)^5?", a: "-1", f1: "1", f2: "-5" }, { q: "¿1^100?", a: "1", f1: "100", f2: "0" },
-        { q: "¿(-2)^4?", a: "16", f1: "-16", f2: "-8" }, { q: "¿40% de 60?", a: "24", f1: "40", f2: "10" },
-        { q: "¿60% de 50?", a: "30", f1: "60", f2: "15" }, { q: "¿0.01 × 100?", a: "1", f1: "0.1", f2: "10" },
-        { q: "¿2.5 × 4?", a: "10", f1: "25", f2: "8" }, { q: "¿√36 + 4?", a: "10", f1: "40", f2: "8" }
-    ],
-
-    QUESTIONS_CHEMISTRY: [
-        { q: "Hidrógeno", a: "H", f1: "Hy", f2: "Hi" }, { q: "Helio", a: "He", f1: "H", f2: "Ho" },
-        { q: "Litio", a: "Li", f1: "L", f2: "Lt" }, { q: "Carbono", a: "C", f1: "Ca", f2: "Cr" },
-        { q: "Nitrógeno", a: "N", f1: "Ni", f2: "No" }, { q: "Oxígeno", a: "O", f1: "Ox", f2: "Os" },
-        { q: "Sodio", a: "Na", f1: "So", f2: "S" }, { q: "Magnesio", a: "Mg", f1: "Ma", f2: "Mn" },
-        { q: "Hierro", a: "Fe", f1: "Hi", f2: "H" }, { q: "Cobre", a: "Cu", f1: "C", f2: "Co" },
-        { q: "Plata", a: "Ag", f1: "Pl", f2: "P" }, { q: "Oro", a: "Au", f1: "O", f2: "Or" },
-        { q: "Potasio", a: "K", f1: "Po", f2: "P" }, { q: "Calcio", a: "Ca", f1: "C", f2: "Cl" },
-        { q: "Cloro", a: "Cl", f1: "C", f2: "Cr" }, { q: "Fósforo", a: "P", f1: "F", f2: "Fs" },
-        { q: "Azufre", a: "S", f1: "Az", f2: "A" }, { q: "Flúor", a: "F", f1: "Fl", f2: "Fr" },
-        { q: "Zinc", a: "Zn", f1: "Z", f2: "Zi" }, { q: "Níquel", a: "Ni", f1: "N", f2: "Nq" }
-    ],
-
-    QUESTIONS_DEFENDER: [
-        { q: "Equivale a 50%", a: "1/2", f1: "1/4", f2: "0.05", f3: "2/5" }, { q: "Equivale a 25%", a: "1/4", f1: "1/2", f2: "0.2", f3: "2.5" },
-        { q: "Equivale a 75%", a: "3/4", f1: "1/3", f2: "0.7", f3: "7/5" }, { q: "Equivale a 20%", a: "1/5", f1: "1/2", f2: "2/100", f3: "0.02" },
-        { q: "Equivale a 10%", a: "1/10", f1: "0.01", f2: "1/5", f3: "10/10" }, { q: "Equivale a 0.5", a: "1/2", f1: "5%", f2: "1/5", f3: "0.05" },
-        { q: "x + 2 = 5", a: "3", f1: "7", f2: "2.5", f3: "10" }, { q: "3x = 15", a: "5", f1: "12", f2: "18", f3: "45" },
-        { q: "x/2 = 8", a: "16", f1: "4", f2: "10", f3: "6" }, { q: "2x + 1 = 7", a: "3", f1: "4", f2: "8", f3: "6" },
-        { q: "Prob. Cara (Moneda)", a: "1/2", f1: "1/4", f2: "1", f3: "0" }, { q: "Ángulo Recto", a: "90°", f1: "180°", f2: "360°", f3: "45°" },
-        { q: "x - 5 = 10", a: "15", f1: "5", f2: "50", f3: "2" }, { q: "4x = 20", a: "5", f1: "16", f2: "24", f3: "10" },
-        { q: "x/3 = 9", a: "27", f1: "3", f2: "12", f3: "6" }, { q: "3x - 2 = 7", a: "3", f1: "5", f2: "9", f3: "2" },
-        { q: "Equivale a 33.3%", a: "1/3", f1: "1/4", f2: "0.33", f3: "3/10" }, { q: "100x = 500", a: "5", f1: "50", f2: "0.5", f3: "5000" }
-    ],
+    QUESTIONS: {
+        math: [
+            { q: "¿50% de 10?", a: "5", f1: "10", f2: "2", f3: "2.5" }, { q: "¿50% de 20?", a: "10", f1: "5", f2: "15", f3: "20" },
+            { q: "¿25% de 40?", a: "10", f1: "20", f2: "15", f3: "5" }, { q: "¿25% de 100?", a: "25", f1: "50", f2: "75", f3: "10" },
+            { q: "¿10% de 70?", a: "7", f1: "70", f2: "0.7", f3: "14" }, { q: "¿10% de 500?", a: "50", f1: "5", f2: "500", f3: "25" },
+            { q: "¿2²?", a: "4", f1: "2", f2: "8", f3: "16" }, { q: "¿2³?", a: "8", f1: "6", f2: "9", f3: "12" },
+            { q: "¿5²?", a: "25", f1: "10", f2: "125", f3: "50" }, { q: "¿10²?", a: "100", f1: "20", f2: "1000", f3: "200" },
+            { q: "¿√9?", a: "3", f1: "4.5", f2: "6", f3: "9" }, { q: "¿√64?", a: "8", f1: "32", f2: "16", f3: "4" },
+            { q: "¿20% de 150?", a: "30", f1: "15", f2: "60", f3: "75" }, { q: "¿3³?", a: "27", f1: "9", f2: "33", f3: "81" },
+            { q: "¿15% de 200?", a: "30", f1: "15", f2: "20", f3: "45" }, { q: "¿√81?", a: "9", f1: "18", f2: "20", f3: "3" },
+            { q: "¿6²?", a: "36", f1: "12", f2: "24", f3: "18" }, { q: "¿7²?", a: "49", f1: "14", f2: "21", f3: "35" },
+            { q: "¿1% de 1000?", a: "10", f1: "100", f2: "1", f3: "0.1" }, { q: "¿√144?", a: "12", f1: "72", f2: "14", f3: "24" },
+            { q: "¿2^4?", a: "16", f1: "8", f2: "64", f3: "32" }, { q: "¿√121?", a: "11", f1: "121", f2: "10", f3: "22" },
+            { q: "¿1/2 de 50?", a: "25", f1: "12.5", f2: "50", f3: "5" }, { q: "¿3/4 de 100?", a: "75", f1: "25", f2: "34", f3: "50" },
+            { q: "¿1/5 de 50?", a: "10", f1: "5", f2: "25", f3: "15" }, { q: "¿30% de 90?", a: "27", f1: "30", f2: "9", f3: "18" },
+            { q: "¿(-3)²?", a: "9", f1: "-9", f2: "6", f3: "-6" }, { q: "¿-(-2)³?", a: "8", f1: "-8", f2: "6", f3: "-6" },
+            { q: "¿√25 + √16?", a: "9", f1: "41", f2: "20", f3: "1" }, { q: "¿30% de 300?", a: "90", f1: "30", f2: "100", f3: "60" },
+            { q: "¿5% de 80?", a: "4", f1: "8", f2: "40", f3: "16" }, { q: "¿2% de 200?", a: "4", f1: "10", f2: "40", f3: "20" },
+            { q: "¿12²?", a: "144", f1: "24", f2: "122", f3: "240" }, { q: "¿9²?", a: "81", f1: "18", f2: "99", f3: "162" },
+            { q: "¿√169?", a: "13", f1: "14", f2: "16", f3: "15" }, { q: "¿√400?", a: "20", f1: "40", f2: "200", f3: "10" },
+            { q: "¿20% de 25?", a: "5", f1: "10", f2: "2", f3: "1" }, { q: "¿11²?", a: "121", f1: "22", f2: "111", f3: "242" },
+            { q: "¿0.5 × 40?", a: "20", f1: "200", f2: "0.2", f3: "10" }, { q: "¿0.25 × 16?", a: "4", f1: "16", f2: "64", f3: "8" },
+            { q: "¿0.1 × 35?", a: "3.5", f1: "35", f2: "0.35", f3: "350" }, { q: "¿(-5) × (-4)?", a: "20", f1: "-20", f2: "-9", f3: "9" },
+            { q: "¿(-8) + 3?", a: "-5", f1: "-11", f2: "5", f3: "11" }, { q: "¿(-10) / (-2)?", a: "5", f1: "-5", f2: "-20", f3: "20" },
+            { q: "¿100 / 0.5?", a: "200", f1: "50", f2: "10", f3: "500" }, { q: "¿2/3 de 30?", a: "20", f1: "30", f2: "10", f3: "15" },
+            { q: "¿3/5 de 50?", a: "30", f1: "15", f2: "50", f3: "25" }, { q: "¿200% de 40?", a: "80", f1: "20", f2: "400", f3: "160" },
+            { q: "¿√(9+16)?", a: "5", f1: "7", f2: "25", f3: "12" }, { q: "¿1/4 de 80?", a: "20", f1: "4", f2: "40", f3: "10" },
+            { q: "¿10% de 1000?", a: "100", f1: "10", f2: "1", f3: "1000" }, { q: "¿4³?", a: "64", f1: "16", f2: "12", f3: "48" },
+            { q: "¿(-1)^5?", a: "-1", f1: "1", f2: "-5", f3: "5" }, { q: "¿1^100?", a: "1", f1: "100", f2: "0", f3: "10" },
+            { q: "¿(-2)^4?", a: "16", f1: "-16", f2: "-8", f3: "8" }, { q: "¿40% de 60?", a: "24", f1: "40", f2: "10", f3: "30" },
+            { q: "¿60% de 50?", a: "30", f1: "60", f2: "15", f3: "45" }, { q: "¿0.01 × 100?", a: "1", f1: "0.1", f2: "10", f3: "100" },
+            { q: "¿2.5 × 4?", a: "10", f1: "25", f2: "8", f3: "20" }, { q: "¿√36 + 4?", a: "10", f1: "40", f2: "8", f3: "12" }
+        ],
+        english: [
+            { q: "Libro", a: "Book", f1: "Look", f2: "Notebook", f3: "Read" },
+            { q: "Manzana", a: "Apple", f1: "Pineapple", f2: "Banana", f3: "Grape" },
+            { q: "Perro", a: "Dog", f1: "Cat", f2: "Bird", f3: "Rabbit" },
+            { q: "She ___ to school", a: "goes", f1: "go", f2: "going", f3: "went" },
+            { q: "They ___ playing", a: "are", f1: "is", f2: "am", f3: "be" },
+            { q: "Yesterday I ___", a: "went", f1: "go", f2: "gone", f3: "going" },
+            { q: "Blue", a: "Azul", f1: "Rojo", f2: "Verde", f3: "Negro" },
+            { q: "Teacher", a: "Profesor", f1: "Estudiante", f2: "Director", f3: "Médico" },
+            { q: "Cat", a: "Gato", f1: "Perro", f2: "Ratón", f3: "Caballo" },
+            { q: "Car", a: "Carro", f1: "Casa", f2: "Tren", f3: "Avión" },
+            { q: "House", a: "Casa", f1: "Habitación", f2: "Puerta", f3: "Ventana" },
+            { q: "Water", a: "Agua", f1: "Leche", f2: "Jugo", f3: "Té" },
+            { q: "School", a: "Escuela", f1: "Iglesia", f2: "Hospital", f3: "Parque" },
+            { q: "Write", a: "Escribir", f1: "Leer", f2: "Cantar", f3: "Hablar" },
+            { q: "Read", a: "Leer", f1: "Escribir", f2: "Escuchar", f3: "Hablar" },
+            { q: "Speak", a: "Hablar", f1: "Escribir", f2: "Cantar", f3: "Leer" },
+            { q: "He ___ a student", a: "is", f1: "are", f2: "am", f3: "be" },
+            { q: "I ___ happy", a: "am", f1: "is", f2: "are", f3: "be" },
+            { q: "We ___ friends", a: "are", f1: "is", f2: "am", f3: "be" },
+            { q: "Red", a: "Rojo", f1: "Azul", f2: "Verde", f3: "Amarillo" }
+        ],
+        chemistry: [
+            { q: "Agua", a: "H2O", f1: "HO2", f2: "CO2", f3: "NaCl" },
+            { q: "Sal común", a: "NaCl", f1: "HCl", f2: "NaOH", f3: "KCl" },
+            { q: "Dióxido de Carbono", a: "CO2", f1: "CO", f2: "O2", f3: "C2O" },
+            { q: "Ácido", a: "pH < 7", f1: "pH > 7", f2: "pH = 7", f3: "pH = 0" },
+            { q: "Base / Alcalino", a: "pH > 7", f1: "pH < 7", f2: "pH = 7", f3: "pH = 1" },
+            { q: "Neutro", a: "pH = 7", f1: "pH < 7", f2: "pH > 7", f3: "pH = 0" },
+            { q: "Enlace Covalente", a: "Compartir e-", f1: "Transferir e-", f2: "Ganar e-", f3: "Ninguno" },
+            { q: "Enlace Iónico", a: "Transferir e-", f1: "Compartir e-", f2: "Sin enlace", f3: "Ninguno" },
+            { q: "Protón", a: "Positivo", f1: "Negativo", f2: "Neutro", f3: "Ninguno" },
+            { q: "Electrón", a: "Negativo", f1: "Positivo", f2: "Neutro", f3: "Ninguno" },
+            { q: "Neutrón", a: "Neutro", f1: "Positivo", f2: "Negativo", f3: "Ninguno" },
+            { q: "Oxígeno", a: "O", f1: "Ox", f2: "Os", f3: "O2" },
+            { q: "Carbono", a: "C", f1: "Ca", f2: "Co", f3: "Cr" },
+            { q: "Hidrógeno", a: "H", f1: "Hy", f2: "Hi", f3: "H2" },
+            { q: "Nitrógeno", a: "N", f1: "Ni", f2: "Ne", f3: "No" },
+            { q: "Sodio", a: "Na", f1: "S", f2: "So", f3: "Cl" },
+            { q: "Cloro", a: "Cl", f1: "C", f2: "Cr", f3: "Co" },
+            { q: "Helio", a: "He", f1: "H", f2: "Ho", f3: "Li" },
+            { q: "Calcio", a: "Ca", f1: "C", f2: "Cl", f3: "Co" },
+            { q: "Potasio", a: "K", f1: "P", f2: "Po", f3: "Pt" }
+        ],
+        physics: [
+            { q: "Gravedad Tierra", a: "9.8 m/s²", f1: "1.6 m/s²", f2: "0 m/s²", f3: "98 m/s²" },
+            { q: "Fórmula Fuerza", a: "F = m×a", f1: "F = m/a", f2: "F = a/m", f3: "F = v×t" },
+            { q: "Velocidad cte.", a: "a = 0", f1: "a > 0", f2: "a < 0", f3: "a = 9.8" },
+            { q: "Ley de Ohm", a: "V = I×R", f1: "V = I/R", f2: "V = R/I", f3: "V = P×t" },
+            { q: "Energía Cinética", a: "Movimiento", f1: "Posición", f2: "Calor", f3: "Química" },
+            { q: "Energía Potencial", a: "Altura", f1: "Velocidad", f2: "Luz", f3: "Sonido" },
+            { q: "Unidad Fuerza", a: "Newton", f1: "Joule", f2: "Watt", f3: "Pascal" },
+            { q: "Unidad Energía", a: "Joule", f1: "Newton", f2: "Watt", f3: "Voltio" },
+            { q: "Unidad Potencia", a: "Watt", f1: "Joule", f2: "Newton", f3: "Amperio" },
+            { q: "Unidad Presión", a: "Pascal", f1: "Newton", f2: "Watt", f3: "Joule" },
+            { q: "Fórmula Velocidad", a: "v = d/t", f1: "v = d×t", f2: "v = t/d", f3: "v = m×a" },
+            { q: "Mov. acelerado", a: "a ≠ 0", f1: "a = 0", f2: "v = 0", f3: "Ninguno" },
+            { q: "Temperatura", a: "K o °C", f1: "Joule", f2: "Newton", f3: "Pascal" },
+            { q: "Trabajo mecánico", a: "W = F×d", f1: "W = F/d", f2: "W = m×a", f3: "W = v/t" },
+            { q: "Espejo cóncavo", a: "Converge", f1: "Diverge", f2: "Plano", f3: "Ninguno" },
+            { q: "Espejo convexo", a: "Diverge", f1: "Converge", f2: "Plano", f3: "Ninguno" },
+            { q: "Onda de sonido", a: "Mecánica", f1: "Electromag.", f2: "Luminosa", f3: "Ninguno" },
+            { q: "Onda de luz", a: "Electromag.", f1: "Mecánica", f2: "Sonora", f3: "Ninguno" },
+            { q: "Velocidad de la luz", a: "3×10^8 m/s", f1: "340 m/s", f2: "1000 m/s", f3: "3×10^5 m/s" },
+            { q: "Velocidad del sonido", a: "340 m/s", f1: "3×10^8 m/s", f2: "100 m/s", f3: "0 m/s" }
+        ],
+        biology: [
+            { q: "Célula vegetal", a: "Pared celular", f1: "Centriolos", f2: "Solo membrana", f3: "Sin núcleo" },
+            { q: "Mitocondria", a: "Energía / ATP", f1: "Proteínas", f2: "Fotosíntesis", f3: "ADN nuclear" },
+            { q: "Cloroplasto", a: "Fotosíntesis", f1: "Respiración", f2: "División", f3: "Digestión" },
+            { q: "ADN", a: "Doble hélice", f1: "Una hélice", f2: "Línea simple", f3: "Sin forma" },
+            { q: "ARN", a: "Una cadena", f1: "Dos cadenas", f2: "Triple hélice", f3: "Sin azúcar" },
+            { q: "Ribosoma", a: "Proteínas", f1: "Lípidos", f2: "ATP", f3: "Fotosíntesis" },
+            { q: "Fotosíntesis", a: "Libera O2", f1: "Libera CO2", f2: "Consume O2", f3: "Sin gas" },
+            { q: "Respiración", a: "Libera CO2", f1: "Libera O2", f2: "Consume CO2", f3: "Ninguno" },
+            { q: "Mitosis", a: "Células somat.", f1: "Gametos", f2: "Óvulos", f3: "Espermatoz." },
+            { q: "Meiosis", a: "Gametos / 4 cel.", f1: "Células somat.", f2: "2 cel. idént.", f3: "Clones" },
+            { q: "Cromosomas hum.", a: "46 (23 pares)", f1: "23", f2: "48", f3: "44" },
+            { q: "Homeostasis", a: "Equilibrio", f1: "Desorden", f2: "Crecimiento", f3: "Evolución" },
+            { q: "Genotipo", a: "Genes (ADN)", f1: "Físico visible", f2: "Ambiente", f3: "Ninguno" },
+            { q: "Fenotipo", a: "Físico visible", f1: "Genes (ADN)", f2: "Mutación", f3: "Ninguno" },
+            { q: "Productor", a: "Plantas / Algas", f1: "Herbívoros", f2: "Carnívoros", f3: "Hongos" },
+            { q: "Consumidor prim.", a: "Herbívoros", f1: "Plantas", f2: "Carnívoros", f3: "Hongos" },
+            { q: "Descomponedor", a: "Hongos/Bacter.", f1: "Plantas", f2: "Herbívoros", f3: "Carnívoros" },
+            { q: "Cigoto", a: "Óvulo+Esperm.", f1: "Gameto solo", f2: "Feto maduro", f3: "Embrión" },
+            { q: "Sistema inmune", a: "Linfocitos", f1: "Neuronas", f2: "Plaquetas", f3: "Miocitos" },
+            { q: "Glóbulos rojos", a: "Transportan O2", f1: "Defienden", f2: "Coagulan", f3: "Ninguno" }
+        ],
+        reading: [
+            { q: "Conector causal", a: "Porque", f1: "Pero", f2: "Además", f3: "Por lo tanto" },
+            { q: "Conector adversativo", a: "Sin embargo", f1: "También", f2: "Ya que", f3: "Entonces" },
+            { q: "Texto informativo", a: "Noticia", f1: "Poema", f2: "Cuento", f3: "Novela" },
+            { q: "Texto argumentativo", a: "Ensayo", f1: "Receta", f2: "Manual", f3: "Crónica" },
+            { q: "Conector consecutivo", a: "Por ende", f1: "Aunque", f2: "Asimismo", f3: "Porque" },
+            { q: "Premisa", a: "Afirmación base", f1: "Conclusión", f2: "Resumen", f3: "Ejemplo" },
+            { q: "Texto narrativo", a: "Novela / Cuento", f1: "Ensayo", f2: "Noticia", f3: "Infografía" },
+            { q: "Tesis", a: "Idea a defender", f1: "Dato objetivo", f2: "Pregunta", f3: "Resumen" },
+            { q: "Conector de adición", a: "Asimismo", f1: "Aunque", f2: "Porque", f3: "Por ende" },
+            { q: "Metáfora", a: "Fig. Retórica", f1: "Dato estadístico", f2: "Ley científica", f3: "Resumen" }
+        ],
+        socials: [
+            { q: "Constitución vigente", a: "1991", f1: "1886", f2: "1985", f3: "2010" },
+            { q: "Poder Legislativo", a: "Congreso", f1: "Presidente", f2: "Cortes", f3: "Alcalde" },
+            { q: "Poder Ejecutivo", a: "Presidente", f1: "Congreso", f2: "Cortes", f3: "Fiscalía" },
+            { q: "Derecho a la vida", a: "Fundamental", f1: "Social", f2: "Colectivo", f3: "Económico" },
+            { q: "Mecanismo de voto", a: "Referendo", f1: "Tutela", f2: "Derecho pet.", f3: "Acción pop." },
+            { q: "Mecanismo de protec.", a: "Acción de Tutela", f1: "Voto", f2: "Referendo", f3: "Plebiscito" },
+            { q: "Poder Judicial", a: "Altas Cortes", f1: "Presidente", f2: "Congreso", f3: "Alcaldes" },
+            { q: "Mecanismo participación", a: "Plebiscito", f1: "Acción Tutela", f2: "Derecho pet.", f3: "Ninguno" },
+            { q: "Derecho al trabajo", a: "Social y Econ.", f1: "Fundamental", f2: "Colectivo", f3: "De los pueblos" },
+            { q: "Derecho al ambiente", a: "Colectivo / Amb.", f1: "Fundamental", f2: "Individual", f3: "Social" },
+            { q: "Rama Judicial", a: "Juzgar leyes", f1: "Hacer leyes", f2: "Ejecutar leyes", f3: "Gobernar" },
+            { q: "Rama Legislativa", a: "Hacer leyes", f1: "Juzgar leyes", f2: "Ejecutar leyes", f3: "Gobernar" },
+            { q: "Rama Ejecutivo", a: "Administrar/Gob.", f1: "Hacer leyes", f2: "Juzgar leyes", f3: "Reformar" },
+            { q: "Estado de Derecho", a: "Imperio de la Ley", f1: "Dictadura", f2: "Monarquía", f3: "Caos" },
+            { q: "Mecanismo para quejas", a: "Derecho Petición", f1: "Tutela", f2: "Referendo", f3: "Voto" }
+        ]
+    },
 
     THEMES_NEON: [
         { bg: '15, 23, 42', grid: 'rgba(6, 182, 212, 0.2)', gridL: 'rgba(6, 182, 212, 0.1)', p1: '#06b6d4', e1: '#ef4444', e2: '#ec4899', e2f: 'rgba(236, 72, 153, 0.2)', p2: '#f97316', p3: '#22d3ee', name: "SECTOR 1: CIUDAD CYBER" },
@@ -498,6 +591,48 @@ const ArcadeGamesModule = {
             this.canvas = document.getElementById('arcade-game-canvas');
             this.ctx = this.canvas.getContext('2d');
             
+            // Inyectar dinámicamente el selector de materia / asignatura
+            let subjects = [];
+            if (gameId === 'neon_dash') {
+                subjects = [
+                    { value: 'math', label: 'Matemáticas (Aritmética)' },
+                    { value: 'english', label: 'Inglés (Vocabulario y Gramática)' },
+                    { value: 'socials', label: 'Sociales (Fechas y Conceptos)' }
+                ];
+            } else if (gameId === 'atomic_catcher') {
+                subjects = [
+                    { value: 'chemistry', label: 'Ciencias: Química' },
+                    { value: 'physics', label: 'Ciencias: Física' },
+                    { value: 'biology', label: 'Ciencias: Biología' }
+                ];
+            } else if (gameId === 'numeric_defender') {
+                subjects = [
+                    { value: 'math', label: 'Matemáticas (Álgebra y Datos)' },
+                    { value: 'reading', label: 'Lectura Crítica (Texto y Conectores)' },
+                    { value: 'socials', label: 'Sociales (Derechos y Constitución)' }
+                ];
+            }
+
+            const subjectSelectHTML = `
+                <div class="space-y-2 max-w-sm mx-auto mb-4">
+                    <label class="block text-slate-400 font-bold text-xs uppercase tracking-wider text-center">Selecciona el tema de estudio:</label>
+                    <select id="arcade-start-subject-select" class="w-full bg-slate-950/80 border border-slate-800 text-white font-semibold rounded-xl px-4 py-3 outline-none focus:border-cyan-500 transition-all text-sm cursor-pointer shadow-inner">
+                        ${subjects.map(s => `<option value="${s.value}">${s.label}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+
+            let subContainer = document.getElementById('arcade-subject-select-container');
+            if (!subContainer) {
+                subContainer = document.createElement('div');
+                subContainer.id = 'arcade-subject-select-container';
+                const startBtn = document.getElementById('arcade-start-btn');
+                if (startBtn) {
+                    startBtn.parentNode.insertBefore(subContainer, startBtn);
+                }
+            }
+            subContainer.innerHTML = subjectSelectHTML;
+            
             document.getElementById('arcade-start-btn').className = `w-full py-3 md:py-4 text-slate-900 text-lg md:text-xl font-black rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-2 md:gap-3 ${gameId === 'neon_dash' ? 'bg-cyan-500 hover:bg-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.4)]' : gameId === 'atomic_catcher' ? 'bg-emerald-500 hover:bg-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.4)]' : 'bg-blue-500 hover:bg-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.4)]'}`;
             
             if (gameId === 'neon_dash') {
@@ -655,6 +790,11 @@ Object.assign(ArcadeGamesModule.Engine, {
     launchGame() {
         ArcadeGamesModule.AudioSys.init();
         const cv = this.canvas;
+        
+        const subjectSelect = document.getElementById('arcade-start-subject-select');
+        const selectedSub = subjectSelect ? subjectSelect.value : (this.gameId === 'neon_dash' ? 'math' : this.gameId === 'atomic_catcher' ? 'chemistry' : 'math');
+        const questionsList = ArcadeGamesModule.QUESTIONS[selectedSub] || ArcadeGamesModule.QUESTIONS.math;
+
         if(this.gameId === 'neon_dash') {
             const h = cv.height;
             this.st = { 
@@ -664,7 +804,8 @@ Object.assign(ArcadeGamesModule.Engine, {
                 gateAct: false, isTrans: true, 
                 get lanes() { return [this.canvas.height*0.25, this.canvas.height*0.5, this.canvas.height*0.75]; },
                 canvas: cv, // Referencia para el getter
-                qs: [...ArcadeGamesModule.QUESTIONS_MATH].sort(() => Math.random() - 0.5), 
+                questionsList: questionsList,
+                qs: [...questionsList].sort(() => Math.random() - 0.5), 
                 isPlaying: true, isPaused: false, lives: 3, isGameOverTriggered: false 
             };
             ArcadeGamesModule.AudioSys.startEngine();
@@ -675,7 +816,8 @@ Object.assign(ArcadeGamesModule.Engine, {
                 player: { x: cv.width/2, targetX: cv.width/2, width: 60, height: 60, shootCooldown: 0 }, 
                 baseSpeedY: 3, internalScore: 0, level: 0, lastLevel: 0, frames: 0, 
                 atoms: [], bullets: [], junk: [], parts: [], cq: null, 
-                qs: [...ArcadeGamesModule.QUESTIONS_CHEMISTRY].sort(() => Math.random() - 0.5), 
+                questionsList: questionsList,
+                qs: [...questionsList].sort(() => Math.random() - 0.5), 
                 spawnTimer: 0, bulletTimeTimer: 0, isTrans: true, isPlaying: true, isPaused: false, lives: 3, 
                 isGameOverTriggered: false 
             };
@@ -684,7 +826,9 @@ Object.assign(ArcadeGamesModule.Engine, {
         } else {
             this.st = { 
                 rotationIndex: 0, dispAng: 0, internalScore: 0, level: 0, lastLevel: 0, frames: 0, 
-                enemy: null, parts: [], qs: [...ArcadeGamesModule.QUESTIONS_DEFENDER].sort(() => Math.random() - 0.5), 
+                enemy: null, parts: [], 
+                questionsList: questionsList,
+                qs: [...questionsList].sort(() => Math.random() - 0.5), 
                 cq: null, opts: [], isTrans: true, eSpeed: 2.5, bulletTimeTimer: 0, 
                 isPlaying: true, isPaused: false, lives: 3, isGameOverTriggered: false 
             };
@@ -875,10 +1019,12 @@ Object.assign(ArcadeGamesModule.Engine, {
             let orbThreshold = Math.min(0.55 + (s.level * 0.05), 0.85); // Aumenta prob de mostrar orbs
 
             if(r < gateThreshold && s.frames>200) {
-                s.gateAct = true; let q = s.qs.length===0 ? (s.qs=[...ArcadeGamesModule.QUESTIONS_MATH].sort(()=>Math.random()-0.5)).pop() : s.qs.pop();
-                let ans = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false}].sort(()=>Math.random()-0.5);
-                this.showQuestion(q.q, true, true); // Añadimos isMath=false (en este params, pasamos texto puro en el hub arcade) => Dejaremos true para no chocar.
-                this.showQuestion(q.q, true, false); // Forzar que no aplique reglas Math de las anteriores pantallas, porque es texto puro Neon Dash
+                s.gateAct = true; let q = s.qs.length===0 ? (s.qs=[...s.questionsList].sort(()=>Math.random()-0.5)).pop() : s.qs.pop();
+                let distractors = [{t:q.f1, c:false},{t:q.f2, c:false}];
+                if (q.f3) distractors.push({t:q.f3, c:false});
+                let chosenDistractors = distractors.sort(()=>Math.random()-0.5).slice(0, 2);
+                let ans = [{t:q.a, c:true}, ...chosenDistractors].sort(()=>Math.random()-0.5);
+                this.showQuestion(q.q, true, false); 
                 ans.forEach((a,i)=>s.obs.push({type:'gate', x:cv.width+100, lane:i, w:40, h:120, t:a.t, c:a.c, del:false}));
             } else if(r < orbThreshold) {
                 let l1 = Math.floor(Math.random()*3); for(let j=0;j<3;j++) s.obs.push({type:'orb', x:cv.width+(j*50), lane:l1, sz:12, r:0, del:false});
@@ -962,9 +1108,12 @@ Object.assign(ArcadeGamesModule.Engine, {
         let go = (s.frames*0.5)%40; for(let i=-go;i<cv.width;i+=40){cx.beginPath();cx.moveTo(i,0);cx.lineTo(i,cv.height);cx.stroke();} for(let i=-go;i<cv.height;i+=40){cx.beginPath();cx.moveTo(0,i);cx.lineTo(cv.width,i);cx.stroke();}
 
         if(s.atoms.length===0 && s.spawnTimer<=0 && !s.isTrans) {
-            let q = s.qs.length===0 ? (s.qs=[...ArcadeGamesModule.QUESTIONS_CHEMISTRY].sort(()=>Math.random()-0.5)).pop() : s.qs.pop();
+            let q = s.qs.length===0 ? (s.qs=[...s.questionsList].sort(()=>Math.random()-0.5)).pop() : s.qs.pop();
             this.showQuestion(`Destruye: ${q.q}`, true);
-            let ans = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false}].sort(()=>Math.random()-0.5);
+            let distractors = [{t:q.f1, c:false},{t:q.f2, c:false}];
+            if (q.f3) distractors.push({t:q.f3, c:false});
+            let chosenDistractors = distractors.sort(()=>Math.random()-0.5).slice(0, 2);
+            let ans = [{t:q.a, c:true}, ...chosenDistractors].sort(()=>Math.random()-0.5);
             let spc = cv.width/4;
             let pats = s.level===0?['st']:s.level===1?['st','si']:s.level===2?['si','zi']:['si','zi','di'];
             ans.forEach((a,i)=>{
@@ -1078,12 +1227,13 @@ Object.assign(ArcadeGamesModule.Engine, {
     },
 
     spawnDefEnemy() {
-        let q = this.st.qs.length===0 ? (this.st.qs=[...ArcadeGamesModule.QUESTIONS_DEFENDER].sort(()=>Math.random()-0.5)).pop() : this.st.qs.pop();
-        this.st.cq = q.q;
+        const s = this.st;
+        let q = s.qs.length===0 ? (s.qs=[...s.questionsList].sort(()=>Math.random()-0.5)).pop() : s.qs.pop();
+        s.cq = q.q;
         let sp = Math.floor(Math.random()*4);
-        this.st.opts = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false},{t:q.f3,c:false}].sort(()=>Math.random()-0.5);
-        this.st.enemy = { posIdx: sp, dist: Math.max(this.canvas.width, this.canvas.height)*0.45, speed: this.st.eSpeed };
-        this.st.bulletTimeTimer = 600; 
+        s.opts = [{t:q.a, c:true},{t:q.f1,c:false},{t:q.f2,c:false},{t:q.f3 || "Ninguno",c:false}].sort(()=>Math.random()-0.5);
+        s.enemy = { posIdx: sp, dist: Math.max(this.canvas.width, this.canvas.height)*0.45, speed: s.eSpeed };
+        s.bulletTimeTimer = 600; 
     }
 });
 

@@ -128,7 +128,7 @@
         onClick: () => setSelectedTopic(item) }, /*#__PURE__*/
 
       React.createElement("div", { className: "relative h-48 overflow-hidden" }, /*#__PURE__*/
-      React.createElement("img", { src: item.image, className: "w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" }), /*#__PURE__*/
+      React.createElement("img", { loading: "lazy", decoding: "async", src: item.image, className: "w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" }), /*#__PURE__*/
       React.createElement("div", { className: "absolute inset-0 bg-gradient-to-t from-[color:var(--color-bg)] to-transparent opacity-80" }), /*#__PURE__*/
       React.createElement("div", { className: "absolute bottom-4 left-4 right-4" }, /*#__PURE__*/
       React.createElement("span", { className: "inline-block px-3 py-1 bg-amber-500 text-indigo-950 text-[10px] font-black rounded-full mb-2 uppercase tracking-wider" },
@@ -167,7 +167,7 @@
       ), /*#__PURE__*/
 
       React.createElement("div", { className: "w-full md:w-2/5 h-48 md:h-auto relative" }, /*#__PURE__*/
-      React.createElement("img", { src: selectedTopic.image, className: "absolute inset-0 w-full h-full object-cover" }), /*#__PURE__*/
+      React.createElement("img", { loading: "lazy", decoding: "async", src: selectedTopic.image, className: "absolute inset-0 w-full h-full object-cover" }), /*#__PURE__*/
       React.createElement("div", { className: "absolute inset-0 bg-indigo-900/40 mix-blend-multiply" }), /*#__PURE__*/
       React.createElement("div", { className: "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-amber-500 text-indigo-950 p-6 rounded-full shadow-2xl hidden md:flex items-center justify-center" }, /*#__PURE__*/
       React.createElement("span", { className: "material-icons-round", style: { fontSize: '40px' } }, selectedTopic.icon)

@@ -9,6 +9,7 @@ if (typeof pdfjsLib !== 'undefined') {
 (function () {
     var badge = document.getElementById('floating-status-badge');
     if (!badge) return;
+    badge.style.cursor = 'default';
 
     // Determine server URL
     var serverUrl = '';
@@ -40,24 +41,8 @@ if (typeof pdfjsLib !== 'undefined') {
         badge.style.background = '#ef4444';
         badge.style.borderColor = 'rgba(0,0,0,0.15)';
         badge.style.boxShadow = '0 0 8px rgba(239,68,68,0.5)';
-        badge.title = '❌ ' + msg + ' — Clic para configurar IP (' + serverUrl + ')';
+        badge.title = '❌ ' + msg + ' (' + serverUrl + ')';
     }
-
-    // Click to configure IP
-    badge.onclick = function () {
-        if (typeof LocalServerModule !== 'undefined' && LocalServerModule.setCustomIp) {
-            LocalServerModule.setCustomIp();
-        } else {
-            var ip = prompt('Ingrese IP del servidor (ej: 192.168.1.5):', serverUrl.replace('http://', '').replace(':8000', ''));
-            if (ip !== null && ip.trim() !== '') {
-                var url = ip.trim();
-                if (!url.includes(':')) url += ':8000';
-                if (!url.startsWith('http')) url = 'http://' + url;
-                try { localStorage.setItem('saber11_custom_server', url); } catch (e) { }
-                window.location.reload();
-            }
-        }
-    };
 
     // Run immediately and every 5 seconds
     checkServer();
@@ -163,15 +148,97 @@ window.alert = function (message) {
     NotificationModule.show(message, 'info');
 };
 
+// ============ CONTROL DE ACCESO ============
+// Las claves de acceso NO se guardan en texto plano: se comparan codificadas (XOR).
+// Aviso: al ser una app de solo-cliente, esto dificulta verlas pero no lo impide
+// al 100%. Para seguridad real haría falta validarlas en un servidor.
+const AccessControl = {
+    _k: 42,
+    _codes: {
+        admin: [31, 26, 31, 26],   // acceso al panel docente / administrador
+        teacher: [19, 26, 19, 26]  // acciones docentes (respuestas, exportar, resetear)
+    },
+    _encode(str) {
+        return Array.from(String(str)).map(ch => ch.charCodeAt(0) ^ this._k);
+    },
+    verify(role, input) {
+        if (input == null) return false;
+        const a = this._encode(input);
+        const b = this._codes[role];
+        if (!b || a.length !== b.length) return false;
+        return a.every((v, i) => v === b[i]);
+    }
+};
+window.AccessControl = AccessControl;
+
+// ============ DIÁLOGOS CON ESTILO ============
+// Reemplazan los prompt()/confirm() grises del navegador por ventanas acordes al
+// diseño de la app. Devuelven una promesa (usar con await). Si por cualquier motivo
+// fallara la creación del modal, recurren automáticamente al diálogo nativo.
+const UIDialog = {
+    _build(opts) {
+        const o = opts || {};
+        return new Promise((resolve) => {
+            try {
+                if (!document.body) throw new Error('sin body');
+                const accent = o.danger ? '#e11d48' : '#0ea5e9';
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.6);backdrop-filter:blur(4px);padding:1rem;';
+                const box = document.createElement('div');
+                box.style.cssText = 'background:#fff;color:#0f172a;max-width:24rem;width:100%;border-radius:1.25rem;box-shadow:0 20px 50px rgba(0,0,0,.3);padding:1.5rem;font-family:inherit;';
+                box.innerHTML =
+                    '<h3 style="margin:0 0 .5rem;font-size:1.05rem;font-weight:800;">' + (o.title || '') + '</h3>' +
+                    (o.message ? '<p style="margin:0 0 1rem;font-size:.85rem;color:#475569;line-height:1.5;white-space:pre-line;">' + o.message + '</p>' : '') +
+                    (o.withInput ? '<input type="' + (o.inputType || 'text') + '" placeholder="' + (o.placeholder || '') + '" style="width:100%;box-sizing:border-box;padding:.7rem .9rem;border:2px solid #e2e8f0;border-radius:.75rem;font-size:.9rem;outline:none;margin-bottom:1rem;" />' : '') +
+                    '<div style="display:flex;gap:.5rem;justify-content:flex-end;">' +
+                    '<button data-act="cancel" style="padding:.6rem 1rem;border-radius:.75rem;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;font-weight:700;font-size:.8rem;cursor:pointer;">' + (o.cancelText || 'Cancelar') + '</button>' +
+                    '<button data-act="ok" style="padding:.6rem 1.1rem;border-radius:.75rem;border:none;background:' + accent + ';color:#fff;font-weight:800;font-size:.8rem;cursor:pointer;">' + (o.okText || 'Aceptar') + '</button>' +
+                    '</div>';
+                overlay.appendChild(box);
+                document.body.appendChild(overlay);
+                const input = box.querySelector('input');
+                if (input) setTimeout(function () { input.focus(); }, 30);
+                const close = function (val) { overlay.remove(); resolve(val); };
+                box.querySelector('[data-act="ok"]').onclick = function () { close(o.withInput ? (input ? input.value : '') : true); };
+                box.querySelector('[data-act="cancel"]').onclick = function () { close(o.withInput ? null : false); };
+                overlay.addEventListener('click', function (e) { if (e.target === overlay) close(o.withInput ? null : false); });
+                if (input) input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') close(input.value);
+                    if (e.key === 'Escape') close(null);
+                });
+            } catch (err) {
+                if (o.withInput) resolve(window.prompt(o.message || o.title || ''));
+                else resolve(window.confirm(o.message || o.title || ''));
+            }
+        });
+    },
+    prompt(message, opts) {
+        opts = opts || {};
+        return this._build({
+            title: opts.title || 'Confirmar', message: message, withInput: true,
+            inputType: opts.inputType || 'text', placeholder: opts.placeholder || '',
+            okText: opts.okText || 'Aceptar'
+        });
+    },
+    confirm(message, opts) {
+        opts = opts || {};
+        return this._build({
+            title: opts.title || 'Confirmar', message: message, withInput: false,
+            okText: opts.okText || 'Sí, continuar', danger: !!opts.danger
+        });
+    }
+};
+window.UIDialog = UIDialog;
+
 // ============ ROUTER ============
 var Router = {
     currentView: 'home',
-    go(view) {
+    async go(view) {
         if (view === 'teacher' || view === 'admin') {
             const userRole = AuthModule.currentUser ? AuthModule.currentUser.role : 'estudiante';
             if (userRole !== 'docente') {
-                const pwd = prompt('Ingrese la contraseña de acceso (Administrador):');
-                if (pwd !== '5050') {
+                const pwd = await UIDialog.prompt('Ingrese la contraseña de acceso al panel.', { title: 'Acceso restringido', inputType: 'password', placeholder: 'Contraseña de administrador' });
+                if (!AccessControl.verify('admin', pwd)) {
                     alert('Contraseña incorrecta. Acceso denegado.');
                     return;
                 }
@@ -3307,9 +3374,9 @@ const PDFExamModule = {
         this.renderAnswerKeygrid();
     },
 
-    unlockAnswerKey() {
-        const password = prompt('Ingrese la contraseña para ver las respuestas:');
-        if (password === '9090') {
+    async unlockAnswerKey() {
+        const password = await UIDialog.prompt('Ingresa la contraseña docente para ver las respuestas.', { title: 'Respuestas bloqueadas', inputType: 'password' });
+        if (AccessControl.verify('teacher', password)) {
             document.getElementById('key-lock-container').style.display = 'none';
             document.getElementById('answer-key-grid').style.display = 'grid';
         } else {
@@ -4320,9 +4387,9 @@ const TeacherModule = {
         this.renderTabs(); // Refresh
     },
 
-    exportResultsSecure() {
-        const password = prompt('🔒 Ingresa la contraseña docente para descargar:');
-        if (password === '9090') {
+    async exportResultsSecure() {
+        const password = await UIDialog.prompt('Ingresa la contraseña docente para descargar los resultados.', { title: '🔒 Descarga protegida', inputType: 'password' });
+        if (AccessControl.verify('teacher', password)) {
             this.exportResults();
         } else {
             NotificationModule.show('Contraseña incorrecta. Acceso denegado.', 'error');
@@ -4330,8 +4397,8 @@ const TeacherModule = {
     },
 
     async resetResultsSecure() {
-        const password = prompt('🔒 Ingresa la contraseña docente para RESETEAR todo:');
-        if (password === '9090') {
+        const password = await UIDialog.prompt('Ingresa la contraseña docente para RESETEAR todos los resultados.', { title: '🔒 Acción peligrosa', inputType: 'password', okText: 'Continuar' });
+        if (AccessControl.verify('teacher', password)) {
             if (confirm('⚠️ PELIGRO: ¿Estás seguro de que quieres BORRAR TODOS LOS RESULTADOS?\n\nEsta acción eliminará el historial local y la base de datos en el servidor.\n\nNO SE PUEDE DESHACER.')) {
 
                 // 1. Reset Server
@@ -4806,8 +4873,8 @@ const TeacherModule = {
     async resetStudentData() {
         if (!confirm('🚨 ALERTA DE REINICIO DE TEMPORADA\n\nEsta acción borrará los puntos (XP), niveles, historial de preguntas y resultados de TODOS los estudiantes registrados.\n\nSin embargo, las CUENTAS se mantendrán para que no tengan que registrarse de nuevo.\n\n¿Estás seguro de que quieres continuar?')) return;
         
-        const pwd = prompt('Ingresa la contraseña maestra para RESET GLOBAL (9090):');
-        if (pwd !== '9090') {
+        const pwd = await UIDialog.prompt('Ingresa la contraseña maestra para el RESET GLOBAL de temporada.', { title: '🚨 Reinicio de temporada', inputType: 'password', okText: 'Continuar' });
+        if (!AccessControl.verify('teacher', pwd)) {
             alert('Contraseña incorrecta. Abortando reinicio.');
             return;
         }
@@ -5122,18 +5189,19 @@ const LocalServerModule = {
         const floatStatus = document.getElementById('floating-status-badge');
         if (floatStatus) {
             floatStatus.style.display = 'block';
+            floatStatus.style.cursor = 'default';
             if (isConnected) {
                 floatStatus.style.background = "#dcfce7";
                 floatStatus.style.color = "#166534";
                 floatStatus.innerHTML = "🟢 Conectado al Server";
-                floatStatus.title = "Click para reconfigurar IP";
+                floatStatus.title = "Conectado al servidor local";
             } else {
                 floatStatus.style.background = "#fee2e2";
                 floatStatus.style.color = "#991b1b";
                 floatStatus.innerHTML = "🔴 " + (statusText || "Desconectado");
-                floatStatus.title = "Click para cambiar la IP";
+                floatStatus.title = "Desconectado del servidor local";
             }
-            floatStatus.onclick = () => this.setCustomIp();
+            floatStatus.onclick = null;
         }
 
         // 2. Teacher UI
@@ -5790,8 +5858,7 @@ const AdminPanelModule = {
     currentAreaFilter: 'all',
 
     init() {
-        // Optional: you could fetch automatically
-        // this.fetchAllStudents();
+        this.fetchAllStudents();
     },
 
     filterByArea(area) {
@@ -5809,11 +5876,12 @@ const AdminPanelModule = {
 
         try {
             // Use shared cached loader instead of direct Firebase fetch (saves ~3MB per call)
+            // Passing true forces cache bypass and full retrieval for real-time teacher tracking
             let usersData = null;
             let resultsData = null;
             if (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._loadData) {
-                usersData = await GlobalResultsModule._loadData('users');
-                resultsData = await GlobalResultsModule._loadData('results');
+                usersData = await GlobalResultsModule._loadData('users', true);
+                resultsData = await GlobalResultsModule._loadData('results', true);
             } else {
                 const usersRes = await fetch('https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users.json');
                 usersData = await usersRes.json();
@@ -5850,9 +5918,17 @@ const AdminPanelModule = {
                         return false;
                     });
 
-                    // Extract last connection (from sessions and/or results history)
+                    // Extract last connection (from sessions, gamification presence, and/or results history)
                     let lastConnection = 'Sin datos';
                     let latestTimestamp = 0;
+
+                    // Check presence/gamification updates
+                    if (userObj.gamification && userObj.gamification.lastUpdated) {
+                        const presenceTs = parseInt(userObj.gamification.lastUpdated, 10);
+                        if (presenceTs > latestTimestamp) {
+                            latestTimestamp = presenceTs;
+                        }
+                    }
 
                     // Check sessions data for the most recent timestamp
                     const sessionsData = userObj.sessions || {};
@@ -5876,6 +5952,10 @@ const AdminPanelModule = {
                         const lastD = new Date(latestTimestamp);
                         lastConnection = lastD.toLocaleDateString() + ' ' + lastD.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                     }
+
+                    // Determine if the student is currently active (last update within 2.5 minutes)
+                    const isOnline = (userObj.gamification && userObj.gamification.lastUpdated && 
+                                     (Date.now() - parseInt(userObj.gamification.lastUpdated, 10)) < 150000);
 
                     // Calculate max score
                     let maxScore = 0;
@@ -6090,7 +6170,8 @@ const AdminPanelModule = {
                         isAtRisk: isAtRisk,
                         daysInactive: daysInactive,
                         last5Scores: last5Scores,
-                        studyPatternStr: studyPatternStr
+                        studyPatternStr: studyPatternStr,
+                        isOnline: isOnline
                     };
                 });
 
@@ -6200,6 +6281,11 @@ const AdminPanelModule = {
                 ? `<span style="background: rgba(239,68,68,0.15); color: #ef4444; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 8px; display: inline-flex; align-items: center; gap: 3px;">⚠️ ${student.daysInactive}d sin entrar</span>`
                 : '';
 
+            // Online badge
+            const onlineBadge = student.isOnline
+                ? `<span style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 8px; display: inline-flex; align-items: center; gap: 3px;"><span style="width: 6.5px; height: 6.5px; background: #10b981; border-radius: 50%; display: inline-block;"></span> En línea</span>`
+                : '';
+
             // ===== Area Breakdown HTML (P0 – CRITICAL) =====
             const areaNames = {
                 'matematicas': { label: 'Matemáticas', icon: '📐', color: '#818cf8' },
@@ -6303,7 +6389,7 @@ const AdminPanelModule = {
                             </div>
                             <div>
                                 <div style="font-weight: 700; color: var(--color-text); font-size: 1.05rem; display: flex; align-items: center; gap: 6px;">
-                                    ${student.name}${riskBadge}
+                                    ${student.name}${onlineBadge}${riskBadge}
                                 </div>
                                 <div style="color: var(--color-text-muted); font-size: 0.85rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                                     <span class="material-icons-round" style="font-size: 14px;">school</span> Grado ${student.grade}
@@ -6711,10 +6797,25 @@ const AdminPanelModule = {
             if (studentsContainer) studentsContainer.style.display = 'none';
             if (gradeTabs) gradeTabs.parentElement.style.display = 'none';
             this.loadConversations();
+            
+            // Start polling conversations and refresh active chat when open
+            if (this.adminMessagesPollInterval) clearInterval(this.adminMessagesPollInterval);
+            this.adminMessagesPollInterval = setInterval(async () => {
+                await this.loadConversations();
+                if (this.currentConversationUserId) {
+                    await this.refreshActiveConversation();
+                }
+            }, 10000);
         } else {
             panel.style.display = 'none';
             if (studentsContainer) studentsContainer.style.display = 'flex';
             if (gradeTabs) gradeTabs.parentElement.style.display = 'flex';
+            
+            // Clear polling when closed
+            if (this.adminMessagesPollInterval) {
+                clearInterval(this.adminMessagesPollInterval);
+                this.adminMessagesPollInterval = null;
+            }
         }
     },
 
@@ -6744,7 +6845,7 @@ const AdminPanelModule = {
                 if (msgArray.length > 0) {
                     const sorted = msgArray.sort((a, b) => new Date(b.date) - new Date(a.date));
                     const lastMsg = sorted[0];
-                    const unreadCount = msgArray.filter(m => !m.read && m.senderId !== 'master').length;
+                    const unreadCount = msgArray.filter(m => !m.read && m.senderId === userId).length;
                     
                     conversations.push({
                         userId,
@@ -6785,7 +6886,7 @@ const AdminPanelModule = {
                         onmouseout="this.style.background='${isUnread ? 'rgba(99,102,241,0.05)' : 'transparent'}'">
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
-                                ${name.charAt(0).toUpperCase()}
+                                ${c.name.charAt(0).toUpperCase()}
                             </div>
                             <div style="flex: 1; min-width: 0;">
                                 <div style="font-weight: 600; color: var(--color-text); display: flex; justify-content: space-between; align-items: center;">
@@ -6834,7 +6935,7 @@ const AdminPanelModule = {
         chatInput.style.display = 'flex';
         
         chatMessages.innerHTML = conv.messages.map(msg => {
-            const isMine = msg.senderId === 'master';
+            const isMine = msg.senderId !== userId;
             const dateStr = new Date(msg.date).toLocaleString('es', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
             return `
                 <div style="display: flex; flex-direction: column; align-items: ${isMine ? 'flex-end' : 'flex-start'};">
@@ -6848,9 +6949,9 @@ const AdminPanelModule = {
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
-        // Mark messages as read
+        // Mark student messages as read
         for (const msg of conv.messages) {
-            if (!msg.read && msg.senderId !== 'master') {
+            if (!msg.read && msg.senderId === userId) {
                 await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${userId}/messages/${msg.id}.json`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
@@ -6870,7 +6971,7 @@ const AdminPanelModule = {
 
         const messageObj = {
             from: 'Profesor',
-            senderId: 'master',
+            senderId: AuthModule.currentUser ? AuthModule.currentUser.id : 'master',
             text: text,
             date: new Date().toISOString(),
             read: false
@@ -6889,6 +6990,52 @@ const AdminPanelModule = {
         } catch (err) {
             console.error('Error sending reply:', err);
             NotificationModule.show('Error al enviar mensaje', 'error');
+        }
+    },
+
+    async refreshActiveConversation() {
+        if (!this.currentConversationUserId || !this.conversationsData) return;
+        
+        const conv = this.conversationsData.find(c => c.userId === this.currentConversationUserId);
+        if (!conv) return;
+
+        const chatMessages = document.getElementById('admin-chat-messages');
+        if (!chatMessages) return;
+
+        this.currentConversationMessages = conv.messages;
+        const userId = this.currentConversationUserId;
+
+        const newHtml = conv.messages.map(msg => {
+            const isMine = msg.senderId !== userId;
+            const dateStr = new Date(msg.date).toLocaleString('es', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+            return `
+                <div style="display: flex; flex-direction: column; align-items: ${isMine ? 'flex-end' : 'flex-start'};">
+                    <div style="font-size: 0.7rem; color: var(--color-text-muted); margin-bottom: 4px;">${isMine ? 'Profesor' : conv.name} · ${dateStr}</div>
+                    <div style="max-width: 70%; padding: 12px 16px; border-radius: 16px; background: ${isMine ? 'var(--color-primary)' : 'rgba(0,0,0,0.08)'}; color: ${isMine ? 'white' : 'var(--color-text)'}; font-size: 0.9rem; line-height: 1.4;">
+                        ${msg.text}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        if (chatMessages.innerHTML !== newHtml) {
+            const wasAtBottom = chatMessages.scrollHeight - chatMessages.scrollTop <= chatMessages.clientHeight + 40;
+            chatMessages.innerHTML = newHtml;
+            if (wasAtBottom) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Mark incoming messages as read automatically
+            for (const msg of conv.messages) {
+                if (!msg.read && msg.senderId === userId) {
+                    await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${userId}/messages/${msg.id}.json`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ read: true })
+                    });
+                }
+            }
+            this.loadConversations();
         }
     }
 };
@@ -7796,7 +7943,7 @@ const AuthModule = {
                 // Parse messages
                 const msgEntries = Object.entries(messagesObj).map(([id, msg]) => ({ id, ...msg })).sort((a, b) => new Date(b.date) - new Date(a.date));
                 this.currentUserMessages = msgEntries;
-                const unreadCount = msgEntries.filter(m => !m.read).length;
+                const unreadCount = msgEntries.filter(m => !m.read && m.senderId !== this.currentUser.id).length;
 
                 this.updateBellBadge(unreadCount);
 
@@ -7813,9 +7960,9 @@ const AuthModule = {
         const badgeContainer = document.getElementById('messages-badge-container');
         if (badgeContainer) {
             badgeContainer.innerHTML = unreadCount > 0 ? `
-                <div style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: var(--color-text); font-size: 0.6rem; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid white; box-shadow: 0 2px 4px rgba(239,68,68,0.3); z-index: 10;">
+                <span class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white px-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]">
                     ${unreadCount}
-                </div>
+                </span>
             ` : '';
 
             const btn = badgeContainer.parentElement;
@@ -7834,18 +7981,14 @@ const AuthModule = {
 
     getBellIconWithCount(unreadCount) {
         return `
-            <div id="messages-button-wrapper" style="position: relative; display: flex; align-items: center;">
-                <button id="messages-toggle-btn" class="btn glass-hover" onclick="AuthModule.toggleMessagesDropdown(event)" title="Buzón de Mensajes" style="cursor: pointer; padding: 4px 10px; border-radius: 12px; border: 1px solid rgba(99,102,241, 0.15); background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; color: var(--color-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: all 0.3s; gap: 4px; font-weight: 700; font-size: 0.75rem; height: 32px;">
-                    <span class="material-icons-round" style="font-size: 1rem;">${unreadCount > 0 ? 'mark_email_unread' : 'mail'}</span>
-                    <span>Buzón</span>
-                </button>
-                <div id="messages-badge-container">
-                    ${unreadCount > 0 ? `
-                        <div style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: var(--color-text); font-size: 0.6rem; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1.5px solid white; box-shadow: 0 2px 4px rgba(239,68,68,0.3); z-index: 10;">
-                            ${unreadCount}
-                        </div>
-                    ` : ''}
-                </div>
+            <span class="material-icons-round text-[16px] text-indigo-400">${unreadCount > 0 ? 'mark_email_unread' : 'mail'}</span>
+            <span>Buzón</span>
+            <div id="messages-badge-container">
+                ${unreadCount > 0 ? `
+                    <span class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white px-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]">
+                        ${unreadCount}
+                    </span>
+                ` : ''}
             </div>
         `;
     },
@@ -7978,7 +8121,7 @@ const AuthModule = {
                 from: senderName,
                 senderId: myId,
                 date: new Date().toISOString(),
-                read: true,
+                read: false,
                 direction: 'outbound'
             })
         }).then(res => {
@@ -8009,7 +8152,7 @@ const AuthModule = {
             msg.read = true;
             this.renderMessagesDropdown();
             // Refresh bell icon using the new isolated badge updater
-            const unreadCount = this.currentUserMessages.filter(m => !m.read).length;
+            const unreadCount = this.currentUserMessages.filter(m => !m.read && m.senderId !== this.currentUser.id).length;
             this.updateBellBadge(unreadCount);
         }).catch(e => console.error('Error marking read:', e));
     }
@@ -8155,7 +8298,7 @@ const AuthUI = {
                 NotificationModule.show('Por favor selecciona el área a tu cargo.', 'warning');
                 return;
             }
-            if (teacherCode !== '9090') {
+            if (!AccessControl.verify('teacher', teacherCode)) {
                 NotificationModule.show('Código de acceso docente incorrecto. Solicita verificación.', 'error');
                 return;
             }
@@ -8242,7 +8385,7 @@ window.updateUserUI = function () {
             `;
         }
 
-        const unreadCount = AuthModule.messages ? AuthModule.messages.filter(m => !m.read).length : 0;
+        const unreadCount = AuthModule.currentUserMessages ? AuthModule.currentUserMessages.filter(m => !m.read && m.senderId !== AuthModule.currentUser.id).length : 0;
 
         container.innerHTML = `
             <div class="flex items-center gap-4 h-full justify-end">
@@ -8258,12 +8401,16 @@ window.updateUserUI = function () {
                 <div class="w-[1px] h-6 bg-slate-700/60 mx-1 hidden sm:block"></div>
 
                 <!-- Messages -->
-                <div id="student-messages-container" class="notification-bell-premium flex items-center justify-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold text-slate-300 cursor-pointer border border-slate-700/60 bg-slate-800/40 relative">
+                <div id="student-messages-container" onclick="AuthModule.toggleMessagesDropdown(event)" class="notification-bell-premium flex items-center justify-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold text-slate-300 cursor-pointer border border-slate-700/60 bg-slate-800/40 relative">
                     <span class="material-icons-round text-[16px] text-indigo-400">mail</span>
                     <span>Buzón</span>
-                    <span class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white px-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]">
-                        ${unreadCount > 0 ? unreadCount : 1}
-                    </span>
+                    <div id="messages-badge-container">
+                        ${unreadCount > 0 ? `
+                            <span class="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-black text-white px-1 shadow-[0_0_8px_rgba(239,68,68,0.6)]">
+                                ${unreadCount}
+                            </span>
+                        ` : ''}
+                    </div>
                 </div>
 
                 <!-- Profile -->
@@ -8355,13 +8502,33 @@ const GlobalResultsModule = {
      * - Filtered queries: ~50KB per download vs ~3MB (full DB)
      * - Net result: ~99.5% bandwidth reduction
      */
-    async _loadData(key) {
-        // Return memory cache if available and fresh
-        if (this._cache[key] && (Date.now() - this._cache.ts < this._CACHE_TTL)) {
-            return this._cache[key];
-        }
-
+    async _loadData(key, forceRefresh = false) {
         const FB_BASE = 'https://plataforma-icfes-13421-default-rtdb.firebaseio.com';
+
+        // If forceRefresh is active, skip memory cache and fetch complete database node directly
+        if (forceRefresh) {
+            try {
+                const url = `${FB_BASE}/${key}.json?t=${Date.now()}`;
+                const response = await fetch(url, { signal: AbortSignal.timeout(10000), cache: 'no-store' });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && !data.error) {
+                        this._cache[key] = data;
+                        this._cache.ts = Date.now();
+                        this._saveToLocalStorage();
+                        console.log(`✅ ${key} cargado desde Firebase (completo, forzado)`);
+                        return data;
+                    }
+                }
+            } catch (e) {
+                console.warn(`Firebase full "${key}" failed (forced):`, e.message);
+            }
+        } else {
+            // Return memory cache if available and fresh
+            if (this._cache[key] && (Date.now() - this._cache.ts < this._CACHE_TTL)) {
+                return this._cache[key];
+            }
+        }
 
         // --- Attempt 1: Firebase with FILTERED query (downloads ~50KB instead of ~3MB) ---
         try {
@@ -9220,9 +9387,8 @@ const FlashcardModule = {
 
         // Question text (front)
         const fcQuestion = document.getElementById('fc-question');
-        // Truncate very long enunciados
         let text = getQuestionText(q);
-        if (text.length > 600) text = text.substring(0, 600) + '...';
+        // Do not truncate text. We already fixed the CSS layout so it expands dynamically.
         fcQuestion.innerHTML = renderMarkdown ? renderMarkdown(text) : text;
 
         // Image support
@@ -9614,6 +9780,8 @@ const VirtualTeacherModule = {
             if (history.length === 0) return;
 
             const areaStats = {};
+            let totalExams = history.length;
+            
             history.forEach(exam => {
                 if (exam.byArea) {
                     Object.entries(exam.byArea).forEach(([area, stats]) => {
@@ -9626,11 +9794,12 @@ const VirtualTeacherModule = {
 
             let weakestArea = null;
             let weakestAcc = 100;
+            let bestAcc = 0;
 
             Object.entries(areaStats).forEach(([area, stats]) => {
-                if (stats.worked >= 5) { // Minimum threshold to judge
+                if (stats.worked >= 3) { // Minimum threshold to judge lowered to 3
                     const acc = Math.round((stats.correct / stats.worked) * 100);
-                    if (acc < 50 && acc < weakestAcc) {
+                    if (acc < 60 && acc < weakestAcc) {
                         weakestArea = area;
                         weakestAcc = acc;
                     }
@@ -9888,6 +10057,7 @@ const DuelModule = {
         rating: 1000,
         wins: 0,
         losses: 0,
+        draws: 0,
         rank: 'Soldado'
     },
     allStudents: [],
@@ -9896,6 +10066,8 @@ const DuelModule = {
     async init() {
         console.log('Iniciando DuelModule...');
         if (!AuthModule.currentUser) return;
+        
+        this.injectStyles();
         
         // Cleanup any existing intervals
         this.cleanup();
@@ -9938,6 +10110,55 @@ const DuelModule = {
         }
     },
 
+    injectStyles() {
+        if (document.getElementById('duel-vfx-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'duel-vfx-styles';
+        style.innerHTML = `
+            @keyframes slide-in-left {
+                from { transform: translateX(-150px) scale(0.9); opacity: 0; }
+                to { transform: translateX(0) scale(1); opacity: 1; }
+            }
+            @keyframes slide-in-right {
+                from { transform: translateX(150px) scale(0.9); opacity: 0; }
+                to { transform: translateX(0) scale(1); opacity: 1; }
+            }
+            @keyframes pop {
+                0% { transform: scale(0.3); opacity: 0; }
+                50% { transform: scale(1.25); opacity: 0.8; }
+                70% { transform: scale(0.95); opacity: 0.9; }
+                100% { transform: scale(1); opacity: 1; }
+            }
+            .battle-pulse-red {
+                animation: pulse-red 2s infinite;
+            }
+            @keyframes pulse-red {
+                0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+               70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+               100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+            }
+            .battle-vs-fire {
+                font-size: 5.5rem;
+                font-weight: 900;
+                font-style: italic;
+                color: #ef4444;
+                text-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 35px #b91c1c;
+                animation: pop 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) both, flame-flicker 1.5s infinite alternate;
+            }
+            @keyframes flame-flicker {
+                0% {
+                    text-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 35px #b91c1c;
+                    transform: scale(1);
+                }
+                100% {
+                    text-shadow: 0 0 15px #f87171, 0 0 25px #ef4444, 0 0 45px #ef4444;
+                    transform: scale(1.05);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    },
+
     async fetchHistory() {
         if (!AuthModule.currentUser) return;
         try {
@@ -9964,13 +10185,15 @@ const DuelModule = {
         container.innerHTML = history.slice(0, 10).map(h => {
             const date = new Date(h.timestamp).toLocaleString();
             const isWin = h.result === 'win';
-            const color = isWin ? '#10b981' : '#ef4444';
-            const icon = isWin ? 'trending_up' : 'trending_down';
+            const isDraw = h.result === 'draw';
+            const color = isWin ? '#10b981' : (isDraw ? '#f59e0b' : '#ef4444');
+            const icon = isWin ? 'trending_up' : (isDraw ? 'horizontal_rule' : 'trending_down');
+            const label = isWin ? 'Victoria' : (isDraw ? 'Empate' : 'Derrota');
 
             return `
                 <div class="glass" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 12px; border-left: 4px solid ${color}; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='var(--glass-bg)'">
                     <div style="flex: 1;">
-                        <div style="font-weight: 700; color: var(--color-text); font-size: 0.9rem;">${isWin ? 'Victoria' : 'Derrota'} contra ${h.opponentName}</div>
+                        <div style="font-weight: 700; color: var(--color-text); font-size: 0.9rem;">${label} contra ${h.opponentName}</div>
                         <div style="font-size: 0.7rem; color: var(--color-text-muted);">${date}</div>
                     </div>
                     <div style="text-align: right; display: flex; align-items: center; gap: 8px;">
@@ -10011,6 +10234,7 @@ const DuelModule = {
                     rating: data.rating || 1000,
                     wins: data.wins || 0,
                     losses: data.losses || 0,
+                    draws: data.draws || 0,
                     streak: data.streak || 0,
                     rank: this._calculateRank(data.rating || 1000).name
                 };
@@ -10064,16 +10288,16 @@ const DuelModule = {
         const rankEl = document.getElementById('duel-my-rank');
 
         if (ratingEl) ratingEl.innerText = this.stats.rating;
-        if (recordEl) recordEl.innerText = `${this.stats.wins}W - ${this.stats.losses}L`;
+        if (recordEl) recordEl.innerText = `${this.stats.wins}W - ${this.stats.losses}L` + (this.stats.draws ? ` - ${this.stats.draws}D` : '');
         if (rankEl) rankEl.innerText = this.stats.rank;
     },
 
-    async recordBattleInHistory(userToUpdateId, opponentInfo, iWon, eloChange, myScore = 0, rivalScore = 0) {
+    async recordBattleInHistory(userToUpdateId, opponentInfo, result, eloChange, myScore = 0, rivalScore = 0) {
         const historyEntry = {
             timestamp: Date.now(),
             opponentId: opponentInfo.id,
             opponentName: opponentInfo.name,
-            result: iWon ? 'win' : 'loss',
+            result: result, // 'win', 'loss' or 'draw'
             eloChange: eloChange,
             myScore: myScore,
             rivalScore: rivalScore
@@ -10205,6 +10429,15 @@ const DuelModule = {
         if (!opponent) return;
 
         this.isChallenger = true; // Soy el retador
+
+        const isOnline = (Date.now() - opponent.lastActive) < 300000;
+        if (!isOnline || !navigator.onLine) {
+            // El oponente es un bot o no tenemos internet
+            // Saltamos la espera y vamos directo a la batalla simulada
+            this.showVSScreen(opponent, null, null);
+            return;
+        }
+
         NotificationModule.show(`Enviando reto a ${opponent.name}...`, 'info');
 
         try {
@@ -10234,7 +10467,6 @@ const DuelModule = {
 
             const shuffled = [...pool].sort(() => 0.5 - Math.random());
             challenge.questions = shuffled.slice(0, 5).map(q => {
-                // Send original question data as-is (renderBattleQuestion handles all formats)
                 return {
                     ...q,
                     id: q.id || `q_${Math.random().toString(36).substr(2, 9)}`,
@@ -10247,7 +10479,7 @@ const DuelModule = {
                 body: JSON.stringify(challenge)
             });
 
-            this.showWaitingScreen(opponent);
+            this.showWaitingScreen(opponent, matchId);
         } catch (e) {
             console.error('Error sending challenge:', e);
             NotificationModule.show('Error al enviar el reto.', 'danger');
@@ -10257,12 +10489,13 @@ const DuelModule = {
     async listenForChallenges() {
         if (this._listenerInterval) clearInterval(this._listenerInterval);
         this._listenerInterval = setInterval(async () => {
+            if (!navigator.onLine) return; // Optimización: No consultar si no hay internet
             if (!AuthModule.currentUser || this.currentBattle) return;
             try {
                 const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`);
                 const challenge = await res.json();
                 
-                if (challenge && challenge.status === 'pending' && (Date.now() - challenge.timestamp < 120000)) { // 120 segundos (2 minutos) para aceptar/rechazar
+                if (challenge && challenge.status === 'pending' && (Date.now() - challenge.timestamp < 120000)) { 
                     this.onChallengeReceived(challenge);
                 }
             } catch (e) {}
@@ -10311,9 +10544,12 @@ const DuelModule = {
 
         document.getElementById('decline-duel').onclick = async () => {
             modal.remove();
-            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`, {
-                method: 'DELETE'
-            });
+            try {
+                await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels/incoming.json`, {
+                    method: 'DELETE'
+                });
+            } catch (e) {}
+            this.listenForChallenges(); // Reiniciar escucha
         };
     },
 
@@ -10339,7 +10575,7 @@ const DuelModule = {
         }
     },
 
-    showWaitingScreen(opponent) {
+    showWaitingScreen(opponent, matchId) {
         // Stop polling to prevent getting challenged while waiting
         if (this._listenerInterval) {
             clearInterval(this._listenerInterval);
@@ -10349,14 +10585,14 @@ const DuelModule = {
         const overlay = document.createElement('div');
         overlay.id = 'duel-waiting-overlay';
         overlay.style = `
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 10001;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10001;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         `;
         overlay.innerHTML = `
-            <div class="loading-spinner" style="width: 60px; height: 60px; margin-bottom: 20px;"></div>
+            <div class="loading-spinner" style="width: 60px; height: 60px; margin-bottom: 20px; border-top-color: #ef4444;"></div>
             <h2 style="color: white; font-weight: 800;">RETO ENVIADO A ${opponent.name.toUpperCase()}</h2>
             <p style="color: #94a3b8; margin-top: 10px;">Esperando respuesta...</p>
-            <button onclick="document.getElementById('duel-waiting-overlay').remove();" class="btn btn-sm mt-8">CANCELAR</button>
+            <button id="cancel-challenge-btn" class="btn btn-sm mt-8" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">CANCELAR</button>
         `;
         document.body.appendChild(overlay);
 
@@ -10369,7 +10605,17 @@ const DuelModule = {
             try {
                 const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`);
                 const data = await res.json();
-                if (data && data.status === 'accepted') {
+                
+                // If it is null or a different challenge ID, it means our challenge is gone
+                if (data === null || (data.id && data.id !== matchId)) {
+                    clearInterval(poll);
+                    if (document.getElementById('duel-waiting-overlay')) document.getElementById('duel-waiting-overlay').remove();
+                    NotificationModule.show('El oponente rechazó el reto.', 'warning');
+                    this.listenForChallenges(); // Reiniciar escucha
+                    return;
+                }
+                
+                if (data && data.status === 'accepted' && data.id === matchId) {
                     clearInterval(poll);
                     if (document.getElementById('duel-waiting-overlay')) document.getElementById('duel-waiting-overlay').remove();
                     this.showVSScreen(opponent, data.questions, data.id);
@@ -10377,14 +10623,26 @@ const DuelModule = {
             } catch (e) {}
         }, 2000);
 
-        // Timeout after 60s (more time for opponent to accept)
-        setTimeout(() => {
+        document.getElementById('cancel-challenge-btn').onclick = async () => {
+            overlay.remove();
+            clearInterval(poll);
+            // Clean up the challenge in Firebase
+            try {
+                await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`, { method: 'DELETE' });
+            } catch (e) {}
+            this.listenForChallenges(); // Resume listening
+        };
+
+        // Timeout after 60s
+        setTimeout(async () => {
             if (document.getElementById('duel-waiting-overlay')) {
                 document.getElementById('duel-waiting-overlay').remove();
                 NotificationModule.show('El oponente no respondió o rechazó el duelo.', 'warning');
                 clearInterval(poll);
-                // Clean up the challenge I sent
-                fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`, { method: 'DELETE' }).catch(()=>console.error);
+                // Clean up the challenge
+                try {
+                    await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels/incoming.json`, { method: 'DELETE' });
+                } catch (e) {}
                 this.listenForChallenges(); // Resume listening
             }
         }, 60000);
@@ -10395,54 +10653,72 @@ const DuelModule = {
     },
 
     showVSScreen(opponent, syncedQuestions = null, matchId = null) {
+        const myRankInfo = this._calculateRank(this.stats.rating);
+        const oppRankInfo = this._calculateRank(opponent.rating);
+
         const vsOverlay = document.createElement('div');
         vsOverlay.id = 'duel-vs-overlay';
         vsOverlay.style = `
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10002;
+            position: fixed; inset: 0; 
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); 
+            z-index: 10002;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             color: var(--color-text); font-family: 'Inter', sans-serif; overflow: hidden;
         `;
 
         vsOverlay.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 80px; margin-bottom: 40px; transform: scale(1.2);">
+            <div style="position: absolute; inset: 0; opacity: 0.05; background-image: radial-gradient(white 1px, transparent 0); background-size: 24px 24px; pointer-events: none;"></div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 80px; margin-bottom: 60px; transform: scale(1.1); width: 100%; max-width: 900px; padding: 0 40px; box-sizing: border-box;">
                 <!-- User -->
-                <div style="text-align: center; animation: slide-in-left 0.6s ease-out;">
-                    <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--color-primary); border: 4px solid white; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 15px;">👤</div>
-                    <div style="font-weight: 800; font-size: 1.2rem;">${AuthModule.currentUser.name}</div>
-                    <div style="color: #60a5fa; font-weight: 700;">${this.stats.rating} 🏆</div>
+                <div style="text-align: center; width: 220px; animation: slide-in-left 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 110px; height: 110px; border-radius: 50%; background: #312e81; border: 4px solid ${myRankInfo.color}; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; margin-bottom: 15px; box-shadow: 0 0 30px ${myRankInfo.color}60;">👤</div>
+                    <div style="font-weight: 800; font-size: 1.3rem; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">${AuthModule.currentUser.name}</div>
+                    <div style="color: ${myRankInfo.color}; font-size: 0.95rem; font-weight: 800; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px;">${myRankInfo.name}</div>
+                    <div style="color: #94a3b8; font-weight: 700; margin-top: 4px; font-size: 0.9rem;">${this.stats.rating} 🏆</div>
                 </div>
                 
                 <!-- VS -->
-                <div style="font-size: 5rem; font-weight: 900; font-style: italic; color: #ef4444; animation: pop 0.4s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;">VS</div>
+                <div class="battle-vs-fire">VS</div>
                 
                 <!-- Opponent -->
-                <div style="text-align: center; animation: slide-in-right 0.6s ease-out;">
-                    <div style="width: 100px; height: 100px; border-radius: 50%; background: #ef4444; border: 4px solid white; display: flex; align-items: center; justify-content: center; font-size: 3rem; margin-bottom: 15px;">🦦</div>
-                    <div style="font-weight: 800; font-size: 1.2rem;">${opponent.name}</div>
-                    <div style="color: #fca5a5; font-weight: 700;">${opponent.rating} 🏆</div>
+                <div style="text-align: center; width: 220px; animation: slide-in-right 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; display: flex; flex-direction: column; align-items: center;">
+                    <div style="width: 110px; height: 110px; border-radius: 50%; background: #581c87; border: 4px solid ${oppRankInfo.color}; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; margin-bottom: 15px; box-shadow: 0 0 30px ${oppRankInfo.color}60;">🦦</div>
+                    <div style="font-weight: 800; font-size: 1.3rem; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">${opponent.name}</div>
+                    <div style="color: ${oppRankInfo.color}; font-size: 0.95rem; font-weight: 800; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px;">${oppRankInfo.name}</div>
+                    <div style="color: #fca5a5; font-weight: 700; margin-top: 4px; font-size: 0.9rem;">${opponent.rating} 🏆</div>
                 </div>
             </div>
             
-            <div id="duel-vs-timer" style="font-size: 2rem; font-weight: 800; letter-spacing: 4px; color: #ef4444;">PREPARADOS...</div>
+            <div id="duel-vs-timer" style="font-size: 2rem; font-weight: 900; letter-spacing: 4px; color: #f59e0b; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: scale(1);">PREPARADOS...</div>
         `;
 
         document.body.appendChild(vsOverlay);
 
-        // Countdown sounds or logic
         let count = 3;
         const interval = setInterval(() => {
             const timerEl = document.getElementById('duel-vs-timer');
+            if (!timerEl) {
+                clearInterval(interval);
+                return;
+            }
             if (count > 0) {
                 timerEl.innerText = count;
+                timerEl.style.color = '#fbbf24';
+                timerEl.style.transform = 'scale(1.8)';
+                setTimeout(() => {
+                    if (timerEl) timerEl.style.transform = 'scale(1)';
+                }, 150);
                 count--;
             } else {
                 timerEl.innerText = '¡FUEGO! 🔥';
+                timerEl.style.color = '#ef4444';
+                timerEl.style.transform = 'scale(2.2)';
                 clearInterval(interval);
                 setTimeout(() => {
                     const overlay = document.getElementById('duel-vs-overlay');
                     if (overlay) overlay.remove();
                     this.startBattle(opponent, syncedQuestions, matchId);
-                }, 800);
+                }, 850);
             }
         }, 1000);
     },
@@ -10510,7 +10786,6 @@ const DuelModule = {
     },
 
     renderBattleArena() {
-        // Create full-screen Battle Arena
         const arena = document.createElement('div');
         arena.id = 'duel-battle-arena';
         arena.style = `
@@ -10556,8 +10831,15 @@ const DuelModule = {
             if (this.currentBattle.isReal) {
                 this.syncProgressWithRival();
             } else {
-                // Simulate rival progress
-                if (Math.random() > 0.95 && this.currentBattle.rivalProgress < 100) {
+                // Simulate rival progress based on ELO (Dynamic Difficulty)
+                const oppRating = this.currentBattle.opponent.rating || 1000;
+                let chance = 0.05; // Base 5%
+                if (oppRating >= 1800) chance = 0.40; // Leyenda
+                else if (oppRating >= 1500) chance = 0.25; // Diamante
+                else if (oppRating >= 1300) chance = 0.15; // Oro
+                else if (oppRating >= 1100) chance = 0.10; // Plata
+
+                if (Math.random() < chance && this.currentBattle.rivalProgress < 100) {
                     this.currentBattle.rivalProgress += 20;
                     const rivalBar = document.getElementById('duel-rival-progress');
                     if (rivalBar) rivalBar.style.width = `${this.currentBattle.rivalProgress}%`;
@@ -10568,13 +10850,11 @@ const DuelModule = {
 
     async syncProgressWithRival() {
         try {
-            // My progress - with await to ensure it completes
             await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${AuthModule.currentUser.id}.json`, {
                 method: 'PUT',
                 body: JSON.stringify(this.currentBattle.currentIndex)
             });
 
-            // Rival progress
             const res = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/matches/${this.currentBattle.id}/progress/${this.currentBattle.opponent.id}.json`);
             const index = await res.json();
             if (index !== null && typeof index === 'number') {
@@ -10583,7 +10863,6 @@ const DuelModule = {
             }
         } catch (e) {
             console.warn('Sync progress error (non-critical):', e);
-            // Silently fail - don't interrupt the duel
         }
     },
 
@@ -10603,13 +10882,13 @@ const DuelModule = {
         const enunciado = getQuestionText(rawQ);
         const opciones = rawQ.opciones;
 
-        // 4. Prepare Image HTML
+        // Prepare Image HTML
         let imageHtml = '';
         if (rawQ.imagen) {
             imageHtml = `<div style="margin-bottom: 20px; text-align: center;"><img src="${rawQ.imagen}" alt="Imagen" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-height: 250px;" onerror="this.style.display='none'"></div>`;
         }
 
-        // 5. Prepare Chart/Graph HTML
+        // Prepare Chart/Graph HTML
         let chartHtml = '';
         if (rawQ.grafica && rawQ.grafica.datos) {
             const chartId = `duel-question-chart-${Date.now()}`;
@@ -10632,7 +10911,7 @@ const DuelModule = {
             }, 150);
         }
         
-        // 6. Render the complete question
+        // Render the complete question
         qContainer.innerHTML = `
             <div class="glass animate-fade-in" style="width: 100%; padding: 25px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass-bg); margin-top: 10px;">
                 <div style="font-size: 0.9rem; color: #60a5fa; margin-bottom: 10px; font-weight: 700;">PREGUNTA ${this.currentBattle.currentIndex + 1} DE 5</div>
@@ -10662,20 +10941,46 @@ const DuelModule = {
 
     submitBattleAnswer(key) {
         let rawQ = this.currentBattle.questions[this.currentBattle.currentIndex];
-            
         const respuestaCorrecta = rawQ.respuestaCorrecta || rawQ.respuesta_correcta || rawQ.correctAnswer || rawQ.correct || 'A';
         const isCorrect = key === String(respuestaCorrecta);
         
         if (isCorrect) this.currentBattle.score += 20; // 20 points per correct answer
 
-        this.currentBattle.answers.push({ qId: rawQ.id || 'N/A', key, isCorrect });
-        this.currentBattle.currentIndex++;
-
-        if (this.currentBattle.currentIndex < 5) {
-            this.renderBattleQuestion();
-        } else {
-            this.finishBattle();
+        // Animación visual de Acierto/Error
+        const btn = Array.from(document.querySelectorAll('#duel-question-container button')).find(b => b.getAttribute('onclick').includes(`'${key}'`));
+        if (btn) {
+            btn.style.background = isCorrect ? '#10b981' : '#ef4444';
+            btn.style.borderColor = isCorrect ? '#10b981' : '#ef4444';
+            btn.style.color = 'white';
+            btn.style.transform = 'scale(1.05)';
         }
+
+        // Si se equivocó, iluminar la correcta en verde
+        if (!isCorrect) {
+            const correctBtn = Array.from(document.querySelectorAll('#duel-question-container button')).find(b => b.getAttribute('onclick').includes(`'${respuestaCorrecta}'`));
+            if (correctBtn) {
+                correctBtn.style.background = 'rgba(16, 185, 129, 0.15)';
+                correctBtn.style.borderColor = '#10b981';
+                correctBtn.style.color = '#10b981';
+                correctBtn.style.fontWeight = 'bold';
+            }
+        }
+
+        // Bloquear los demás botones temporalmente
+        document.querySelectorAll('#duel-question-container button').forEach(b => b.style.pointerEvents = 'none');
+
+        this.currentBattle.answers.push({ qId: rawQ.id || 'N/A', key, isCorrect });
+        
+        // Esperar 1.2 segundos para que asimilen la corrección
+        setTimeout(() => {
+            this.currentBattle.currentIndex++;
+
+            if (this.currentBattle.currentIndex < 5) {
+                this.renderBattleQuestion();
+            } else {
+                this.finishBattle();
+            }
+        }, 1200);
     },
 
     async finishBattle() {
@@ -10729,17 +11034,47 @@ const DuelModule = {
                 } catch (e) {}
             }, 2000);
 
-            // Timeout
+            // Timeout after 60s
             setTimeout(() => {
                 if (poll) clearInterval(poll);
-                // Instead of random zero, explicitly state opponent abandoned/timeout
                 this.showFinalResult(myResult, { score: 0, name: this.currentBattle.opponent.name, correct: 0, time: 999, abandoned: true });
             }, 60000);
 
         } else {
-            // Bot/Fake logic
-            const opponentScore = 30 + Math.floor(Math.random() * 50);
-            this.showFinalResult({ score: totalScore, correct: this.currentBattle.score / 20, time: elapsed }, { score: opponentScore, name: this.currentBattle.opponent.name, correct: Math.floor(opponentScore/20), time: 45 });
+            // Simulated Bot score based on opponent ELO difficulty
+            const oppRating = this.currentBattle.opponent.rating || 1000;
+            let correctCount = 0;
+            let botTime = 40;
+
+            if (oppRating >= 1800) {
+                // Leyenda - Nivel Dios
+                correctCount = 5; // Siempre perfectos
+                botTime = 8 + Math.floor(Math.random() * 5); // 8-13 segundos
+            } else if (oppRating >= 1500) {
+                // Diamante - Muy difciles
+                correctCount = Math.random() < 0.7 ? 5 : 4;
+                botTime = 12 + Math.floor(Math.random() * 8); // 12-20 segundos
+            } else if (oppRating >= 1300) {
+                // Oro - Retadores
+                correctCount = Math.random() < 0.5 ? 5 : 4;
+                botTime = 18 + Math.floor(Math.random() * 10); // 18-28 segundos
+            } else if (oppRating >= 1100) {
+                // Plata - Competitivos
+                correctCount = Math.random() < 0.4 ? 4 : 3;
+                botTime = 25 + Math.floor(Math.random() * 15); // 25-40 segundos
+            } else {
+                // Bronce - Decentes
+                correctCount = Math.random() < 0.5 ? 3 : 2;
+                botTime = 35 + Math.floor(Math.random() * 20); // 35-55 segundos
+            }
+
+            const botTimeBonus = Math.max(0, 20 - Math.floor(botTime / 3));
+            const opponentScore = (correctCount * 20) + botTimeBonus;
+
+            this.showFinalResult(
+                { score: totalScore, correct: this.currentBattle.score / 20, time: elapsed },
+                { score: opponentScore, name: this.currentBattle.opponent.name, correct: correctCount, time: botTime }
+            );
         }
     },
 
@@ -10767,17 +11102,21 @@ const DuelModule = {
                 <div style="font-size: 5rem; margin-bottom: 20px;">${iconSign}</div>
                 <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; color: ${titleColor};">${titleText}</h1>
                 
-                <div style="display: flex; gap: 40px; margin: 40px 0;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 0.8rem; color: #94a3b8;">TÚ</div>
-                        <div style="font-size: 2rem; font-weight: 900; color: #60a5fa;">${me.score}</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">${me.correct}/5 aciertos</div>
+                <div style="display: flex; gap: 40px; margin: 40px 0; align-items: center;">
+                    <div style="text-align: center; width: 150px;">
+                        <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 700;">TÚ</div>
+                        <div style="font-size: 2rem; font-weight: 900; color: #60a5fa; margin-top: 5px;">${me.score}</div>
+                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 2px;">${me.correct}/5 aciertos</div>
                     </div>
-                    <div style="font-size: 2rem; font-weight: 900; color: #334155; display: flex; align-items: center;">VS</div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 0.8rem; color: #94a3b8;">${rival.name.toUpperCase()}</div>
-                        <div style="font-size: 2rem; font-weight: 900; color: #ef4444;">${rival.score}</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">${rival.correct}/5 aciertos</div>
+                    <div style="font-size: 1.5rem; font-weight: 900; color: #334155;">VS</div>
+                    <div style="text-align: center; width: 150px;">
+                        <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 700;">${rival.name.toUpperCase()}</div>
+                        <div style="font-size: 2rem; font-weight: 900; color: #ef4444; margin-top: 5px;">
+                            ${rival.abandoned ? 'ABANDONÓ' : rival.score}
+                        </div>
+                        <div style="font-size: 0.75rem; color: #64748b; margin-top: 2px;">
+                            ${rival.abandoned ? 'Límite de tiempo' : `${rival.correct}/5 aciertos`}
+                        </div>
                     </div>
                 </div>
 
@@ -10800,12 +11139,18 @@ const DuelModule = {
         const arena = document.getElementById('duel-battle-arena');
         if (arena) arena.remove();
 
-        // Ensure listening resumes even if something fails
+        // Capture opponent and challenge properties before resetting currentBattle to null
+        const opponent = this.currentBattle ? this.currentBattle.opponent : null;
+        const isChallenger = this.currentBattle ? this.currentBattle.isChallenger : false;
+        const isReal = this.currentBattle ? this.currentBattle.isReal : false;
+
         this.currentBattle = null;
         
         try {
-            // Update ELO and Stats
-            await this.updateElo(this.currentBattle?.opponent || { id: '' }, result);
+            if (opponent) {
+                // Update ELO and Stats
+                await this.updateElo(opponent, result, isChallenger, isReal);
+            }
         } catch (e) {
             console.warn('Error updating ELO:', e);
         }
@@ -10815,7 +11160,7 @@ const DuelModule = {
         this.renderStatsUI();
     },
 
-    async updateElo(opponent, result) {
+    async updateElo(opponent, result, isChallenger, isReal) {
         let ratingChange = 0;
         let iWon = false;
         let isDraw = false;
@@ -10837,26 +11182,48 @@ const DuelModule = {
             this.stats.streak = (this.stats.streak || 0) + 1;
             appliedUpdate = ratingChange;
             iWon = true;
+            this.stats.wins++;
         } else if (result === 'draw') {
-            ratingChange = 0; // Better no points than losing points on a draw
+            ratingChange = 0; // Draw gives 0 change
             this.stats.streak = 0;
             appliedUpdate = 0;
             isDraw = true;
+            this.stats.draws = (this.stats.draws || 0) + 1;
         } else {
             ratingChange = -Math.floor(baseLoss);
             this.stats.streak = 0;
             appliedUpdate = ratingChange;
+            this.stats.losses++;
         }
         
-        // Just directly update for self to reflect on screen
+        // Update stats locally
         this.stats.rating += appliedUpdate;
-        if (iWon) this.stats.wins++; else if (!isDraw) this.stats.losses++;
 
-        const isChallenger = this.currentBattle ? this.currentBattle.isChallenger : false;
+        // Firebase network updates
+        if (!isReal) {
+            // BOT MATCH: Only write to current user's duel stats and history
+            await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${AuthModule.currentUser.id}/duels.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    rating: this.stats.rating,
+                    wins: this.stats.wins,
+                    losses: this.stats.losses,
+                    draws: this.stats.draws,
+                    streak: this.stats.streak
+                })
+            });
 
-        // Make update network call
-        if (iWon || (isDraw && isChallenger)) {
-            // AUTHORITATIVE CLIENT updates for both
+            // Record History locally (label opponent as bot)
+            const botOpponent = { ...opponent, name: `${opponent.name} (Bot)` };
+            await this.recordBattleInHistory(AuthModule.currentUser.id, botOpponent, result, appliedUpdate);
+
+            if (iWon) NotificationModule.show(`¡Victoria contra Bot! +${appliedUpdate} Rating.`, 'success');
+            else if (isDraw) NotificationModule.show(`¡Empate contra Bot! Rating sin cambios.`, 'info');
+            else NotificationModule.show(`Derrota contra Bot. ${appliedUpdate} Rating.`, 'warning');
+
+        } else if (iWon || (isDraw && isChallenger)) {
+            // REAL MATCH AUTHORITATIVE CLIENT updates for both
             const oppUpdate = iWon ? -Math.floor(baseWin) : 0;
 
             // 1. Update Winner/Challenger (Self)
@@ -10867,6 +11234,7 @@ const DuelModule = {
                     rating: this.stats.rating,
                     wins: this.stats.wins,
                     losses: this.stats.losses,
+                    draws: this.stats.draws,
                     streak: this.stats.streak
                 })
             });
@@ -10874,11 +11242,19 @@ const DuelModule = {
             // 2. Update Opponent
             try {
                 const oppRes = await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`);
-                const oppData = await oppRes.json() || { rating: 1000, wins: 0, losses: 0 };
+                const oppData = await oppRes.json() || { rating: 1000, wins: 0, losses: 0, draws: 0, streak: 0 };
                 
                 const newOppRating = (oppData.rating || 1000) + oppUpdate;
-                const newOppLosses = (oppData.losses || 0) + 1;
-                const newOppStreak = 0; // The opponent lost or drew, streak goes back to 0
+                let newOppLosses = oppData.losses || 0;
+                let newOppWins = oppData.wins || 0;
+                let newOppDraws = oppData.draws || 0;
+
+                if (iWon) {
+                    newOppLosses += 1;
+                } else if (isDraw) {
+                    newOppDraws += 1;
+                }
+                const newOppStreak = 0; // Reset opponent streak
 
                 await fetch(`https://plataforma-icfes-13421-default-rtdb.firebaseio.com/users/${opponent.id}/duels.json`, {
                     method: 'PATCH',
@@ -10886,25 +11262,28 @@ const DuelModule = {
                     body: JSON.stringify({
                         rating: newOppRating,
                         losses: newOppLosses,
+                        wins: newOppWins,
+                        draws: newOppDraws,
                         streak: newOppStreak
                     })
                 });
 
                 // 3. Record History for Opponent
-                await this.recordBattleInHistory(opponent.id, { id: AuthModule.currentUser.id, name: AuthModule.currentUser.name }, false, oppUpdate);
+                const oppResult = iWon ? 'loss' : 'draw';
+                await this.recordBattleInHistory(opponent.id, { id: AuthModule.currentUser.id, name: AuthModule.currentUser.name }, oppResult, oppUpdate);
             } catch (e) {
                 console.error("Error updating opponent stats:", e);
             }
 
             // 4. Record History for Me
-            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, iWon, appliedUpdate);
+            await this.recordBattleInHistory(AuthModule.currentUser.id, opponent, result, appliedUpdate);
             
             if (iWon) NotificationModule.show(`¡Victoria! +${appliedUpdate} Rating.`, 'success');
             else if (isDraw) NotificationModule.show(`¡Empate técnico! Rating sin cambios.`, 'info');
             else NotificationModule.show(`Derrota. ${appliedUpdate} Rating.`, 'warning');
 
         } else {
-            // SUBORDINATE CLIENT: Wait for authoritative update
+            // REAL MATCH SUBORDINATE CLIENT: Wait for authoritative update
             NotificationModule.show(`${isDraw ? 'Empate' : 'Derrota'}. Sincronizando datos...`, 'error');
             
             setTimeout(async () => {

@@ -1,0 +1,26 @@
+{
+  "name": "SABER PRO - Simulador ICFES",
+  "short_name": "Saber Pro",
+  "description": "Simulador completo de práctica para la prueba Saber 11 / ICFES: simulacros, módulos de estudio y juegos.",
+  "lang": "es-CO",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#0ea5e9",
+  "icons": [
+    {
+      "src": "img/chiguiro/happy.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/chiguiro/happy.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -102,18 +102,18 @@
           React.createElement("div", { className: "grid md:grid-cols-2 gap-8 items-center" },
             React.createElement("div", { className: "space-y-6" },
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 tracking-tight dark:text-white" }, "Parte 5 y 6: Comprensión Lectora"),
-              React.createElement("p", { className: "text-slate-650 dark:text-slate-355 leading-relaxed text-lg font-light" },
+              React.createElement("p", { className: "text-slate-600 dark:text-slate-400 leading-relaxed text-lg font-light" },
                 "La comprensión lectora evalúa tu capacidad para extraer información explícita o literal (Parte 5) y deducir ideas implícitas, el tono del autor o intenciones de opinión (Parte 6). Usar técnicas de lectura como ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "skimming"),
                 " (lectura rápida para captar la idea general) y ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "scanning"),
                 " (buscar hechos específicos) es clave para responder con eficiencia.",
-                React.createElement("strong", { className: "font-semibold text-sky-650 block mt-2" }, "¡Demuestra siempre tus respuestas usando la evidencia del texto!")
+                React.createElement("strong", { className: "font-semibold text-sky-600 block mt-2" }, "¡Demuestra siempre tus respuestas usando la evidencia del texto!")
               ),
               React.createElement("div", { className: "bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group" },
                 React.createElement("div", { className: "absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-500 rounded-l-2xl" }),
                 React.createElement("h3", { className: "font-bold text-slate-800 dark:text-white mb-4 text-lg" }, "Estrategias de Lectura Crítica:"),
-                React.createElement("ul", { className: "space-y-4 font-medium text-slate-650 dark:text-slate-355 text-sm" },
+                React.createElement("ul", { className: "space-y-4 font-medium text-slate-600 dark:text-slate-400 text-sm" },
                   [
                     "Buscar Fechas o Nombres Propios: Asocia palabras clave de la pregunta con mayúsculas y cifras exactas en el texto.",
                     "Literal vs. Inferencial: Las respuestas literales usan sinónimos directos del texto. Las inferenciales requieren leer entre líneas.",
@@ -142,14 +142,14 @@
                       React.createElement("p", { className: "text-[10px] text-slate-400 font-bold" }, "Saber 11 - Parte 5 & 6")
                     )
                   ),
-                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-350 italic leading-relaxed" },
+                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-300 italic leading-relaxed" },
                     "\"Nunca asumas detalles que no estén escritos en el texto. Respalda siempre cada opción con una frase del pasaje.\""
                   )
                 )
               ),
               React.createElement("button", { 
                 onClick: () => setActiveTab('teoria'),
-                className: "mt-4 bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
+                className: "mt-4 bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
               },
                 "Iniciar Lector Dividido ", React.createElement(Icon, { name: "arrow_forward", className: "w-4 h-4" })
               )
@@ -173,14 +173,14 @@
             React.createElement("div", { className: "grid lg:grid-cols-12 gap-8 items-stretch" },
               // Left: Reading passage (with migration map)
               React.createElement("div", { className: "lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm space-y-6" },
-                React.createElement("div", { className: "flex items-center justify-between border-b border-slate-100 dark:border-slate-850 pb-4 mb-4" },
+                React.createElement("div", { className: "flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-4" },
                   React.createElement("h4", { className: "text-lg font-black text-slate-800 dark:text-white" }, readingText.title),
-                  React.createElement("span", { className: "text-[10px] font-black text-sky-655 bg-sky-50 px-2.5 py-1 rounded-full uppercase tracking-wider" }, "Texto de Lectura")
+                  React.createElement("span", { className: "text-[10px] font-black text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full uppercase tracking-wider" }, "Texto de Lectura")
                 ),
                 
                 // Embedded migration image
-                React.createElement("div", { className: "border border-slate-100 dark:border-slate-850 rounded-2xl overflow-hidden h-[150px] bg-slate-50 dark:bg-slate-950/20" },
-                  React.createElement("img", {
+                React.createElement("div", { className: "border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden h-[150px] bg-slate-50 dark:bg-slate-950/20" },
+                  React.createElement("img", { loading: "lazy", decoding: "async",
                     src: "img/mapa_migracion.png",
                     alt: "Ilustración del mapa de corrientes de migración",
                     className: "w-full h-full object-cover select-none"
@@ -188,7 +188,7 @@
                 ),
                 
                 // Reading paragraphs
-                React.createElement("div", { className: "space-y-4 text-xs font-light text-slate-650 dark:text-slate-350 leading-relaxed font-mono" },
+                React.createElement("div", { className: "space-y-4 text-xs font-light text-slate-600 dark:text-slate-300 leading-relaxed font-mono" },
                   readingText.paragraphs.map((p, pIdx) => {
                     const text = p.text;
                     let proofText = activeProof ? p.proofs[activeProof] : null;
@@ -221,8 +221,8 @@
                       onClick: () => setActiveProof(activeProof === btn.id ? null : btn.id),
                       className: `w-full text-left p-4 rounded-xl border-2 transition-all duration-300 ${
                         activeProof === btn.id
-                          ? 'border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-450 font-bold'
-                          : 'border-slate-200 dark:border-slate-850 bg-white dark:bg-slate-900 text-slate-655 dark:text-slate-400 hover:border-sky-300'
+                          ? 'border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-bold'
+                          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:border-sky-300'
                       }`
                     },
                       React.createElement("div", { className: "text-[10px] font-black uppercase tracking-wider mb-1" }, btn.title),
@@ -230,7 +230,7 @@
                     )
                   ))
                 ),
-                React.createElement("div", { className: "bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl text-[10px] text-slate-500 dark:text-slate-450 leading-relaxed font-medium mt-6" },
+                React.createElement("div", { className: "bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium mt-6" },
                   React.createElement("span", { className: "font-black text-amber-500 block uppercase mb-1" }, "💡 Método del Resaltador:"),
                   "Buscar palabras clave de las preguntas dentro del texto te ayuda a verificar la información real y elimina trampas que se basan en interpretaciones subjetivas o distractores."
                 )
@@ -258,7 +258,7 @@
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 dark:text-white mb-2" }, 
                 scorePercent >= 80 ? "¡Experto en Lectura!" : scorePercent >= 50 ? "¡Buen Trabajo!" : "Revisa detalles del texto"
               ),
-              React.createElement("p", { className: "text-slate-550 dark:text-slate-400 text-lg mb-8" }, 
+              React.createElement("p", { className: "text-slate-500 dark:text-slate-400 text-lg mb-8" }, 
                 `Respondiste correctamente ${score} de ${questions.length} preguntas (${scorePercent}%)`
               ),
               React.createElement("button", { 
@@ -277,7 +277,7 @@
                 React.createElement("div", { className: "absolute top-0 left-0 w-1.5 h-full bg-sky-500" }),
                 React.createElement("h3", { className: "text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest mb-1" }, "CONSEJO DEL EXAMEN"),
                 React.createElement("h2", { className: "text-lg font-black text-slate-800 dark:text-white mb-3" }, "Comprensión Crítica"),
-                React.createElement("p", { className: "text-slate-650 dark:text-slate-300 text-xs leading-relaxed font-medium" },
+                React.createElement("p", { className: "text-slate-600 dark:text-slate-300 text-xs leading-relaxed font-medium" },
                   "Para las preguntas inferenciales, evita opciones que introduzcan nuevas ideas que no estén respaldadas en el pasaje de lectura. Busca opciones que parafraseen o resuman el argumento del autor."
                 )
               ),
@@ -333,7 +333,7 @@
                   ),
                   React.createElement("button", {
                     onClick: nextQuestion,
-                    className: "bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-8 py-3.5 rounded-xl ml-auto block transition-all active:scale-95 shadow-md text-sm"
+                    className: "bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-8 py-3.5 rounded-xl ml-auto block transition-all active:scale-95 shadow-md text-sm"
                   },
                     currentQuestion === questions.length - 1 ? "Ver Resultados" : "Siguiente Pregunta →"
                   )
@@ -359,7 +359,7 @@
                 onClick: () => setActiveTab(tab.id),
                 className: `flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-all duration-300 rounded-xl whitespace-nowrap flex-1 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-slate-800 text-sky-655 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
+                    ? 'bg-white dark:bg-slate-800 text-sky-700 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/40 scale-95'
                 }`
               },

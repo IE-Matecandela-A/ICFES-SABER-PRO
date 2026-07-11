@@ -220,7 +220,7 @@
                 React.createElement("div", { className: "lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl p-6 shadow-sm flex flex-col justify-between gap-6" },
                   React.createElement("div", { className: "flex justify-center items-center w-full h-[220px] bg-slate-50 dark:bg-slate-950/40 rounded-2xl p-2 border border-slate-100 dark:border-slate-800/40 overflow-hidden" },
                     React.createElement("div", { className: "relative w-[210px] h-[210px] mx-auto" },
-                      React.createElement("img", {
+                      React.createElement("img", { loading: "lazy", decoding: "async",
                         src: "img/mapa_regiones_colombia.png",
                         alt: "Mapa de las Regiones de Colombia",
                         className: "w-full h-full object-contain rounded-xl select-none"
@@ -270,7 +270,7 @@
                       React.createElement("button", {
                         key: index,
                         onClick: () => setSelectedRegion(index),
-                        className: `p-2 rounded-xl border text-center transition-all duration-350 text-[10px] font-semibold flex items-center justify-center gap-1.5 ${
+                        className: `p-2 rounded-xl border text-center transition-all duration-300 text-[10px] font-semibold flex items-center justify-center gap-1.5 ${
                           selectedRegion === index 
                             ? 'border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-black' 
                             : 'border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/40'
@@ -298,25 +298,25 @@
                     React.createElement("div", { className: "space-y-4" },
                       React.createElement("div", null,
                         React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1 text-[10px]" }, "Descripción Fisiográfica:"),
-                        React.createElement("p", { className: "text-slate-650 dark:text-slate-300 text-xs font-light leading-relaxed" }, regionsData[selectedRegion].description)
+                        React.createElement("p", { className: "text-slate-600 dark:text-slate-300 text-xs font-light leading-relaxed" }, regionsData[selectedRegion].description)
                       ),
                       React.createElement("div", null,
                         React.createElement("span", { className: "text-rose-500 dark:text-rose-455 block uppercase tracking-wider font-bold mb-1 text-[10px]" }, "Conflictos Ambientales de Gran Impacto:"),
-                        React.createElement("p", { className: "text-slate-650 dark:text-slate-300 text-xs font-light leading-relaxed" }, regionsData[selectedRegion].conflict)
+                        React.createElement("p", { className: "text-slate-600 dark:text-slate-300 text-xs font-light leading-relaxed" }, regionsData[selectedRegion].conflict)
                       ),
                       // Ilustración de Conflicto Socio-Ambiental
                       React.createElement("div", { className: "border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden h-[120px]" },
-                        React.createElement("img", {
+                        React.createElement("img", { loading: "lazy", decoding: "async",
                           src: regionImages[selectedRegion],
                           alt: "Ilustración de conflictos regionales",
-                          className: "w-full h-full object-cover select-none transition-all duration-300 hover:scale-102"
+                          className: "w-full h-full object-cover select-none transition-all duration-300 hover:scale-105"
                         })
                       )
                     )
                   ),
                   React.createElement("div", { className: "bg-slate-50 dark:bg-slate-800/30 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 mt-6" },
                     React.createElement("span", { className: "text-amber-600 dark:text-amber-400 block uppercase tracking-wider font-black mb-1 text-[10px]" }, "Enfoque ICFES / Pregunta Clave:"),
-                    React.createElement("p", { className: "text-slate-500 dark:text-slate-450 text-xs leading-relaxed font-light" }, regionsData[selectedRegion].icfesTip)
+                    React.createElement("p", { className: "text-slate-500 dark:text-slate-400 text-xs leading-relaxed font-light" }, regionsData[selectedRegion].icfesTip)
                   )
                 )
               );

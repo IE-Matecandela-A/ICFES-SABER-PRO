@@ -217,7 +217,7 @@
           React.createElement("div", { className: "grid md:grid-cols-2 gap-8 items-center" },
             React.createElement("div", { className: "space-y-6" },
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 tracking-tight dark:text-white" }, "Módulo 6: Simulacro y Estrategias del Examen"),
-              React.createElement("p", { className: "text-slate-655 dark:text-slate-350 leading-relaxed text-lg font-light" },
+              React.createElement("p", { className: "text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-light" },
                 "La sección de inglés de las pruebas Saber 11 evalúa vocabulario, avisos, diálogos y comprensión de textos en varios niveles. En este módulo de cierre, pondrás a prueba tus habilidades en un ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "simulacro contra reloj"),
                 " con el fin de dominar el tiempo por pregunta, descartar distractores típicos de examen y consolidar tus aciertos.",
@@ -226,7 +226,7 @@
               React.createElement("div", { className: "bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group" },
                 React.createElement("div", { className: "absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-500 rounded-l-2xl" }),
                 React.createElement("h3", { className: "font-bold text-slate-800 dark:text-white mb-4 text-lg" }, "Estructura Evaluada en Inglés Saber 11:"),
-                React.createElement("ul", { className: "space-y-3 font-medium text-slate-655 dark:text-slate-355 text-xs" },
+                React.createElement("ul", { className: "space-y-3 font-medium text-slate-700 dark:text-slate-400 text-xs" },
                   [
                     "Parte 1: Vocabulario (Asociar 5 definiciones cortas con 8 palabras opciones).",
                     "Parte 2: Avisos Públicos (Deducir el lugar o intención de un aviso en la calle).",
@@ -247,7 +247,7 @@
             React.createElement("div", { className: "bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900/60 dark:to-slate-900/10 rounded-3xl p-8 border border-slate-100 dark:border-slate-800/80 flex flex-col items-center justify-center relative shadow-inner overflow-hidden min-h-[360px]" },
               React.createElement("div", { className: "relative w-full flex flex-col items-center" },
                 React.createElement("div", { className: "w-full max-w-[200px] aspect-square rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-700 bg-slate-150 mb-6" },
-                  React.createElement("img", {
+                  React.createElement("img", { loading: "lazy", decoding: "async",
                     src: "img/hero_student_laptop.png",
                     alt: "Estudiante rindiendo examen en computadora",
                     className: "w-full h-full object-cover select-none"
@@ -255,14 +255,14 @@
                 ),
                 React.createElement("div", { className: "relative z-10 p-5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-xl max-w-xs text-center" },
                   React.createElement("h4", { className: "font-black text-slate-800 dark:text-white text-xs mb-1" }, "¿LISTO PARA MEDIR TU NIVEL?"),
-                  React.createElement("p", { className: "text-[10px] text-slate-550 dark:text-slate-350 leading-relaxed italic" },
+                  React.createElement("p", { className: "text-[10px] text-slate-500 dark:text-slate-300 leading-relaxed italic" },
                     "\"La simulación de ambiente real te prepara para el gran día. Mide tu nivel, analiza tus errores y afina tus trucos de descarte.\""
                   )
                 )
               ),
               React.createElement("button", { 
                 onClick: () => setActiveTab('simulador'),
-                className: "mt-6 bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
+                className: "mt-6 bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
               },
                 "Abrir Simulador ", React.createElement(Icon, { name: "arrow_forward", className: "w-4 h-4" })
               )
@@ -296,10 +296,10 @@
                     React.createElement("button", {
                       key: mode.time,
                       onClick: () => setSelectedTimeMode(mode.time),
-                      className: `p-4 rounded-2xl border-2 text-left transition-all duration-350 ${
+                      className: `p-4 rounded-2xl border-2 text-left transition-all duration-300 ${
                         selectedTimeMode === mode.time 
-                          ? 'border-sky-500 bg-sky-500/5 text-sky-600 dark:text-sky-400 scale-102 shadow-sm font-bold'
-                          : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 text-slate-500 hover:border-slate-350'
+                          ? 'border-sky-500 bg-sky-500/5 text-sky-600 dark:text-sky-400 scale-105 shadow-sm font-bold'
+                          : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 text-slate-500 hover:border-slate-300'
                       }`
                     },
                       React.createElement("div", { className: "flex items-center gap-2 mb-1" },
@@ -308,10 +308,10 @@
                       ),
                       React.createElement("div", { className: "text-[10px] opacity-75 font-medium" }, mode.sub)
                     ))
-                  ))
+                  )
                 ),
 
-                React.createElement("div", { className: "bg-slate-50 dark:bg-slate-950/20 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 text-[10px] text-slate-500 dark:text-slate-450 leading-relaxed font-medium" },
+                React.createElement("div", { className: "bg-slate-50 dark:bg-slate-950/20 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium" },
                   React.createElement("strong", { className: "text-sky-600 block uppercase mb-1" }, "💡 Configuración del Simulador:"),
                   "Durante el examen no verás si respondiste de forma correcta o incorrecta. Al finalizar o cuando el tiempo acabe, se generará tu diagnóstico con las correcciones correspondientes."
                 ),
@@ -351,11 +351,11 @@
                       React.createElement("div", { className: "p-5 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex flex-col justify-center" },
                         React.createElement("span", { className: "text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1" }, "Puntaje Saber 11 Estimado"),
                         React.createElement("span", { className: "text-3xl font-black text-slate-800 dark:text-white" }, `${estimatedIcfes}/100`),
-                        React.createElement("span", { className: "text-[10px] font-bold text-slate-450 mt-1" }, `Acertaste ${finalScore} de 10 preguntas`)
+                        React.createElement("span", { className: "text-[10px] font-bold text-slate-400 mt-1" }, `Acertaste ${finalScore} de 10 preguntas`)
                       )
                     ),
 
-                    React.createElement("div", { className: "space-y-2 text-xs leading-relaxed text-slate-655 dark:text-slate-350 font-medium" },
+                    React.createElement("div", { className: "space-y-2 text-xs leading-relaxed text-slate-700 dark:text-slate-300 font-medium" },
                       React.createElement("h4", { className: "font-black text-slate-800 dark:text-white" }, "Retroalimentación de Diagnóstico:"),
                       finalScore >= 9 && React.createElement("p", null, "¡Excelente trabajo! Demuestras competencias sólidas del nivel B1 (Usuario Independiente / Alto). Este es el nivel máximo evaluado en las pruebas Saber 11 para bachillerato. Estás completamente preparado para la prueba real."),
                       finalScore >= 6 && finalScore <= 8 && React.createElement("p", null, "¡Gran resultado! Tienes un nivel A2 sólido (Usuario Básico / Medio). Para subir a la banda B1, te recomendamos enfocarte en las preposiciones complejas de textos con espacios (Parte 7) y en la deducción de intenciones en lecturas analíticas (Parte 6)."),
@@ -367,7 +367,7 @@
                   // Image on the right
                   React.createElement("div", { className: "md:col-span-5 flex flex-col items-center justify-center" },
                     React.createElement("div", { className: "w-full max-w-[220px] aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800 bg-slate-100 relative group" },
-                      React.createElement("img", {
+                      React.createElement("img", { loading: "lazy", decoding: "async",
                         src: "img/hero_student_laptop.png",
                         alt: "Estudiante viendo la libreta de calificaciones",
                         className: "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -404,7 +404,7 @@
                         isCorrect 
                           ? 'border-emerald-250 dark:border-emerald-950/60 shadow-[0_4px_20px_rgba(16,185,129,0.02)]' 
                           : studentAns === undefined
-                          ? 'border-slate-200 dark:border-slate-850 opacity-80'
+                          ? 'border-slate-200 dark:border-slate-800 opacity-80'
                           : 'border-rose-250 dark:border-rose-950/60 shadow-[0_4px_20px_rgba(244,63,94,0.02)]'
                       }`
                     },
@@ -416,14 +416,14 @@
                       }),
 
                       // Question Header
-                      React.createElement("div", { className: "flex justify-between items-start gap-4 mb-3 border-b border-slate-100 dark:border-slate-850 pb-3" },
+                      React.createElement("div", { className: "flex justify-between items-start gap-4 mb-3 border-b border-slate-100 dark:border-slate-800 pb-3" },
                         React.createElement("div", null,
                           React.createElement("span", { className: "text-[10px] font-black text-sky-600 bg-sky-50 dark:bg-sky-950/20 px-2 py-1 rounded-full uppercase tracking-wider block w-fit mb-1" }, q.partName),
                           React.createElement("h4", { className: "font-black text-slate-800 dark:text-white text-xs" }, `Pregunta ${q.id}`)
                         ),
                         React.createElement("div", { className: "flex items-center gap-1 shrink-0" },
                           isCorrect ? 
-                            React.createElement("span", { className: "text-emerald-600 dark:text-emerald-450 font-black text-xs flex items-center gap-1" }, React.createElement(Icon, { name: "check_circle" }), "Correcta") : 
+                            React.createElement("span", { className: "text-emerald-600 dark:text-emerald-400 font-black text-xs flex items-center gap-1" }, React.createElement(Icon, { name: "check_circle" }), "Correcta") : 
                             studentAns === undefined ?
                             React.createElement("span", { className: "text-slate-400 font-bold text-xs flex items-center gap-1" }, React.createElement(Icon, { name: "error_outline" }), "Sin Responder") :
                             React.createElement("span", { className: "text-rose-600 dark:text-rose-455 font-black text-xs flex items-center gap-1" }, React.createElement(Icon, { name: "cancel" }), "Incorrecta")
@@ -436,7 +436,7 @@
                       // Options list
                       React.createElement("div", { className: "grid sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4" },
                         q.options.map((option, optIdx) => {
-                          let optStyle = "border-slate-200 dark:border-slate-855 text-slate-600 dark:text-slate-400";
+                          let optStyle = "border-slate-200 dark:border-slate-900 text-slate-600 dark:text-slate-400";
                           
                           if (optIdx === q.correct) {
                             optStyle = "border-emerald-500 bg-emerald-500/5 text-emerald-800 dark:text-emerald-400 font-bold";
@@ -458,7 +458,7 @@
                       ),
 
                       // Feedback
-                      React.createElement("div", { className: "bg-slate-50 dark:bg-slate-950/20 border border-slate-100 dark:border-slate-850 p-4 rounded-xl text-[10px] leading-relaxed text-slate-655 dark:text-slate-400 font-medium" },
+                      React.createElement("div", { className: "bg-slate-50 dark:bg-slate-950/20 border border-slate-100 dark:border-slate-800 p-4 rounded-xl text-[10px] leading-relaxed text-slate-700 dark:text-slate-400 font-medium" },
                         React.createElement("strong", { className: "text-slate-800 dark:text-white block mb-1 uppercase tracking-wide" }, "Explicación en Español:"),
                         q.explanation
                       )
@@ -485,7 +485,7 @@
                   // Timer box
                   React.createElement("div", { className: `p-6 rounded-2xl border text-center transition-all duration-300 ${
                     isTimeLow 
-                      ? 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-450 animate-pulse' 
+                      ? 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 animate-pulse' 
                       : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/30'
                   }` },
                     React.createElement("span", { className: "text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1" }, "Tiempo Restante"),
@@ -501,9 +501,9 @@
                         const isCurrent = idx === currentQuestion;
                         const isAnswered = answers[idx] !== undefined;
                         
-                        let dotStyle = "border-slate-350 dark:border-slate-800 text-slate-450";
+                        let dotStyle = "border-slate-300 dark:border-slate-800 text-slate-400";
                         if (isCurrent) {
-                          dotStyle = "border-sky-500 bg-sky-500/10 text-sky-655 dark:text-sky-400 font-extrabold scale-110 shadow-sm";
+                          dotStyle = "border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-400 font-extrabold scale-110 shadow-sm";
                         } else if (isAnswered) {
                           dotStyle = "border-sky-600 bg-sky-600 text-white font-bold";
                         }
@@ -520,7 +520,7 @@
                   )
                 ),
 
-                React.createElement("div", { className: "bg-slate-100 dark:bg-slate-950/30 border border-slate-200 dark:border-slate-850 p-4 rounded-xl text-[10px] text-slate-500 dark:text-slate-450 leading-relaxed font-medium mt-6" },
+                React.createElement("div", { className: "bg-slate-100 dark:bg-slate-950/30 border border-slate-200 dark:border-slate-800 p-4 rounded-xl text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium mt-6" },
                   React.createElement("span", { className: "font-black text-sky-500 block uppercase mb-1" }, "💡 Consejo rápido:"),
                   "Puedes cambiar de pregunta haciendo clic en la cuadrícula numérica de arriba para revisar o cambiar respuestas antes de enviar."
                 )
@@ -536,9 +536,9 @@
                   ),
 
                   // Line progress bar
-                  React.createElement("div", { className: "w-full bg-slate-100 dark:bg-slate-850 h-1.5 rounded-full overflow-hidden" },
+                  React.createElement("div", { className: "w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden" },
                     React.createElement("div", { 
-                      className: "bg-gradient-to-r from-sky-400 to-blue-500 h-full transition-all duration-355", 
+                      className: "bg-gradient-to-r from-sky-400 to-blue-500 h-full transition-all duration-300", 
                       style: { width: `${((currentQuestion + 1) / questions.length) * 100}%` } 
                     })
                   ),
@@ -550,11 +550,11 @@
                   React.createElement("div", { className: "space-y-3" },
                     q.options.map((option, index) => {
                       const isSelected = selectedOpt === index;
-                      let btnStyle = "border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-355 hover:border-sky-350 hover:bg-sky-500/5";
-                      let badgeStyle = "border-slate-300 text-slate-450 dark:border-slate-700";
+                      let btnStyle = "border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-400 hover:border-sky-300 hover:bg-sky-500/5";
+                      let badgeStyle = "border-slate-300 text-slate-400 dark:border-slate-700";
 
                       if (isSelected) {
-                        btnStyle = "border-sky-500 bg-sky-500/5 text-sky-655 dark:text-sky-400 font-bold scale-101";
+                        btnStyle = "border-sky-500 bg-sky-500/5 text-sky-700 dark:text-sky-400 font-bold scale-105";
                         badgeStyle = "bg-sky-500 border-sky-500 text-white font-extrabold shadow-sm";
                       }
 
@@ -573,14 +573,14 @@
                 ),
 
                 // Controls Footer
-                React.createElement("div", { className: "flex justify-between items-center mt-8 border-t border-slate-100 dark:border-slate-855 pt-6" },
+                React.createElement("div", { className: "flex justify-between items-center mt-8 border-t border-slate-100 dark:border-slate-900 pt-6" },
                   React.createElement("button", {
                     onClick: prevQuestion,
                     disabled: currentQuestion === 0,
                     className: `flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all border ${
                       currentQuestion === 0 
                         ? 'opacity-30 border-slate-200 text-slate-400 cursor-not-allowed' 
-                        : 'border-slate-350 text-slate-655 hover:bg-slate-50'
+                        : 'border-slate-300 text-slate-700 hover:bg-slate-50'
                     }`
                   },
                     React.createElement(Icon, { name: "arrow_back" }), "Atrás"
@@ -596,7 +596,7 @@
                   ) : (
                     React.createElement("button", {
                       onClick: nextQuestion,
-                      className: "bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-6 py-3 rounded-xl transition-all shadow-md active:scale-95 text-xs flex items-center gap-2"
+                      className: "bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-6 py-3 rounded-xl transition-all shadow-md active:scale-95 text-xs flex items-center gap-2"
                     },
                       "Siguiente", React.createElement(Icon, { name: "arrow_forward" })
                     )
@@ -604,8 +604,8 @@
                 )
               )
             )
-          );
-        };
+          )
+        );
       };
 
       const renderEstrategias = () => {
@@ -696,8 +696,8 @@
                     onClick: () => setActivePartStrategy(num),
                     className: `w-full text-left p-3.5 rounded-2xl border-2 transition-all duration-300 flex items-center gap-3 ${
                       activePartStrategy === num
-                        ? 'border-sky-500 bg-sky-500/5 text-sky-655 dark:text-sky-400 font-bold scale-102'
-                        : 'border-transparent bg-white dark:bg-slate-950/20 text-slate-650 dark:text-slate-400 hover:border-slate-200'
+                        ? 'border-sky-500 bg-sky-500/5 text-sky-700 dark:text-sky-400 font-bold scale-105'
+                        : 'border-transparent bg-white dark:bg-slate-950/20 text-slate-600 dark:text-slate-400 hover:border-slate-200'
                     }`
                   },
                     React.createElement("span", { className: `w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black shrink-0 ${
@@ -710,12 +710,12 @@
 
               // Right: Selected Strategy Details
               React.createElement("div", { className: "lg:col-span-8 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-md space-y-6" },
-                React.createElement("div", { className: "border-b border-slate-100 dark:border-slate-855 pb-4" },
+                React.createElement("div", { className: "border-b border-slate-100 dark:border-slate-900 pb-4" },
                   React.createElement("span", { className: "text-[10px] font-black text-sky-600 bg-sky-50 dark:bg-sky-950/20 px-2.5 py-1 rounded-full uppercase tracking-wider mb-2 inline-block" }, `Saber 11 - Inglés - Parte ${activePartStrategy}`),
                   React.createElement("h3", { className: "text-2xl font-black text-slate-800 dark:text-white" }, currentStrategy.title)
                 ),
 
-                React.createElement("div", { className: "space-y-4 text-xs font-medium text-slate-655 dark:text-slate-350 leading-relaxed" },
+                React.createElement("div", { className: "space-y-4 text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed" },
                   React.createElement("div", null,
                     React.createElement("strong", { className: "text-slate-800 dark:text-white block mb-1 uppercase tracking-wide text-[10px]" }, "Descripción de la Parte:"),
                     React.createElement("p", null, currentStrategy.desc)
@@ -730,7 +730,7 @@
                       currentStrategy.tips.map((tip, idx) => (
                         React.createElement("li", { key: idx, className: "flex items-start gap-3" },
                           React.createElement("div", { className: "mt-0.5 bg-sky-100 dark:bg-sky-955/30 p-0.5 rounded-full shrink-0" },
-                            React.createElement(Icon, { name: "arrow_forward", className: "w-3 h-3 text-sky-655 dark:text-sky-400" })
+                            React.createElement(Icon, { name: "arrow_forward", className: "w-3 h-3 text-sky-700 dark:text-sky-400" })
                           ),
                           React.createElement("span", null, tip)
                         )
@@ -768,7 +768,7 @@
                 },
                 className: `flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-all duration-300 rounded-xl whitespace-nowrap flex-1 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-slate-800 text-sky-655 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
+                    ? 'bg-white dark:bg-slate-800 text-sky-700 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/40 scale-95'
                 }`
               },

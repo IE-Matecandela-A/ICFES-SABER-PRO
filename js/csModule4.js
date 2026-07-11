@@ -220,26 +220,26 @@
                 React.createElement("div", { className: "space-y-4" },
                   React.createElement("div", null,
                     React.createElement("span", { className: "text-slate-400 dark:text-slate-500 block uppercase tracking-wider font-bold mb-1" }, "Definición Técnica:"),
-                    React.createElement("span", { className: "text-slate-650 dark:text-slate-300 text-xs font-normal" }, econConcepts[selectedConcept].definition)
+                    React.createElement("span", { className: "text-slate-600 dark:text-slate-300 text-xs font-normal" }, econConcepts[selectedConcept].definition)
                   ),
                   React.createElement("div", null,
                     React.createElement("span", { className: "text-orange-400 dark:text-orange-500 block uppercase tracking-wider font-bold mb-1" }, "Impacto en Políticas y Limitaciones:"),
-                    React.createElement("span", { className: "text-slate-650 dark:text-slate-300 text-xs font-normal" }, econConcepts[selectedConcept].impact)
+                    React.createElement("span", { className: "text-slate-600 dark:text-slate-300 text-xs font-normal" }, econConcepts[selectedConcept].impact)
                   ),
                   React.createElement("div", { className: "border border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden h-[120px] bg-slate-50 dark:bg-slate-950/20" },
-                    React.createElement("img", {
+                    React.createElement("img", { loading: "lazy", decoding: "async",
                       src: selectedConcept === 0 ? "img/caricatura_neoliberalismo.png" :
                            selectedConcept === 1 ? "img/caricatura_reforma_tributaria.png" :
                            "img/piramide_poblacional.png",
                       alt: "Visualización del concepto económico",
-                      className: "w-full h-full object-cover select-none transition-all duration-300 hover:scale-102"
+                      className: "w-full h-full object-cover select-none transition-all duration-300 hover:scale-105"
                     })
                   )
                 ),
                 React.createElement("div", { className: "bg-slate-50 dark:bg-slate-800/30 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 flex flex-col justify-between" },
                   React.createElement("div", null,
                     React.createElement("span", { className: "text-amber-600 dark:text-amber-400 block uppercase tracking-wider font-black mb-1.5" }, "Enfoque ICFES / Pregunta Clave:"),
-                    React.createElement("span", { className: "text-slate-650 dark:text-slate-400 text-xs leading-relaxed" }, econConcepts[selectedConcept].icfesTip)
+                    React.createElement("span", { className: "text-slate-600 dark:text-slate-400 text-xs leading-relaxed" }, econConcepts[selectedConcept].icfesTip)
                   )
                 )
               )
@@ -252,7 +252,7 @@
               React.createElement(Icon, { name: "analytics", className: "text-amber-500" }),
               "2. Simulador Interactivo: Distribución de Riqueza y Coeficiente de Gini"
             ),
-            React.createElement("p", { className: "text-sm text-slate-650 dark:text-slate-300 leading-relaxed font-light" },
+            React.createElement("p", { className: "text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light" },
               "El Coeficiente de Gini mide estadísticamente la concentración del ingreso. Ajusta el control deslizante para observar cómo cambia el porcentaje de riqueza nacional acumulado por cada 20% de la población (quintiles):"
             ),
             
@@ -323,7 +323,7 @@
                       ? 'from-rose-500 to-amber-500' 
                       : idx === 0 
                         ? 'from-emerald-600 to-emerald-400' 
-                        : 'from-amber-400 to-amber-300 dark:from-slate-700 dark:to-slate-650';
+                        : 'from-amber-400 to-amber-300 dark:from-slate-700 dark:to-slate-600';
 
                     return React.createElement("div", {
                       key: idx,
@@ -342,7 +342,7 @@
                   })
                 ),
                 // Explanatory note
-                React.createElement("div", { className: "grid md:grid-cols-2 gap-4 text-[10px] font-medium text-slate-500 dark:text-slate-450 border-t border-slate-100 dark:border-slate-800/80 pt-3" },
+                React.createElement("div", { className: "grid md:grid-cols-2 gap-4 text-[10px] font-medium text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/80 pt-3" },
                   React.createElement("div", { className: "flex items-start gap-2" },
                     React.createElement(Icon, { name: "info", className: "text-emerald-500 text-xs shrink-0 mt-0.5" }),
                     React.createElement("span", null, "En el modelo con Gini = 0.0 (Igualdad Absoluta), todos los quintiles reciben exactamente el 20% del ingreso nacional.")

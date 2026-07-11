@@ -132,7 +132,7 @@
           React.createElement("div", { className: "grid md:grid-cols-2 gap-8 items-center" },
             React.createElement("div", { className: "space-y-6" },
               React.createElement("h2", { className: "text-3xl font-extrabold text-slate-800 tracking-tight dark:text-white" }, "Parte 4 y 7: Textos con Espacios y Gramática"),
-              React.createElement("p", { className: "text-slate-655 dark:text-slate-350 leading-relaxed text-lg font-light" },
+              React.createElement("p", { className: "text-slate-700 dark:text-slate-300 leading-relaxed text-lg font-light" },
                 "Las partes 4 y 7 evalúan tu competencia léxico-gramatical en contexto. Consiste en leer un pasaje al que le faltan palabras y elegir la opción que encaje. La Parte 4 se centra en ",
                 React.createElement("strong", { className: "font-bold text-sky-500" }, "elementos gramaticales"),
                 " (prepositions, pronouns, auxiliaries), y la Parte 7 se enfoca en ",
@@ -143,7 +143,7 @@
               React.createElement("div", { className: "bg-gradient-to-br from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-800 border border-slate-100 dark:border-slate-700/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl p-6 relative overflow-hidden group" },
                 React.createElement("div", { className: "absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-blue-500 rounded-l-2xl" }),
                 React.createElement("h3", { className: "font-bold text-slate-800 dark:text-white mb-4 text-lg" }, "Temas Gramaticales Clave:"),
-                React.createElement("ul", { className: "space-y-4 font-medium text-slate-650 dark:text-slate-355 text-sm" },
+                React.createElement("ul", { className: "space-y-4 font-medium text-slate-600 dark:text-slate-400 text-sm" },
                   [
                     "Pronombres Relativos (who para personas, which para objetos, whose para posesión).",
                     "Condicionales (estructuras verbales del condicional tipo 0, 1 y 2).",
@@ -173,14 +173,14 @@
                       React.createElement("p", { className: "text-[10px] text-slate-400 font-bold" }, "Saber 11 - Parte 4 & 7")
                     )
                   ),
-                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-350 italic leading-relaxed" },
+                  React.createElement("p", { className: "text-xs text-slate-500 dark:text-slate-300 italic leading-relaxed" },
                     "\"Siempre lee la oración completa. Las referencias de tiempo y los sustantivos al lado del espacio te revelan qué pronombre o forma verbal se necesita.\""
                   )
                 )
               ),
               React.createElement("button", { 
                 onClick: () => setActiveTab('teoria'),
-                className: "mt-4 bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
+                className: "mt-4 bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-[0_10px_20px_rgba(14,165,233,0.2)] active:scale-95 flex items-center gap-2"
               },
                 "Iniciar Cloze Test ", React.createElement(Icon, { name: "arrow_forward", className: "w-4 h-4" })
               )
@@ -203,7 +203,7 @@
             
             React.createElement("div", { className: "bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm space-y-6" },
               // Paragraph with inline dropdowns
-              React.createElement("div", { className: "leading-loose text-sm font-medium text-slate-700 dark:text-slate-350" },
+              React.createElement("div", { className: "leading-loose text-sm font-medium text-slate-700 dark:text-slate-300" },
                 clozeData.paragraphStart,
                 clozeData.blanks.map((b, idx) => {
                   const isSelected = clozeAnswers[b.index] !== "";
@@ -212,7 +212,7 @@
                   
                   if (isSelected) {
                     colorClass = isCorrect 
-                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-450 font-bold" 
+                      ? "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold" 
                       : "border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-455 font-bold animate-shake-custom";
                   }
                   
@@ -233,7 +233,7 @@
               ),
               
               // Explanations list
-              React.createElement("div", { className: "border-t border-slate-100 dark:border-slate-850 pt-4 space-y-3" },
+              React.createElement("div", { className: "border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3" },
                 clozeData.blanks.map((b) => {
                   const ans = clozeAnswers[b.index];
                   if (!ans) return null;
@@ -271,13 +271,13 @@
             React.createElement("div", { className: "grid md:grid-cols-2 gap-6 text-xs leading-relaxed" },
               React.createElement("div", { className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80" },
                 React.createElement("h4", { className: "font-black text-sky-700 dark:text-sky-400 text-sm uppercase mb-2" }, "Cláusulas Relativas (Pronombres)"),
-                React.createElement("p", { className: "text-slate-550 dark:text-slate-400" },
+                React.createElement("p", { className: "text-slate-500 dark:text-slate-400" },
                   "Utiliza 'Who' únicamente para personas. Usa 'Which' para referirte a objetos físicos, animales o ideas completas. Usa 'Whose' para indicar pertenencia o posesión (ej: 'the man whose son is a doctor')."
                 )
               ),
               React.createElement("div", { className: "bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800/80" },
                 React.createElement("h4", { className: "font-black text-sky-700 dark:text-sky-400 text-sm uppercase mb-2" }, "Disparadores de Preposiciones"),
-                React.createElement("p", { className: "text-slate-550 dark:text-slate-400" },
+                React.createElement("p", { className: "text-slate-500 dark:text-slate-400" },
                   "Los indicadores de tiempo son muy específicos: 'since' (desde) introduce un punto de partida exacto ('since 2018'), 'for' (durante/por) indica una duración de tiempo ('for 3 years'), y 'during' va seguido de un sustantivo ('during the trip')."
                 )
               )
@@ -323,7 +323,7 @@
                 React.createElement("div", { className: "absolute top-0 left-0 w-1.5 h-full bg-sky-500" }),
                 React.createElement("h3", { className: "text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest mb-1" }, "CONSEJO DEL EXAMEN"),
                 React.createElement("h2", { className: "text-lg font-black text-slate-800 dark:text-white mb-3" }, "Gramática en Contexto"),
-                React.createElement("p", { className: "text-slate-650 dark:text-slate-300 text-xs leading-relaxed font-medium" },
+                React.createElement("p", { className: "text-slate-600 dark:text-slate-300 text-xs leading-relaxed font-medium" },
                   "La estructura del primer condicional es muy común. Recuerda: If + Presente Simple (condición) + Will + Verbo (resultado). Si ves una condición con 'If' y un resultado con 'will', elige la opción en presente simple."
                 )
               ),
@@ -379,7 +379,7 @@
                   ),
                   React.createElement("button", {
                     onClick: nextQuestion,
-                    className: "bg-slate-900 dark:bg-sky-655 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-8 py-3.5 rounded-xl ml-auto block transition-all active:scale-95 shadow-md text-sm"
+                    className: "bg-slate-900 dark:bg-sky-700 hover:bg-slate-800 dark:hover:bg-sky-555 text-white font-extrabold px-8 py-3.5 rounded-xl ml-auto block transition-all active:scale-95 shadow-md text-sm"
                   },
                     currentQuestion === questions.length - 1 ? "Ver Resultados" : "Siguiente Pregunta →"
                   )
@@ -405,7 +405,7 @@
                 onClick: () => setActiveTab(tab.id),
                 className: `flex items-center justify-center gap-2 px-6 py-3 font-semibold text-sm transition-all duration-300 rounded-xl whitespace-nowrap flex-1 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-slate-800 text-sky-655 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
+                    ? 'bg-white dark:bg-slate-800 text-sky-700 shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-slate-100 dark:border-slate-700/60 scale-100' 
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/40 scale-95'
                 }`
               },

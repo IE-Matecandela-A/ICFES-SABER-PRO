@@ -328,26 +328,71 @@
     <div id="view-home" class="view-section relative"
         style="overflow-x: hidden; background-color: var(--color-surface);">
 
-        <!-- Premium Ambient Background (Refined Glass / Calm Aurora) -->
+        <!-- Premium Ambient Background (Dark Emerald / Teal Theme) -->
         <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#080c14] dark-theme-bg">
             <!-- Subtle futuristic grid pattern with radial fading -->
-            <div class="absolute inset-0 bg-grid-pattern opacity-[0.18]"></div>
-
-            <!-- Calm aurora: two soft glows only, gentle drift -->
-            <div class="absolute top-[-18%] left-[-12%] w-[640px] h-[640px] rounded-full filter blur-[150px] opacity-[0.16] animate-blob-drift-1"
-                style="background: radial-gradient(circle, #6366f1, transparent 70%);">
+            <div class="absolute inset-0 bg-grid-pattern opacity-40"></div>
+            
+            <!-- Abstract Network Lines (Simulated via CSS gradients) -->
+            <div class="absolute inset-0 z-0" style="background-image: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%); mix-blend-mode: screen;"></div>
+            
+            <!-- Animated glowing ambient orbs (Teal/Emerald Style) -->
+            <div class="absolute top-[-20%] left-[-15%] w-[600px] h-[600px] rounded-full filter blur-[130px] opacity-20 animate-blob-drift-1"
+                style="background: radial-gradient(circle, #4f46e5, transparent 70%);">
             </div>
-            <div class="absolute bottom-[2%] right-[-10%] w-[560px] h-[560px] rounded-full filter blur-[150px] opacity-[0.12] animate-blob-drift-2"
+            <div class="absolute bottom-[10%] right-[-10%] w-[500px] h-[500px] rounded-full filter blur-[125px] opacity-[0.1] animate-blob-drift-2"
                 style="background: radial-gradient(circle, #8b5cf6, transparent 70%);">
             </div>
-
-            <!-- Floating 3D Glass Spheres -->
-            <div class="glass-sphere-3d w-40 h-40 animate-float-sphere-1 top-[20%] left-[5%] opacity-70"></div>
-            <div class="glass-sphere-3d w-64 h-64 animate-float-sphere-2 bottom-[15%] right-[8%] opacity-55"></div>
-
-            <!-- Soft top vignette for depth -->
-            <div class="absolute inset-x-0 top-0 h-[40%] pointer-events-none"
-                style="background: linear-gradient(to bottom, rgba(8,12,20,0.6), transparent);"></div>
+            <div class="absolute top-[30%] right-[35%] w-[400px] h-[400px] rounded-full filter blur-[140px] opacity-[0.1] animate-blob-drift-3"
+                style="background: radial-gradient(circle, #0284c7, transparent 70%);">
+            </div>
+            
+            <!-- Global Tech Wireframe Mesh (Curved contour grid) -->
+            <div class="absolute top-0 right-0 w-[60%] h-[80%] opacity-25 dark:opacity-35 pointer-events-none mix-blend-screen select-none animate-pulse-slow">
+                <svg viewBox="0 0 800 800" class="w-full h-full" fill="none">
+                    <defs>
+                        <linearGradient id="global-wireframe-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.8" />
+                            <stop offset="50%" stop-color="#3b82f6" stop-opacity="0.5" />
+                            <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.1" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Parallel Ribbon Flowing Curves -->
+                    <path d="M 50 -100 Q 250 150 400 50 T 750 150 T 1000 -50" stroke="url(#global-wireframe-grad)" stroke-width="0.8" />
+                    <path d="M 80 -100 Q 280 150 430 50 T 780 150 T 1030 -50" stroke="url(#global-wireframe-grad)" stroke-width="0.8" />
+                    <path d="M 110 -100 Q 310 150 460 50 T 810 150 T 1060 -50" stroke="url(#global-wireframe-grad)" stroke-width="0.8" />
+                    <path d="M 140 -100 Q 340 150 490 50 T 840 150 T 1090 -50" stroke="url(#global-wireframe-grad)" stroke-width="0.8" />
+                    <path d="M 170 -100 Q 370 150 520 50 T 870 150 T 1120 -50" stroke="url(#global-wireframe-grad)" stroke-width="0.8" />
+                    <path d="M 200 -100 Q 400 150 550 50 T 900 150 T 1150 -50" stroke="url(#global-wireframe-grad)" stroke-width="0.8" />
+                    
+                    <path d="M 50 -50 Q 250 200 400 100 T 750 200 T 1000 0" stroke="url(#global-wireframe-grad)" stroke-width="0.6" stroke-opacity="0.8" />
+                    <path d="M 80 -50 Q 280 200 430 100 T 780 200 T 1030 0" stroke="url(#global-wireframe-grad)" stroke-width="0.6" stroke-opacity="0.8" />
+                    <path d="M 110 -50 Q 310 200 460 100 T 810 200 T 1060 0" stroke="url(#global-wireframe-grad)" stroke-width="0.6" stroke-opacity="0.8" />
+                    <path d="M 140 -50 Q 340 200 490 100 T 840 200 T 1090 0" stroke="url(#global-wireframe-grad)" stroke-width="0.6" stroke-opacity="0.8" />
+                    
+                    <!-- Opposite Cross Curves creating Grid/Mesh -->
+                    <path d="M 400 -100 C 350 200 650 400 800 600" stroke="url(#global-wireframe-grad)" stroke-width="0.5" stroke-opacity="0.6" />
+                    <path d="M 450 -100 C 400 200 700 400 850 600" stroke="url(#global-wireframe-grad)" stroke-width="0.5" stroke-opacity="0.6" />
+                    <path d="M 500 -100 C 450 200 750 400 900 600" stroke="url(#global-wireframe-grad)" stroke-width="0.5" stroke-opacity="0.6" />
+                    <path d="M 550 -100 C 500 200 800 400 950 600" stroke="url(#global-wireframe-grad)" stroke-width="0.5" stroke-opacity="0.6" />
+                    
+                    <!-- Dense network of curves on the right top area -->
+                    <path d="M 300 -100 Q 500 80 600 20 T 900 120" stroke="url(#global-wireframe-grad)" stroke-width="0.5" />
+                    <path d="M 320 -100 Q 520 80 620 20 T 920 120" stroke="url(#global-wireframe-grad)" stroke-width="0.5" />
+                    <path d="M 340 -100 Q 540 80 640 20 T 940 120" stroke="url(#global-wireframe-grad)" stroke-width="0.5" />
+                    <path d="M 360 -100 Q 560 80 660 20 T 960 120" stroke="url(#global-wireframe-grad)" stroke-width="0.5" />
+                    
+                    <!-- Node dots at intersections -->
+                    <circle cx="282" cy="118" r="1.5" fill="#8b5cf6" />
+                    <circle cx="340" cy="138" r="1.5" fill="#8b5cf6" />
+                    <circle cx="438" cy="98" r="2" fill="#3b82f6" />
+                    <circle cx="512" cy="115" r="1.5" fill="#3b82f6" />
+                    <circle cx="585" cy="135" r="2.5" fill="#3b82f6" class="animate-pulse" />
+                    <circle cx="678" cy="165" r="1.5" fill="#8b5cf6" />
+                    <circle cx="725" cy="120" r="1.5" fill="#3b82f6" />
+                </svg>
+            </div>
         </div>
 
         <div
@@ -359,13 +404,10 @@
 
                 <!-- Left Text Content -->
                 <div class="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start z-20">
-                    <!-- Glowing cybernetic status capsule -->
-                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-6 border border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md transition-all hover:border-indigo-500/50 hover:shadow-[0_0_15px_rgba(99,102,241,0.25)] hover:scale-105">
-                        <span class="flex h-2 w-2 relative">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                        </span>
-                        <span class="text-[10px] font-black tracking-[0.2em] uppercase text-indigo-300">Plataforma SABER PRO</span>
+                    <div class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full mb-8 shadow-[0_4px_20px_rgba(99,102,241,0.15)] border border-indigo-500/30 backdrop-blur-md transition-all hover:border-indigo-500/50 hover:shadow-[0_4px_30px_rgba(99,102,241,0.25)] hover:scale-105"
+                        style="background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.05));">
+                        <span class="animate-pulse text-indigo-400">✨</span>
+                        <span class="text-[11px] font-extrabold tracking-widest uppercase text-indigo-200">Plataforma SABER PRO</span>
                     </div>
 
                     <style>
@@ -393,198 +435,30 @@
                             0%, 100% { opacity: 0.25; }
                             50% { opacity: 0.55; }
                         }
-                        @keyframes text-shimmer {
-                            0% { background-position: 0% 50%; }
-                            50% { background-position: 100% 50%; }
-                            100% { background-position: 0% 50%; }
-                        }
-                        @keyframes verified-bounce {
-                            0%, 100% { transform: scale(1); }
-                            50% { transform: scale(1.2); }
-                        }
-                        @keyframes light-sweep {
-                            0% { left: -100%; opacity: 0; }
-                            10% { opacity: 0.5; }
-                            90% { opacity: 0.5; }
-                            100% { left: 150%; opacity: 0; }
-                        }
-                        
-                        /* Floating Spheres Animations */
-                        @keyframes float-sphere-1 {
-                            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-                            50% { transform: translateY(-30px) rotate(8deg) scale(1.03); }
-                        }
-                        @keyframes float-sphere-2 {
-                            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); }
-                            50% { transform: translateY(25px) translateX(15px) rotate(-10deg) scale(0.97); }
-                        }
-                        
                         .animate-blob-drift-1 { animation: blob-drift-1 14s infinite ease-in-out; }
                         .animate-blob-drift-2 { animation: blob-drift-2 18s infinite ease-in-out; }
                         .animate-blob-drift-3 { animation: blob-drift-3 12s infinite ease-in-out; }
                         .animate-pulse-slow { animation: pulse-slow 8s infinite ease-in-out; }
                         
-                        .animate-float-sphere-1 { animation: float-sphere-1 14s infinite ease-in-out; }
-                        .animate-float-sphere-2 { animation: float-sphere-2 18s infinite ease-in-out; }
-                        
-                        /* 3D Space and Tilt Setup */
-                        .perspective-container {
-                            perspective: 1500px;
-                            transform-style: preserve-3d;
-                        }
-                        
-                        .tilt-card-3d {
-                            transform-style: preserve-3d;
-                            transform: perspective(1500px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) translateZ(0px);
-                            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
-                        }
-                        .tilt-card-3d:hover {
-                            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.65), 0 0 35px rgba(99, 102, 241, 0.15) !important;
-                        }
-                        
-                        /* Parallax element translation along the Z-axis */
-                        .parallax-badge {
-                            transform: translateZ(55px) scale(0.92);
-                            transform-style: preserve-3d;
-                            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
-                            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
-                        }
-                        .tilt-card-3d:hover .parallax-badge {
-                            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.55);
-                        }
-                        
-                        /* Decorative Glassmorphic Spheres */
-                        .glass-sphere-3d {
-                            position: absolute;
-                            border-radius: 50%;
-                            background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.14) 0%, rgba(99, 102, 241, 0.05) 45%, rgba(8, 12, 20, 0.65) 85%);
-                            box-shadow: 
-                                inset 0 8px 16px rgba(255, 255, 255, 0.22),
-                                inset 0 -8px 16px rgba(0, 0, 0, 0.5),
-                                0 12px 30px rgba(0, 0, 0, 0.55);
-                            backdrop-filter: blur(10px);
-                            -webkit-backdrop-filter: blur(10px);
-                            pointer-events: none;
-                            z-index: 1;
-                        }
-                        .glass-sphere-3d::after {
-                            content: '';
-                            position: absolute;
-                            top: 15%;
-                            left: 15%;
-                            width: 25%;
-                            height: 25%;
-                            border-radius: 50%;
-                            background: radial-gradient(circle, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0) 80%);
-                            filter: blur(1px);
-                        }
-                        
-                        /* Interactive Spotlight for Bento Grid & Buttons */
-                        .bento-feature-card, .director-card, .simulacro-btn-premium, .reto-btn-premium {
-                            position: relative;
-                            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                        }
-                        
-                        .bento-feature-card .spotlight-glow {
-                            position: absolute;
-                            inset: 0;
-                            background: radial-gradient(
-                                350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-                                rgba(99, 102, 241, 0.15),
-                                transparent 80%
-                            );
-                            opacity: 0;
-                            transition: opacity 0.4s ease;
-                            pointer-events: none;
-                            z-index: 1;
-                        }
-                        .bento-feature-card:hover .spotlight-glow {
-                            opacity: 1;
-                        }
-                        .bento-feature-card > *:not(.spotlight-glow) {
-                            position: relative;
-                            z-index: 2;
-                        }
-                        
-                        /* Spotlight lights in light theme */
-                        [data-theme="light"] .bento-feature-card .spotlight-glow {
-                            background: radial-gradient(
-                                350px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-                                rgba(99, 102, 241, 0.09),
-                                transparent 80%
-                            );
-                        }
-                        
-                        /* Shimmer sweeping effect on hover for buttons */
-                        .simulacro-btn-premium::after {
-                            content: '';
-                            position: absolute;
-                            top: -50%;
-                            left: -100%;
-                            width: 50%;
-                            height: 200%;
-                            background: linear-gradient(
-                                to right,
-                                rgba(255, 255, 255, 0) 0%,
-                                rgba(255, 255, 255, 0.3) 50%,
-                                rgba(255, 255, 255, 0) 100%
-                            );
-                            transform: rotate(25deg);
-                            pointer-events: none;
-                            z-index: 2;
-                        }
-                        .simulacro-btn-premium:hover::after {
-                            animation: light-sweep 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-                        }
-                        
                         .saber-title-gradient {
-                            background: linear-gradient(90deg, #ffffff 0%, #e2e8f0 25%, #ffffff 50%, #94a3b8 75%, #ffffff 100%);
-                            background-size: 200% auto;
+                            background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 40%, #94a3b8 60%, #cbd5e1 100%);
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
-                            animation: text-shimmer 8s linear infinite;
+                            text-shadow: 0px 4px 15px rgba(255,255,255,0.2), 0px 8px 25px rgba(148,163,184,0.1);
                         }
                         .pro-title-gradient {
-                            background: linear-gradient(90deg, #fef08a 0%, #fbbf24 25%, #fef08a 50%, #d97706 75%, #fef08a 100%);
-                            background-size: 200% auto;
+                            background: linear-gradient(to bottom, #fef08a 0%, #fbbf24 40%, #d97706 60%, #f59e0b 100%);
                             -webkit-background-clip: text;
                             -webkit-text-fill-color: transparent;
-                            animation: text-shimmer 8s linear infinite;
-                        }
-                        
-                        .saber-title-glow {
-                            text-shadow: 
-                                0 2px 10px rgba(0, 0, 0, 0.45),
-                                0 10px 35px rgba(99, 102, 241, 0.25);
-                            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                        }
-                        .saber-title-glow:hover {
-                            text-shadow: 
-                                0 2px 15px rgba(99, 102, 241, 0.3),
-                                0 12px 45px rgba(99, 102, 241, 0.65);
-                            transform: scale(1.02);
-                        }
-                        
-                        .pro-title-glow {
-                            text-shadow: 
-                                0 2px 10px rgba(0, 0, 0, 0.45),
-                                0 10px 35px rgba(245, 158, 11, 0.25);
-                            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                        }
-                        .pro-title-glow:hover {
-                            text-shadow: 
-                                0 2px 15px rgba(245, 158, 11, 0.3),
-                                0 12px 45px rgba(245, 158, 11, 0.65);
-                            transform: scale(1.02) translateY(-2px);
+                            text-shadow: 0px 4px 15px rgba(251,191,36,0.3), 0px 8px 25px rgba(217,119,6,0.15);
                         }
                         
                         .massive-title {
-                            font-size: min(10vw, 5.8rem); 
-                            line-height: 0.95; 
-                            font-family: 'Outfit', sans-serif;
-                            font-weight: 900;
-                            margin-bottom: 1.5rem;
-                            letter-spacing: -0.04em;
+                            font-size: min(16vw, 12rem); 
+                            line-height: 0.80; 
+                            font-family: 'Cinzel', serif;
+                            margin-bottom: 0.5rem;
+                            letter-spacing: -0.02em;
                         }
                         
                         .bg-grid-pattern {
@@ -631,52 +505,6 @@
                             animation: bounce-slow 3s infinite ease-in-out;
                         }
                         
-                        /* Premium Feature Chips */
-                        .premium-feature-chip {
-                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                        }
-                        [data-theme="light"] .premium-feature-chip {
-                            color: #1e293b !important;
-                        }
-                        [data-theme="light"] .premium-feature-chip.chip-ia {
-                            background-color: rgba(99, 102, 241, 0.08) !important;
-                            border-color: rgba(99, 102, 241, 0.25) !important;
-                        }
-                        [data-theme="light"] .premium-feature-chip.chip-ia span {
-                            color: #4f46e5 !important;
-                        }
-                        [data-theme="light"] .premium-feature-chip.chip-timer {
-                            background-color: rgba(245, 158, 11, 0.08) !important;
-                            border-color: rgba(245, 158, 11, 0.25) !important;
-                        }
-                        [data-theme="light"] .premium-feature-chip.chip-timer span {
-                            color: #d97706 !important;
-                        }
-                        [data-theme="light"] .premium-feature-chip.chip-graph {
-                            background-color: rgba(16, 185, 129, 0.08) !important;
-                            border-color: rgba(16, 185, 129, 0.25) !important;
-                        }
-                        [data-theme="light"] .premium-feature-chip.chip-graph span {
-                            color: #059669 !important;
-                        }
-                        
-                        /* Verified Academic Credential Card */
-                        .director-card {
-                            background: linear-gradient(135deg, rgba(15, 23, 42, 0.5) 0%, rgba(30, 41, 59, 0.3) 100%);
-                            border: 1px solid rgba(255, 255, 255, 0.08);
-                            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-                            cursor: pointer;
-                        }
-                        .director-card:hover {
-                            transform: translateY(-3px);
-                            border-color: rgba(99, 102, 241, 0.35);
-                            background: linear-gradient(135deg, rgba(15, 23, 42, 0.65) 0%, rgba(30, 41, 59, 0.45) 100%);
-                            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(99, 102, 241, 0.15);
-                        }
-                        .director-card:hover .text-sky-400 {
-                            animation: verified-bounce 0.6s ease;
-                        }
-                        
                         /* Overrides para que el fondo y los componentes del Home se vean hermosos en Modo Claro */
                         [data-theme="light"] .dark-theme-bg {
                             background: linear-gradient(135deg, #f5f7ff 0%, #ebf0ff 40%, #e0e7ff 75%, #f5e6ff 100%) !important;
@@ -718,74 +546,36 @@
                             fill: #374151 !important;
                             color: #475569 !important;
                         }
-                        
-                        /* Light mode volumetric text overrides for high contrast */
-                        [data-theme="light"] .saber-title-glow {
-                            text-shadow: 
-                                0 1px 0 rgba(255,255,255,0.85),
-                                0 2px 0 rgba(148,163,184,0.45),
-                                0 3px 0 rgba(148,163,184,0.25),
-                                0 4px 10px rgba(0,0,0,0.1),
-                                0 10px 25px rgba(99,102,241,0.2);
-                        }
-                        [data-theme="light"] .pro-title-glow {
-                            text-shadow: 
-                                0 1px 0 rgba(255,255,255,0.85),
-                                0 2px 0 rgba(245,158,11,0.5),
-                                0 3px 0 rgba(245,158,11,0.3),
-                                0 4px 10px rgba(0,0,0,0.1),
-                                0 10px 25px rgba(245,158,11,0.25);
-                        }
                     </style>
                     
                     <!-- Title -->
-                    <div class="relative inline-block mb-4 w-full z-10 pt-2">
-                        <h1 class="massive-title font-black tracking-tight relative flex flex-row flex-wrap items-center justify-center lg:justify-start gap-x-4 select-none">
-                            <span class="uppercase text-transparent bg-clip-text saber-title-gradient saber-title-glow z-10">SABER</span>
-                            <span class="uppercase text-transparent bg-clip-text pro-title-gradient pro-title-glow z-10">PRO</span>
+                    <div class="relative inline-block mb-6 w-full z-10 pt-4">
+                        <h1 class="massive-title font-extrabold tracking-tighter relative flex flex-col items-center lg:items-start select-none" style="margin-bottom: 2rem;">
+                            <span class="block uppercase tracking-tight text-transparent bg-clip-text saber-title-gradient saber-title-glow z-10 leading-[0.85] pb-1">SABER</span>
+                            <span class="block uppercase tracking-tighter text-transparent bg-clip-text pro-title-gradient pro-title-glow z-10 leading-[0.85] lg:pl-10 font-black">PRO</span>
                         </h1>
                     </div>
 
-                    <p class="text-base md:text-lg mb-6 max-w-xl leading-relaxed font-light relative z-10 text-slate-300">
-                        Eleva tu puntaje con la plataforma de preparación más avanzada. Entrena bajo condiciones reales de examen y obtén un análisis inteligente de tu rendimiento.
+                    <p class="text-lg md:text-xl mb-10 max-w-2xl leading-relaxed font-light relative z-10 text-slate-300">
+                        Eleva tu puntaje con el simulador más <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">revolucionario</span> y <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">preciso</span>. Diagnóstico por IA, cronómetro oficial y reportes avanzados en tiempo real.
                     </p>
-
-                    <!-- Feature Chips Container -->
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8 relative z-10 w-full">
-                        <!-- Chip 1: Diagnóstico IA -->
-                        <div class="premium-feature-chip chip-ia flex items-center gap-2 px-3.5 py-2 rounded-xl border border-indigo-500/15 bg-indigo-950/20 dark:bg-indigo-950/30 backdrop-blur-md hover:border-indigo-500/35 hover:bg-indigo-950/45 hover:shadow-[0_0_15px_rgba(99,102,241,0.15)] group cursor-default">
-                            <span class="material-icons-round text-lg text-indigo-400 group-hover:scale-110 transition-transform">psychology</span>
-                            <span class="text-xs font-semibold tracking-wide text-indigo-200/90 group-hover:text-indigo-100 transition-colors">Diagnóstico IA</span>
-                        </div>
-                        <!-- Chip 2: Cronómetro Oficial -->
-                        <div class="premium-feature-chip chip-timer flex items-center gap-2 px-3.5 py-2 rounded-xl border border-amber-500/15 bg-amber-950/20 dark:bg-amber-950/30 backdrop-blur-md hover:border-amber-500/35 hover:bg-amber-950/45 hover:shadow-[0_0_15px_rgba(245,158,11,0.15)] group cursor-default">
-                            <span class="material-icons-round text-lg text-amber-400 group-hover:rotate-12 transition-transform">timer</span>
-                            <span class="text-xs font-semibold tracking-wide text-amber-200/90 group-hover:text-amber-100 transition-colors">Cronómetro Oficial</span>
-                        </div>
-                        <!-- Chip 3: Reportes en Vivo -->
-                        <div class="premium-feature-chip chip-graph flex items-center gap-2 px-3.5 py-2 rounded-xl border border-emerald-500/15 bg-emerald-950/20 dark:bg-emerald-950/30 backdrop-blur-md hover:border-emerald-500/35 hover:bg-emerald-950/45 hover:shadow-[0_0_15px_rgba(16,185,129,0.15)] group cursor-default">
-                            <span class="material-icons-round text-lg text-emerald-400 group-hover:translate-y-[-1px] transition-transform">auto_graph</span>
-                            <span class="text-xs font-semibold tracking-wide text-emerald-200/90 group-hover:text-emerald-100 transition-colors">Reportes en Vivo</span>
-                        </div>
-                    </div>
-                     <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4 z-10">
+                     <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-4 z-10">
                         <button onclick="Router.go('config')"
-                            class="simulacro-btn-premium group relative overflow-hidden transition-all duration-300 flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white hover:-translate-y-0.5 shadow-[0_10px_30px_-6px_rgba(99,102,241,0.55)] hover:shadow-[0_14px_40px_-6px_rgba(99,102,241,0.7)] font-bold tracking-wider"
-                            style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: 1px solid rgba(255,255,255,0.18);">
-                            <span class="material-icons-round text-lg group-hover:translate-x-0.5 transition-transform">play_arrow</span>
-                            <span class="font-black text-sm uppercase">Iniciar Simulacro</span>
+                            class="simulacro-btn-premium group relative overflow-hidden transition-all duration-300 flex items-center justify-center gap-3 px-8 py-4 rounded-[2rem] text-slate-800 hover:-translate-y-1 shadow-[0_8px_30px_rgba(255,255,255,0.15)] font-bold tracking-wider"
+                            style="background: linear-gradient(135deg, #f8fafc, #cbd5e1); border: 1px solid rgba(255,255,255,0.5);">
+                            <span class="font-black text-sm uppercase">Iniciar Simulacro ✨</span>
                         </button>
 
                         <button onclick="ExamEngine.startFastTrack()"
-                            class="reto-btn-premium group flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-slate-200 hover:text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20"
-                            style="background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(12px);">
-                            <span class="material-icons-round text-xl text-amber-400 group-hover:animate-bounce">bolt</span>
+                            class="reto-btn-premium group flex items-center justify-center gap-3 px-8 py-4 rounded-[2rem] text-slate-200 hover:text-white transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+                            style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                            <span class="material-icons-round text-xl text-yellow-400 group-hover:animate-bounce">bolt</span>
                             <span class="font-bold tracking-wide">Reto Rápido</span>
                         </button>
                     </div>
                     
-                    <!-- Director Académico Block (Verified Premium Credential) -->
-                    <div class="director-card mt-12 flex items-center gap-4 p-4 pr-6 rounded-2xl border border-white/10 relative z-10 animate-fade-in bg-slate-900/40 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+                    <!-- Director Académico Block -->
+                    <div class="director-card mt-12 flex items-center gap-5 p-4 rounded-2xl border border-white/5 relative z-10 animate-fade-in bg-slate-900/45 backdrop-blur-md shadow-lg" 
                          style="animation-delay: 0.3s;">
                         <div class="flex -space-x-3">
                             <div class="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black text-white border-2 border-[#0f172a] z-[3] shadow-lg"
@@ -797,24 +587,21 @@
                         </div>
                         <div class="flex flex-col text-left">
                             <span class="font-black text-[9px] uppercase tracking-widest text-indigo-400">DIRECTOR ACADÉMICO</span>
-                            <span class="font-extrabold text-sm text-slate-950 dark:text-white mt-0.5 flex items-center gap-1.5">
-                                Docente Edgar Acevedo 
-                                <span class="material-icons-round text-sky-400 text-xs drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]">verified</span>
-                            </span>
+                            <span class="font-extrabold text-sm text-slate-950 dark:text-white mt-0.5 flex items-center gap-1">Docente Edgar Acevedo <span class="text-sky-400 text-xs">✓</span></span>
                             <span class="text-xs text-slate-400 font-medium">IE Matecandela • Colombia</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Right 3D/Visual Content (Student Image with Bezel Dashboard and Badges) -->
-                <div class="flex-1 w-full max-w-xl lg:max-w-2xl relative mt-16 md:mt-24 lg:mt-0 perspective-container mx-auto">
+                <div class="flex-1 w-full max-w-xl lg:max-w-2xl relative mt-16 md:mt-24 lg:mt-0 perspective-1000 mx-auto">
                     <!-- Ambient neon glow behind the image wrapper -->
                     <div class="absolute inset-0 rounded-[44px] bg-gradient-to-tr from-indigo-500/20 via-fuchsia-500/10 to-transparent filter blur-3xl transform scale-95 mt-5"></div>
 
                     <div class="relative z-10 w-full animate-float flex justify-center lg:justify-end">
                         <div class="relative w-full max-w-[96%]">
-                            <!-- Simulated Tablet Bezel / Frame with 3D Tilt -->
-                            <div class="tilt-card-3d relative rounded-[40px] p-3 border-4 border-slate-700/80 dark:border-slate-800/80 bg-slate-900 shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden group">
+                            <!-- Simulated Tablet Bezel / Frame -->
+                            <div class="relative rounded-[40px] p-3 border-4 border-slate-700/80 dark:border-slate-800/80 bg-slate-900 shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden group">
                                 <!-- Inner bezel border -->
                                 <div class="absolute inset-0.5 border border-white/10 rounded-[36px] pointer-events-none"></div>
                                 <!-- Glowing outline on hover -->
@@ -987,10 +774,11 @@
                                          class="absolute bottom-0 right-[-10px] h-[88%] md:h-[94%] w-auto object-contain pointer-events-none z-20 transition-transform duration-700 group-hover:scale-105">
                                 </div>
                             </div>
+
                             <!-- Floating Badges over image -->
                             <!-- Floating Badge 1 (Glassmorphic Stats) -->
-                            <div class="glass-card-premium parallax-badge absolute top-[5%] -left-4 md:-left-10 p-5 rounded-2xl hidden sm:flex flex-col gap-3 hover:scale-105 transition-transform duration-300 z-30"
-                                style="border-color: rgba(99, 102, 241, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.35), 0 0 25px rgba(99, 102, 241, 0.12) !important;">
+                            <div class="glass-card-premium absolute top-[5%] -left-4 md:-left-10 p-5 rounded-2xl flex flex-col gap-3 hover:scale-105 z-30"
+                                style="border-color: rgba(99, 102, 241, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(99, 102, 241, 0.15) !important;">
                                 <div class="flex items-center gap-3">
                                     <div class="p-2 rounded-xl flex items-center justify-center shadow-inner"
                                         style="background: rgba(99, 102, 241, 0.15); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.25);">
@@ -1017,8 +805,8 @@
                             </div>
 
                             <!-- Floating Badge 2 (Glassmorphic Award) -->
-                            <div class="glass-card-premium parallax-badge absolute top-[-8%] -right-4 md:-right-8 p-4 px-6 rounded-2xl hidden sm:flex items-center gap-4 hover:scale-105 transition-transform duration-300 z-30"
-                                style="animation-delay: 1s; border-color: rgba(250, 204, 21, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.35), 0 0 25px rgba(250, 204, 21, 0.12) !important;">
+                            <div class="glass-card-premium absolute top-[-8%] -right-4 md:-right-8 p-4 px-6 rounded-2xl flex items-center gap-4 hover:scale-105 z-30"
+                                style="animation-delay: 1s; border-color: rgba(250, 204, 21, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(250, 204, 21, 0.15) !important;">
                                 <div class="relative flex items-center justify-center w-10 h-10 rounded-full"
                                      style="background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.2);">
                                     <span style="font-size: 2rem; filter: drop-shadow(0 4px 10px rgba(250, 204, 21, 0.45));" class="animate-bounce-slow">🏅</span>
@@ -1029,23 +817,122 @@
                                 </div>
                             </div>
 
-                            <!-- Badges 3 y 4 eliminados en el rediseño "glass refinado" (se conservan solo 2). -->
+                            <!-- Floating Badge 3 (Response Time & Radar Chart Stats) -->
+                            <div class="glass-card-premium absolute bottom-[-4%] -left-8 md:-left-16 p-4 rounded-3xl flex flex-col gap-2 hover:scale-105 transition-all duration-300 w-[240px] md:w-[260px] animate-fade-in z-30"
+                                style="animation-delay: 0.5s; border-color: rgba(6, 182, 212, 0.2) !important; box-shadow: 0 20px 45px rgba(0,0,0,0.4), 0 0 25px rgba(6, 182, 212, 0.1) !important;">
+                                <div class="text-left">
+                                    <p class="font-black text-[9px] tracking-widest text-[#22d3ee] uppercase leading-none">TIEMPO DE RESPUESTA</p>
+                                    <p class="text-[8px] text-slate-400 font-bold lowercase mt-0.5">(promedio)</p>
+                                </div>
+                                
+                                <div class="flex gap-2 items-end mt-1.5 h-[80px]">
+                                    <!-- Bar Chart SVG -->
+                                    <div class="flex-shrink-0 w-[80px] h-full">
+                                        <svg viewBox="0 0 80 80" class="w-full h-full">
+                                            <!-- Grid Lines -->
+                                            <line x1="20" y1="10" x2="75" y2="10" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" />
+                                            <line x1="20" y1="35" x2="75" y2="35" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" />
+                                            <line x1="20" y1="60" x2="75" y2="60" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+                                            
+                                            <!-- Axis Labels -->
+                                            <text x="5" y="13" fill="rgba(255,255,255,0.3)" font-size="7" font-weight="bold">20s</text>
+                                            <text x="5" y="38" fill="rgba(255,255,255,0.3)" font-size="7" font-weight="bold">10s</text>
+                                            <text x="10" y="63" fill="rgba(255,255,255,0.3)" font-size="7" font-weight="bold">0</text>
+                                            
+                                            <!-- Bars -->
+                                            <!-- Bar 1 (Matemáticas) -->
+                                            <rect x="28" y="18" width="8" height="42" rx="2" fill="url(#bar-grad-1)" filter="drop-shadow(0 0 3px rgba(6,182,212,0.3))" />
+                                            <!-- Bar 2 (Lectura) -->
+                                            <rect x="46" y="32" width="8" height="28" rx="2" fill="url(#bar-grad-2)" filter="drop-shadow(0 0 3px rgba(236,72,153,0.3))" />
+                                            
+                                            <!-- Sparkline over bars -->
+                                            <path d="M32,18 L50,32" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="sparkline-path" />
+                                            <circle cx="32" cy="18" r="1.5" fill="#22d3ee" />
+                                            <circle cx="50" cy="32" r="1.5" fill="#ec4899" />
+                                            
+                                            <!-- Labels -->
+                                            <text x="25" y="72" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold" transform="rotate(-15, 25, 72)">Mat</text>
+                                            <text x="45" y="72" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold" transform="rotate(-15, 45, 72)">Lect</text>
+                                            
+                                            <!-- Defs for Gradients -->
+                                            <defs>
+                                                <linearGradient id="bar-grad-1" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stop-color="#22d3ee" />
+                                                    <stop offset="100%" stop-color="#0891b2" />
+                                                </linearGradient>
+                                                <linearGradient id="bar-grad-2" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="0%" stop-color="#ec4899" />
+                                                    <stop offset="100%" stop-color="#be185d" />
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                    
+                                    <!-- Radar Chart SVG -->
+                                    <div class="flex-grow h-full">
+                                        <svg viewBox="0 0 100 80" class="w-full h-full">
+                                            <!-- Center is at (50, 40) -->
+                                            <!-- Pentagon Grid (Outer) -->
+                                            <polygon points="50,10 82,30 70,66 30,66 18,30" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
+                                            <!-- Pentagon Grid (Mid) -->
+                                            <polygon points="50,22 72,36 64,60 36,60 28,36" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.75" />
+                                            
+                                            <!-- Spoke Lines -->
+                                            <line x1="50" y1="40" x2="50" y2="10" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" />
+                                            <line x1="50" y1="40" x2="82" y2="30" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" />
+                                            <line x1="50" y1="40" x2="70" y2="66" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" />
+                                            <line x1="50" y1="40" x2="30" y2="66" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" />
+                                            <line x1="50" y1="40" x2="18" y2="30" stroke="rgba(255,255,255,0.06)" stroke-width="0.5" />
+                                            
+                                            <!-- Value Area (Pentagon Radar Value) -->
+                                            <polygon points="50,18 75,32 64,52 38,58 24,32" fill="rgba(52,211,153,0.18)" stroke="#34d399" stroke-width="1.25" stroke-linejoin="round" />
+                                            
+                                            <!-- Value dots -->
+                                            <circle cx="50" cy="18" r="1.5" fill="#34d399" />
+                                            <circle cx="75" cy="32" r="1.5" fill="#34d399" />
+                                            <circle cx="64" cy="52" r="1.5" fill="#34d399" />
+                                            <circle cx="38" cy="58" r="1.5" fill="#34d399" />
+                                            <circle cx="24" cy="32" r="1.5" fill="#34d399" />
+                                            
+                                            <!-- Axis Labels -->
+                                            <text x="50" y="7" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold" text-anchor="middle">Mat</text>
+                                            <text x="85" y="32" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold">Lect</text>
+                                            <text x="73" y="73" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold">Nat</text>
+                                            <text x="23" y="73" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold">Soc</text>
+                                            <text x="9" y="32" fill="rgba(255,255,255,0.4)" font-size="6" font-weight="bold">Ing</text>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Floating Badge 4 (Racha Activa) -->
+                            <div class="glass-card-premium absolute bottom-[-10%] left-[40%] md:left-[35%] p-3 px-5 rounded-2xl flex items-center gap-3 hover:scale-105 transition-all duration-300 w-[180px] md:w-[200px] z-30"
+                                 style="animation-delay: 0.8s; border-color: rgba(245, 158, 11, 0.25) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 25px rgba(245, 158, 11, 0.15) !important;">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center bg-amber-500/20 border border-amber-500/35 text-[#fbbf24] shadow-inner flex-shrink-0">
+                                    <span class="material-icons-round text-lg">home</span>
+                                </div>
+                                <div class="flex-1 text-left">
+                                    <p class="font-extrabold text-[11px] text-slate-900 dark:text-white leading-none">Racha Activa</p>
+                                    <div class="w-full bg-slate-200 dark:bg-white/15 rounded-full h-1.5 mt-2 overflow-hidden">
+                                        <div class="bg-gradient-to-r from-[#fbbf24] to-amber-500 h-1.5 rounded-full" style="width: 50%"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Space bottom -->
+            <div class="w-full max-w-7xl mx-auto mb-10 z-20 px-2 lg:px-4">
+            </div>
+
             <!-- Features Strip Modernized into Symmetrical Bento Grid -->
-            <div class="w-full max-w-6xl mx-auto mt-24 lg:mt-32 mb-10 z-20 px-4">
-                <div class="flex flex-col items-center text-center mb-10">
-                    <span class="text-[11px] font-extrabold tracking-[0.2em] uppercase text-indigo-400">Por qué SABER PRO</span>
-                    <h3 class="mt-2 text-2xl md:text-3xl font-black text-slate-800 dark:text-white">Todo lo que necesitas para subir tu puntaje</h3>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 w-full">
+            <div class="w-full max-w-6xl mx-auto mt-16 mb-10 z-20 px-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
                     
                     <!-- Card 1: IA Adaptativa -->
-                    <div class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(99,102,241,0.18)] group">
-                        <div class="spotlight-glow"></div>
+                    <div class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(20,184,166,0.15)] group">
                         <div class="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-sm"
                             style="background: rgba(99,102,241,0.12); color: #6366f1; border: 1px solid rgba(99,102,241,0.2);">
                             <span class="material-icons-round text-2xl">psychology</span>
@@ -1057,8 +944,7 @@
                     </div>
 
                     <!-- Card 2: Cronómetro -->
-                    <div class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(99,102,241,0.18)] group">
-                        <div class="spotlight-glow"></div>
+                    <div class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(20,184,166,0.15)] group">
                         <div class="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-sm"
                             style="background: rgba(236,72,153,0.12); color: #ec4899; border: 1px solid rgba(236,72,153,0.25);">
                             <span class="material-icons-round text-2xl">timer</span>
@@ -1070,8 +956,7 @@
                     </div>
 
                     <!-- Card 3: Analítica -->
-                    <div class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(99,102,241,0.18)] group">
-                        <div class="spotlight-glow"></div>
+                    <div class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(20,184,166,0.15)] group">
                         <div class="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-sm"
                             style="background: rgba(6,182,212,0.12); color: #06b6d4; border: 1px solid rgba(6,182,212,0.25);">
                             <span class="material-icons-round text-2xl">auto_graph</span>
@@ -1083,8 +968,7 @@
                     </div>
 
                     <!-- Card 4: Videoteca -->
-                    <div onclick="Router.go('tips')" class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(99,102,241,0.18)] group cursor-pointer">
-                        <div class="spotlight-glow"></div>
+                    <div onclick="Router.go('tips')" class="bento-feature-card flex flex-col items-start gap-4 p-6 rounded-3xl border border-slate-200/60 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 backdrop-blur-md shadow-lg dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl dark:hover:shadow-[0_12px_40px_rgba(20,184,166,0.15)] group cursor-pointer">
                         <div class="flex items-center justify-center w-12 h-12 rounded-2xl transition-all duration-300 group-hover:scale-110 shadow-sm"
                             style="background: rgba(239,68,68,0.12); color: #ef4444; border: 1px solid rgba(239,68,68,0.25);">
                             <span class="material-icons-round text-2xl">video_library</span>
@@ -4020,7 +3904,7 @@
             }
         }
 
-        // Auto-close sidebar when a nav item is clicked on mobile and spotlight tracker setup
+        // Auto-close sidebar when a nav item is clicked on mobile
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar = document.getElementById('sidebar-menu');
             if (sidebar) {
@@ -4031,51 +3915,6 @@
                         }
                     });
                 });
-            }
-
-            // Spotlight cursor position and 3D tilt tracker
-            const trackSpotlight = (e) => {
-                const target = e.currentTarget;
-                const rect = target.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                target.style.setProperty('--mouse-x', `${x}px`);
-                target.style.setProperty('--mouse-y', `${y}px`);
-
-                // If it is a 3D tilt element, calculate rotation
-                if (target.classList.contains('tilt-card-3d')) {
-                    const rotateX = ((y - rect.height / 2) / rect.height) * 25; // max 25deg
-                    const rotateY = ((rect.width / 2 - x) / rect.width) * 25;
-                    target.style.setProperty('--rotate-x', `${rotateX}deg`);
-                    target.style.setProperty('--rotate-y', `${rotateY}deg`);
-                }
-            };
-
-            const resetTilt = (e) => {
-                const target = e.currentTarget;
-                if (target.classList.contains('tilt-card-3d')) {
-                    target.style.setProperty('--rotate-x', '0deg');
-                    target.style.setProperty('--rotate-y', '0deg');
-                }
-            };
-
-            const attachSpotlight = () => {
-                document.querySelectorAll('.bento-feature-card, .director-card, .simulacro-btn-premium, .reto-btn-premium, .tilt-card-3d').forEach(card => {
-                    card.removeEventListener('mousemove', trackSpotlight);
-                    card.removeEventListener('mouseleave', resetTilt);
-                    card.addEventListener('mousemove', trackSpotlight);
-                    card.addEventListener('mouseleave', resetTilt);
-                });
-            };
-
-            attachSpotlight();
-
-            // Handle dynamic DOM updates for single-page routing
-            const observer = new MutationObserver(() => attachSpotlight());
-            const homeView = document.getElementById('view-home');
-            if (homeView) {
-                observer.observe(homeView, { childList: true, subtree: true });
             }
         });
     </script>
