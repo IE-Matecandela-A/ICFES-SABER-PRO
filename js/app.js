@@ -5866,6 +5866,25 @@ const AdminPanelModule = {
         this.fetchAllStudents();
     },
 
+    // Returns a warning banner (HTML) when the panel is showing OLD backup data
+    // because Firebase could not be reached (e.g. security rules denying access).
+    _staleWarningHtml() {
+        const src = (typeof GlobalResultsModule !== 'undefined' && GlobalResultsModule._loadSource) || {};
+        const isStale = src.users === 'stale' || src.results === 'stale';
+        if (!isStale) return '';
+        return `
+            <div style="margin: 0 0 16px; padding: 14px 18px; border-radius: 12px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.4); color: #ef4444; display: flex; align-items: flex-start; gap: 10px;">
+                <span class="material-icons-round" style="font-size: 22px; flex-shrink: 0;">cloud_off</span>
+                <div style="font-size: 0.85rem; line-height: 1.4;">
+                    <strong>⚠️ Sin conexión con Firebase — datos DESACTUALIZADOS.</strong><br>
+                    No se pudo leer la base de datos en vivo, así que se muestra un respaldo local viejo.
+                    Las conexiones y fechas reales de tus estudiantes NO se están viendo ni guardando.
+                    Revisa las <strong>Reglas de Seguridad</strong> de tu Realtime Database en la consola de Firebase.
+                </div>
+            </div>
+        `;
+    },
+
     async fetchAllStudents() {
         const spinner = document.getElementById('teacher-loading-spinner');
         const container = document.getElementById('teacher-students-container');
@@ -5891,7 +5910,7 @@ const AdminPanelModule = {
             const allResults = resultsData ? Object.values(resultsData).filter(r => r) : [];
 
             if (!usersData) {
-                container.innerHTML = '<p style="text-align: center; color: var(--color-text-muted);">No hay estudiantes registrados o hubo un error.</p>';
+                container.innerHTML = this._staleWarningHtml() + '<p style="text-align: center; color: var(--color-text-muted);">No hay estudiantes registrados o hubo un error.</p>';
                 spinner.style.display = 'none';
                 return;
             }
@@ -6261,11 +6280,11 @@ const AdminPanelModule = {
         filtered.sort((a, b) => a.surnameForSort.localeCompare(b.surnameForSort));
 
         if (filtered.length === 0) {
-            container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--color-text-muted);">No hay estudiantes en esta categoría.</div>';
+            container.innerHTML = this._staleWarningHtml() + '<div style="text-align: center; padding: 40px; color: var(--color-text-muted);">No hay estudiantes en esta categoría.</div>';
             return;
         }
 
-        container.innerHTML = filtered.map(student => {
+        container.innerHTML = this._staleWarningHtml() + filtered.map(student => {
             // Determine score color
             let scoreColor = '#ef4444'; // red
             if (student.maxScore >= 350) scoreColor = '#10b981'; // green
@@ -8504,6 +8523,8 @@ const GlobalResultsModule = {
      */
     async _loadData(key, forceRefresh = false) {
         const FB_BASE = 'https://plataforma-icfes-13421-default-rtdb.firebaseio.com';
+        // Track where the data actually came from so the UI can warn about stale fallbacks
+        this._loadSource = this._loadSource || {};
 
         // If forceRefresh is active, skip memory cache and fetch complete database node directly
         if (forceRefresh) {
@@ -8515,6 +8536,7 @@ const GlobalResultsModule = {
                     if (data && !data.error) {
                         this._cache[key] = data;
                         this._cache.ts = Date.now();
+                        this._loadSource[key] = 'firebase';
                         this._saveToLocalStorage();
                         console.log(`✅ ${key} cargado desde Firebase (completo, forzado)`);
                         return data;
@@ -8548,6 +8570,7 @@ const GlobalResultsModule = {
                 if (data && !data.error) {
                     this._cache[key] = data;
                     this._cache.ts = Date.now();
+                    this._loadSource[key] = 'firebase';
                     this._saveToLocalStorage();
                     console.log(`✅ Ranking "${key}" cargado desde Firebase (filtrado, ~50KB)`);
                     return data;
@@ -8566,6 +8589,7 @@ const GlobalResultsModule = {
                 if (data && !data.error) {
                     this._cache[key] = data;
                     this._cache.ts = Date.now();
+                    this._loadSource[key] = 'firebase';
                     this._saveToLocalStorage();
                     console.log(`✅ Ranking "${key}" cargado desde Firebase (completo)`);
                     return data;
@@ -8581,8 +8605,9 @@ const GlobalResultsModule = {
             if (key === 'results' && window.DB_FULL_DATA.users) this._cache.users = window.DB_FULL_DATA.users;
             if (key === 'users' && window.DB_FULL_DATA.results) this._cache.results = window.DB_FULL_DATA.results;
             this._cache.ts = Date.now();
+            this._loadSource[key] = 'stale';
             this._saveToLocalStorage();
-            console.log(`✅ Ranking "${key}" cargado desde DB_FULL_DATA (script local)`);
+            console.log(`⚠️ Ranking "${key}" cargado desde DB_FULL_DATA (respaldo local VIEJO)`);
             return this._cache[key];
         }
 
@@ -8594,8 +8619,9 @@ const GlobalResultsModule = {
                 if (fullDb.results) this._cache.results = fullDb.results;
                 if (fullDb.users) this._cache.users = fullDb.users;
                 this._cache.ts = Date.now();
+                this._loadSource[key] = 'stale';
                 this._saveToLocalStorage();
-                console.log(`✅ Ranking "${key}" cargado desde db_full.json (fetch)`);
+                console.log(`⚠️ Ranking "${key}" cargado desde db_full.json (respaldo local VIEJO)`);
                 return this._cache[key] || null;
             }
         } catch (e) {
