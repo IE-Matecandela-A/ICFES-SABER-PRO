@@ -57,7 +57,7 @@
                 deseaPintarText: "Este módulo entrena tu habilidad para interpretar y extraer información de representaciones gráficas directamente, sin cálculos complejos. Es la base de la competencia de Interpretación y Representación del ICFES."
             },
             teoria: [
-{
+                {
                     titulo: "Gráfico de Barras: Comparación de Categorías",
                     situacion: "Comparar la cantidad de libros prestados en una biblioteca por género literario: Ficción = 150, Historia = 300, Clásica = 200.",
                     analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
@@ -369,7 +369,7 @@
                 },
                 {
                     titulo: "Histograma: Distribución de Intervalos Continuos",
-                    situacion: "Analizar la distribución de notas obtenidas por 55 estudiantes en un examen agrupadas en intervalos de clase, donde el límite de aprobación es 3.0.",
+                    situacion: "Analizar la distribución de notas obtenidas por 50 estudiantes en un examen agrupadas en intervalos de clase, donde el límite de aprobación es 3.0.",
                     analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
                 React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" }, "El histograma muestra frecuencias de datos agrupados en intervalos de clase continuos mediante barras adyacentes."),
                 React.createElement("div", { className: "p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl" },
@@ -396,8 +396,8 @@
                         React.createElement("text", { x: "77.5", y: "50", fontSize: "7", textAnchor: "middle", fontWeight: "bold" }, "15"),
                         React.createElement("rect", { x: "95", y: "40", width: "35", height: "60", fill: "#3b82f6", stroke: "#1d4ed8", strokeWidth: "1" }),
                         React.createElement("text", { x: "112.5", y: "35", fontSize: "7", textAnchor: "middle", fontWeight: "bold" }, "20"),
-                        React.createElement("rect", { x: "130", y: "55", width: "35", height: "45", fill: "#10b981", stroke: "#059669", strokeWidth: "1" }),
-                        React.createElement("text", { x: "147.5", y: "50", fontSize: "7", textAnchor: "middle", fontWeight: "bold" }, "15"),
+                        React.createElement("rect", { x: "130", y: "70", width: "35", height: "30", fill: "#10b981", stroke: "#059669", strokeWidth: "1" }),
+                        React.createElement("text", { x: "147.5", y: "65", fontSize: "7", textAnchor: "middle", fontWeight: "bold" }, "10"),
                         React.createElement("line", { x1: "95", y1: "15", x2: "95", y2: "100", stroke: "#e11d48", strokeWidth: "1.5", strokeDasharray: "3 3" }),
                         React.createElement("text", { x: "98", y: "25", fontSize: "6", fill: "#be123c", fontWeight: "bold" }, "Aprobación (3.0)"),
                         React.createElement("text", { x: "25", y: "112", fontSize: "6", textAnchor: "middle" }, "0.0"),
@@ -417,37 +417,8 @@
                     )
                 )
             ),
-                    resultado: "Opción Correcta: C (35 estudiantes). Explicación: Sumamos las frecuencias de las calificaciones mayores o iguales a 3.0: [3.0-4.5] = 20 estudiantes y [4.5-5.0] = 15 estudiantes, lo que da un total de 35 aprobados."
+                    resultado: "Opción Correcta: C (35 estudiantes). Explicación: Sumamos las frecuencias de las calificaciones mayores o iguales a 3.0: [3.0-4.0] = 20 estudiantes y [4.0-5.0] = 15 estudiantes, lo que da un total de 35 aprobados."
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Lectura Veloz",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo responder preguntas sobre gráficos en menos de 30 segundos sin leer todo el texto?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "En el ICFES, los gráficos hablan por sí solos. No pierdas tiempo leyendo párrafos largos antes de mirar el gráfico."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Descarte por Extremos: Identifica de inmediato el valor más alto (máximo) y el más bajo (mínimo) en los ejes. El 80% de las preguntas de lectura de gráficos se resuelven sabiendo los extremos."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Si te preguntan por el mes con mayor crecimiento, busca la barra más alta o la pendiente más empinada hacia arriba en el gráfico directamente."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Gráficos: El eje X muestra las categorías y el Y los valores.'),
-React.createElement('p', {}, 'Truco: Busca directamente máximos, mínimos y cruces.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Mira el gráfico y sus extremos antes de leer el enunciado!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Descarte por Extremos"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -718,7 +689,7 @@ React.createElement('p', {}, 'Truco: Busca directamente máximos, mínimos y cru
                 deseaPintarText: "Aprenderás a operar con números racionales y fracciones de manera intuitiva y procedimental. Desarrollarás agilidad para resolver problemas que involucran divisiones de porciones y sumas parciales."
             },
             teoria: [
-{
+                {
                     titulo: "Representación y Tipos de Fracciones",
                     situacion: "En una pizzería se divide una pizza familiar en 8 rebanadas iguales y un cliente se come 5 de ellas. ¿Qué porción de la pizza quedó?",
                     analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
@@ -1111,35 +1082,6 @@ React.createElement('p', {}, 'Truco: Busca directamente máximos, mínimos y cru
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Atajos con Fracciones",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo comparar y operar fracciones rápidamente sin usar divisiones decimales complejas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Convertir fracciones a decimales toma tiempo y genera errores con números periódicos."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Comparación Cruzada (Efecto Mariposa): Para saber si a/b es mayor que c/d, multiplica a × d y b × c. Compara los resultados en el mismo orden."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "¿Qué es mayor: 3/4 o 5/7? Multiplicas: 3 × 7 = 21 (izquierda) y 4 × 5 = 20 (derecha). Como 21 > 20, entonces 3/4 > 5/7."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Comparar: 3/4 vs 5/7'),
-React.createElement('p', {}, 'Cruzado: 3*7 = 21, 4*5 = 20. Como 21 > 20 -> 3/4 > 5/7')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Multiplica en cruz para comparar fracciones al instante!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Método Mariposa"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -1348,7 +1290,7 @@ React.createElement('p', {}, 'Cruzado: 3*7 = 21, 4*5 = 20. Como 21 > 20 -> 3/4 >
                 deseaPintarText: "Los porcentajes representan el tema más evaluado de la aritmética comercial en el ICFES. Este módulo te prepara para modelar y resolver de forma instantánea problemas de tasas de interés, IVA, inflación y descuentos."
             },
             teoria: [
-{
+                {
                     titulo: "Concepto de Porcentaje y Conversión",
                     situacion: React.createElement("span", {},
                 "Una tienda de ropa anuncia que el ",
@@ -1642,35 +1584,6 @@ React.createElement('p', {}, 'Cruzado: 3*7 = 21, 4*5 = 20. Como 21 > 20 -> 3/4 >
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Cálculo Mental de Porcentajes",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo calcular el 15%, 20% o 35% de cualquier cantidad sin hacer reglas de tres largas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Hacer una regla de tres para cada porcentaje consume mucho tiempo de la prueba."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Regla del 10% y 1%: Mueve la coma un espacio a la izquierda para hallar el 10%, o dos espacios para el 1%. Luego suma o multiplica según lo necesites."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Calcular 15% de 120: El 10% es 12. El 5% es la mitad (6). Sumas: 12 + 6 = 18. Así de fácil."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Porcentaje: 15% de 120'),
-React.createElement('p', {}, 'Método: 10% = 12, 5% = 6. Total = 12 + 6 = 18.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Usa el 10% y el 1% como base para armar cualquier porcentaje!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Regla del 10% y 1%"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -1834,7 +1747,7 @@ React.createElement('p', {}, 'Método: 10% = 12, 5% = 6. Total = 12 + 6 = 18.')
                 deseaPintarText: "Este módulo explica cómo se relacionan las magnitudes físicas y económicas de manera lineal directa o inversa. Aprenderás cuándo multiplicar en diagonal o en línea horizontal usando la regla de tres."
             },
             teoria: [
-{
+                {
                     titulo: "Concepto de Razón y Proporción",
                     situacion: React.createElement("span", {},
                 "Una receta indica que por cada ",
@@ -2135,35 +2048,6 @@ React.createElement('p', {}, 'Método: 10% = 12, 5% = 6. Total = 12 + 6 = 18.')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Sentido de Proporcionalidad",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo saber si una regla de tres es directa o inversa en segundos sin confundirse?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Si aplicas la multiplicación incorrecta, obtendrás una de las opciones de respuesta trampa del ICFES."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Relación de Sentidos: Si ambas variables suben juntas (ej: más cantidad, más precio), es Directa ➔ multiplica en cruz. Si una sube y la otra baja (ej: más obreros, menos días), es Inversa ➔ multiplica en línea horizontal."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "4 pintores tardan 6 horas. ¿Cuánto tardan 8 pintores? A más pintores, menos tiempo (Inversa) ➔ multiplicas en línea: (4 × 6) / 8 = 3 horas."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Proporción Inversa: 4 pintores * 6 horas = 8 pintores * X horas'),
-React.createElement('p', {}, 'Cálculo: X = (4 * 6) / 8 = 24 / 8 = 3 horas.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Directa en cruz, Inversa en línea!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Sentido de Proporción"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -2307,7 +2191,7 @@ React.createElement('p', {}, 'Cálculo: X = (4 * 6) / 8 = 24 / 8 = 3 horas.')
                 deseaPintarText: "El dominio de las escalas métricas es fundamental para comprender mapas y planos. Aprenderás a deducir distancias reales a partir de un mapa de carreteras o a proyectar maquetas con precisión matemática."
             },
             teoria: [
-{
+                {
                     titulo: "Escala Numérica de Reducción",
                     situacion: React.createElement("span", {},
                 "En un plano arquitectónico con una escala de ",
@@ -2581,35 +2465,6 @@ React.createElement('p', {}, 'Cálculo: X = (4 * 6) / 8 = 24 / 8 = 3 horas.')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Conversión Rápida de Escalas",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo pasar de centímetros en un mapa a kilómetros o metros reales sin hacer conversiones largas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Convertir de centímetros a metros y luego a kilómetros usando factores de conversión consume tiempo valioso."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ El Truco de los Ceros: Para pasar de centímetros reales a kilómetros, tacha exactamente 5 ceros (divide entre 100.000). Para pasar a metros, tacha exactamente 2 ceros (divide entre 100)."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Escala 1:200.000. 5 cm en mapa. Real = 5 × 200.000 = 1.000.000 cm. Tachas 5 ceros: queda 10 km."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Distancia: 5 cm * 200.000 = 1.000.000 cm'),
-React.createElement('p', {}, 'Metros: Tacha 2 ceros = 10.000m. KM: Tacha 5 ceros = 10 km.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Tacha 5 ceros para kilómetros, 2 ceros para metros!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Truco de los Ceros"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -2723,7 +2578,7 @@ React.createElement('p', {}, 'Metros: Tacha 2 ceros = 10.000m. KM: Tacha 5 ceros
                 deseaPintarText: "La medición de figuras en dos dimensiones es clave en las pruebas Saber. En este módulo repasarás las fórmulas esenciales de área y contorno de figuras planas básicas para resolver problemas de cercado y pavimentación."
             },
             teoria: [
-{
+                {
                     titulo: "Perímetro de Polígonos y Esquinas Entrantes",
                     situacion: React.createElement("span", {},
                 "Una casa tiene una planta en forma de L, con dimensiones exteriores de ",
@@ -2981,35 +2836,6 @@ React.createElement('p', {}, 'Metros: Tacha 2 ceros = 10.000m. KM: Tacha 5 ceros
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Cuadriculación Mental",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo calcular el área de figuras complejas o irregulares sin aprenderte decenas de fórmulas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "El ICFES rara vez pone figuras básicas puras; suele poner combinaciones extrañas."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Descomposición Rectangular: Divide la figura en rectángulos o cuadrados y triángulos. Recuerda siempre que el área de cualquier triángulo es la mitad exacta de un rectángulo del mismo ancho y alto."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Un trapecio de base menor 4, base mayor 8 y altura 3 ➔ Divídelo en un rectángulo central (4 × 3 = 12) y dos triángulos a los lados (base total 4, altura 3 ➔ 4 × 3 / 2 = 6). Área = 12 + 6 = 18."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Trapecio descompuesto: Rectángulo + 2 Triángulos'),
-React.createElement('p', {}, 'Cálculo: (4 * 3) + (4 * 3 / 2) = 12 + 6 = 18.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Toda figura compleja se puede armar con rectángulos y triángulos!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Descomposición"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -3129,7 +2955,7 @@ React.createElement('p', {}, 'Cálculo: (4 * 3) + (4 * 3 / 2) = 12 + 6 = 18.')
                 deseaPintarText: "El ICFES suele evaluar figuras compuestas formadas por la unión o sustracción de formas simples (ej. círculos dentro de cuadrados). Este módulo te enseña a plantear restas de áreas para hallar las zonas sombreadas."
             },
             teoria: [
-{
+                {
                     titulo: "Área Sombreada por Diferencia de Regiones",
                     situacion: React.createElement("span", {},
                 "En una lámina rectangular de ",
@@ -3361,35 +3187,6 @@ React.createElement('p', {}, 'Cálculo: (4 * 3) + (4 * 3 / 2) = 12 + 6 = 18.')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Traslación de Áreas",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo calcular áreas sombreadas curvas u hojas dentro de cuadrados de forma rápida?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Calcular restas de áreas con decimales y pi (π) suele ser largo y propenso a errores."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Traslación de Regiones: Busca simetrías. Muchas veces puedes cortar una sección sombreada y pegarla en una zona blanca para completar una figura regular (como medio cuadrado o medio círculo)."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "En un cuadrado con un semicírculo sombreado y otro en blanco del mismo tamaño, traslada el sombreado para llenar el blanco. El área final es la mitad exacta del cuadrado."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Traslación: Mover trozos sombreados a espacios vacíos iguales.'),
-React.createElement('p', {}, 'Resultado: Completa la mitad exacta del cuadrado.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Mueve piezas sombreadas para armar figuras fáciles!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Traslación Simétrica"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -3503,7 +3300,7 @@ React.createElement('p', {}, 'Resultado: Completa la mitad exacta del cuadrado.'
                 deseaPintarText: "El Teorema de Pitágoras es una de las herramientas más importantes de la geometría. Este módulo te enseñará a calcular distancias en línea recta cruzando terrenos, alturas de muros y diagonales de pantallas."
             },
             teoria: [
-{
+                {
                     titulo: "Identificación de Hipotenusa y Catetos",
                     situacion: React.createElement("span", {},
                 "En un terreno en forma de triángulo rectángulo, la hipotenusa es la diagonal mayor. Si los catetos que delimitan el ángulo recto miden ",
@@ -3716,35 +3513,6 @@ React.createElement('p', {}, 'Resultado: Completa la mitad exacta del cuadrado.'
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Tríos Pitagóricos",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo hallar la hipotenusa o un cateto de un triángulo rectángulo en un segundo sin calcular raíces cuadradas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "El Teorema de Pitágoras (a² + b² = c²) consume tiempo al elevar al cuadrado y calcular raíces."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Memoriza el Trío 3-4-5: Los lados de los triángulos rectángulos del ICFES casi siempre son múltiplos de 3, 4 y 5 (ej: 6-8-10, 9-12-15) o de 5-12-13. Si ves catetos de 6 y 8, la hipotenusa es 10 inmediatamente."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Si una escalera de longitud c está apoyada a 3m de la pared y el muro mide 4m, el triángulo es 3-4-5 ➔ Escalera = 5m."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Triángulo estándar: catetos 3 y 4 -> hipotenusa = 5.'),
-React.createElement('p', {}, 'Multiplicado por 2: catetos 6 y 8 -> hipotenusa = 10.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Busca múltiplos de 3, 4 y 5 para resolver Pitágoras en un segundo!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Tríos Pitagóricos"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -3858,7 +3626,7 @@ React.createElement('p', {}, 'Multiplicado por 2: catetos 6 y 8 -> hipotenusa = 
                 deseaPintarText: "Este módulo aborda el cálculo de la capacidad de almacenamiento y volumen de sólidos geométricos. Es vital para resolver problemas de piscinas, tanques de agua y embalaje de mercancías."
             },
             teoria: [
-{
+                {
                     titulo: "Volumen de Prismas Rectangulares",
                     situacion: React.createElement("span", {},
                 "Una caja de embalaje de carga tiene dimensiones de ",
@@ -4086,35 +3854,6 @@ React.createElement('p', {}, 'Multiplicado por 2: catetos 6 y 8 -> hipotenusa = 
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Relación de Volúmenes",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo comparar volúmenes de prismas, cilindros, conos y pirámides de forma intuitiva?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Memorizar y calcular todas las fórmulas de volumen en la prueba es ineficiente."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Regla del 3: Un cono tiene exactamente la tercera parte (1/3) del volumen de un cilindro con su misma base y altura. Lo mismo ocurre entre una pirámide y un prisma rectangular."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Si un cilindro de gas tiene volumen V, un cono con la misma altura y radio tendrá volumen V/3. ¡No calcules π si solo debes comparar!"
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Volumen Cilindro = Base * Altura'),
-React.createElement('p', {}, 'Volumen Cono = (Base * Altura) / 3.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Conos y pirámides son la tercera parte de sus cilindros y prismas correspondientes!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Regla del 1/3"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -4224,7 +3963,7 @@ React.createElement('p', {}, 'Volumen Cono = (Base * Altura) / 3.')
                 deseaPintarText: "El plano cartesiano conecta el álgebra y la geometría. Aprenderás a graficar coordenadas en mapas digitales, calcular el camino más corto entre dos puntos y deducir la inclinación de una rampa."
             },
             teoria: [
-{
+                {
                     titulo: "Coordenadas en los Cuatro Cuadrantes",
                     situacion: React.createElement("span", {},
                 "En un mapa cuadriculado de una ciudad, la estación de bomberos está en el punto ",
@@ -4464,35 +4203,6 @@ React.createElement('p', {}, 'Volumen Cono = (Base * Altura) / 3.')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Pendiente Visual",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo descartar opciones de ecuaciones lineales y rectas en el plano cartesiano al instante?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Calcular la pendiente m = (y2 - y1) / (x2 - x1) de cada opción requiere tiempo."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Signo de la Pendiente: Mira el gráfico de izquierda a derecha. Si la recta sube, la pendiente m es positiva. Si la recta baja, m es negativa. El término independiente b es donde la recta cruza el eje Y."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Si ves una recta que baja y cruza el eje Y arriba (en 4), descarta todas las opciones que no tengan pendiente negativa y b = 4 (ej: y = -2x + 4)."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Ecuación: y = mx + b. m = inclinación, b = corte con eje Y.'),
-React.createElement('p', {}, 'Recta descendente corta en 4 -> m < 0 y b = 4.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Sube ➔ Positiva, Baja ➔ Negativa, Cruce Y ➔ Término b!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Descarte por Signo"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -4621,7 +4331,7 @@ React.createElement('p', {}, 'Recta descendente corta en 4 -> m < 0 y b = 4.')
                 deseaPintarText: "La semejanza de figuras permite calcular distancias inaccesibles. Aprenderás a deducir la altura de un edificio a partir de su sombra o a resolver problemas geométricos donde se dividen lados paralelos."
             },
             teoria: [
-{
+                {
                     titulo: "Concepto de Semejanza de Figuras",
                     situacion: React.createElement("span", {},
                 "Una fotografía de ",
@@ -4888,35 +4598,6 @@ React.createElement('p', {}, 'Recta descendente corta en 4 -> m < 0 y b = 4.')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Escalas de Dos Dimensiones",
-                    situacion: React.createElement("span", {},
-                        "Si duplicas los lados de una figura, ¿qué pasa con su área?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Los estudiantes suelen pensar que si los lados se duplican, el área también se duplica. Esa es la trampa favorita del ICFES."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Regla de las Áreas Semejantes: Si el factor de escala lineal es k, el perímetro cambia por k, pero el área cambia por k² y el volumen por k³."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Si una foto de 10x10 cm se amplía al doble (20x20 cm), el área no es el doble, es 2² = 4 veces mayor (pasa de 100 cm² a 400 cm²)."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Escala de lados: k = 2.'),
-React.createElement('p', {}, 'Escala de áreas: k^2 = 2^2 = 4 veces mayor.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡El área se multiplica por el cuadrado del factor de escala!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Efecto k²"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -5042,7 +4723,7 @@ React.createElement('p', {}, 'Escala de áreas: k^2 = 2^2 = 4 veces mayor.')
                 deseaPintarText: "Aprenderás a formular ecuaciones a partir de problemas cotidianos de compras o cobros y a despejar variables sin cometer errores algebraicos comunes."
             },
             teoria: [
-{
+                {
                     titulo: "Modelado de Enunciados en Ecuaciones",
                     situacion: React.createElement("span", {},
                 "Traduce y resuelve el enunciado: 'El triple de un número, aumentado en ",
@@ -5250,35 +4931,6 @@ React.createElement('p', {}, 'Escala de áreas: k^2 = 2^2 = 4 veces mayor.')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Descarte por Reemplazo",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo resolver ecuaciones lineales complejas sin despejar variables?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Despejar una ecuación larga puede llevar a errores de signos al pasar términos de lado."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Reemplazo Directo: Toma los valores numéricos de las opciones de respuesta (A, B, C, D) e introduce cada uno en la ecuación original. La opción que haga que ambos lados sean iguales es la correcta."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Para la ecuación 3x - 5 = 10. Si la opción A es x = 5. Reemplazas: 3(5) - 5 = 15 - 5 = 10. ¡Es igual! Así validas de inmediato."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Ecuación: 3x - 5 = 10'),
-React.createElement('p', {}, 'Prueba x=5: 3(5) - 5 = 15 - 5 = 10 (Verdadero).')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Usa las opciones como respuestas candidatas y pruébalas en la ecuación!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Método de Reemplazo"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -5396,7 +5048,7 @@ React.createElement('p', {}, 'Prueba x=5: 3(5) - 5 = 15 - 5 = 10 (Verdadero).')
                 deseaPintarText: "Los sistemas de ecuaciones 2x2 resuelven problemas de mezclas de precios, conteo de cabezas y patas de animales en granjas, y cruce de tarifas comerciales."
             },
             teoria: [
-{
+                {
                     titulo: "Método de Eliminación (Suma y Resta)",
                     situacion: React.createElement("span", {},
                 "Resuelve el sistema de ecuaciones simultáneas: ",
@@ -5581,35 +5233,6 @@ React.createElement('p', {}, 'Prueba x=5: 3(5) - 5 = 15 - 5 = 10 (Verdadero).')
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Prueba de Sistemas 2x2",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo resolver sistemas de dos ecuaciones con dos incógnitas sin métodos de sustitución o eliminación?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Los métodos algebraicos tradicionales (reducción, igualación) son largos y fáciles de equivocar en el examen."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Validación en la Ecuación más Fácil: Toma las parejas de valores (x, y) de las opciones y pruébalas en la ecuación más simple del sistema. Si funciona, pruébala en la segunda."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Sistema: x + y = 5 e y = 2x - 1. Si la opción A es (2, 3), sumas: 2 + 3 = 5 (funciona). En la segunda: 3 = 2(2) - 1 = 3 (funciona). ¡Resuelto!"
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Sistema: x + y = 5, y = 2x - 1'),
-React.createElement('p', {}, 'Prueba (2,3): 2+3=5, 3 = 2(2)-1 = 3. Pareja correcta.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Comprueba las parejas de las respuestas en el sistema de ecuaciones!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Validación de Parejas"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -5717,7 +5340,7 @@ React.createElement('p', {}, 'Prueba (2,3): 2+3=5, 3 = 2(2)-1 = 3. Pareja correc
                 deseaPintarText: "En la vida real las decisiones se basan en límites y presupuestos. Este módulo te capacita para modelar restricciones lógicas, optimizar compras y graficar intervalos de solución."
             },
             teoria: [
-{
+                {
                     titulo: "Desigualdades e Intervalos en la Recta Real",
                     situacion: React.createElement("span", {},
                 "Representa en la recta numérica real el intervalo de números reales que cumplen la desigualdad: ",
@@ -5909,35 +5532,6 @@ React.createElement('p', {}, 'Prueba (2,3): 2+3=5, 3 = 2(2)-1 = 3. Pareja correc
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! El Punto de Prueba",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo determinar el intervalo de solución de una inecuación de forma rápida?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Resolver desigualdades multiplicando por números negativos invierte el signo, lo cual suele olvidarse."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ El Punto de Prueba: Elige un número fácil de evaluar que esté en una de las opciones de respuesta (como x = 0 o x = 1) y pruébalo en la desigualdad. Si se cumple, el intervalo correcto debe contener ese número."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Inecuación: -2x + 4 < 0. Probamos x = 0 ➔ 4 < 0 (Falso) ➔ el intervalo no contiene a 0. Probamos x = 3 ➔ -2 < 0 (Verdadero) ➔ la solución contiene a 3."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Inecuación: -2x + 4 < 0'),
-React.createElement('p', {}, 'Prueba x=0: 4 < 0 (Falso) -> 0 no está en la solución.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Usa números sencillos como puntos de prueba para verificar intervalos!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Puntos de Prueba"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -6047,7 +5641,7 @@ React.createElement('p', {}, 'Prueba x=0: 4 < 0 (Falso) -> 0 no está en la solu
                 deseaPintarText: "Las progresiones permiten modelar patrones periódicos (como intereses mensuales o reproducción celular). Aprenderás a deducir términos futuros sin necesidad de calcular paso a paso todos los intermedios."
             },
             teoria: [
-{
+                {
                     titulo: "Sucesiones Aritméticas (Diferencia Constante)",
                     situacion: React.createElement("span", {},
                 "Una persona decide ahorrar en una alcancía de forma progresiva: ",
@@ -6223,35 +5817,6 @@ React.createElement('p', {}, 'Prueba x=0: 4 < 0 (Falso) -> 0 no está en la solu
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Regla de la Progresión",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo hallar el término general de una sucesión aritmética rápidamente?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "La fórmula a_n = a_1 + (n-1)d puede ser confusa y requiere simplificación."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Regla d × n: Si la diferencia entre términos consecutivos es constante (d), la regla tiene la forma d × n + c, donde c es la constante que se le suma para que el término 1 dé el valor correcto."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Sucesión: 5, 8, 11, 14... La diferencia d es 3. El término general es 3n + c. Para n = 1 debe dar 5 ➔ 3(1) + 2 = 5 ➔ Regla = 3n + 2."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Secuencia: 5, 8, 11... -> dif (d) = 3.'),
-React.createElement('p', {}, 'Término general: 3n + c. Si n=1 -> 3(1)+c = 5 -> c = 2. Fórmula = 3n+2.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡La diferencia multiplica a n, luego ajusta con la suma!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Ajuste Directo"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -6357,7 +5922,7 @@ React.createElement('p', {}, 'Término general: 3n + c. Si n=1 -> 3(1)+c = 5 -> 
                 deseaPintarText: "Las funciones describen cómo una variable depende de otra. Este módulo te entrena en la lectura de parábolas de trayectorias de proyectiles y rectas de cobro de planes de telefonía."
             },
             teoria: [
-{
+                {
                     titulo: "Función Afín e Inclinación",
                     situacion: React.createElement("span", {},
                 "Estudia el comportamiento de la función lineal de costo: ",
@@ -6535,35 +6100,6 @@ React.createElement('p', {}, 'Término general: 3n + c. Si n=1 -> 3(1)+c = 5 -> 
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Análisis Cuadrático Rápido",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo saber si una parábola abre hacia arriba o hacia abajo y dónde corta el eje Y en un segundo?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Graficar una parábola punto a punto requiere una tabla de valores muy larga."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Gesto y Corte Y: En la función cuadrática y = ax² + bx + c: si 'a' es positivo abre hacia arriba, si es negativo abre hacia abajo. El valor 'c' es exactamente el punto donde la gráfica corta al eje vertical Y."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Función: y = -3x² + 5x - 2 ➔ Como a = -3, abre hacia abajo. Como c = -2, corta el eje Y en (0, -2). Descarta las gráficas contrarias."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Función: y = -3x^2 + 5x - 2'),
-React.createElement('p', {}, 'Análisis: a = -3 (abre hacia abajo), c = -2 (corte eje Y).')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡El signo de a define la orientación, y c define la intersección con el eje Y!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Gesto y Corte"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -6671,7 +6207,7 @@ React.createElement('p', {}, 'Análisis: a = -3 (abre hacia abajo), c = -2 (cort
                 deseaPintarText: "Muchos fenómenos de la naturaleza crecen de forma no lineal. Aprenderás a calcular la propagación de epidemias, la vida útil de compuestos químicos y el saldo acumulado por interés compuesto."
             },
             teoria: [
-{
+                {
                     titulo: "Estructura Exponencial y Crecimiento",
                     situacion: React.createElement("span", {},
                 "El cultivo de bacterias se duplica de manera constante según el modelo: ",
@@ -6845,35 +6381,6 @@ React.createElement('p', {}, 'Análisis: a = -3 (abre hacia abajo), c = -2 (cort
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Periodo de Duplicación",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo modelar y calcular poblaciones que se duplican o triplican sin usar potencias complejas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "La fórmula exponencial general puede asustar a los estudiantes."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ El Exponente como División: En modelos de crecimiento del tipo N(t) = N_0 · 2^{t/d}, el número d que divide al tiempo t es exactamente el periodo que tarda en duplicarse la cantidad."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Una bacteria se duplica cada 3 horas. Si inicias con 10 bacterias, la fórmula es N(t) = 10 · 2^{t/3}. Si t = 6 horas, se ha duplicado 2 veces (6/3) ➔ 10 · 2² = 40 bacterias."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Duplicación: d = 3 horas.'),
-React.createElement('p', {}, 'Crecimiento en 6 horas: 6/3 = 2 periodos. Pob = 10 * 2^2 = 40.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡El tiempo dividido entre la tasa de duplicación te da el número de periodos!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Periodo Exponencial"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -6985,7 +6492,7 @@ React.createElement('p', {}, 'Crecimiento en 6 horas: 6/3 = 2 periodos. Pob = 10
                 deseaPintarText: "La trigonometría extiende el análisis de triángulos a cualquier tipo de ángulo. Te preparará para calcular la inclinación de la luz solar, distancias de navegación y tensiones en cuerdas de soporte."
             },
             teoria: [
-{
+                {
                     titulo: "Razones Trigonométricas en Triángulos Rectángulos",
                     situacion: React.createElement("span", {},
                 "En un parque, una rampa de patinaje tiene una base horizontal de ",
@@ -7184,35 +6691,6 @@ React.createElement('p', {}, 'Crecimiento en 6 horas: 6/3 = 2 periodos. Pob = 10
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Comparación Lado-Ángulo",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo verificar si un lado calculado con trigonometría tiene sentido lógico?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Los errores al usar la Ley del Seno o Coseno pueden dar medidas de longitud absurdas."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Relación Mayor Lado-Ángulo: En cualquier triángulo, al ángulo de mayor medida se le opone el lado más largo, y al de menor medida el lado más corto. Sirve para descartar respuestas imposibles."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Si tienes ángulos de 30°, 60° y 90°, el lado opuesto a 90° (hipotenusa) debe ser obligatoriamente el más largo de los tres."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Ángulos: 30° < 60° < 90°.'),
-React.createElement('p', {}, 'Lados opuestos correspondientes: lado_30 < lado_60 < lado_90.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡A mayor ángulo se opone mayor lado, a menor ángulo menor lado!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Correspondencia"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -7332,7 +6810,7 @@ React.createElement('p', {}, 'Lados opuestos correspondientes: lado_30 < lado_60
                 deseaPintarText: "Las medidas de tendencia central resumen conjuntos de datos en un solo número representativo. Aprenderás a elegir cuál medida es más justa según la simetría de los datos."
             },
             teoria: [
-{
+                {
                     titulo: "Media Aritmética o Promedio",
                     situacion: React.createElement("span", {},
                 "Calcula el promedio de las calificaciones de un estudiante en 5 materias: ",
@@ -7528,35 +7006,6 @@ React.createElement('p', {}, 'Lados opuestos correspondientes: lado_30 < lado_60
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Robustez de la Mediana",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo elegir entre usar el promedio (media) o la mediana para representar un grupo de datos?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Los estudiantes tienden a usar siempre el promedio para todo, pero el promedio es muy sensible a trampas."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Resistencia a Valores Extremos: Si un conjunto de datos tiene un valor atípico (muy grande o muy pequeño), el promedio se desplaza hacia él y deja de ser representativo. La mediana no cambia y representa mejor el caso típico."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Sueldos: $1M, $1M, $1M, $10M. Promedio = $3.25M (nadie gana eso). Mediana = $1M (representa al 75% de operarios)."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Datos: [1, 1, 1, 10] (millones)'),
-React.createElement('p', {}, 'Media = 3.25M. Mediana = 1M (más representativa).')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Usa la mediana cuando haya valores exageradamente grandes o pequeños!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Resistencia Mediana"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -7662,7 +7111,7 @@ React.createElement('p', {}, 'Media = 3.25M. Mediana = 1M (más representativa).
                 deseaPintarText: "Los promedios pueden ser engañosos si los datos están muy dispersos. Este módulo te enseña a medir la variabilidad de los datos, identificando qué lote de producción o qué notas de curso son más estables."
             },
             teoria: [
-{
+                {
                     titulo: "El Rango Estadístico",
                     situacion: React.createElement("span", {},
                 "Comparamos la estabilidad del clima de dos pueblos midiendo temperaturas: Pueblo A = ",
@@ -7855,35 +7304,6 @@ React.createElement('p', {}, 'Media = 3.25M. Mediana = 1M (más representativa).
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Interpretación de Desviación",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo entender la varianza y la desviación estándar sin calcular sus fórmulas largas?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "El ICFES nunca te pedirá calcular la desviación estándar a mano, sino interpretar su significado."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Consistencia de los Datos: A menor desviación estándar o rango, los datos son más homogéneos (parecidos entre sí). A mayor desviación, los datos son más heterogéneos (dispersos y desiguales)."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Curso A (desviación 0.2) y Curso B (desviación 1.5). Las notas del Curso A son muy similares entre sí (más estables y homogéneas)."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Desviación A = 0.2 (Homogéneo, notas muy similares).'),
-React.createElement('p', {}, 'Desviación B = 1.5 (Heterogéneo, notas muy dispersas).')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Menor desviación significa datos más estables, consistentes y homogéneos!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Homogeneidad"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -7985,7 +7405,7 @@ React.createElement('p', {}, 'Desviación B = 1.5 (Heterogéneo, notas muy dispe
                 deseaPintarText: "Contar combinaciones a mano puede ser imposible. Este módulo te capacita para calcular contraseñas seguras, posibles ganadores de torneos y conformación de comités de forma matemática."
             },
             teoria: [
-{
+                {
                     titulo: "Principio Multiplicativo",
                     situacion: React.createElement("span", {},
                 "En una cafetería escolar, el menú consta de ",
@@ -8222,35 +7642,6 @@ React.createElement('p', {}, 'Desviación B = 1.5 (Heterogéneo, notas muy dispe
                         )
                     )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Atajos Rápidos (Sin Fórmulas)",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo calcular combinaciones y permutaciones en segundos durante el examen sin usar factoriales largos?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "El 'Truco de la Cuenta Regresiva' consiste en multiplicar solo los números necesarios en el numerador y, si es una combinación, dividir por el factorial del número menor."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Para Permutaciones P(n, r): Multiplicas r números hacia abajo empezando desde n. Para Combinaciones C(n, r): Haces lo mismo arriba (r números hacia abajo desde n) y abajo divides por el factorial de r. Usa la simetría: C(n, r) = C(n, n-r)."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "C(6, 4) es igual a C(6, 2) ➔ arriba 2 números (6 × 5), abajo factorial de 2 (2 × 1): (6 × 5) / (2 × 1) = 15."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Permutación: P(3, 2) = 3 * 2 = 6.'),
-React.createElement('p', {}, 'Combinación: C(6, 4) = C(6, 2) = (6 * 5) / (2 * 1) = 15.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡C(n, r) y P(n, r) al instante sin factoriales largos!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Cuenta Regresiva"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -8363,7 +7754,7 @@ React.createElement('p', {}, 'Combinación: C(6, 4) = C(6, 2) = (6 * 5) / (2 * 1
                 deseaPintarText: "La probabilidad evalúa la incertidumbre de los eventos. Este módulo te prepara para estimar la posibilidad de ganar juegos de azar, extraer esferas de colores de urnas y acertar pronósticos."
             },
             teoria: [
-{
+                {
                     titulo: "Probabilidad Clásica (Regla de Laplace)",
                     situacion: React.createElement("span", {},
                 "Lanzamos un dado corriente de 6 caras. ¿Cuál es la probabilidad de que la cara superior muestre un ",
@@ -8587,35 +7978,6 @@ React.createElement('p', {}, 'Combinación: C(6, 4) = C(6, 2) = (6 * 5) / (2 * 1
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! El Suceso Contrario",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo calcular la probabilidad de que ocurra 'al menos un' suceso sin hacer sumas largas de todas las posibilidades?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "Sumar la probabilidad de que ocurra 1, 2, 3 o más éxitos requiere calcular muchas ramas en un árbol de probabilidad."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Probabilidad Complementaria: Usa la fórmula: P(al menos uno) = 1 - P(ninguno). Calcular que 'no ocurra ninguno' es siempre una sola operación sencilla."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "Lanzas una moneda 3 veces. Probabilidad de obtener al menos una cara ➔ P(ninguna cara) = P(todo sellos) = 1/8. Probabilidad = 1 - 1/8 = 7/8."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'P(Al menos uno) = 1 - P(Ninguno)'),
-React.createElement('p', {}, 'P(Ninguno) = 1/8 -> P(Al menos uno) = 1 - 1/8 = 7/8.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡Resta a 1 la probabilidad de que no ocurra absolutamente nada!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Complemento"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {
@@ -8727,7 +8089,7 @@ React.createElement('p', {}, 'P(Ninguno) = 1/8 -> P(Al menos uno) = 1 - 1/8 = 7/
                 deseaPintarText: "No todas las estadísticas que se presentan son veraces. Aprenderás a detectar manipulaciones en noticias, sesgos en encuestas de opinión y falacias de causa-efecto que confunden a los postulantes del ICFES."
             },
             teoria: [
-{
+                {
                     titulo: "Correlación no implica Causalidad",
                     situacion: React.createElement("span", {},
                 "Un estudio muestra que en las regiones con mayor consumo de helado se registra un mayor índice de ahogamientos. ¿Comer helado causa ahogamientos?"
@@ -8894,35 +8256,6 @@ React.createElement('p', {}, 'P(Ninguno) = 1/8 -> P(Al menos uno) = 1 - 1/8 = 7/
                 )
             )
                 },
-                {
-                    titulo: "¡TRUCO ICFES! Correlación No Causa",
-                    situacion: React.createElement("span", {},
-                        "¿Cómo detectar si un gráfico intenta engañarte con una falsa causa y efecto?"
-                    ),
-                    analisis: React.createElement("div", { className: "space-y-4 font-sans text-left" },
-                        React.createElement("p", { className: "text-slate-600 leading-relaxed text-xs font-light" },
-                            "El ICFES evalúa el razonamiento crítico exponiendo variables que parecen conectadas pero no lo están."
-                        ),
-                        React.createElement("div", { className: "p-3 bg-amber-50/50 border border-amber-100 rounded-xl space-y-2 text-xs" },
-                            React.createElement("p", { className: "text-slate-700 font-bold" },
-                                "⚡ Correlación no es Causalidad: Que dos variables aumenten al mismo tiempo (correlación) no significa que una cause la otra. Siempre busca una tercera variable oculta o el sentido común."
-                            ),
-                            React.createElement("p", { className: "text-slate-600 pl-3 italic" },
-                                "El número de ventas de helados y el número de quemaduras solares suben juntos. Las ventas de helado no causan quemaduras solares; la causa real es el verano y el sol."
-                            )
-                        )
-                    ),
-                    calculo: React.createElement("div", { className: "w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-2 shadow-inner flex flex-col gap-1 text-left font-mono text-[11px] text-slate-700" },
-                        React.createElement('p', {}, 'Variable A: Venta de helados. Variable B: Quemaduras solares.'),
-React.createElement('p', {}, 'Relación: Correlación temporal, causa común: el Sol.')
-                    ),
-                    resultado: React.createElement("div", { className: "flex flex-col items-center gap-1.5 text-xs text-white" },
-                        React.createElement("span", {}, "¡No asumas causa y efecto solo porque las líneas del gráfico suben juntas!"),
-                        React.createElement("div", { className: "flex items-center justify-start gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl font-mono text-[13px] border border-white/20 whitespace-nowrap" },
-                            "Falsa Causalidad"
-                        )
-                    )
-                }
             ],
             preguntas: [
                 {

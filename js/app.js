@@ -5885,6 +5885,150 @@ const AdminPanelModule = {
         `;
     },
 
+    // Firebase keys for students are base64 of their email (con "=" removido).
+    // Devuelve el email decodificado si es válido, o '' si la key no es un email.
+    _emailFromKey(key) {
+        try {
+            let b64 = String(key);
+            while (b64.length % 4) b64 += '='; // restaurar padding removido al registrar
+            const decoded = atob(b64);
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(decoded)) return decoded.toLowerCase();
+        } catch (e) {}
+        return '';
+    },
+
+    // Panel de resumen accionable del curso, mostrado ARRIBA del listado.
+    // Respeta los filtros activos (curso/colegio): resume solo a los estudiantes visibles.
+    _renderCourseSummary(students) {
+        if (!students || students.length === 0) return '';
+
+        const areaNames = {
+            'matematicas': { label: 'Matemáticas', icon: '📐', color: '#818cf8' },
+            'lectura': { label: 'Lectura Crítica', icon: '📖', color: '#f472b6' },
+            'ciencias': { label: 'Ciencias Naturales', icon: '🔬', color: '#34d399' },
+            'sociales': { label: 'Sociales y Ciudadanas', icon: '🌎', color: '#fb923c' },
+            'ingles': { label: 'Inglés', icon: '🇬🇧', color: '#38bdf8' }
+        };
+
+        // ===== Datos base =====
+        const total = students.length;
+        const online = students.filter(s => s.isOnline).length;
+        const atRisk = students.filter(s => s.isAtRisk).length;
+        const withScore = students.filter(s => s.maxScore > 0);
+        const noExam = total - withScore.length;
+        const avgICFES = withScore.length ? Math.round(withScore.reduce((a, s) => a + s.maxScore, 0) / withScore.length) : 0;
+
+        // ===== 1) Indicadores rápidos (KPIs) =====
+        const kpi = (icon, value, label, color) => `
+            <div style="flex:1; min-width:120px; background: var(--color-surface); border:1px solid var(--color-border); border-radius:12px; padding:14px 16px; text-align:center;">
+                <div style="font-size:1.6rem; font-weight:800; color:${color}; line-height:1;">${value}</div>
+                <div style="font-size:0.75rem; color:var(--color-text-muted); margin-top:6px;">${icon} ${label}</div>
+            </div>`;
+        const avgColor = avgICFES >= 350 ? '#10b981' : avgICFES >= 250 ? '#fbbf24' : '#ef4444';
+        const kpisHtml = `
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+                ${kpi('👥', total, 'Estudiantes', 'var(--color-text)')}
+                ${kpi('🟢', online, 'En línea ahora', '#10b981')}
+                ${kpi('⚠️', atRisk, 'En riesgo (7d+)', atRisk > 0 ? '#ef4444' : 'var(--color-text)')}
+                ${kpi('📈', avgICFES || 'N/A', 'Prom. ICFES', avgColor)}
+            </div>`;
+
+        // ===== 2) Áreas más débiles del curso =====
+        const areaAgg = {};
+        students.forEach(s => {
+            Object.entries(s.areaBreakdown || {}).forEach(([area, d]) => {
+                if (String(area).startsWith('simulacro')) return; // excluir pseudo-áreas
+                if (!areaAgg[area]) areaAgg[area] = { worked: 0, correct: 0 };
+                areaAgg[area].worked += d.worked || 0;
+                areaAgg[area].correct += d.correct || 0;
+            });
+        });
+        const areaRows = Object.entries(areaAgg)
+            .filter(([, d]) => d.worked > 0)
+            .map(([area, d]) => {
+                const meta = areaNames[area] || { label: String(area).replace(/_/g, ' '), icon: '📝', color: '#888' };
+                return { meta, perc: Math.round((d.correct / d.worked) * 100) };
+            })
+            .sort((a, b) => a.perc - b.perc);
+        let weakAreasHtml = '';
+        if (areaRows.length > 0) {
+            weakAreasHtml = `
+                <div style="background: var(--color-surface); border:1px solid var(--color-border); border-radius:12px; padding:16px;">
+                    <div style="font-size:0.85rem; font-weight:700; color:var(--color-text); margin-bottom:12px;">🎯 Qué reforzar en clase <span style="font-weight:400; color:var(--color-text-muted);">(promedio del curso)</span></div>
+                    ${areaRows.map(r => {
+                        const c = r.perc >= 70 ? '#10b981' : r.perc >= 50 ? '#fbbf24' : '#ef4444';
+                        return `<div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                            <span style="font-size:1.1rem;">${r.meta.icon}</span>
+                            <span style="flex:0 0 130px; font-size:0.8rem; color:var(--color-text);">${r.meta.label}</span>
+                            <div style="flex:1; height:8px; background:rgba(0,0,0,0.06); border-radius:4px; overflow:hidden;">
+                                <div style="width:${r.perc}%; height:100%; background:${c}; border-radius:4px;"></div>
+                            </div>
+                            <span style="flex:0 0 40px; text-align:right; font-weight:700; font-size:0.8rem; color:${c};">${r.perc}%</span>
+                        </div>`;
+                    }).join('')}
+                </div>`;
+        }
+
+        // ===== 3) Distribución de puntajes =====
+        const bajo = withScore.filter(s => s.maxScore < 250).length;
+        const medio = withScore.filter(s => s.maxScore >= 250 && s.maxScore < 350).length;
+        const alto = withScore.filter(s => s.maxScore >= 350).length;
+        const distBase = withScore.length || 1;
+        const distRow = (label, n, color) => `
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <span style="flex:0 0 90px; font-size:0.8rem; color:var(--color-text);">${label}</span>
+                <div style="flex:1; height:8px; background:rgba(0,0,0,0.06); border-radius:4px; overflow:hidden;">
+                    <div style="width:${Math.round((n / distBase) * 100)}%; height:100%; background:${color}; border-radius:4px;"></div>
+                </div>
+                <span style="flex:0 0 30px; text-align:right; font-weight:700; font-size:0.8rem; color:${color};">${n}</span>
+            </div>`;
+        const distHtml = `
+            <div style="background: var(--color-surface); border:1px solid var(--color-border); border-radius:12px; padding:16px;">
+                <div style="font-size:0.85rem; font-weight:700; color:var(--color-text); margin-bottom:12px;">📊 Distribución de puntajes</div>
+                ${distRow('🔴 Bajo (<250)', bajo, '#ef4444')}
+                ${distRow('🟡 Medio', medio, '#fbbf24')}
+                ${distRow('🟢 Alto (350+)', alto, '#10b981')}
+                ${noExam > 0 ? `<div style="font-size:0.72rem; color:var(--color-text-muted); margin-top:8px;">+ ${noExam} sin examen aún</div>` : ''}
+            </div>`;
+
+        // ===== 4) Quiénes necesitan atención =====
+        const attention = students
+            .filter(s => s.isAtRisk || (s.maxScore > 0 && s.maxScore < 250))
+            .sort((a, b) => (b.daysInactive || 0) - (a.daysInactive || 0) || (a.maxScore || 999) - (b.maxScore || 999))
+            .slice(0, 5);
+        let attentionHtml = '';
+        if (attention.length > 0) {
+            attentionHtml = `
+                <div style="background: var(--color-surface); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:16px;">
+                    <div style="font-size:0.85rem; font-weight:700; color:var(--color-text); margin-bottom:12px;">⚠️ Necesitan atención</div>
+                    ${attention.map(s => {
+                        const reason = s.isAtRisk ? `${s.daysInactive}d sin entrar` : `ICFES ${s.maxScore}`;
+                        const safeName = (s.name || '').replace(/'/g, "\\'");
+                        return `<div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <span style="flex:1; min-width:0; font-size:0.82rem; color:var(--color-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${s.name}</span>
+                            <span style="flex:0 0 auto; font-size:0.72rem; font-weight:700; color:#ef4444;">${reason}</span>
+                            <button onclick="AdminPanelModule.openMessageModal('${s.id}', '${safeName}')" title="Enviar mensaje" style="flex:0 0 auto; border:none; background:rgba(99,102,241,0.1); color:var(--color-primary); border-radius:8px; padding:4px 8px; cursor:pointer; display:flex; align-items:center;">
+                                <span class="material-icons-round" style="font-size:15px;">mail</span>
+                            </button>
+                        </div>`;
+                    }).join('')}
+                </div>`;
+        }
+
+        // ===== Ensamble =====
+        const gridCards = [weakAreasHtml, distHtml, attentionHtml].filter(Boolean).join('');
+        return `
+            <div style="margin-bottom:20px;">
+                <div style="font-size:1rem; font-weight:800; color:var(--color-text); margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+                    <span class="material-icons-round" style="color:var(--color-primary);">insights</span> Resumen del Curso
+                </div>
+                ${kpisHtml}
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
+                    ${gridCards}
+                </div>
+            </div>`;
+    },
+
     async fetchAllStudents() {
         const spinner = document.getElementById('teacher-loading-spinner');
         const container = document.getElementById('teacher-students-container');
@@ -5917,9 +6061,18 @@ const AdminPanelModule = {
 
             // Convert Firebase object to array of students
             this.allStudents = Object.entries(usersData)
-                .filter(([key, userObj]) => userObj) // prevent null objects
+                .filter(([key, userObj]) => {
+                    if (!userObj) return false;                 // objetos nulos
+                    if (key === 'master') return false;         // cuenta maestra, no es estudiante
+                    const hasName = userObj.profile && (userObj.profile.name || '').trim();
+                    // Mantener si tiene nombre O si su key decodifica a un correo válido
+                    return hasName || AdminPanelModule._emailFromKey(key);
+                })
                 .map(([firebaseKey, userObj]) => {
                     const profile = userObj.profile || {};
+                    // Si el perfil no tiene nombre, usar el correo decodificado de la key como identificador
+                    const emailFromKey = AdminPanelModule._emailFromKey(firebaseKey);
+                    const displayName = (profile.name || '').trim() || emailFromKey || 'Desconocido';
                     const safeProfileName = (profile.name || '').trim().toLowerCase();
                     const profileWords = safeProfileName.split(/\s+/).filter(w => w.length > 0);
 
@@ -6056,7 +6209,7 @@ const AdminPanelModule = {
                     }
 
                     // Algorithm to get first surname accurately enough for sorting
-                    const nameParts = (profile.name || '').trim().split(' ');
+                    const nameParts = displayName.trim().split(' ');
                     let surnameForSort = '';
                     if (nameParts.length >= 3) {
                         surnameForSort = nameParts[nameParts.length - 2].toLowerCase(); // e.g. "Juan Carlos [Perez] Gomez"
@@ -6171,15 +6324,16 @@ const AdminPanelModule = {
 
                     return {
                         id: firebaseKey,
-                        name: profile.name || 'Desconocido',
+                        name: displayName,
                         surnameForSort: surnameForSort,
-                        email: profile.email || 'Sin correo',
+                        email: profile.email || emailFromKey || 'Sin correo',
                         school: profile.school ? (window.normalizeSchoolName ? window.normalizeSchoolName(profile.school) : profile.school.trim().toUpperCase()) : 'SIN COLEGIO',
                         grade: profile.grade || 'N/A',
                         maxScore: maxScore,
                         totalQuestions: totalQuestions,
                         totalSimulacros: history.length,
                         lastConnection: lastConnection,
+                        lastConnectionTs: latestTimestamp,
                         sessionTimeStr: sessionTimeStr,
                         numLogins: numLogins,
                         gamificationLevelStr: currentLevelStr,
@@ -6277,14 +6431,21 @@ const AdminPanelModule = {
             filtered = filtered.filter(s => s.school === this.currentSchoolFilter);
         }
 
-        filtered.sort((a, b) => a.surnameForSort.localeCompare(b.surnameForSort));
+        // Ordenar por última conexión: de la más reciente a la más antigua.
+        // Los que no tienen fecha (ts = 0) quedan al final; se desempata por apellido.
+        filtered.sort((a, b) => {
+            const tsA = a.lastConnectionTs || 0;
+            const tsB = b.lastConnectionTs || 0;
+            if (tsB !== tsA) return tsB - tsA;
+            return a.surnameForSort.localeCompare(b.surnameForSort);
+        });
 
         if (filtered.length === 0) {
             container.innerHTML = this._staleWarningHtml() + '<div style="text-align: center; padding: 40px; color: var(--color-text-muted);">No hay estudiantes en esta categoría.</div>';
             return;
         }
 
-        container.innerHTML = this._staleWarningHtml() + filtered.map(student => {
+        container.innerHTML = this._staleWarningHtml() + this._renderCourseSummary(filtered) + filtered.map(student => {
             // Determine score color
             let scoreColor = '#ef4444'; // red
             if (student.maxScore >= 350) scoreColor = '#10b981'; // green
@@ -7454,10 +7615,15 @@ const GamificationModule = {
                 if (data.lastStudyDate) this.lastStudyDate = data.lastStudyDate;
                 if (data.badges && Array.isArray(data.badges)) this.earnedBadges = data.badges;
             }
+            // Capture streak state BEFORE _checkAndUpdateStreak overwrites it,
+            // so the reminder can tell how long the student was away.
+            const prevLastStudy = this.lastStudyDate;
+            const prevStreak = this.streakDays;
             // Check and update streak on login
             await this._checkAndUpdateStreak(user);
             this.calculateLevels();
             if (typeof updateUserUI === 'function') updateUserUI();
+            this.checkStreakReminder(prevLastStudy, prevStreak);
         } catch (e) { console.error('Error loading gamification data:', e); }
     },
 
@@ -7470,6 +7636,58 @@ const GamificationModule = {
             });
         } catch (e) {
             console.warn('Silent fail updating presence', e);
+        }
+    },
+
+    // Shows a motivational streak/inactivity reminder via Profe Chigüiro on login.
+    // Uses the streak state from BEFORE this login so it knows how long the student was away.
+    // Shows at most once per day (localStorage flag) to avoid nagging.
+    checkStreakReminder(prevLastStudy, prevStreak) {
+        try {
+            if (typeof VirtualTeacherModule === 'undefined' || !VirtualTeacherModule.speak) return;
+
+            const today = this._todayStr();
+
+            // Anti-spam: only one reminder per calendar day
+            if (localStorage.getItem('saber_reminder_shown') === today) return;
+
+            // Brand-new user (no previous activity): skip, the login welcome already greets them
+            if (!prevLastStudy) return;
+            // Already used the app today: nothing to remind
+            if (prevLastStudy === today) return;
+
+            // Days elapsed since the student's last active day
+            const parse = (s) => { const p = String(s).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); };
+            const daysSince = Math.round((parse(today) - parse(prevLastStudy)) / (1000 * 60 * 60 * 24));
+            if (daysSince < 1) return;
+
+            const practiceBtn = [{ label: '🚀 Practicar ahora', callback: () => { if (typeof Router !== 'undefined') Router.go('flashcards'); } }];
+            let message, mood;
+            const actions = practiceBtn;
+
+            if (daysSince === 1) {
+                // Studied yesterday — streak is alive, protect it TODAY
+                if (prevStreak >= 2) {
+                    message = `🔥 ¡Tu racha de <b>${prevStreak} días</b> sigue viva! No la pierdas: practica hoy y llévala a ${prevStreak + 1}.`;
+                    mood = 'happy';
+                } else {
+                    message = `¡Volviste! 👏 Practica hoy para arrancar una buena racha de estudio.`;
+                    mood = 'happy';
+                }
+            } else if (daysSince === 2) {
+                message = `Llevas <b>2 días</b> sin practicar 😟 Vuelve hoy antes de perder el ritmo. ¡El ICFES no espera!`;
+                mood = 'neutral';
+            } else {
+                // 3+ days away — streak broken, invite a fresh start
+                message = `¡Uy! Llevas <b>${daysSince} días</b> sin entrar y tu racha se rompió 💔. ¡No pasa nada, empecemos una nueva hoy mismo!`;
+                mood = 'serious';
+            }
+
+            // Mark as shown BEFORE speaking so it can't double-fire the same day
+            localStorage.setItem('saber_reminder_shown', today);
+            VirtualTeacherModule.speak(message, mood, actions);
+        } catch (e) {
+            console.warn('checkStreakReminder failed silently', e);
         }
     },
 
